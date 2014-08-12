@@ -112,7 +112,6 @@ Slider.prototype.goIndex = function(n) {
 		lis[i].style.webkitTransition = '-webkit-transform 0.2s ease-out';
 		lis[i].style.webkitTransform = 'translate3d(' + (i-1)*this.scaleW + 'px, 0, 0)';
 	}
-	this.clearAutoPlay();
 	this.initAutoPlay();
 };
 Slider.prototype.bindDOM = function() {
@@ -130,6 +129,7 @@ Slider.prototype.bindDOM = function() {
 			target = target.parentNode;
 		}
 		self.target = target;
+		self.clearAutoPlay();
 	};
 
 	var moveHandler = function(evt) {
