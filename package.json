@@ -1,0 +1,17 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "author": "Zhao",
+  "dependencies": {
+    "zepto": ""
+  },
+  "devDependencies": {
+    "browserify": "",
+    "gulp": "",
+    "gulp-connect": "",
+    "gulp-jshint": "",
+    "gulp-less": "",
+    "iscroll": "^5.1.2",
+    "vinyl-source-stream": ""
+  }
+}

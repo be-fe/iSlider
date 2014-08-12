@@ -1,11 +1,3 @@
-MSlider
-=======
-A slider module for mobile web app, it's very simple and efficency.
-It supports most mobile web browser like mobile safari, webkit chrome, and others.
-
-API
-========
-```javascript
 var list = [{
 	height: 950,
 	width: 800,
@@ -29,4 +21,3 @@ var slider = new mSlider({
 	list: list,
 	autoPlay: 3000,
 });
-```
