@@ -29,4 +29,8 @@ var slider = new mSlider({
 	list: list,
 	autoPlay: 3000,
 });
-```
+
+
+TO-DO LIST
+==========
+* Keep li elements in 3
