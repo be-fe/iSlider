@@ -1,6 +1,7 @@
 ﻿var gulp = require('gulp');  
 var jshint = require('gulp-jshint');
 var less = require('gulp-less');
+var beautify = require('gulp-beautify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var connect = require('gulp-connect');
@@ -15,6 +16,11 @@ gulp.task('jshint',function(){
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
+gulp.task('jsformat', function(){
+    gulp.src('./js/*.js')
+    .pipe(beautify())
+    .pipe(gulp.dest('js'));
+});
 gulp.task('browserify',function(){
     browserify('./js/app.js',{debug:false,insertGlobals: false})
     .bundle()
@@ -28,6 +34,6 @@ gulp.task('connect', function () {
   });
 });
 //默认任务   
-gulp.task('default',['less','jshint','browserify','connect'],function(){
-     gulp.watch(['gulpfile.js','./js/*.js','./less/*.less'],['less','jshint','browserify']);
+gulp.task('default',['less','jshint', 'jsformat','browserify','connect'],function(){
+     gulp.watch(['gulpfile.js','./js/*.js','./less/*.less'],['less','jshint', 'jsformat','browserify']);
 });
