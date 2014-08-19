@@ -1,4 +1,4 @@
-var Slider = function (opts) {
+var MSlider = function (opts) {
 	this.wrap = opts.dom;
 	this.list = opts.list;
 	this.autoPlay = opts.autoPlay;	
@@ -6,41 +6,50 @@ var Slider = function (opts) {
 	this.renderDOM();
 	this.bindDOM();
 };
-Slider.prototype.init = function() {
+
+MSlider.prototype.init = function() {
 	this.radio = window.innerHeight/window.innerWidth;
 	this.scaleW = window.innerWidth;
 	this.idx = 1;
 	this.initListInDom();
 	this.initAutoPlay();
 };
-Slider.prototype.initListInDom = function() {
+
+MSlider.prototype.initListInDom = function() {
 	//this array save index of the li in dom 
 	var domIndexArr = [];	
 	var listLength = this.list.length;
-	for(var i=0; i<3; i++)	{
-		if (i-1<0)
+
+	for ( var i=0; i<3; i++ ) {
+		if ( i-1 < 0 ) {
 			domIndexArr[i] = (i-1+listLength);
-		else
-			domIndexArr[i] = (i-1)%listLength; 
+		} else {
+			domIndexArr[i] = (i-1)%listLength;
+		}
 	}
 	this.domIndexArr = domIndexArr;
 };
-Slider.prototype.initAutoPlay = function() {
+
+MSlider.prototype.initAutoPlay = function() {
 	if (!this.autoPlay)
 		return;
 	var self = this;
 	this.autoPlayTimeout = setTimeout(function() {
 		self.goIndex('+1');
-	},this.autoPlay);
+	}, this.autoPlay);
 };
-Slider.prototype.clearAutoPlay = function() {
+
+MSlider.prototype.clearAutoPlay = function() {
 	clearTimeout(this.autoPlayTimeout);
 };
-Slider.prototype.createLi = function(i) {
+
+MSlider.prototype.createLi = function(i) {
 	var li = document.createElement('li');
 	var item = this.list[this.domIndexArr[i]];
+
 	li.style.width = this.scaleW + 'px';
 	li.style.webkitTransform = 'translate3d(' + (i-1)*this.scaleW + 'px, 0, 0)';
+
 	if (item.height/item.width > this.radio) {
 		li.innerHTML = '<img height="' + window.innerHeight + '" src="' + item.img + '">';
 	} else {
@@ -48,12 +57,14 @@ Slider.prototype.createLi = function(i) {
 	}
 	return li;
 };
-Slider.prototype.renderDOM = function() {
+
+MSlider.prototype.renderDOM = function() {
 	var wrap = this.wrap;
 	var data = this.list;
 	var domIndexArr = this.domIndexArr;
+
 	this.outer = document.createElement('ul');
-	for(var i=0; i < 3; i++) {
+	for ( var i=0; i < 3; i++ ) {
 		var li = this.createLi(i);
 		this.outer.appendChild(li);
 	}
@@ -61,21 +72,22 @@ Slider.prototype.renderDOM = function() {
 	wrap.style.height = window.innerHeight + 'px';
 	wrap.appendChild(this.outer);
 };
-Slider.prototype.goIndex = function(n) {
+
+MSlider.prototype.goIndex = function(n) {
 	var lis = this.outer.getElementsByTagName('li');
 	var domIndexArr = this.domIndexArr;
 	var outer = this.outer;
 	var listLength = this.list.length;
 	var newChild;
-	if (typeof n !== "string")
-		return;
-	if ( n==="+1" ) {
+
+	if (typeof n !== "string") return;
+	if ( n === "+1" ) {
 		domIndexArr.shift();
 		domIndexArr.push((domIndexArr[1]+1)%listLength);
 		outer.removeChild(outer.childNodes[0]);
 		newChild = this.createLi(2);
 		outer.appendChild(newChild);
-	} else if ( n==="-1" ) {
+	} else if ( n === "-1" ) {
 		var tmp = domIndexArr[0] - 1;
 		tmp = tmp<0 ? listLength-1:tmp;
 		domIndexArr.unshift(tmp);
@@ -83,13 +95,14 @@ Slider.prototype.goIndex = function(n) {
 		newChild = this.createLi(0);
 		outer.insertBefore(newChild, outer.childNodes[0]);
 	}
-	for (var i=0; i<3; i++) {
+	for (var i = 0; i<3; i++) {
 		lis[i].style.webkitTransition = '-webkit-transform 0.2s ease-out';
 		lis[i].style.webkitTransform = 'translate3d(' + (i-1)*this.scaleW + 'px, 0, 0)';
 	}
 	this.initAutoPlay();
 };
-Slider.prototype.bindDOM = function() {
+
+MSlider.prototype.bindDOM = function() {
 	var self = this;
 	var scaleW = self.scaleW;
 	var outer = self.outer;
@@ -122,6 +135,7 @@ Slider.prototype.bindDOM = function() {
 			}
 		}
 	};
+
 	var endHandler = function(evt) {
 		evt.preventDefault();
 		var boundary = scaleW / 6;
@@ -149,5 +163,5 @@ Slider.prototype.bindDOM = function() {
 	outer.addEventListener('touchmove', moveHandler);
 	outer.addEventListener('touchend', endHandler);
 };
-module.exports = Slider;
+module.exports = MSlider;
 
