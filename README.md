@@ -23,11 +23,12 @@ var list = [{
 	width: 980,
 	img: "imgs/4.jpg"
 }];
-var mSlider = require('./mSlider');
-var slider = new mSlider({
+
+var MSlider = require('./mslider');
+var slider = new MSlider({
 	dom: document.getElementById('canvas'),
 	list: list,
-	autoPlay: 3000,
+	autoPlay: 3000
 });
 ```
 
