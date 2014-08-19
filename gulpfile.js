@@ -1,6 +1,7 @@
 ﻿var gulp = require('gulp');  
 var jshint = require('gulp-jshint');
 var less = require('gulp-less');
+var beautify = require('gulp-beautify');
 var browserify = require('browserify');
 var beautify = require('gulp-beautify');
 var source = require('vinyl-source-stream');
