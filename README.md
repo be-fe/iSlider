@@ -35,6 +35,6 @@ var slider = new MSlider({
 TO-DO LIST
 ==========
 * Keep li elements in 3
-* enable verticle slider
-* add damping effect when meeting the edge of the list
-* reRender DOM when orientation change 
+* Enable verticle slider
+* Add damping effect when meeting the edge of the list
+* handle onorientationchange Event
