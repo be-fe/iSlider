@@ -34,3 +34,5 @@ var slider = new mSlider({
 TO-DO LIST
 ==========
 * Keep li elements in 3
+* enable verticle slider
+* add damping effect when meeting the edge of the list
