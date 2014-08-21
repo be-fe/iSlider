@@ -40,3 +40,4 @@ TO-DO LIST
 * handle onorientationchange Event
 * Add image loader
 * Add layer slider not just pic slider
+* Add callback functional like onBeforeSlide onAfterSlide onSlide 
