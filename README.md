@@ -38,3 +38,6 @@ TO-DO LIST
 * Enable verticle slider
 * Add damping effect when meeting the edge of the list
 * handle onorientationchange Event
+* Add image loader
+* Add layer slider not just pic slider
+* Add callback functional like onBeforeSlide onAfterSlide onSlide 
