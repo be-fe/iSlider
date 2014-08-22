@@ -11,11 +11,11 @@ var connect = require('gulp-connect');
 gulp.task('less', function () {
   gulp.src('./less/*.less')
     .pipe(less())
-    .pipe(gulp.dest('./public/'));
+    .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('jshint',function(){
-    gulp.src('./js/*.js')
+  gulp.src('./js/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
@@ -23,14 +23,14 @@ gulp.task('jshint',function(){
 gulp.task('beautify', function() {
   gulp.src('./js/*.js')
     .pipe(beautify({indentSize: 2}))
-    .pipe(gulp.dest('./public/'))
+    .pipe(gulp.dest('./dist/'))
 });
 
 gulp.task('browserify',function(){
     browserify('./js/app.js',{debug:false,insertGlobals: false})
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./'))
+    .pipe(gulp.dest('./dist/'))
 });
 //使用connect启动一个Web服务器
 gulp.task('connect', function () {

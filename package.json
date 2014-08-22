@@ -1,10 +1,7 @@
 {
-  "name": "webapp",
+  "name": "MSlider",
   "version": "1.0.0",
-  "author": "Zhao",
-  "dependencies": {
-    "zepto": ""
-  },
+  "author": "qbatyqi",
   "devDependencies": {
     "browserify": "",
     "gulp": "",
@@ -12,7 +9,7 @@
     "gulp-jshint": "^1.8.4",
     "gulp-less": "^1.3.5",
     "gulp-uglify": "^0.3.1",
-    "iscroll": "^5.1.2",
-    "vinyl-source-stream": ""
+    "vinyl-source-stream": "",
+    "gulp-beautify" : ""
   }
 }
