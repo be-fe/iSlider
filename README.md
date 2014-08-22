@@ -23,10 +23,21 @@ var list = [{
 	width: 980,
 	img: "imgs/4.jpg"
 }];
-var mSlider = require('./mSlider');
-var slider = new mSlider({
+
+var MSlider = require('./mslider');
+var slider = new MSlider({
 	dom: document.getElementById('canvas'),
 	list: list,
-	autoPlay: 3000,
+	autoPlay: 3000
 });
 ```
+
+TO-DO LIST
+==========
+* Keep li elements in 3
+* Enable verticle slider
+* Add damping effect when meeting the edge of the list
+* handle onorientationchange Event
+* Add image loader
+* Add layer slider not just pic slider
+* Add callback functional like onBeforeSlide onAfterSlide onSlide 
