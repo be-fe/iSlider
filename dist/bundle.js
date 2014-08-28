@@ -1,25 +1,42 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var MSlider = require('./MSlider');
+var MSlider = require('./mslider');
 var list = [{
-    height: 300,
-    width: 400,
-    content: "imgs/1.jpg",
-},
-{
-    height: 300,
-    width: 400,
-    content: "imgs/2.jpg",
-},];
-// {
-//     height: 300,
-//     width: 400,
-//     content: "imgs/3.jpg",
-// },
-// {
-//     height: 300,
-//     width: 400,
-//     content: "imgs/4.jpg",
-// }];
+		height: 475,
+		width: 400,
+		content: "imgs/1.jpg",
+	},{
+		height: 527,
+		width: 400,
+		content: "imgs/2.jpg",
+	},{
+		height: 400,
+		width: 512,
+		content: "imgs/3.jpg",
+	},{
+		height: 400,
+		width: 512,
+		content: "imgs/4.jpg"
+	},{
+		height: 400,
+		width: 458,
+		content:"imgs/5.jpg"
+	},{
+		height: 400,
+		width: 498,
+		content:"imgs/6.jpg"
+	},{
+		height: 377,
+		width: 600,
+		content:"imgs/7.jpg"
+	},{
+		height: 396,
+		width: 600,
+		content:"imgs/8.jpg"
+	},{
+		height: 374,
+		width: 600,
+		content:"imgs/9.jpg"
+	}];
 new MSlider({
     imgPrefix: "imgs/",
     imgSubfix: ".jpg",
@@ -28,7 +45,7 @@ new MSlider({
     //autoPlay: true,
     //or false default false
     verticle: false,
-    loop: true,
+    //loop: true,
     //or true default false
     dom: document.getElementById("canvas"),
     data: list,
@@ -39,22 +56,26 @@ new MSlider({
 
     },
 });
-},{"./MSlider":2}],2:[function(require,module,exports){
+
+},{"./mslider":2}],2:[function(require,module,exports){
 var getType = function (obj) {
     return Object.prototype.toString.call(obj);
 };
 /*
     构造函数将opts中指定的参数传入this
 */
-var Slider = function (opts) {
+var MSlider = function (opts) {
     if (!opts.dom) {
         throw "dom element can not be empty!";
     }
+    //节点
     this.wrap = opts.dom;
 
     if ((!opts.data) || getType(opts.data) !== "[object Array]" || opts.data.length < 1) {
         throw "data must be an array and must have more than one element!";
     }
+
+    //列表数据
     this.data = opts.data;
 
     if (this.data.length > 1) {
@@ -93,22 +114,24 @@ var Slider = function (opts) {
 };
 
 /*默认配置放在原型链中多个实例共享内存*/
-var _SP = Slider.prototype;
-_SP.layerContent = false;
-_SP.autoPlay = false;
-_SP.verticle = false;
-_SP.loop = false;
-_SP.imgSubfix = "";
-_SP.imgPrefix = "";
+var _MP = MSlider.prototype;
+_MP.layerContent = false;
+ //默认不自动滚动
+_MP.autoPlay = false;
+//垂直还是水平滚动
+_MP.verticle = false;
+_MP.loop = false;
+_MP.imgSubfix = "";
+_MP.imgPrefix = "";
 var emptyFunction = function () {};
-_SP.onBeforeSlide = emptyFunction;
-_SP.onAfterSlide = emptyFunction;
+_MP.onBeforeSlide = emptyFunction;
+_MP.onAfterSlide = emptyFunction;
 /*
     利用屏幕的全部滑动距离来进行初始化，
     返回一个计算阻尼的函数。
     由于dampling效应在滑动时触发，为了尽量优化性能利用闭包进行性能优化。
 */
-_SP.initDampingFunction = function (fullDistance) {
+_MP.initDampingFunction = function (fullDistance) {
     var halfOfFull = fullDistance >> 1;
     var oneFourOfFull = halfOfFull >> 1;
     var oneEightOfFull = oneFourOfFull >> 1;
@@ -136,7 +159,7 @@ _SP.initDampingFunction = function (fullDistance) {
     };
 };
 
-_SP.init = function () {
+_MP.init = function () {
     this.ratio = window.innerHeight / window.innerWidth;
     this.scaleW = window.innerWidth;
     this.initDomIndex();
@@ -150,7 +173,7 @@ _SP.init = function () {
     不loop时,如果data长度小于3 则长度为 data 长度, 否则长度为3。
     idx 值表示视口对准的项目
 */
-Slider.prototype.initDomIndex = function () {
+_MP.initDomIndex = function () {
     var domIndexArr = [];
     var dataLength = this.data.length;
     if (this.loop === false) {
@@ -168,21 +191,21 @@ Slider.prototype.initDomIndex = function () {
     this.domIndexArr = domIndexArr;
 };
 
-Slider.prototype.initAutoPlay = function () {
+_MP.initAutoPlay = function () {
     if (!this.autoPlay) return;
     var self = this;
     this.autoPlayTimeout = setTimeout(function () {
         self.goIndex('+1');
     }, this.autoPlay);
 };
-Slider.prototype.clearAutoPlay = function () {
+_MP.clearAutoPlay = function () {
     clearTimeout(this.autoPlayTimeout);
 };
 
 /*
     初始化ul列表中的li的时候使用i是li的index。
 */
-Slider.prototype.createLi = function (i) {
+_MP.createLi = function (i) {
     var li = document.createElement('li');
     var item = this.data[this.domIndexArr[i]];
     li.style.width = this.scaleW + 'px';
@@ -207,7 +230,7 @@ Slider.prototype.createLi = function (i) {
 /*
     重用ul中li的内容更换内容。
 */
-Slider.prototype.reUseLi = function (li,negOrPosOne) {
+_MP.reUseLi = function (li,negOrPosOne) {
     var data = this.data;
     var domIndexArr = this.domIndexArr;
     var item = negOrPosOne === -1 ? data[domIndexArr[0]] : data[domIndexArr[2]];
@@ -225,7 +248,7 @@ Slider.prototype.reUseLi = function (li,negOrPosOne) {
 /*
     渲染dom
 */
-Slider.prototype.renderDOM = function () {
+_MP.renderDOM = function () {
     var wrap = this.wrap;
     var data = this.data;
     var domIndexArr = this.domIndexArr;
@@ -241,11 +264,11 @@ Slider.prototype.renderDOM = function () {
     wrap.style.height = window.innerHeight + 'px';
     wrap.appendChild(this.outer);
 };
-Slider.prototype.goIndex = function (n) {
+
+_MP.goIndex = function (n) {
     var domIndexArr = this.domIndexArr;
     var domIndexArrHash = this.domIndexArrHash;
     var outer = this.outer;
-    var domIndexArrLength = domIndexArr.length;
     var listLength = this.data.length;
     var newChild;
     var tmp;
@@ -299,7 +322,9 @@ Slider.prototype.goIndex = function (n) {
         }
         
     }
-    for (var i = 0; i < domIndexArrLength; i++) {
+    console.log(domIndexArrHash);
+    //console.log(domIndexArrLength);
+    for (var i = 0; i < domIndexArrHash.length; i++) {
         if (i===noTransitionTimeId) {
             domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
         } else {
@@ -309,7 +334,8 @@ Slider.prototype.goIndex = function (n) {
     }
     this.initAutoPlay();
 };
-Slider.prototype.bindDOM = function () {
+
+_MP.bindDOM = function () {
     var self = this;
     var scaleW = self.scaleW;
     var outer = self.outer;
@@ -372,5 +398,6 @@ Slider.prototype.bindDOM = function () {
     outer.addEventListener('touchmove', moveHandler);
     outer.addEventListener('touchend', endHandler);
 };
-module.exports = Slider;
+module.exports = MSlider;
+
 },{}]},{},[1]);
