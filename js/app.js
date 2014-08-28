@@ -8,9 +8,9 @@ var list = [{
 		width: 400,
 		content: "imgs/2.jpg",
 	},{
-		height: 400,
-		width: 512,
-		content: "imgs/3.jpg",
+	 	height: 400,
+	 	width: 512,
+	 	content: "imgs/3.jpg",
 	},{
 		height: 400,
 		width: 512,
@@ -41,7 +41,7 @@ new MSlider({
     imgSubfix: ".jpg",
     layerContent: false,
     //or true default false
-    //autoPlay: true,
+    //autoPlay: 1000,
     //or false default false
     verticle: false,
     //loop: true,
