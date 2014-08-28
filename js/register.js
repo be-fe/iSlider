@@ -38,7 +38,7 @@ var register = (function(root){
         // [4] as a global var
     	return function(name, dependencies, factory){
         	root[name] = factory.apply(this, dependencies);
-    	}
+    	};
 
     }
 })(window);

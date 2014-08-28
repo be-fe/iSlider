@@ -20,10 +20,10 @@ gulp.task('jshint',function(){
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('beautify', function() {
-  gulp.src('./js/*.js')
-    .pipe(beautify({indentSize: 2}))
-    .pipe(gulp.dest('./dist/'))
+gulp.task('jsformat', function(){
+    // gulp.src('./js/*.js')
+    // .pipe(beautify())
+    // .pipe(gulp.dest('js'));
 });
 
 gulp.task('browserify',function(){
@@ -39,6 +39,6 @@ gulp.task('connect', function () {
   });
 });
 //默认任务   
-gulp.task('default',['less','jshint','beautify','browserify','connect'],function(){
+gulp.task('default',['less','jshint','browserify','connect'],function(){
      gulp.watch(['gulpfile.js','./js/*.js','./less/*.less'],['less','jshint','browserify']);
 });

@@ -1,7 +1,7 @@
 var list = [{
   height: 475,
   width: 400,
-  img: "imgs/1.jpg",
+  content: "imgs/1.jpg",
 },
 {
   height: 527,
