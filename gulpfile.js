@@ -17,9 +17,9 @@ gulp.task('jshint',function(){
     .pipe(jshint.reporter('default'));
 });
 gulp.task('jsformat', function(){
-    gulp.src('./js/*.js')
-    .pipe(beautify())
-    .pipe(gulp.dest('js'));
+    // gulp.src('./js/*.js')
+    // .pipe(beautify())
+    // .pipe(gulp.dest('js'));
 });
 gulp.task('browserify',function(){
     browserify('./js/app.js',{debug:false,insertGlobals: false})
