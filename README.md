@@ -34,10 +34,10 @@ var slider = new MSlider({
 
 TO-DO LIST
 ==========
-* Keep li elements in 3
+* ~~Keep li elements in 3~~
 * Enable verticle slider
-* Add damping effect when meeting the edge of the list
-* handle onorientationchange Event
+* ~~Add damping effect when meeting the edge of the list~~
+* ~~handle onorientationchange Event~~
 * Add image loader
-* Add layer slider not just pic slider
+* ~~Add layer slider not just pic slider~~
 * Add callback functional like onBeforeSlide onAfterSlide onSlide 
