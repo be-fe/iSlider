@@ -6,30 +6,45 @@ It supports most mobile web browser like mobile safari, webkit chrome, and other
 API
 ========
 ```javascript
-var list = [{
-	height: 950,
-	width: 800,
-	img: "imgs/1.jpg",
-},{
-	height: 1187,
-	width: 900,
-	img: "imgs/2.jpg",
-},{
-	height: 766,
-	width: 980,
-	img: "imgs/3.jpg",
-},{
-	height: 766,
-	width: 980,
-	img: "imgs/4.jpg"
-}];
-
 var MSlider = require('./mslider');
-var slider = new MSlider({
-	dom: document.getElementById('canvas'),
-	list: list,
-	autoPlay: 3000
+var list = [{
+	height: 475,
+	width: 400,
+	content: "imgs/1.jpg",
+},{
+	height: 527,
+	width: 400,
+	content: "imgs/2.jpg",
+},{
+ 	height: 400,
+ 	width: 512,
+ 	content: "imgs/3.jpg",
+},{
+	height: 400,
+	width: 512,
+	content: "imgs/4.jpg"
+},{
+	height: 400,
+	width: 458,
+	content:"imgs/5.jpg"
+}];
+var mSlider = new MSlider({
+    imgPrefix: "imgs/",
+    imgSubfix: ".jpg",
+    layerContent: false,
+    autoPlay: false,
+    verticle: false,
+    loop: false,
+    dom: document.getElementById("canvas"),
+    data: list,
+    onBeforeSlide: function (nowIndex, dataArr) {
+
+    },
+    onAfterSlide: function (nowIndex, dataArr) {
+
+    }
 });
+
  
 ```
 
