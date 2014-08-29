@@ -30,6 +30,9 @@ var slider = new MSlider({
 	list: list,
 	autoPlay: 3000
 });
+ 
+http://zxylvlp.github.io/MSlider/demo
+ 
 ```
 
 TO-DO LIST
