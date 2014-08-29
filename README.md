@@ -63,4 +63,4 @@ TO-DO LIST
 
 License
 ========
-[MiT](https://github.com/BE-FE/MSlider/blob/master/LICENSE)
+[MIT](https://github.com/BE-FE/MSlider/blob/master/LICENSE)
