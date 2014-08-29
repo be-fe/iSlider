@@ -59,3 +59,8 @@ TO-DO LIST
 * Add image loader
 * ~~Add layer slider not just pic slider~~
 * Add callback functional like onBeforeSlide onAfterSlide onSlide 
+
+
+License
+========
+[MiT](https://github.com/BE-FE/MSlider/blob/master/LICENSE)
