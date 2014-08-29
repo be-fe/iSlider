@@ -31,9 +31,9 @@ var slider = new MSlider({
 	autoPlay: 3000
 });
  
-http://zxylvlp.github.io/MSlider/demo
- 
 ```
+
+[demo address](http://zxylvlp.github.io/MSlider/demo)
 
 TO-DO LIST
 ==========
