@@ -1,15 +1,22 @@
-var getType = function (obj) {
-    return Object.prototype.toString.call(obj);
-};
-/*
-    构造函数将opts中指定的参数传入this
-*/
-var MSlider = function (opts) {
+/**
+ * MSlider main method
+ * 
+ * @param {Object} opts 参数集
+ * @param {Element} opts.dom 外层元素 
+ * @param {Object} opts.data 数据列表
+ *
+ * @class   
+ */
+var MSlider = function(opts) {
     if (!opts.dom) {
         throw "dom element can not be empty!";
     }
     //节点
     this.wrap = opts.dom;
+
+    function getType(obj) {
+        return Object.prototype.toString.call(obj);
+    }
 
     if ((!opts.data) || getType(opts.data) !== "[object Array]" || opts.data.length < 1) {
         throw "data must be an array and must have more than one element!";
@@ -19,23 +26,23 @@ var MSlider = function (opts) {
     this.data = opts.data;
 
     if (this.data.length > 1) {
-        if (opts.loop) {
-            this.loop = opts.loop;
-            if (opts.autoPlay) {
-                this.autoPlay = opts.autoPlay;
+        if (opts.isLooping) {
+            this.isLooping = opts.isLooping;
+            if (opts.isAutoPlay) {
+                this.isAutoPlay = opts.isAutoPlay;
             }
         }
     }
 
-    if (opts.verticle) {
-        this.verticle = opts.verticle;
+    if (opts.isVerticle) {
+        this.isVerticle = opts.isVerticle;
     }
 
-    if (opts.layerContent) {
-        this.layerContent = opts.layerContent;
+    if (opts.isLayerContent) {
+        this.isLayerContent = opts.isLayerContent;
     }
 
-    if (this.layerContent === false) {
+    if (this.isLayerContent === false) {
         this.imgPrefix = opts.imgPrefix ? opts.imgPrefix : this.imgPrefix;
         this.imgSubfix = opts.imgSubfix ? opts.imgSubfix : this.imgSubfix;
     }
@@ -53,53 +60,12 @@ var MSlider = function (opts) {
     this.bindDOM();
 };
 
-/*默认配置放在原型链中多个实例共享内存*/
-var _MP = MSlider.prototype;
-_MP.layerContent = false;
- //默认不自动滚动
-_MP.autoPlay = false;
-//垂直还是水平滚动
-_MP.verticle = false;
-_MP.loop = false;
-_MP.imgSubfix = "";
-_MP.imgPrefix = "";
-var emptyFunction = function () {};
-_MP.onBeforeSlide = emptyFunction;
-_MP.onAfterSlide = emptyFunction;
-/*
-    利用屏幕的全部滑动距离来进行初始化，
-    返回一个计算阻尼的函数。
-    由于dampling效应在滑动时触发，为了尽量优化性能利用闭包进行性能优化。
-*/
-_MP.initDampingFunction = function (fullDistance) {
-    var halfOfFull = fullDistance >> 1;
-    var oneFourOfFull = halfOfFull >> 1;
-    var oneEightOfFull = oneFourOfFull >> 1;
-    var threeFourOfFull = halfOfFull + oneFourOfFull;
-    var fiveSixteenOfFull = oneFourOfFull + (oneEightOfFull >> 1);
-    return function (distance) {
-        var negative;
-        if (distance<0) {
-            distance = -distance;
-            negative = true;
-        }
-        var result;
-        if (distance < halfOfFull) {
-            result = distance >> 1;
-        } else if (distance < threeFourOfFull) {
-            result = oneFourOfFull + (distance - halfOfFull >> 2);
-        } else {
-            result = fiveSixteenOfFull + (distance - threeFourOfFull >> 3);
-        }
-        if (negative === true) {
-            return -result;
-        } else {
-            return result;
-        }
-    };
-};
+MSlider.prototype.isLooping = false;
+MSlider.prototype.isAutoPlay = false;
+MSlider.prototype.isVerticle = false;
+MSlider.prototype.isLayerContent = false;
 
-_MP.init = function () {
+MSlider.prototype.init = function () {
     this.ratio = window.innerHeight / window.innerWidth;
     this.scaleW = window.innerWidth;
     this.initDomIndex();
@@ -107,16 +73,52 @@ _MP.init = function () {
     //this.initAutoPlay();
 };
 
-/*
-    初始化 domIndexArr 其中存放的是 dom 中元素在 data 中的索引值。
-    其最大长度为3。loop时长度一定为3。
-    不loop时,如果data长度小于3 则长度为 data 长度, 否则长度为3。
-    idx 值表示视口对准的项目
-*/
-_MP.initDomIndex = function () {
+/**
+ *  利用屏幕的全部滑动距离来进行初始化，
+ *  返回一个计算阻尼的函数。
+ *  由于dampling效应在滑动时触发，为了尽量优化性能利用闭包进行性能优化。  
+ */
+MSlider.prototype.initDampingFunction = function (fullDistance) {
+    var halfOfFull = fullDistance >> 1;
+    var oneFourOfFull = halfOfFull >> 1;
+    var oneEightOfFull = oneFourOfFull >> 1;
+    var threeFourOfFull = halfOfFull + oneFourOfFull;
+    var fiveSixteenOfFull = oneFourOfFull + (oneEightOfFull >> 1);
+    return function (distance) {
+        var negative;
+        if (distance < 0) {
+            distance = -distance;
+            negative = true;
+        }
+        var result;
+        if (distance < halfOfFull) {
+            result = distance >> 1;
+        } 
+        else if (distance < threeFourOfFull) {
+            result = oneFourOfFull + (distance - halfOfFull >> 2);
+        } 
+        else {
+            result = fiveSixteenOfFull + (distance - threeFourOfFull >> 3);
+        }
+        if (negative === true) {
+            return -result;
+        } 
+        else {
+            return result;
+        }
+    };
+};
+
+/**
+ *   初始化 domIndexArr 其中存放的是 dom 中元素在 data 中的索引值。
+ *   其最大长度为3。loop时长度一定为3。
+ *   不loop时,如果data长度小于3 则长度为 data 长度, 否则长度为3。
+ *   idx 值表示视口对准的项目
+ */
+MSlider.prototype.initDomIndex = function () {
     var domIndexArr = [];
     var dataLength = this.data.length;
-    if (this.loop === false) {
+    if (this.isLooping === false) {
         var loopLength = dataLength > 3 ? 3 : dataLength;
         for (var i = 0; i < loopLength; i++) {
             domIndexArr[i] = i;
@@ -131,31 +133,32 @@ _MP.initDomIndex = function () {
     this.domIndexArr = domIndexArr;
 };
 
-_MP.initAutoPlay = function () {
-    if (!this.autoPlay) return;
+MSlider.prototype.initAutoPlay = function () {
+    if (!this.isAutoPlay) return;
     var self = this;
     this.autoPlayTimeout = setTimeout(function () {
         self.goIndex('+1');
-    }, this.autoPlay);
+    }, this.isAutoPlay);
 };
-_MP.clearAutoPlay = function () {
+
+MSlider.prototype.clearAutoPlay = function () {
     clearTimeout(this.autoPlayTimeout);
 };
 
 /*
     初始化ul列表中的li的时候使用i是li的index。
 */
-_MP.createLi = function (i) {
+MSlider.prototype.createLi = function (i) {
     var li = document.createElement('li');
     var item = this.data[this.domIndexArr[i]];
     li.style.width = this.scaleW + 'px';
     var offsetI = i - this.idx;
-    if (this.verticle) {
+    if (this.isVerticle) {
         li.style.webkitTransform = 'translate3d(0, ' + offsetI * this.scaleW + 'px, 0)';
     } else {
         li.style.webkitTransform = 'translate3d(' + offsetI * this.scaleW + 'px, 0, 0)';
     }
-    if (this.layerContent) {
+    if (this.isLayerContent) {
         li.innerHTML = '<div style="height:' + item.height + '%;width:' + item.width + '%;">' + item.content + '</div>';
     } else {
         if (item.height / item.width > this.radio) {
@@ -170,11 +173,11 @@ _MP.createLi = function (i) {
 /*
     重用ul中li的内容更换内容。
 */
-_MP.reUseLi = function (li,negOrPosOne) {
+MSlider.prototype.reUseLi = function (li,negOrPosOne) {
     var data = this.data;
     var domIndexArr = this.domIndexArr;
     var item = negOrPosOne === -1 ? data[domIndexArr[0]] : data[domIndexArr[2]];
-    if (this.layerContent) {
+    if (this.isLayerContent) {
         li.innerHTML = '<div style="height:' + item.height + '%;width:' + item.width + '%;">' + item.content + '</div>';
     } else {
         if (item.height / item.width > this.radio) {
@@ -188,7 +191,7 @@ _MP.reUseLi = function (li,negOrPosOne) {
 /*
     渲染dom
 */
-_MP.renderDOM = function () {
+MSlider.prototype.renderDOM = function () {
     var wrap = this.wrap;
     var data = this.data;
     var domIndexArr = this.domIndexArr;
@@ -205,14 +208,14 @@ _MP.renderDOM = function () {
     wrap.appendChild(this.outer);
 };
 
-_MP.goIndex = function (n) {
+MSlider.prototype.goIndex = function (n) {
     var domIndexArr = this.domIndexArr;
     var domIndexArrHash = this.domIndexArrHash;
     var outer = this.outer;
     var listLength = this.data.length;
     var newChild;
     var tmp;
-    var loop = this.loop;
+    var loop = this.isLooping;
     var noTransitionTimeId = 3;
     if (typeof n !== "string") return;
     if (n === "+1") {
@@ -275,7 +278,7 @@ _MP.goIndex = function (n) {
     this.initAutoPlay();
 };
 
-_MP.bindDOM = function () {
+MSlider.prototype.bindDOM = function () {
     var self = this;
     var scaleW = self.scaleW;
     var outer = self.outer;
