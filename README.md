@@ -33,21 +33,15 @@ You can use MSlider like this:
 
 ```javascript
 var MSlider = require('./mslider');
-var mSlider = new MSlider({
-    imgPrefix: "imgs/",
-    imgSubfix: ".jpg",
-    layerContent: false,
+var mslider = new MSlider({
+    data: list,
+    loop: false,
     autoPlay: false,
     verticle: false,
-    loop: false,
-    dom: document.getElementById("canvas"),
-    data: list,
-    onBeforeSlide: function (nowIndex, dataArr) {
-
-    },
-    onAfterSlide: function (nowIndex, dataArr) {
-
-    }
+    layerContent: false,
+    imgPrefix: "imgs/",
+    imgSubfix: ".jpg",
+    dom: document.getElementById("canvas")
 });
 ```
 
