@@ -3,10 +3,9 @@ MSlider
 A slider module for mobile web app, it's very simple and efficency.
 It supports most mobile web browser like mobile safari, webkit chrome, and others.
 
-API
+Example
 ========
 ```javascript
-var MSlider = require('./mslider');
 var list = [{
 	height: 475,
 	width: 400,
@@ -28,6 +27,12 @@ var list = [{
 	width: 458,
 	content:"imgs/5.jpg"
 }];
+```
+Assume you have a array like this, and you want to put those data to a slidershow. 
+You can use MSlider like this:
+
+```javascript
+var MSlider = require('./mslider');
 var mSlider = new MSlider({
     imgPrefix: "imgs/",
     imgSubfix: ".jpg",
@@ -44,8 +49,6 @@ var mSlider = new MSlider({
 
     }
 });
-
- 
 ```
 
 [demo address](http://zxylvlp.github.io/MSlider/demo)
