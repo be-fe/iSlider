@@ -9,7 +9,7 @@
  */
 var MSlider = function(opts) {
     if (!opts.dom) {
-        throw "dom element can not be empty!";
+        throw new Error("dom element can not be empty!");
     }
     //节点
     this.wrap = opts.dom;
@@ -19,7 +19,7 @@ var MSlider = function(opts) {
     }
 
     if ((!opts.data) || getType(opts.data) !== "[object Array]" || opts.data.length < 1) {
-        throw "data must be an array and must have more than one element!";
+        throw new Error("data must be an array and must have more than one element!");
     }
 
     //列表数据
@@ -134,7 +134,7 @@ MSlider.prototype.initDomIndex = function () {
 };
 
 MSlider.prototype.initAutoPlay = function () {
-    if (!this.isAutoPlay) return;
+    if (!this.isAutoPlay){ return; }
     var self = this;
     this.autoPlayTimeout = setTimeout(function () {
         self.goIndex('+1');
@@ -155,15 +155,18 @@ MSlider.prototype.createLi = function (i) {
     var offsetI = i - this.idx;
     if (this.isVerticle) {
         li.style.webkitTransform = 'translate3d(0, ' + offsetI * this.scaleW + 'px, 0)';
-    } else {
+    } 
+    else {
         li.style.webkitTransform = 'translate3d(' + offsetI * this.scaleW + 'px, 0, 0)';
     }
     if (this.isLayerContent) {
         li.innerHTML = '<div style="height:' + item.height + '%;width:' + item.width + '%;">' + item.content + '</div>';
-    } else {
-        if (item.height / item.width > this.radio) {
+    } 
+    else {
+        if (item.height / item.width > this.ratio) {
             li.innerHTML = '<img height="' + window.innerHeight + '" src="' + item.content + '">';
-        } else {
+        } 
+        else {
             li.innerHTML = '<img width="' + window.innerWidth + '" src="' + item.content + '">';
         }
     }
@@ -179,10 +182,12 @@ MSlider.prototype.reUseLi = function (li,negOrPosOne) {
     var item = negOrPosOne === -1 ? data[domIndexArr[0]] : data[domIndexArr[2]];
     if (this.isLayerContent) {
         li.innerHTML = '<div style="height:' + item.height + '%;width:' + item.width + '%;">' + item.content + '</div>';
-    } else {
-        if (item.height / item.width > this.radio) {
+    } 
+    else {
+        if (item.height / item.width > this.ratio) {
             li.innerHTML = '<img height="' + window.innerHeight + '" src="' + item.content + '">';
-        } else {
+        } 
+        else {
             li.innerHTML = '<img width="' + window.innerWidth + '" src="' + item.content + '">';
         }
     }
@@ -229,7 +234,8 @@ MSlider.prototype.goIndex = function (n) {
                     this.domIndexArrHash.push(tmp);
                     noTransitionTimeId = 2;
                     console.log(this.domIndexArrHash);
-                } else {
+                } 
+                else {
                     this.idx = 2;
                 }
             } 
@@ -237,7 +243,8 @@ MSlider.prototype.goIndex = function (n) {
             if (this.idx === 0) {
                 if (listLength==1) {
                     this.idx = 0;
-                } else {
+                } 
+                else {
                     this.idx = 1;
                 }
             } 
@@ -248,6 +255,7 @@ MSlider.prototype.goIndex = function (n) {
                 tmp = domIndexArr[0] - 1;
                 tmp = tmp < 0 ? listLength - 1 : tmp;
                 domIndexArr.unshift(tmp);
+                domIndexArr.length = 3;
                 this.domIndexArrHash.unshift(null);
                 tmp = this.domIndexArrHash[3];
                 this.domIndexArrHash.length = 3;
@@ -255,22 +263,26 @@ MSlider.prototype.goIndex = function (n) {
                 this.domIndexArrHash[0] = tmp;
                 noTransitionTimeId = 0;
                 console.log(this.domIndexArrHash);
-            } else {
+            } 
+            else {
                 this.idx = 0;
             }
-        } else {
+        } 
+        else {
            if (this.idx === 2) {
                 this.idx = 1;
            }
         }
         
     }
-    console.log(domIndexArrHash);
+    console.log(domIndexArr);
+    console.log(this.idx);
     //console.log(domIndexArrLength);
     for (var i = 0; i < domIndexArrHash.length; i++) {
-        if (i===noTransitionTimeId) {
+        if (i === noTransitionTimeId) {
             domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
-        } else {
+        } 
+        else {
             domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0.2s ease-out';
         }
         domIndexArrHash[i].style.webkitTransform = 'translate3d(' + (i-this.idx) * this.scaleW + 'px, 0, 0)';
@@ -337,8 +349,35 @@ MSlider.prototype.bindDOM = function () {
             }
         }
     };
+
+    var resizeHandler = function () {
+       self.ratio = window.innerHeight / window.innerWidth;
+       self.scaleW = window.innerWidth;
+       self.wrap.style.height = window.innerHeight + 'px';
+       self.outer.style.width = self.scaleW + 'px';
+       var domIndexArrHash = self.domIndexArrHash;
+       var domIndexArr = self.domIndexArr;
+       for (var i = domIndexArrHash.length - 1; i >= 0; i--) {
+           domIndexArrHash[i].style.width = self.scaleW + 'px';
+           domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
+           domIndexArrHash[i].style.webkitTransform = 'translate3d(' + (i-self.idx) * self.scaleW + 'px, 0, 0)';
+           if (self.layerContent === true) continue;
+           var img = domIndexArrHash[i].childNodes[0];
+           var imgData = self.data[domIndexArr[i]];
+           console.log((imgData.height /imgData.width) + " "+ self.ratio);
+           if ((imgData.height /imgData.width) > self.ratio) {
+                img.height = window.innerHeight;
+                img.removeAttribute("width");
+           } else {
+                img.width = self.scaleW;
+                img.removeAttribute("height");
+           }
+
+       }
+    };
     outer.addEventListener('touchstart', startHandler);
     outer.addEventListener('touchmove', moveHandler);
     outer.addEventListener('touchend', endHandler);
+    window.addEventListener('resize', resizeHandler);
 };
 module.exports = MSlider;
