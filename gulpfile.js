@@ -27,7 +27,7 @@ gulp.task('jsformat', function(){
 });
 
 gulp.task('browserify',function(){
-    browserify('./js/app.js',{debug:false,insertGlobals: false})
+    browserify('./js/app.js',{debug:true,insertGlobals: false})
     .bundle()
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./dist/'))

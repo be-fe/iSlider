@@ -5,72 +5,45 @@
  * @param {Element} opts.dom 外层元素 
  * @param {Object} opts.data 数据列表
  *
- * @class   
+ * @class 
  */
 var MSlider = function(opts) {
     if (!opts.dom) {
         throw new Error("dom element can not be empty!");
     }
-    //节点
-    this.wrap = opts.dom;
 
-    function getType(obj) {
-        return Object.prototype.toString.call(obj);
-    }
-
-    if ((!opts.data) || getType(opts.data) !== "[object Array]" || opts.data.length < 1) {
+    if (!opts.data || !opts.data.length) {
         throw new Error("data must be an array and must have more than one element!");
     }
 
-    //列表数据
-    this.data = opts.data;
-
-    if (this.data.length > 1) {
-        if (opts.isLooping) {
-            this.isLooping = opts.isLooping;
-            if (opts.isAutoPlay) {
-                this.isAutoPlay = opts.isAutoPlay;
-            }
-        }
-    }
-
-    if (opts.isVerticle) {
-        this.isVerticle = opts.isVerticle;
-    }
-
-    if (opts.isLayerContent) {
-        this.isLayerContent = opts.isLayerContent;
-    }
-
-    if (this.isLayerContent === false) {
-        this.imgPrefix = opts.imgPrefix ? opts.imgPrefix : this.imgPrefix;
-        this.imgSubfix = opts.imgSubfix ? opts.imgSubfix : this.imgSubfix;
-    }
-
-    if (getType(opts.onBeforeSlide) === "[object Function]") {
-        this.onBeforeSlide = opts.onBeforeSlide;
-    }
-
-    if (getType(opts.oneAfterSlide) === "[object Function]") {
-        this.onAfterSlide = opts.oneAfterSlide;
-    }
-
-    this.init();
-    this.renderDOM();
+    this.init(opts);
+    this.renderHTML();
     this.bindDOM();
 };
 
-MSlider.prototype.isLooping = false;
-MSlider.prototype.isAutoPlay = false;
-MSlider.prototype.isVerticle = false;
-MSlider.prototype.isLayerContent = false;
+MSlider.prototype.init = function (opts) {
 
-MSlider.prototype.init = function () {
-    this.ratio = window.innerHeight / window.innerWidth;
+    this.wrap = opts.dom;
+    this.data = opts.data;
     this.scaleW = window.innerWidth;
+    this.scaleH = window.innerHeight;
+    this.ratio = window.innerHeight / window.innerWidth;
+    this.isVerticle = opts.isVerticle || false;
+
+    if (this.data.length < 2) {
+        this.isLooping = false;
+        this.isAutoPlay = false;
+    } else {
+        this.isLooping = opts.isLooping || false;
+        this.isAutoPlay = opts.isAutoPlay || false;
+    }
+
+    this.isVerticle = opts.isVerticle;
+    this.type = opts.type || 'pic';
+
     this.initDomIndex();
+    this.initAutoPlay();
     this.damplingFunction = this.initDampingFunction(this.scaleW);
-    //this.initAutoPlay();
 };
 
 /**
@@ -84,6 +57,7 @@ MSlider.prototype.initDampingFunction = function (fullDistance) {
     var oneEightOfFull = oneFourOfFull >> 1;
     var threeFourOfFull = halfOfFull + oneFourOfFull;
     var fiveSixteenOfFull = oneFourOfFull + (oneEightOfFull >> 1);
+
     return function (distance) {
         var negative;
         if (distance < 0) {
@@ -96,14 +70,12 @@ MSlider.prototype.initDampingFunction = function (fullDistance) {
         } 
         else if (distance < threeFourOfFull) {
             result = oneFourOfFull + (distance - halfOfFull >> 2);
-        } 
-        else {
+        } else {
             result = fiveSixteenOfFull + (distance - threeFourOfFull >> 3);
         }
         if (negative === true) {
             return -result;
-        } 
-        else {
+        } else {
             return result;
         }
     };
@@ -117,9 +89,8 @@ MSlider.prototype.initDampingFunction = function (fullDistance) {
  */
 MSlider.prototype.initDomIndex = function () {
     var domIndexArr = [];
-    var dataLength = this.data.length;
-    if (this.isLooping === false) {
-        var loopLength = dataLength > 3 ? 3 : dataLength;
+    if (!this.isLooping) {
+        var loopLength = Math.min(3, this.data.length);
         for (var i = 0; i < loopLength; i++) {
             domIndexArr[i] = i;
         }
@@ -151,22 +122,19 @@ MSlider.prototype.clearAutoPlay = function () {
 MSlider.prototype.createLi = function (i) {
     var li = document.createElement('li');
     var item = this.data[this.domIndexArr[i]];
+    var offsetX = !this.isVerticle ? 0 : this.scaleW * (i - this.idx);
+    var offsetY = this.isVerticle ? 0 : this.scaleH * (i - this.idx);
+
     li.style.width = this.scaleW + 'px';
-    var offsetI = i - this.idx;
-    if (this.isVerticle) {
-        li.style.webkitTransform = 'translate3d(0, ' + offsetI * this.scaleW + 'px, 0)';
-    } 
-    else {
-        li.style.webkitTransform = 'translate3d(' + offsetI * this.scaleW + 'px, 0, 0)';
-    }
+    li.style.height = this.scaleH + 'px';
+    li.style.webkitTransform = 'translate3d(' + offsetX + 'px, ' + offsetY + 'px, 0)';
+
     if (this.isLayerContent) {
         li.innerHTML = '<div style="height:' + item.height + '%;width:' + item.width + '%;">' + item.content + '</div>';
-    } 
-    else {
+    } else {
         if (item.height / item.width > this.ratio) {
             li.innerHTML = '<img height="' + window.innerHeight + '" src="' + item.content + '">';
-        } 
-        else {
+        } else {
             li.innerHTML = '<img width="' + window.innerWidth + '" src="' + item.content + '">';
         }
     }
@@ -196,7 +164,7 @@ MSlider.prototype.reUseLi = function (li,negOrPosOne) {
 /*
     渲染dom
 */
-MSlider.prototype.renderDOM = function () {
+MSlider.prototype.renderHTML = function () {
     var wrap = this.wrap;
     var data = this.data;
     var domIndexArr = this.domIndexArr;
@@ -222,6 +190,8 @@ MSlider.prototype.goIndex = function (n) {
     var tmp;
     var loop = this.isLooping;
     var noTransitionTimeId = 3;
+
+
     if (typeof n !== "string") return;
     if (n === "+1") {
         if ( this.idx!==0 && this.idx!==2 ) {
@@ -234,8 +204,7 @@ MSlider.prototype.goIndex = function (n) {
                     this.domIndexArrHash.push(tmp);
                     noTransitionTimeId = 2;
                     console.log(this.domIndexArrHash);
-                } 
-                else {
+                } else {
                     this.idx = 2;
                 }
             } 
@@ -243,8 +212,7 @@ MSlider.prototype.goIndex = function (n) {
             if (this.idx === 0) {
                 if (listLength==1) {
                     this.idx = 0;
-                } 
-                else {
+                } else {
                     this.idx = 1;
                 }
             } 
@@ -275,17 +243,19 @@ MSlider.prototype.goIndex = function (n) {
         }
         
     }
-    console.log(domIndexArr);
-    console.log(this.idx);
-    //console.log(domIndexArrLength);
+
+
+
     for (var i = 0; i < domIndexArrHash.length; i++) {
+        var offsetX = this.isVerticle ? 0 : this.scaleW * (i - this.idx);
+        var offsetY = this.isVerticle ? this.scaleH * (i - this.idx) : 0;
+
         if (i === noTransitionTimeId) {
             domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
-        } 
-        else {
+        } else {
             domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0.2s ease-out';
         }
-        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + (i-this.idx) * this.scaleW + 'px, 0, 0)';
+        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + offsetX + 'px, '+ offsetY +'px, 0)';
     }
     this.initAutoPlay();
 };
@@ -297,9 +267,10 @@ MSlider.prototype.bindDOM = function () {
     var len = self.data.length;
 
     var startHandler = function (evt) {
-        self.startTime = new Date() * 1;
+        self.startTime = new Date().getTime();
         self.startX = evt.touches[0].pageX;
-        self.offsetX = 0;
+        self.startY = evt.touches[0].pageY;
+        self.offsetX = self.offsetY = 0;
         var target = evt.target;
         while (target.nodeName != 'LI' && target.nodeName != 'BODY') {
             target = target.parentNode;
@@ -310,39 +281,52 @@ MSlider.prototype.bindDOM = function () {
 
     var moveHandler = function (evt) {
         evt.preventDefault();
+        
         self.offsetX = evt.targetTouches[0].pageX - self.startX;
+        self.offsetY = evt.targetTouches[0].pageY - self.startY;
+
         var arrLength = self.domIndexArrHash.length;
         var domIndexArrHash = self.domIndexArrHash;
-        for (i=0; i < arrLength; i++) {
+        for (i = 0; i < arrLength; i++) {
             if (domIndexArrHash[i]) {
                 domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
             }
             if (domIndexArrHash[i]) {
-                if ((self.idx === 0 && self.offsetX>0) || (self.idx === 2&&self.offsetX<0)) {
-                    domIndexArrHash[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self.damplingFunction(self.offsetX)) + 'px, 0, 0)';
+                if(!self.isVerticle){
+                    if ((self.idx === 0 && self.offsetX > 0) || (self.idx === 2 && self.offsetX < 0)) {
+                        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self.damplingFunction(self.offsetX)) + 'px, 0, 0)';
+                    } else {
+                        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self.offsetX) + 'px, 0, 0)';
+                    }
                 } else {
-                    domIndexArrHash[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self.offsetX) + 'px, 0, 0)';
+                    if ((self.idx === 0 && self.offsetY > 0) || (self.idx === 2 && self.offsetY < 0)) {
+                        domIndexArrHash[i].style.webkitTransform = 'translate3d(0,' + ((i - self.idx) * self.scaleH + self.damplingFunction(self.offsetY)) + 'px, 0)';
+                    } else {
+                        domIndexArrHash[i].style.webkitTransform = 'translate3d(0,' + ((i - self.idx) * self.scaleH + self.offsetY) + 'px, 0)';
+                    }
                 }
             }
         }
     };
     var endHandler = function (evt) {
         evt.preventDefault();
-        var boundary = scaleW / 6;
-        var endTime = new Date() * 1;
+
+        var boundary = self.isVerticle ? self.scaleH / 6 : self.scaleW / 6 ;
+        var metric = self.isVerticle ? self.offsetY : self.offsetX;
+        var endTime = new Date().getTime();
         var lis = outer.getElementsByTagName('li');
         if (endTime - self.startTime > 300) {
-            if (self.offsetX >= boundary) {
+            if (metric >= boundary) {
                 self.goIndex('-1');
-            } else if (self.offsetX < -boundary) {
+            } else if (metric < -boundary) {
                 self.goIndex('+1');
             } else {
                 self.goIndex('0');
             }
         } else {
-            if (self.offsetX > 50) {
+            if (metric > 50) {
                 self.goIndex('-1');
-            } else if (self.offsetX < -50) {
+            } else if (metric < -50) {
                 self.goIndex('+1');
             } else {
                 self.goIndex('0');

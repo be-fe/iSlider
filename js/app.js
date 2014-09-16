@@ -13,10 +13,6 @@ var list = [{
 	 	content: "imgs/3.jpg",
 	},{
 		height: 400,
-		width: 512,
-		content: "imgs/4.jpg"
-	},{
-		height: 400,
 		width: 458,
 		content:"imgs/5.jpg"
 	},{
@@ -43,7 +39,7 @@ new MSlider({
     //or true default false
     //autoPlay: 1000,
     //or false default false
-    verticle: false,
+    isVerticle: true,
     //loop: true,
     //or true default false
     dom: document.getElementById("canvas"),
