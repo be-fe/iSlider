@@ -40,7 +40,7 @@ var mslider = new MSlider({
 });
 ```
 
-[demo address](http://zxylvlp.github.io/MSlider/demo)
+[demo](http://zxylvlp.github.io/MSlider/demo)
 
 TO-DO LIST
 ==========
