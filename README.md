@@ -35,13 +35,8 @@ You can use MSlider like this:
 var MSlider = require('./mslider');
 var mslider = new MSlider({
     data: list,
-    loop: false,
-    autoPlay: false,
-    verticle: false,
-    layerContent: false,
-    imgPrefix: "imgs/",
-    imgSubfix: ".jpg",
-    dom: document.getElementById("canvas")
+    dom: document.getElementById("canvas"),
+    isVerticle: true
 });
 ```
 
@@ -50,10 +45,9 @@ var mslider = new MSlider({
 TO-DO LIST
 ==========
 * ~~Keep li elements in 3~~
-* Enable verticle slider
+* ~~Enable verticle slider~~
 * ~~Add damping effect when meeting the edge of the list~~
 * ~~handle onorientationchange Event~~
-* Add image loader
 * ~~Add layer slider not just pic slider~~
 * Add callback functional like onBeforeSlide onAfterSlide onSlide 
 
