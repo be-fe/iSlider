@@ -7,7 +7,7 @@
  *
  * @class 
  */
-var MSlider = function(opts) {
+var MSlider = function (opts) {
     if (!opts.dom) {
         throw new Error("dom element can not be empty!");
     }
@@ -16,19 +16,24 @@ var MSlider = function(opts) {
         throw new Error("data must be an array and must have more than one element!");
     }
 
-    this.init(opts);
-    this.renderHTML();
-    this.bindDOM();
+    this._setting(opts);
+    this._renderHTML();
+    this._bindDOM();
 };
 
-MSlider.prototype.init = function (opts) {
-
+MSlider.prototype._setting = function (opts) {
     this.wrap = opts.dom;
     this.data = opts.data;
-    this.scaleW = window.innerWidth;
-    this.scaleH = window.innerHeight;
-    this.ratio = window.innerHeight / window.innerWidth;
+    this.type = opts.type || 'pic';
     this.isVerticle = opts.isVerticle || false;
+
+    this.height = this.wrap.clientHeight;
+    this.width = this.wrap.clientWidth;
+
+    this.ratio = this.height / this.width;
+    this.scale = opts.isVerticle ? this.height : this.width;
+
+    this.picIdx = this.picIdx || 0;
 
     if (this.data.length < 2) {
         this.isLooping = false;
@@ -38,98 +43,99 @@ MSlider.prototype.init = function (opts) {
         this.isAutoPlay = opts.isAutoPlay || false;
     }
 
-    this.isVerticle = opts.isVerticle;
-    this.type = opts.type || 'pic';
+    if (this.isAutoPlay) {
+        this.play(500);
+    }
 
-    this.initDomIndex();
-    this.initAutoPlay();
-    this.damplingFunction = this.initDampingFunction(this.scaleW);
+    this._setUpDamping();
 };
 
-/**
- *  利用屏幕的全部滑动距离来进行初始化，
- *  返回一个计算阻尼的函数。
- *  由于dampling效应在滑动时触发，为了尽量优化性能利用闭包进行性能优化。  
- */
-MSlider.prototype.initDampingFunction = function (fullDistance) {
-    var halfOfFull = fullDistance >> 1;
-    var oneFourOfFull = halfOfFull >> 1;
-    var oneEightOfFull = oneFourOfFull >> 1;
-    var threeFourOfFull = halfOfFull + oneFourOfFull;
-    var fiveSixteenOfFull = oneFourOfFull + (oneEightOfFull >> 1);
+//缓动函数
+MSlider.prototype._setUpDamping = function () {
+    var oneIn2 = this.scale >> 1;
+    var oneIn4 = oneIn2 >> 1;
+    var ontIn16 = oneIn4 >> 2;
 
-    return function (distance) {
-        var negative;
-        if (distance < 0) {
-            distance = -distance;
-            negative = true;
-        }
-        var result;
-        if (distance < halfOfFull) {
-            result = distance >> 1;
-        } 
-        else if (distance < threeFourOfFull) {
-            result = oneFourOfFull + (distance - halfOfFull >> 2);
+    this._damping = function (distance) {
+        var dis = oneIn2 - Math.abs(distance) ;
+
+        if (dis > 0 ) {
+            return distance >> 1;
+        } else if (dis > oneIn4) {
+            return distance < 0 ? -(oneIn4 + (dis >> 2)) : oneIn4 + (dis >> 2);
         } else {
-            result = fiveSixteenOfFull + (distance - threeFourOfFull >> 3);
-        }
-        if (negative === true) {
-            return -result;
-        } else {
-            return result;
+            return distance < 0 ? -(ontIn16 + (dis >> 2)) : ontIn16 + (dis >> 2);
         }
     };
 };
 
-/**
- *   初始化 domIndexArr 其中存放的是 dom 中元素在 data 中的索引值。
- *   其最大长度为3。loop时长度一定为3。
- *   不loop时,如果data长度小于3 则长度为 data 长度, 否则长度为3。
- *   idx 值表示视口对准的项目
- */
-MSlider.prototype.initDomIndex = function () {
-    var domIndexArr = [];
-    if (!this.isLooping) {
-        var loopLength = Math.min(3, this.data.length);
-        for (var i = 0; i < loopLength; i++) {
-            domIndexArr[i] = i;
-        }
-        this.idx = 0;
-    } else {
-        domIndexArr[0] = dataLength - 1;
-        domIndexArr[1] = 0;
-        domIndexArr[2] = 1;
-        this.idx = 1;
-    }
-    this.domIndexArr = domIndexArr;
-};
-
-MSlider.prototype.initAutoPlay = function () {
-    if (!this.isAutoPlay){ return; }
+//自动播放
+MSlider.prototype.play = function (duration) {
     var self = this;
-    this.autoPlayTimeout = setTimeout(function () {
+    this.autoPlayTimer = setTimeout(function () {
         self.goIndex('+1');
-    }, this.isAutoPlay);
+    }, duration);
 };
 
-MSlider.prototype.clearAutoPlay = function () {
-    clearTimeout(this.autoPlayTimeout);
+//暂停自动播放
+MSlider.prototype.pause = function () {
+    clearTimeout(this.autoPlayTimer);
 };
 
-/*
-    初始化ul列表中的li的时候使用i是li的index。
-*/
-MSlider.prototype.createLi = function (i) {
-    var li = document.createElement('li');
-    var item = this.data[this.domIndexArr[i]];
-    var offsetX = !this.isVerticle ? 0 : this.scaleW * (i - this.idx);
-    var offsetY = this.isVerticle ? 0 : this.scaleH * (i - this.idx);
+MSlider.prototype._getItem = function (n) {
+    var item;
+    var len = this.data.length; 
 
-    li.style.width = this.scaleW + 'px';
-    li.style.height = this.scaleH + 'px';
-    li.style.webkitTransform = 'translate3d(' + offsetX + 'px, ' + offsetY + 'px, 0)';
+    if (!this.isLooping) {
+        return this.data[n] || { empty : true };
+    } else {
+        if (n < 0) {
+            return this.data[len - 1];
+        } else if (n > len - 1) {
+            return this.data[0];
+        }
+    }
+};
 
-    if (this.isLayerContent) {
+MSlider.prototype._renderHTML = function () {
+    var outer = document.createElement('ul');
+    outer.style.width = this.width + 'px';
+    outer.style.height = this.height + 'px';
+
+    var idx = this.picIdx;
+    var axis = this.isVerticle ? 'translateY' : 'translateX';
+
+    for (var i = -1; i < 2; i++) {
+        var li = document.createElement('li');
+        li.style.width = this.width + 'px';
+        li.style.height = this.height + 'px';
+        li.style.webkitTransform = 'translateZ(0) ' + axis + '(' + this.scale * i + 'px)';
+
+        var item = this._getItem(i + this.picIdx);
+        if (item.empty) {
+            li.style.display = 'none';
+            continue;
+        }
+
+        if (this.type === 'pic') {
+            li.innerHTML = item.height / item.width > this.ratio 
+            ? '<img height="' + window.innerHeight + '" src="' + item.content + '">'
+            : '<img width="' + window.innerWidth + '" src="' + item.content + '">';
+        } else if (this.type === 'dom') {
+            li.innerHTML = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
+        }
+    }
+
+    wrap.appendChild(outer);
+    this.outer = outer;
+};
+
+MSlider.prototype._replaceItem = function () {
+    var data = this.data;
+    var item = negOrPosOne === -1 ? data[domIndexArr[0]] : data[domIndexArr[2]];
+
+    //to-do li display
+    if (this.type === 'dom') {
         li.innerHTML = '<div style="height:' + item.height + '%;width:' + item.width + '%;">' + item.content + '</div>';
     } else {
         if (item.height / item.width > this.ratio) {
@@ -138,124 +144,28 @@ MSlider.prototype.createLi = function (i) {
             li.innerHTML = '<img width="' + window.innerWidth + '" src="' + item.content + '">';
         }
     }
-    return li;
 };
 
-/*
-    重用ul中li的内容更换内容。
-*/
-MSlider.prototype.reUseLi = function (li,negOrPosOne) {
-    var data = this.data;
-    var domIndexArr = this.domIndexArr;
-    var item = negOrPosOne === -1 ? data[domIndexArr[0]] : data[domIndexArr[2]];
-    if (this.isLayerContent) {
-        li.innerHTML = '<div style="height:' + item.height + '%;width:' + item.width + '%;">' + item.content + '</div>';
-    } 
-    else {
-        if (item.height / item.width > this.ratio) {
-            li.innerHTML = '<img height="' + window.innerHeight + '" src="' + item.content + '">';
-        } 
-        else {
-            li.innerHTML = '<img width="' + window.innerWidth + '" src="' + item.content + '">';
-        }
-    }
-};
-
-/*
-    渲染dom
-*/
-MSlider.prototype.renderHTML = function () {
-    var wrap = this.wrap;
-    var data = this.data;
-    var domIndexArr = this.domIndexArr;
-    var domIndexArrLength = domIndexArr.length;
-    this.domIndexArrHash = [];
-    this.outer = document.createElement('ul');
-    for (var i = 0; i < domIndexArrLength; i++) {
-        var li = this.createLi(i);
-        this.outer.appendChild(li);
-        this.domIndexArrHash[i] = li;
-    }
-    this.outer.style.width = this.scaleW + 'px';
-    wrap.style.height = window.innerHeight + 'px';
-    wrap.appendChild(this.outer);
-};
-
-MSlider.prototype.goIndex = function (n) {
-    var domIndexArr = this.domIndexArr;
-    var domIndexArrHash = this.domIndexArrHash;
+MSlider.prototype.slide = function (n) {
     var outer = this.outer;
-    var listLength = this.data.length;
-    var newChild;
-    var tmp;
-    var loop = this.isLooping;
-    var noTransitionTimeId = 3;
+    var len = this.data.length;
+    var axis = this.isVerticle ? 'translateY' : 'translateX';
 
-
-    if (typeof n !== "string") return;
-    if (n === "+1") {
-        if ( this.idx!==0 && this.idx!==2 ) {
-            if (loop||listLength > 2) {
-                if (loop ||domIndexArr[1] !== listLength -2 ) {
-                    domIndexArr.shift();
-                    domIndexArr.push((domIndexArr[1] + 1) % listLength);
-                    tmp = this.domIndexArrHash.shift();
-                    this.reUseLi(tmp,1);
-                    this.domIndexArrHash.push(tmp);
-                    noTransitionTimeId = 2;
-                    console.log(this.domIndexArrHash);
-                } else {
-                    this.idx = 2;
-                }
-            } 
-        } else {
-            if (this.idx === 0) {
-                if (listLength==1) {
-                    this.idx = 0;
-                } else {
-                    this.idx = 1;
-                }
-            } 
-        }
+    if (n > 0) {
+        
     } else if (n === "-1") {
-        if ( this.idx!==0 && this.idx !==2) {
-            if (loop || domIndexArr[0] !== 0) {
-                tmp = domIndexArr[0] - 1;
-                tmp = tmp < 0 ? listLength - 1 : tmp;
-                domIndexArr.unshift(tmp);
-                domIndexArr.length = 3;
-                this.domIndexArrHash.unshift(null);
-                tmp = this.domIndexArrHash[3];
-                this.domIndexArrHash.length = 3;
-                this.reUseLi(tmp,-1);
-                this.domIndexArrHash[0] = tmp;
-                noTransitionTimeId = 0;
-                console.log(this.domIndexArrHash);
-            } 
-            else {
-                this.idx = 0;
-            }
-        } 
-        else {
-           if (this.idx === 2) {
-                this.idx = 1;
-           }
-        }
         
     }
 
-
-
-    for (var i = 0; i < domIndexArrHash.length; i++) {
-        var offsetX = this.isVerticle ? 0 : this.scaleW * (i - this.idx);
-        var offsetY = this.isVerticle ? this.scaleH * (i - this.idx) : 0;
+    for (var i = 0; i < 3 i++) {
 
         if (i === noTransitionTimeId) {
             domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
         } else {
             domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0.2s ease-out';
         }
-        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + offsetX + 'px, '+ offsetY +'px, 0)';
+
+        li.style.webkitTransform = 'translateZ(0) ' + axis + '(' + this.scale * i + 'px)';
     }
     this.initAutoPlay();
 };
@@ -271,6 +181,7 @@ MSlider.prototype.bindDOM = function () {
         self.startX = evt.touches[0].pageX;
         self.startY = evt.touches[0].pageY;
         self.offsetX = self.offsetY = 0;
+
         var target = evt.target;
         while (target.nodeName != 'LI' && target.nodeName != 'BODY') {
             target = target.parentNode;
@@ -294,13 +205,13 @@ MSlider.prototype.bindDOM = function () {
             if (domIndexArrHash[i]) {
                 if(!self.isVerticle){
                     if ((self.idx === 0 && self.offsetX > 0) || (self.idx === 2 && self.offsetX < 0)) {
-                        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self.damplingFunction(self.offsetX)) + 'px, 0, 0)';
+                        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self._damping(self.offsetX)) + 'px, 0, 0)';
                     } else {
                         domIndexArrHash[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self.offsetX) + 'px, 0, 0)';
                     }
                 } else {
                     if ((self.idx === 0 && self.offsetY > 0) || (self.idx === 2 && self.offsetY < 0)) {
-                        domIndexArrHash[i].style.webkitTransform = 'translate3d(0,' + ((i - self.idx) * self.scaleH + self.damplingFunction(self.offsetY)) + 'px, 0)';
+                        domIndexArrHash[i].style.webkitTransform = 'translate3d(0,' + ((i - self.idx) * self.scaleH + self._damping(self.offsetY)) + 'px, 0)';
                     } else {
                         domIndexArrHash[i].style.webkitTransform = 'translate3d(0,' + ((i - self.idx) * self.scaleH + self.offsetY) + 'px, 0)';
                     }

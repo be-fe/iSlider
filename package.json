@@ -7,10 +7,9 @@
     "gulp": "",
     "gulp-beautify": "",
     "gulp-connect": "",
-    "gulp-jshint": "",
+    "gulp-jshint": "~1.8.4",
     "gulp-less": "",
     "gulp-uglify": "",
-    "vinyl-source-stream": "",
-    "gulp-beautify" : ""
+    "vinyl-source-stream": ""
   }
 }
