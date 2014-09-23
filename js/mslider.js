@@ -1,9 +1,13 @@
 /**
- * MSlider main method
- * 
+ * MSlider 
+ * A simple, efficency mobile slider
+ * @Author qbatyqi
+ *
  * @param {Object} opts 参数集
  * @param {Element} opts.dom 外层元素 
  * @param {Object} opts.data 数据列表
+ * @param {Boolean} opts.isVerticle 是否竖直滚动
+ * @param {Boolean} opts.isLooping 是否循环
  *
  * @class 
  */
@@ -18,21 +22,25 @@ var MSlider = function (opts) {
 
     this._setting(opts);
     this._renderHTML();
-    this._bindDOM();
+    this._bindHandler();
 };
 
+//setting parameters for slider
 MSlider.prototype._setting = function (opts) {
     this.wrap = opts.dom;
     this.data = opts.data;
+    //default type
     this.type = opts.type || 'pic';
+    //default slide direction
     this.isVerticle = opts.isVerticle || false;
 
-    this.height = this.wrap.clientHeight;
+    this.axis = this.isVerticle ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
-
+    this.height = this.wrap.clientHeight;
     this.ratio = this.height / this.width;
     this.scale = opts.isVerticle ? this.height : this.width;
 
+    //start from 0
     this.picIdx = this.picIdx || 0;
 
     if (this.data.length < 2) {
@@ -47,29 +55,203 @@ MSlider.prototype._setting = function (opts) {
         this.play(500);
     }
 
+    //storage li elements
+    this.els = [];
+    //set Damping function
     this._setUpDamping();
 };
 
-//缓动函数
+//enable damping when slider meet the edge
 MSlider.prototype._setUpDamping = function () {
     var oneIn2 = this.scale >> 1;
     var oneIn4 = oneIn2 >> 1;
-    var ontIn16 = oneIn4 >> 2;
+    var oneIn16 = oneIn4 >> 2;
 
     this._damping = function (distance) {
-        var dis = oneIn2 - Math.abs(distance) ;
+        var dis = Math.abs(distance);
+        var result;
 
-        if (dis > 0 ) {
-            return distance >> 1;
-        } else if (dis > oneIn4) {
-            return distance < 0 ? -(oneIn4 + (dis >> 2)) : oneIn4 + (dis >> 2);
+        if (dis < oneIn2) {
+            result = dis >> 1;
+        } else if (dis < oneIn2 + oneIn4) {
+            result = oneIn4 + ((dis - oneIn2) >> 2);
         } else {
-            return distance < 0 ? -(ontIn16 + (dis >> 2)) : ontIn16 + (dis >> 2);
+            result = oneIn4 + oneIn16 + ((dis - oneIn2 - oneIn4) >> 3);
         }
+
+        return distance > 0 ? result : -result;
     };
 };
 
-//自动播放
+//render single item html by idx
+MSlider.prototype._renderItem = function (n) {
+    var item, html;
+    var len = this.data.length;
+
+    if (!this.isLooping) {
+        item = this.data[n] || { empty : true };
+    } else {
+        if (n < 0) {
+            item = this.data[len + n];
+        } else if (n > len - 1) {
+            item = this.data[n - len];
+        } else {
+            item = this.data[n];
+        }
+    }
+
+    if (item.empty) {
+        return '';
+    }
+
+    if (this.type === 'pic') {
+        html = item.height / item.width > this.ratio 
+        ? '<img height="' + window.innerHeight + '" src="' + item.content + '">'
+        : '<img width="' + window.innerWidth + '" src="' + item.content + '">';
+    } else if (this.type === 'dom') {
+        html.innerHTML = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
+    }
+
+    return html;
+};
+
+//render list html
+MSlider.prototype._renderHTML = function () {
+    var outer = document.createElement('ul');
+    outer.style.width = this.width + 'px';
+    outer.style.height = this.height + 'px';
+
+    for (var i = 0; i < 3; i++) {
+        var li = document.createElement('li');
+        li.style.width = this.width + 'px';
+        li.style.height = this.height + 'px';
+        li.style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
+
+        this.els.push(li);
+        outer.appendChild(li);
+
+        li.innerHTML = this._renderItem(i - 1 + this.picIdx);
+    }
+    this.outer = outer;
+    this.wrap.appendChild(outer);
+};
+
+//logical slider
+MSlider.prototype._slide = function (n) {
+    var data = this.data;
+    var els = this.els;
+    var idx = this.picIdx + n;
+    
+    var sEle;
+    if (n > 0) {
+        sEle = els.shift();
+        els.push(sEle);
+    } else if (n < 0) {
+        sEle = els.pop();
+        els.unshift(sEle);
+    } 
+
+    if(n !== 0){
+        sEle.innerHTML = this._renderItem(idx + n);
+    }
+
+    if (!data[idx] && this.isLooping) {
+        this.picIdx = n > 0 ? 0 : data.length - 1;
+    } else {
+        this.picIdx = idx;
+    }
+
+    for (var i = 0; i < 3; i++) {
+        if (els[i] !== sEle) {
+            els[i].style.webkitTransition = 'all .2s';
+        }
+        els[i].style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
+    }
+};
+
+//bind all event handler
+MSlider.prototype._bindHandler = function () {
+    var self = this;
+    var scaleW = self.scaleW;
+    var outer = self.outer;
+    var len = self.data.length;
+
+    var startHandler = function (evt) {
+        self.pause();
+        self.beforeslide && self.beforeslide();
+
+        self.startTime = new Date().getTime();
+        self.startX = evt.targetTouches[0].pageX;
+        self.startY = evt.targetTouches[0].pageY;
+
+        var target = evt.target;
+        while (target.nodeName != 'LI' && target.nodeName != 'BODY') {
+            target = target.parentNode;
+        }
+        self.target = target;
+
+    };
+
+    var moveHandler = function (evt) {
+        evt.preventDefault();
+        self.onslide && self.onslide();
+        
+        var axis = self.axis;
+        var offset = evt.targetTouches[0]['page' + axis] - self['start' + axis];
+
+        if (offset > 0 && self.picIdx === 0 || offset < 0 && self.picIdx === self.data.length - 1) {
+            offset = self._damping(offset);
+        }
+
+        for (var i = 0; i < 3; i++) {
+            var item = self.els[i];
+            item.style.webkitTransition = 'all 0s';
+            item.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + self.scale * (i - 1)) + 'px)';
+        }
+
+        self.offset = offset;
+    };
+    var endHandler = function (evt) {
+        evt.preventDefault();
+
+        var boundary = self.scale / 6;
+        var metric = self.offset;
+        var endTime = new Date().getTime();
+
+        if (endTime - self.startTime > 300) {
+            if (metric >= boundary) {
+                self._slide(-1);
+            } else if (metric < -boundary) {
+                self._slide(1);
+            } else {
+                self._slide(0);
+            }
+        } else {
+            if (metric > 50) {
+                self._slide(-1);
+            } else if (metric < -50) {
+                self._slide(1);
+            } else {
+                self._slide(0);
+            }
+        }
+
+        self.isAutoPlay && self.play();
+        self.afterslide && self.afterslide();
+    };
+
+    var orientationchangeHandler = function (evt) {
+        //reset
+
+    };
+
+    outer.addEventListener('touchstart', startHandler);
+    outer.addEventListener('touchmove', moveHandler);
+    outer.addEventListener('touchend', endHandler);
+    window.addEventListener('orientationchange', orientationchangeHandler);
+};
+
+//enable autoplay
 MSlider.prototype.play = function (duration) {
     var self = this;
     this.autoPlayTimer = setTimeout(function () {
@@ -77,202 +259,9 @@ MSlider.prototype.play = function (duration) {
     }, duration);
 };
 
-//暂停自动播放
+//pause autoplay
 MSlider.prototype.pause = function () {
     clearTimeout(this.autoPlayTimer);
 };
 
-MSlider.prototype._getItem = function (n) {
-    var item;
-    var len = this.data.length; 
-
-    if (!this.isLooping) {
-        return this.data[n] || { empty : true };
-    } else {
-        if (n < 0) {
-            return this.data[len - 1];
-        } else if (n > len - 1) {
-            return this.data[0];
-        }
-    }
-};
-
-MSlider.prototype._renderHTML = function () {
-    var outer = document.createElement('ul');
-    outer.style.width = this.width + 'px';
-    outer.style.height = this.height + 'px';
-
-    var idx = this.picIdx;
-    var axis = this.isVerticle ? 'translateY' : 'translateX';
-
-    for (var i = -1; i < 2; i++) {
-        var li = document.createElement('li');
-        li.style.width = this.width + 'px';
-        li.style.height = this.height + 'px';
-        li.style.webkitTransform = 'translateZ(0) ' + axis + '(' + this.scale * i + 'px)';
-
-        var item = this._getItem(i + this.picIdx);
-        if (item.empty) {
-            li.style.display = 'none';
-            continue;
-        }
-
-        if (this.type === 'pic') {
-            li.innerHTML = item.height / item.width > this.ratio 
-            ? '<img height="' + window.innerHeight + '" src="' + item.content + '">'
-            : '<img width="' + window.innerWidth + '" src="' + item.content + '">';
-        } else if (this.type === 'dom') {
-            li.innerHTML = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
-        }
-    }
-
-    wrap.appendChild(outer);
-    this.outer = outer;
-};
-
-MSlider.prototype._replaceItem = function () {
-    var data = this.data;
-    var item = negOrPosOne === -1 ? data[domIndexArr[0]] : data[domIndexArr[2]];
-
-    //to-do li display
-    if (this.type === 'dom') {
-        li.innerHTML = '<div style="height:' + item.height + '%;width:' + item.width + '%;">' + item.content + '</div>';
-    } else {
-        if (item.height / item.width > this.ratio) {
-            li.innerHTML = '<img height="' + window.innerHeight + '" src="' + item.content + '">';
-        } else {
-            li.innerHTML = '<img width="' + window.innerWidth + '" src="' + item.content + '">';
-        }
-    }
-};
-
-MSlider.prototype.slide = function (n) {
-    var outer = this.outer;
-    var len = this.data.length;
-    var axis = this.isVerticle ? 'translateY' : 'translateX';
-
-    if (n > 0) {
-        
-    } else if (n === "-1") {
-        
-    }
-
-    for (var i = 0; i < 3 i++) {
-
-        if (i === noTransitionTimeId) {
-            domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
-        } else {
-            domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0.2s ease-out';
-        }
-
-        li.style.webkitTransform = 'translateZ(0) ' + axis + '(' + this.scale * i + 'px)';
-    }
-    this.initAutoPlay();
-};
-
-MSlider.prototype.bindDOM = function () {
-    var self = this;
-    var scaleW = self.scaleW;
-    var outer = self.outer;
-    var len = self.data.length;
-
-    var startHandler = function (evt) {
-        self.startTime = new Date().getTime();
-        self.startX = evt.touches[0].pageX;
-        self.startY = evt.touches[0].pageY;
-        self.offsetX = self.offsetY = 0;
-
-        var target = evt.target;
-        while (target.nodeName != 'LI' && target.nodeName != 'BODY') {
-            target = target.parentNode;
-        }
-        self.target = target;
-        self.clearAutoPlay();
-    };
-
-    var moveHandler = function (evt) {
-        evt.preventDefault();
-        
-        self.offsetX = evt.targetTouches[0].pageX - self.startX;
-        self.offsetY = evt.targetTouches[0].pageY - self.startY;
-
-        var arrLength = self.domIndexArrHash.length;
-        var domIndexArrHash = self.domIndexArrHash;
-        for (i = 0; i < arrLength; i++) {
-            if (domIndexArrHash[i]) {
-                domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
-            }
-            if (domIndexArrHash[i]) {
-                if(!self.isVerticle){
-                    if ((self.idx === 0 && self.offsetX > 0) || (self.idx === 2 && self.offsetX < 0)) {
-                        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self._damping(self.offsetX)) + 'px, 0, 0)';
-                    } else {
-                        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self.offsetX) + 'px, 0, 0)';
-                    }
-                } else {
-                    if ((self.idx === 0 && self.offsetY > 0) || (self.idx === 2 && self.offsetY < 0)) {
-                        domIndexArrHash[i].style.webkitTransform = 'translate3d(0,' + ((i - self.idx) * self.scaleH + self._damping(self.offsetY)) + 'px, 0)';
-                    } else {
-                        domIndexArrHash[i].style.webkitTransform = 'translate3d(0,' + ((i - self.idx) * self.scaleH + self.offsetY) + 'px, 0)';
-                    }
-                }
-            }
-        }
-    };
-    var endHandler = function (evt) {
-        evt.preventDefault();
-
-        var boundary = self.isVerticle ? self.scaleH / 6 : self.scaleW / 6 ;
-        var metric = self.isVerticle ? self.offsetY : self.offsetX;
-        var endTime = new Date().getTime();
-        var lis = outer.getElementsByTagName('li');
-        if (endTime - self.startTime > 300) {
-            if (metric >= boundary) {
-                self.goIndex('-1');
-            } else if (metric < -boundary) {
-                self.goIndex('+1');
-            } else {
-                self.goIndex('0');
-            }
-        } else {
-            if (metric > 50) {
-                self.goIndex('-1');
-            } else if (metric < -50) {
-                self.goIndex('+1');
-            } else {
-                self.goIndex('0');
-            }
-        }
-    };
-
-    var resizeHandler = function () {
-       self.ratio = window.innerHeight / window.innerWidth;
-       self.scaleW = window.innerWidth;
-       self.wrap.style.height = window.innerHeight + 'px';
-       self.outer.style.width = self.scaleW + 'px';
-       var domIndexArrHash = self.domIndexArrHash;
-       var domIndexArr = self.domIndexArr;
-       for (var i = domIndexArrHash.length - 1; i >= 0; i--) {
-           domIndexArrHash[i].style.width = self.scaleW + 'px';
-           domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
-           domIndexArrHash[i].style.webkitTransform = 'translate3d(' + (i-self.idx) * self.scaleW + 'px, 0, 0)';
-           if (self.layerContent === true) continue;
-           var img = domIndexArrHash[i].childNodes[0];
-           var imgData = self.data[domIndexArr[i]];
-           console.log((imgData.height /imgData.width) + " "+ self.ratio);
-           if ((imgData.height /imgData.width) > self.ratio) {
-                img.height = window.innerHeight;
-                img.removeAttribute("width");
-           } else {
-                img.width = self.scaleW;
-                img.removeAttribute("height");
-           }
-
-       }
-    };
-    outer.addEventListener('touchstart', startHandler);
-    outer.addEventListener('touchmove', moveHandler);
-    outer.addEventListener('touchend', endHandler);
-    window.addEventListener('resize', resizeHandler);
-};
 module.exports = MSlider;

@@ -33,8 +33,9 @@ var list = [{
 	content:"imgs/9.jpg"
 }];
 	
-new MSlider({
+mslider = new MSlider({
     data: list,
     dom: document.getElementById("canvas"),
-    isVerticle: true
+    isVerticle: false,
+    isLooping: true
 });
