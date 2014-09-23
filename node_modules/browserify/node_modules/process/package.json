@@ -1,0 +1,50 @@
+{
+  "author": {
+    "name": "Roman Shtylman",
+    "email": "shtylman@gmail.com"
+  },
+  "name": "process",
+  "description": "process information for node.js and browsers",
+  "keywords": [
+    "process"
+  ],
+  "version": "0.7.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/shtylman/node-process.git"
+  },
+  "browser": "./browser.js",
+  "main": "./index.js",
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "bugs": {
+    "url": "https://github.com/shtylman/node-process/issues"
+  },
+  "homepage": "https://github.com/shtylman/node-process",
+  "_id": "process@0.7.0",
+  "dist": {
+    "shasum": "c52208161a34adf3812344ae85d3e6150469389d",
+    "tarball": "http://registry.npmjs.org/process/-/process-0.7.0.tgz"
+  },
+  "_from": "process@^0.7.0",
+  "_npmVersion": "1.4.6",
+  "_npmUser": {
+    "name": "shtylman",
+    "email": "shtylman@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "coolaj86",
+      "email": "coolaj86@gmail.com"
+    },
+    {
+      "name": "shtylman",
+      "email": "shtylman@gmail.com"
+    }
+  ],
+  "directories": {},
+  "_shasum": "c52208161a34adf3812344ae85d3e6150469389d",
+  "_resolved": "https://registry.npmjs.org/process/-/process-0.7.0.tgz",
+  "readme": "ERROR: No README data found!"
+}

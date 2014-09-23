@@ -1,0 +1,51 @@
+{
+  "name": "url",
+  "description": "The core `url` packaged standalone for use with Browserify.",
+  "version": "0.10.1",
+  "dependencies": {
+    "punycode": "1.2.4"
+  },
+  "main": "./url.js",
+  "devDependencies": {
+    "assert": "1.1.1",
+    "mocha": "1.18.2",
+    "zuul": "1.6.3"
+  },
+  "scripts": {
+    "test": "mocha --ui qunit test.js && zuul -- test.js",
+    "test-local": "zuul --local -- test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/defunctzombie/node-url.git"
+  },
+  "bugs": {
+    "url": "https://github.com/defunctzombie/node-url/issues"
+  },
+  "homepage": "https://github.com/defunctzombie/node-url",
+  "_id": "url@0.10.1",
+  "dist": {
+    "shasum": "d8eba8f267cec7645ddd93d2cdcf2320c876d25b",
+    "tarball": "http://registry.npmjs.org/url/-/url-0.10.1.tgz"
+  },
+  "_from": "url@~0.10.1",
+  "_npmVersion": "1.4.6",
+  "_npmUser": {
+    "name": "shtylman",
+    "email": "shtylman@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "coolaj86",
+      "email": "coolaj86@gmail.com"
+    },
+    {
+      "name": "shtylman",
+      "email": "shtylman@gmail.com"
+    }
+  ],
+  "directories": {},
+  "_shasum": "d8eba8f267cec7645ddd93d2cdcf2320c876d25b",
+  "_resolved": "https://registry.npmjs.org/url/-/url-0.10.1.tgz",
+  "readme": "ERROR: No README data found!"
+}
