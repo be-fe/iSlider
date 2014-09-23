@@ -9,49 +9,104 @@
 
 <body>
 	<!-- 外层画布 -->
-	<div id="canvas"></div>
+	<div id="outer"><div id="canvas"></div></div>
+
+	<div id="menu" class="menu">
+		<span>isLooping : false</span>
+		<span>isVerticle : false</span>
+		<span>isAutoplay : false</span>
+		<span>changeOrientation</span>
+	</div>
+
 	<script type="text/javascript" src="js/mslider.js"></script>
 	<script type="text/javascript">
 	var list = [{
 		height: 475,
 		width: 400,
-		content: "imgs/1.jpg",
+		content: "pics/1.jpg",
 	},{
 		height: 527,
 		width: 400,
-		content: "imgs/2.jpg",
+		content: "pics/2.jpg",
 	},{
 	 	height: 400,
 	 	width: 512,
-	 	content: "imgs/3.jpg",
+	 	content: "pics/3.jpg",
 	},{
 		height: 400,
 		width: 458,
-		content:"imgs/5.jpg"
+		content:"pics/5.jpg"
 	},{
 		height: 400,
 		width: 498,
-		content:"imgs/6.jpg"
+		content:"pics/6.jpg"
 	},{
 		height: 377,
 		width: 600,
-		content:"imgs/7.jpg"
+		content:"pics/7.jpg"
 	},{
 		height: 396,
 		width: 600,
-		content:"imgs/8.jpg"
+		content:"pics/8.jpg"
 	},{
 		height: 374,
 		width: 600,
-		content:"imgs/9.jpg"
+		content:"pics/9.jpg"
 	}];
 		
-	new MSlider({
+	var mslider = new MSlider({
 	    data: list,
 	    dom: document.getElementById("canvas"),
-	    isVerticle: true
+	    duration: 500
 	});
 
+	(function(){
+		var menu = document.getElementById('menu');
+		var spans = document.getElementsByTagName('span');
+
+		spans[0].onclick = function(){
+			var target = spans[0];
+			if (target.className == 'on') {
+				target.className = '';
+				target.innerText = 'isLooping : false';
+			} else {
+				target.className = 'on';	
+				target.innerText = 'isLooping : true';
+			}
+
+			mslider._opts.isLooping = !mslider._opts.isLooping 
+			mslider.reset();
+		}
+
+		spans[1].onclick = function(){
+			var target = spans[1];
+			if (target.className == 'on') {
+				target.className = '';
+				target.innerText = 'isVerticle : false';
+			} else {
+				target.className = 'on';	
+				target.innerText = 'isVerticle : true';
+			}
+
+			mslider._opts.isVerticle = !mslider._opts.isVerticle;
+			mslider.reset();
+		}
+
+		spans[2].onclick = function(){
+			var target = spans[2];
+			if (target.className == 'on') {
+				target.className = '';
+				target.innerText = 'isAutoplay : false';
+			} else {
+				target.className = 'on';	
+				target.innerText = 'isAutoplay : true';
+			}
+
+			mslider._opts.isAutoplay = !mslider._opts.isAutoplay;
+			mslider.reset();
+		}
+
+	})()
 	</script>
 </body>
 </html>

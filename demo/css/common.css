@@ -1,29 +1,76 @@
 body {
-  margin: 0;
-  padding: 0;
-  background: #333;
-  overflow: hidden;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 li,
 ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
 }
 li {
-  position: absolute;
-  display: -webkit-box;
-  -webkit-box-pack: center;
-  -webkit-box-align: center;
+    position: absolute;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
 }
 li img {
-  max-width: 100%;
-  max-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
+
+.menu {
+    color: #000;
+    font-size: 14px;
+    position: absolute;
+    z-index: 2;
+    top: 100px;
+    left: 350px;
+    height: 40px;
+    width: 150px;
+}
+
+.menu span {
+    display: inline-block;
+    text-align: center;
+    line-height: 24px;
+    padding: 5px 10px;
+    margin: 5px;
+    border: 1px solid #333;
+    cursor: pointer;
+}
+
+.menu span.on{
+    display: inline-block;
+    text-align: center;
+    line-height: 24px;
+    padding: 5px 10px;
+    margin: 5px;
+    border: 1px solid #333;
+    cursor: pointer;
+    color: #fff;
+    background-color: #666;
+}
+
+#outer {
+    height: 600px;
+    width: 400px;
+    background: url('../imgs/bg_1.jpeg') no-repeat center center;
+    background-size: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
 #canvas {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
+    width: 217px;
+    height: 381px;
+    position: absolute;
+    top: 110px;
+    left: 92px;
+    overflow: hidden;
+    background: #333;
 }
+

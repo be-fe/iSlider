@@ -1,13 +1,17 @@
 /**
- * MSlider main method
- * 
+ * MSlider 
+ * A simple, efficency mobile slider
+ * @Author qbatyqi
+ *
  * @param {Object} opts 参数集
  * @param {Element} opts.dom 外层元素 
  * @param {Object} opts.data 数据列表
+ * @param {Boolean} opts.isVerticle 是否竖直滚动
+ * @param {Boolean} opts.isLooping 是否循环
  *
  * @class 
  */
-var MSlider = function(opts) {
+var MSlider = function (opts) {
     if (!opts.dom) {
         throw new Error("dom element can not be empty!");
     }
@@ -16,352 +20,294 @@ var MSlider = function(opts) {
         throw new Error("data must be an array and must have more than one element!");
     }
 
-    this.init(opts);
-    this.renderHTML();
-    this.bindDOM();
+    this._opts = opts;
+    this._setting();
+    this._renderHTML();
+    this._bindHandler();
 };
 
-MSlider.prototype.init = function (opts) {
+//setting parameters for slider
+MSlider.prototype._setting = function () {
+    var opts = this._opts;
 
     this.wrap = opts.dom;
     this.data = opts.data;
-    this.scaleW = window.innerWidth;
-    this.scaleH = window.innerHeight;
-    this.ratio = window.innerHeight / window.innerWidth;
+    
+    //default type
+    this.type = opts.type || 'pic';
+    //default slide direction
     this.isVerticle = opts.isVerticle || false;
+    this.onslide = opts.onslide;
+    this.beforeslide = opts.beforeslide;
+    this.afterslide = opts.afterslide;
+
+    this.duration = opts.duration || 2000;
+
+    this.log = opts.isDebug 
+    ? function (str) { console.log(str) }
+    : function (){};
+
+    this.axis = this.isVerticle ? 'Y' : 'X';
+    this.width = this.wrap.clientWidth;
+    this.height = this.wrap.clientHeight;
+    this.ratio = this.height / this.width;
+    this.scale = opts.isVerticle ? this.height : this.width;
+
+    //start from 0
+    this.picIdx = this.picIdx || 0;
 
     if (this.data.length < 2) {
         this.isLooping = false;
         this.isAutoPlay = false;
     } else {
         this.isLooping = opts.isLooping || false;
-        this.isAutoPlay = opts.isAutoPlay || false;
+        this.isAutoplay = opts.isAutoplay || false;
     }
 
-    this.isVerticle = opts.isVerticle;
-    this.type = opts.type || 'pic';
+    if (this.isAutoplay) {
+        this.play();
+    }
 
-    this.initDomIndex();
-    this.initAutoPlay();
-    this.damplingFunction = this.initDampingFunction(this.scaleW);
+    //set Damping function
+    this._setUpDamping();
 };
 
-/**
- *  利用屏幕的全部滑动距离来进行初始化，
- *  返回一个计算阻尼的函数。
- *  由于dampling效应在滑动时触发，为了尽量优化性能利用闭包进行性能优化。  
- */
-MSlider.prototype.initDampingFunction = function (fullDistance) {
-    var halfOfFull = fullDistance >> 1;
-    var oneFourOfFull = halfOfFull >> 1;
-    var oneEightOfFull = oneFourOfFull >> 1;
-    var threeFourOfFull = halfOfFull + oneFourOfFull;
-    var fiveSixteenOfFull = oneFourOfFull + (oneEightOfFull >> 1);
+//enable damping when slider meet the edge
+MSlider.prototype._setUpDamping = function () {
+    var oneIn2 = this.scale >> 1;
+    var oneIn4 = oneIn2 >> 1;
+    var oneIn16 = oneIn4 >> 2;
 
-    return function (distance) {
-        var negative;
-        if (distance < 0) {
-            distance = -distance;
-            negative = true;
-        }
+    this._damping = function (distance) {
+        var dis = Math.abs(distance);
         var result;
-        if (distance < halfOfFull) {
-            result = distance >> 1;
-        } 
-        else if (distance < threeFourOfFull) {
-            result = oneFourOfFull + (distance - halfOfFull >> 2);
+
+        if (dis < oneIn2) {
+            result = dis >> 1;
+        } else if (dis < oneIn2 + oneIn4) {
+            result = oneIn4 + ((dis - oneIn2) >> 2);
         } else {
-            result = fiveSixteenOfFull + (distance - threeFourOfFull >> 3);
+            result = oneIn4 + oneIn16 + ((dis - oneIn2 - oneIn4) >> 3);
         }
-        if (negative === true) {
-            return -result;
-        } else {
-            return result;
-        }
+
+        return distance > 0 ? result : -result;
     };
 };
 
-/**
- *   初始化 domIndexArr 其中存放的是 dom 中元素在 data 中的索引值。
- *   其最大长度为3。loop时长度一定为3。
- *   不loop时,如果data长度小于3 则长度为 data 长度, 否则长度为3。
- *   idx 值表示视口对准的项目
- */
-MSlider.prototype.initDomIndex = function () {
-    var domIndexArr = [];
+//render single item html by idx
+MSlider.prototype._renderItem = function (i) {
+    var item, html;
+    var len = this.data.length;
+
     if (!this.isLooping) {
-        var loopLength = Math.min(3, this.data.length);
-        for (var i = 0; i < loopLength; i++) {
-            domIndexArr[i] = i;
-        }
-        this.idx = 0;
+        item = this.data[i] || { empty : true };
     } else {
-        domIndexArr[0] = dataLength - 1;
-        domIndexArr[1] = 0;
-        domIndexArr[2] = 1;
-        this.idx = 1;
-    }
-    this.domIndexArr = domIndexArr;
-};
-
-MSlider.prototype.initAutoPlay = function () {
-    if (!this.isAutoPlay){ return; }
-    var self = this;
-    this.autoPlayTimeout = setTimeout(function () {
-        self.goIndex('+1');
-    }, this.isAutoPlay);
-};
-
-MSlider.prototype.clearAutoPlay = function () {
-    clearTimeout(this.autoPlayTimeout);
-};
-
-/*
-    初始化ul列表中的li的时候使用i是li的index。
-*/
-MSlider.prototype.createLi = function (i) {
-    var li = document.createElement('li');
-    var item = this.data[this.domIndexArr[i]];
-    var offsetX = !this.isVerticle ? 0 : this.scaleW * (i - this.idx);
-    var offsetY = this.isVerticle ? 0 : this.scaleH * (i - this.idx);
-
-    li.style.width = this.scaleW + 'px';
-    li.style.height = this.scaleH + 'px';
-    li.style.webkitTransform = 'translate3d(' + offsetX + 'px, ' + offsetY + 'px, 0)';
-
-    if (this.isLayerContent) {
-        li.innerHTML = '<div style="height:' + item.height + '%;width:' + item.width + '%;">' + item.content + '</div>';
-    } else {
-        if (item.height / item.width > this.ratio) {
-            li.innerHTML = '<img height="' + window.innerHeight + '" src="' + item.content + '">';
+        if (i < 0) {
+            item = this.data[len + i];
+        } else if (i > len - 1) {
+            item = this.data[i - len];
         } else {
-            li.innerHTML = '<img width="' + window.innerWidth + '" src="' + item.content + '">';
+            item = this.data[i];
         }
     }
-    return li;
+
+    if (item.empty) {
+        return '';
+    }
+
+    if (this.type === 'pic') {
+        html = item.height / item.width > this.ratio 
+        ? '<img height="' + window.innerHeight + '" src="' + item.content + '">'
+        : '<img width="' + window.innerWidth + '" src="' + item.content + '">';
+    } else if (this.type === 'dom') {
+        html.innerHTML = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
+    }
+
+    return html;
 };
 
-/*
-    重用ul中li的内容更换内容。
-*/
-MSlider.prototype.reUseLi = function (li,negOrPosOne) {
+//render list html
+MSlider.prototype._renderHTML = function () {
+    var outer;
+
+    if (this.outer) {
+        this.outer.innerHTML = '';
+        outer = this.outer;
+    } else {
+        outer = document.createElement('ul');
+    }
+
+    outer.style.width = this.width + 'px';
+    outer.style.height = this.height + 'px';
+
+    //storage li elements
+    this.els = [];
+    for (var i = 0; i < 3; i++) {
+        var li = document.createElement('li');
+        li.style.width = this.width + 'px';
+        li.style.height = this.height + 'px';
+        li.style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
+
+        this.els.push(li);
+        outer.appendChild(li);
+
+        li.innerHTML = this._renderItem(i - 1 + this.picIdx);
+    }
+
+    if (!this.outer) {
+        this.outer = outer;
+        this.wrap.appendChild(outer);
+    }
+};
+
+//logical slider
+MSlider.prototype._slide = function (n) {
     var data = this.data;
-    var domIndexArr = this.domIndexArr;
-    var item = negOrPosOne === -1 ? data[domIndexArr[0]] : data[domIndexArr[2]];
-    if (this.isLayerContent) {
-        li.innerHTML = '<div style="height:' + item.height + '%;width:' + item.width + '%;">' + item.content + '</div>';
+    var els = this.els;
+    var idx = this.picIdx + n;
+    
+    if (!data[idx] && this.isLooping) {
+        this.picIdx = n > 0 ? 0 : data.length - 1;
+    } else if (data[idx]) {
+        this.picIdx = idx;
+    } else {
+        n = 0;
+    }
+
+    this.log('pic idx:' + this.picIdx);
+
+    var sEle;
+    if (n > 0) {
+        sEle = els.shift();
+        els.push(sEle);
+    } else if (n < 0) {
+        sEle = els.pop();
+        els.unshift(sEle);
     } 
-    else {
-        if (item.height / item.width > this.ratio) {
-            li.innerHTML = '<img height="' + window.innerHeight + '" src="' + item.content + '">';
-        } 
-        else {
-            li.innerHTML = '<img width="' + window.innerWidth + '" src="' + item.content + '">';
-        }
+
+    if(n !== 0){
+        sEle.innerHTML = this._renderItem(idx + n);
     }
-};
 
-/*
-    渲染dom
-*/
-MSlider.prototype.renderHTML = function () {
-    var wrap = this.wrap;
-    var data = this.data;
-    var domIndexArr = this.domIndexArr;
-    var domIndexArrLength = domIndexArr.length;
-    this.domIndexArrHash = [];
-    this.outer = document.createElement('ul');
-    for (var i = 0; i < domIndexArrLength; i++) {
-        var li = this.createLi(i);
-        this.outer.appendChild(li);
-        this.domIndexArrHash[i] = li;
-    }
-    this.outer.style.width = this.scaleW + 'px';
-    wrap.style.height = window.innerHeight + 'px';
-    wrap.appendChild(this.outer);
-};
-
-MSlider.prototype.goIndex = function (n) {
-    var domIndexArr = this.domIndexArr;
-    var domIndexArrHash = this.domIndexArrHash;
-    var outer = this.outer;
-    var listLength = this.data.length;
-    var newChild;
-    var tmp;
-    var loop = this.isLooping;
-    var noTransitionTimeId = 3;
-
-
-    if (typeof n !== "string") return;
-    if (n === "+1") {
-        if ( this.idx!==0 && this.idx!==2 ) {
-            if (loop||listLength > 2) {
-                if (loop ||domIndexArr[1] !== listLength -2 ) {
-                    domIndexArr.shift();
-                    domIndexArr.push((domIndexArr[1] + 1) % listLength);
-                    tmp = this.domIndexArrHash.shift();
-                    this.reUseLi(tmp,1);
-                    this.domIndexArrHash.push(tmp);
-                    noTransitionTimeId = 2;
-                    console.log(this.domIndexArrHash);
-                } else {
-                    this.idx = 2;
-                }
-            } 
+    for (var i = 0; i < 3; i++) {
+        if (els[i] !== sEle) {
+            els[i].style.webkitTransition = 'all .2s';
         } else {
-            if (this.idx === 0) {
-                if (listLength==1) {
-                    this.idx = 0;
-                } else {
-                    this.idx = 1;
-                }
-            } 
+            els[i].style.webkitTransition = 'all 0s';
         }
-    } else if (n === "-1") {
-        if ( this.idx!==0 && this.idx !==2) {
-            if (loop || domIndexArr[0] !== 0) {
-                tmp = domIndexArr[0] - 1;
-                tmp = tmp < 0 ? listLength - 1 : tmp;
-                domIndexArr.unshift(tmp);
-                domIndexArr.length = 3;
-                this.domIndexArrHash.unshift(null);
-                tmp = this.domIndexArrHash[3];
-                this.domIndexArrHash.length = 3;
-                this.reUseLi(tmp,-1);
-                this.domIndexArrHash[0] = tmp;
-                noTransitionTimeId = 0;
-                console.log(this.domIndexArrHash);
-            } 
-            else {
-                this.idx = 0;
-            }
-        } 
-        else {
-           if (this.idx === 2) {
-                this.idx = 1;
-           }
-        }
-        
+        els[i].style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
     }
 
-
-
-    for (var i = 0; i < domIndexArrHash.length; i++) {
-        var offsetX = this.isVerticle ? 0 : this.scaleW * (i - this.idx);
-        var offsetY = this.isVerticle ? this.scaleH * (i - this.idx) : 0;
-
-        if (i === noTransitionTimeId) {
-            domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
-        } else {
-            domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0.2s ease-out';
-        }
-        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + offsetX + 'px, '+ offsetY +'px, 0)';
-    }
-    this.initAutoPlay();
+    self.isAutoplay && self.play();
 };
 
-MSlider.prototype.bindDOM = function () {
+//bind all event handler
+MSlider.prototype._bindHandler = function () {
     var self = this;
     var scaleW = self.scaleW;
     var outer = self.outer;
     var len = self.data.length;
 
     var startHandler = function (evt) {
+        self.pause();
+        self.beforeslide && self.beforeslide();
+        self.log('Event: beforeslide');
+
         self.startTime = new Date().getTime();
-        self.startX = evt.touches[0].pageX;
-        self.startY = evt.touches[0].pageY;
-        self.offsetX = self.offsetY = 0;
+        self.startX = evt.targetTouches[0].pageX;
+        self.startY = evt.targetTouches[0].pageY;
+
         var target = evt.target;
         while (target.nodeName != 'LI' && target.nodeName != 'BODY') {
             target = target.parentNode;
         }
         self.target = target;
-        self.clearAutoPlay();
     };
 
     var moveHandler = function (evt) {
         evt.preventDefault();
-        
-        self.offsetX = evt.targetTouches[0].pageX - self.startX;
-        self.offsetY = evt.targetTouches[0].pageY - self.startY;
+        self.onslide && self.onslide();
+        self.log('Event: onslide');
 
-        var arrLength = self.domIndexArrHash.length;
-        var domIndexArrHash = self.domIndexArrHash;
-        for (i = 0; i < arrLength; i++) {
-            if (domIndexArrHash[i]) {
-                domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
-            }
-            if (domIndexArrHash[i]) {
-                if(!self.isVerticle){
-                    if ((self.idx === 0 && self.offsetX > 0) || (self.idx === 2 && self.offsetX < 0)) {
-                        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self.damplingFunction(self.offsetX)) + 'px, 0, 0)';
-                    } else {
-                        domIndexArrHash[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self.offsetX) + 'px, 0, 0)';
-                    }
-                } else {
-                    if ((self.idx === 0 && self.offsetY > 0) || (self.idx === 2 && self.offsetY < 0)) {
-                        domIndexArrHash[i].style.webkitTransform = 'translate3d(0,' + ((i - self.idx) * self.scaleH + self.damplingFunction(self.offsetY)) + 'px, 0)';
-                    } else {
-                        domIndexArrHash[i].style.webkitTransform = 'translate3d(0,' + ((i - self.idx) * self.scaleH + self.offsetY) + 'px, 0)';
-                    }
-                }
-            }
+        
+        var axis = self.axis;
+        var offset = evt.targetTouches[0]['page' + axis] - self['start' + axis];
+
+        if (offset > 0 && self.picIdx === 0 || offset < 0 && self.picIdx === self.data.length - 1) {
+            offset = self._damping(offset);
         }
+
+        for (var i = 0; i < 3; i++) {
+            var item = self.els[i];
+            item.style.webkitTransition = 'all 0s';
+            item.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + self.scale * (i - 1)) + 'px)';
+        }
+
+        self.offset = offset;
     };
+
     var endHandler = function (evt) {
         evt.preventDefault();
 
-        var boundary = self.isVerticle ? self.scaleH / 6 : self.scaleW / 6 ;
-        var metric = self.isVerticle ? self.offsetY : self.offsetX;
+        var boundary = self.scale / 6;
+        var metric = self.offset;
         var endTime = new Date().getTime();
-        var lis = outer.getElementsByTagName('li');
+
         if (endTime - self.startTime > 300) {
             if (metric >= boundary) {
-                self.goIndex('-1');
+                self._slide(-1);
             } else if (metric < -boundary) {
-                self.goIndex('+1');
+                self._slide(1);
             } else {
-                self.goIndex('0');
+                self._slide(0);
             }
         } else {
             if (metric > 50) {
-                self.goIndex('-1');
+                self._slide(-1);
             } else if (metric < -50) {
-                self.goIndex('+1');
+                self._slide(1);
             } else {
-                self.goIndex('0');
+                self._slide(0);
             }
         }
+
+        self.offset = 0;
+        self.afterslide && self.afterslide();
+        self.log('Event: afterslide');
     };
 
-    var resizeHandler = function () {
-       self.ratio = window.innerHeight / window.innerWidth;
-       self.scaleW = window.innerWidth;
-       self.wrap.style.height = window.innerHeight + 'px';
-       self.outer.style.width = self.scaleW + 'px';
-       var domIndexArrHash = self.domIndexArrHash;
-       var domIndexArr = self.domIndexArr;
-       for (var i = domIndexArrHash.length - 1; i >= 0; i--) {
-           domIndexArrHash[i].style.width = self.scaleW + 'px';
-           domIndexArrHash[i].style.webkitTransition = '-webkit-transform 0s ease-out';
-           domIndexArrHash[i].style.webkitTransform = 'translate3d(' + (i-self.idx) * self.scaleW + 'px, 0, 0)';
-           if (self.layerContent === true) continue;
-           var img = domIndexArrHash[i].childNodes[0];
-           var imgData = self.data[domIndexArr[i]];
-           console.log((imgData.height /imgData.width) + " "+ self.ratio);
-           if ((imgData.height /imgData.width) > self.ratio) {
-                img.height = window.innerHeight;
-                img.removeAttribute("width");
-           } else {
-                img.width = self.scaleW;
-                img.removeAttribute("height");
-           }
-
-       }
+    var orientationchangeHandler = function (evt) {
+        setTimeout(function(){
+            self._setting();
+            self._renderHTML();
+            self.log('Event: orientationchange');
+        },100);
     };
+
     outer.addEventListener('touchstart', startHandler);
     outer.addEventListener('touchmove', moveHandler);
     outer.addEventListener('touchend', endHandler);
-    window.addEventListener('resize', resizeHandler);
+    window.addEventListener('orientationchange', orientationchangeHandler);
 };
-module.exports = MSlider;
+
+MSlider.prototype.reset = function () {
+    this.pause();
+    this._setting();
+    this._renderHTML();
+    this.isAutoplay && this.play();
+};
+
+//enable autoplay
+MSlider.prototype.play = function () {
+    var self = this;
+    var duration = this.duration;
+    clearInterval(this.autoPlayTimer);
+    this.autoPlayTimer = setInterval(function () {
+        self._slide(1);
+    }, duration);
+};
+
+//pause autoplay
+MSlider.prototype.pause = function () {
+    clearInterval(this.autoPlayTimer);
+};
