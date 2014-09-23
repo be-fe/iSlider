@@ -21,13 +21,15 @@ var MSlider = function (opts) {
     }
 
     this._opts = opts;
-    this._setting(opts);
+    this._setting();
     this._renderHTML();
     this._bindHandler();
 };
 
 //setting parameters for slider
-MSlider.prototype._setting = function (opts) {
+MSlider.prototype._setting = function () {
+    var opts = this._opts;
+
     this.wrap = opts.dom;
     this.data = opts.data;
     
@@ -39,7 +41,7 @@ MSlider.prototype._setting = function (opts) {
     this.beforeslide = opts.beforeslide;
     this.afterslide = opts.afterslide;
 
-    this.duration = 500;
+    this.duration = opts.duration || 2000;
 
     this.log = opts.isDebug 
     ? function (str) { console.log(str) }
@@ -63,12 +65,11 @@ MSlider.prototype._setting = function (opts) {
     }
 
     if (this.isAutoplay) {
-        this.play(this.duration);
+        this.play();
     }
 
     //set Damping function
     this._setUpDamping();
-
 };
 
 //enable damping when slider meet the edge
@@ -196,6 +197,8 @@ MSlider.prototype._slide = function (n) {
         }
         els[i].style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
     }
+
+    self.isAutoplay && self.play();
 };
 
 //bind all event handler
@@ -259,7 +262,6 @@ MSlider.prototype._bindHandler = function () {
                 self._slide(0);
             }
         } else {
-            self.log(metric);
             if (metric > 50) {
                 self._slide(-1);
             } else if (metric < -50) {
@@ -270,14 +272,13 @@ MSlider.prototype._bindHandler = function () {
         }
 
         self.offset = 0;
-        self.isAutoplay && self.play(self.duration);
         self.afterslide && self.afterslide();
         self.log('Event: afterslide');
     };
 
     var orientationchangeHandler = function (evt) {
         setTimeout(function(){
-            self._setting(self._opts);
+            self._setting();
             self._renderHTML();
             self.log('Event: orientationchange');
         },100);
@@ -289,9 +290,18 @@ MSlider.prototype._bindHandler = function () {
     window.addEventListener('orientationchange', orientationchangeHandler);
 };
 
+MSlider.prototype.reset = function () {
+    this.pause();
+    this._setting();
+    this._renderHTML();
+    this.isAutoplay && this.play();
+};
+
 //enable autoplay
-MSlider.prototype.play = function (duration) {
+MSlider.prototype.play = function () {
     var self = this;
+    var duration = this.duration;
+    clearInterval(this.autoPlayTimer);
     this.autoPlayTimer = setInterval(function () {
         self._slide(1);
     }, duration);
