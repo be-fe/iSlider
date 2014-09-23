@@ -39,8 +39,8 @@ var mslider = new MSlider({
     isVerticle: true
 });
 ```
-
-[demo](http://zxylvlp.github.io/MSlider/demo)
+Here is a example, you may change those parameter if you want and see what happen:
+[demo](http://BE-FE.github.io/MSlider/demo)
 
 TO-DO LIST
 ==========
