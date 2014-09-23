@@ -20,6 +20,7 @@ var MSlider = function (opts) {
         throw new Error("data must be an array and must have more than one element!");
     }
 
+    this._opts = opts;
     this._setting(opts);
     this._renderHTML();
     this._bindHandler();
@@ -29,10 +30,20 @@ var MSlider = function (opts) {
 MSlider.prototype._setting = function (opts) {
     this.wrap = opts.dom;
     this.data = opts.data;
+    
     //default type
     this.type = opts.type || 'pic';
     //default slide direction
     this.isVerticle = opts.isVerticle || false;
+    this.onslide = opts.onslide;
+    this.beforeslide = opts.beforeslide;
+    this.afterslide = opts.afterslide;
+
+    this.duration = 500;
+
+    this.log = opts.isDebug 
+    ? function (str) { console.log(str) }
+    : function (){};
 
     this.axis = this.isVerticle ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
@@ -48,17 +59,16 @@ MSlider.prototype._setting = function (opts) {
         this.isAutoPlay = false;
     } else {
         this.isLooping = opts.isLooping || false;
-        this.isAutoPlay = opts.isAutoPlay || false;
+        this.isAutoplay = opts.isAutoplay || false;
     }
 
-    if (this.isAutoPlay) {
-        this.play(500);
+    if (this.isAutoplay) {
+        this.play(this.duration);
     }
 
-    //storage li elements
-    this.els = [];
     //set Damping function
     this._setUpDamping();
+
 };
 
 //enable damping when slider meet the edge
@@ -84,19 +94,19 @@ MSlider.prototype._setUpDamping = function () {
 };
 
 //render single item html by idx
-MSlider.prototype._renderItem = function (n) {
+MSlider.prototype._renderItem = function (i) {
     var item, html;
     var len = this.data.length;
 
     if (!this.isLooping) {
-        item = this.data[n] || { empty : true };
+        item = this.data[i] || { empty : true };
     } else {
-        if (n < 0) {
-            item = this.data[len + n];
-        } else if (n > len - 1) {
-            item = this.data[n - len];
+        if (i < 0) {
+            item = this.data[len + i];
+        } else if (i > len - 1) {
+            item = this.data[i - len];
         } else {
-            item = this.data[n];
+            item = this.data[i];
         }
     }
 
@@ -117,10 +127,20 @@ MSlider.prototype._renderItem = function (n) {
 
 //render list html
 MSlider.prototype._renderHTML = function () {
-    var outer = document.createElement('ul');
+    var outer;
+
+    if (this.outer) {
+        this.outer.innerHTML = '';
+        outer = this.outer;
+    } else {
+        outer = document.createElement('ul');
+    }
+
     outer.style.width = this.width + 'px';
     outer.style.height = this.height + 'px';
 
+    //storage li elements
+    this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
         li.style.width = this.width + 'px';
@@ -132,8 +152,11 @@ MSlider.prototype._renderHTML = function () {
 
         li.innerHTML = this._renderItem(i - 1 + this.picIdx);
     }
-    this.outer = outer;
-    this.wrap.appendChild(outer);
+
+    if (!this.outer) {
+        this.outer = outer;
+        this.wrap.appendChild(outer);
+    }
 };
 
 //logical slider
@@ -142,6 +165,16 @@ MSlider.prototype._slide = function (n) {
     var els = this.els;
     var idx = this.picIdx + n;
     
+    if (!data[idx] && this.isLooping) {
+        this.picIdx = n > 0 ? 0 : data.length - 1;
+    } else if (data[idx]) {
+        this.picIdx = idx;
+    } else {
+        n = 0;
+    }
+
+    this.log('pic idx:' + this.picIdx);
+
     var sEle;
     if (n > 0) {
         sEle = els.shift();
@@ -155,15 +188,11 @@ MSlider.prototype._slide = function (n) {
         sEle.innerHTML = this._renderItem(idx + n);
     }
 
-    if (!data[idx] && this.isLooping) {
-        this.picIdx = n > 0 ? 0 : data.length - 1;
-    } else {
-        this.picIdx = idx;
-    }
-
     for (var i = 0; i < 3; i++) {
         if (els[i] !== sEle) {
             els[i].style.webkitTransition = 'all .2s';
+        } else {
+            els[i].style.webkitTransition = 'all 0s';
         }
         els[i].style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
     }
@@ -179,6 +208,7 @@ MSlider.prototype._bindHandler = function () {
     var startHandler = function (evt) {
         self.pause();
         self.beforeslide && self.beforeslide();
+        self.log('Event: beforeslide');
 
         self.startTime = new Date().getTime();
         self.startX = evt.targetTouches[0].pageX;
@@ -189,12 +219,13 @@ MSlider.prototype._bindHandler = function () {
             target = target.parentNode;
         }
         self.target = target;
-
     };
 
     var moveHandler = function (evt) {
         evt.preventDefault();
         self.onslide && self.onslide();
+        self.log('Event: onslide');
+
         
         var axis = self.axis;
         var offset = evt.targetTouches[0]['page' + axis] - self['start' + axis];
@@ -211,6 +242,7 @@ MSlider.prototype._bindHandler = function () {
 
         self.offset = offset;
     };
+
     var endHandler = function (evt) {
         evt.preventDefault();
 
@@ -227,6 +259,7 @@ MSlider.prototype._bindHandler = function () {
                 self._slide(0);
             }
         } else {
+            self.log(metric);
             if (metric > 50) {
                 self._slide(-1);
             } else if (metric < -50) {
@@ -236,13 +269,18 @@ MSlider.prototype._bindHandler = function () {
             }
         }
 
-        self.isAutoPlay && self.play();
+        self.offset = 0;
+        self.isAutoplay && self.play(self.duration);
         self.afterslide && self.afterslide();
+        self.log('Event: afterslide');
     };
 
     var orientationchangeHandler = function (evt) {
-        //reset
-
+        setTimeout(function(){
+            self._setting(self._opts);
+            self._renderHTML();
+            self.log('Event: orientationchange');
+        },100);
     };
 
     outer.addEventListener('touchstart', startHandler);
@@ -254,14 +292,14 @@ MSlider.prototype._bindHandler = function () {
 //enable autoplay
 MSlider.prototype.play = function (duration) {
     var self = this;
-    this.autoPlayTimer = setTimeout(function () {
-        self.goIndex('+1');
+    this.autoPlayTimer = setInterval(function () {
+        self._slide(1);
     }, duration);
 };
 
 //pause autoplay
 MSlider.prototype.pause = function () {
-    clearTimeout(this.autoPlayTimer);
+    clearInterval(this.autoPlayTimer);
 };
 
 module.exports = MSlider;
