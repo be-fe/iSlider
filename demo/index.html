@@ -101,6 +101,7 @@
 
 			mslider._opts.isVerticle = !mslider._opts.isVerticle;
 			mslider.reset();
+			window.scrollTo(0, 1);
 		}
 
 		spans[2].onclick = function(){
@@ -115,6 +116,7 @@
 
 			mslider._opts.isAutoplay = !mslider._opts.isAutoplay;
 			mslider.reset();
+			window.scrollTo(0, 1);
 		}
 
 		spans[3].onclick = function(){
@@ -145,9 +147,11 @@
 					mslider.reset();
 				}, 200);
 			}
+
+			window.scrollTo(0, 1);
 		}
 
-		if (true) {
+		if (navigator.userAgent.match(/(iPhone\sOS)\s([\d_]+)|(Android)\s+([\d.]+)/)) {
 			var menu = document.getElementById('menu');
 			var tip = document.getElementById('tip');
 			var flag = false;
@@ -175,6 +179,8 @@
 					tip.className = tip.className == 'show' ? '' : 'show';
 				}
 				flag = false;
+
+				window.scrollTo(0, 1);
 			}, true)
 			
 			menu.className = 'show';
