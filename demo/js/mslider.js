@@ -265,9 +265,9 @@ MSlider.prototype._bindHandler = function () {
                 self._slide(0);
             }
         } else {
-            if (metric > 20) {
+            if (metric > 14) {
                 self._slide(-1);
-            } else if (metric < -20) {
+            } else if (metric < -14) {
                 self._slide(1);
             } else {
                 self._slide(0);
