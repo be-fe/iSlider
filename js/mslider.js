@@ -37,9 +37,11 @@ MSlider.prototype._setting = function () {
     this.type = opts.type || 'pic';
     //default slide direction
     this.isVerticle = opts.isVerticle || false;
+    //slide events
     this.onslide = opts.onslide;
-    this.beforeslide = opts.beforeslide;
-    this.afterslide = opts.afterslide;
+    this.onslidestart = opts.onslidestart;
+    this.onslideend = opts.onslideend;
+    this.onslidechange = opts.onslidechange;
 
     this.duration = opts.duration || 2000;
 
@@ -187,6 +189,7 @@ MSlider.prototype._slide = function (n) {
 
     if(n !== 0){
         sEle.innerHTML = this._renderItem(idx + n);
+        this.onslidechange && this.onslidechange();
     }
 
     for (var i = 0; i < 3; i++) {
@@ -198,7 +201,7 @@ MSlider.prototype._slide = function (n) {
         els[i].style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
     }
 
-    self.isAutoplay && self.play();
+    this.isAutoplay && this.play();
 };
 
 //bind all event handler
@@ -210,7 +213,7 @@ MSlider.prototype._bindHandler = function () {
 
     var startHandler = function (evt) {
         self.pause();
-        self.beforeslide && self.beforeslide();
+        self.onslidestart && self.onslidestart();
         self.log('Event: beforeslide');
 
         self.startTime = new Date().getTime();
@@ -272,7 +275,7 @@ MSlider.prototype._bindHandler = function () {
         }
 
         self.offset = 0;
-        self.afterslide && self.afterslide();
+        self.onslideend && self.onslideend();
         self.log('Event: afterslide');
     };
 
