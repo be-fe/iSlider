@@ -256,22 +256,16 @@ MSlider.prototype._bindHandler = function () {
         var metric = self.offset;
         var endTime = new Date().getTime();
 
-        if (endTime - self.startTime > 400) {
-            if (metric >= boundary) {
-                self._slide(-1);
-            } else if (metric < -boundary) {
-                self._slide(1);
-            } else {
-                self._slide(0);
-            }
+        //a quick slide time must under 300ms
+        //a quick slide should also slide at least 14 px
+        boundary = endTime - self.startTime > 300 ? boundary : 14;
+
+        if (metric >= boundary) {
+            self._slide(-1);
+        } else if (metric < -boundary) {
+            self._slide(1);
         } else {
-            if (metric > 14) {
-                self._slide(-1);
-            } else if (metric < -14) {
-                self._slide(1);
-            } else {
-                self._slide(0);
-            }
+            self._slide(0);
         }
 
         self.offset = 0;
