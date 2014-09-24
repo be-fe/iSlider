@@ -252,7 +252,7 @@ MSlider.prototype._bindHandler = function () {
     var endHandler = function (evt) {
         evt.preventDefault();
 
-        var boundary = self.scale / 4;
+        var boundary = self.scale / 2;
         var metric = self.offset;
         var endTime = new Date().getTime();
 
