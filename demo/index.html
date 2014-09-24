@@ -65,6 +65,10 @@
 	    data: list,
 	    dom: document.getElementById("canvas"),
 	    duration: 1500,
+	    onslidebefore: function() {
+	    	window.scrollTo(0, 1);
+	    	mslider.reset();
+	    },
 	   	onslidechange: function(){
 	   		var idx = document.getElementById('info').getElementsByTagName('strong')[0];
 	   		idx.innerText = mslider.picIdx;
