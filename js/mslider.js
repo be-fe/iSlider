@@ -194,7 +194,7 @@ MSlider.prototype._slide = function (n) {
 
     for (var i = 0; i < 3; i++) {
         if (els[i] !== sEle) {
-            els[i].style.webkitTransition = 'all .2s';
+            els[i].style.webkitTransition = 'all .3s ease';
         } else {
             els[i].style.webkitTransition = 'all 0s';
         }
@@ -252,26 +252,20 @@ MSlider.prototype._bindHandler = function () {
     var endHandler = function (evt) {
         evt.preventDefault();
 
-        var boundary = self.scale / 6;
+        var boundary = self.scale / 3;
         var metric = self.offset;
         var endTime = new Date().getTime();
 
-        if (endTime - self.startTime > 300) {
-            if (metric >= boundary) {
-                self._slide(-1);
-            } else if (metric < -boundary) {
-                self._slide(1);
-            } else {
-                self._slide(0);
-            }
+        //a quick slide time must under 300ms
+        //a quick slide should also slide at least 14 px
+        boundary = endTime - self.startTime > 300 ? boundary : 14;
+
+        if (metric >= boundary) {
+            self._slide(-1);
+        } else if (metric < -boundary) {
+            self._slide(1);
         } else {
-            if (metric > 50) {
-                self._slide(-1);
-            } else if (metric < -50) {
-                self._slide(1);
-            } else {
-                self._slide(0);
-            }
+            self._slide(0);
         }
 
         self.offset = 0;
