@@ -112,3 +112,45 @@ li img {
     background: #333;
 }
 
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+
+    #content {
+        height: 100%;
+        width: 100%;        
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    #outer {
+        height: 100%;
+        width: 100%;
+        background: #fff;
+    }
+    #tip {
+        position: absolute;
+        font-size: 12px;
+        background: #fff;
+        opacity: 0.8;
+    }
+
+    #canvas {
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background: #fff
+    }
+
+    #menu {
+        top: auto;
+        bottom: 10px;
+        left: 10px;
+    }
+
+    #menu span:last-child{
+        display: none;
+    }
+}
