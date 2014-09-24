@@ -194,7 +194,7 @@ MSlider.prototype._slide = function (n) {
 
     for (var i = 0; i < 3; i++) {
         if (els[i] !== sEle) {
-            els[i].style.webkitTransition = 'all .2s';
+            els[i].style.webkitTransition = 'all .3s ease';
         } else {
             els[i].style.webkitTransition = 'all 0s';
         }
@@ -256,7 +256,7 @@ MSlider.prototype._bindHandler = function () {
         var metric = self.offset;
         var endTime = new Date().getTime();
 
-        if (endTime - self.startTime > 300) {
+        if (endTime - self.startTime > 400) {
             if (metric >= boundary) {
                 self._slide(-1);
             } else if (metric < -boundary) {
@@ -265,9 +265,9 @@ MSlider.prototype._bindHandler = function () {
                 self._slide(0);
             }
         } else {
-            if (metric > 50) {
+            if (metric > 20) {
                 self._slide(-1);
-            } else if (metric < -50) {
+            } else if (metric < -20) {
                 self._slide(1);
             } else {
                 self._slide(0);

@@ -49,7 +49,7 @@ li img {
     top: 100px;
     left: 350px;
     width: 200px;
-    -webkit-transition: all .2s;
+    -webkit-transition: all .2s ease;
 }
 
 .rotated_menu {
@@ -99,7 +99,7 @@ li img {
     background-size: 100%;
     overflow: hidden;
     position: relative;
-    -webkit-transition: all .2s;
+    -webkit-transition: all .3s;
 }
 
 #canvas {
