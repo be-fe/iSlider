@@ -148,6 +148,20 @@ and (max-device-width : 480px) {
         top: auto;
         bottom: 10px;
         left: 10px;
+        font-size: 14px;
+        width: 100%;
+    }
+
+    #menu span, #menu span.on{
+        line-height: 18px;
+        padding: 2px 4px;
+        font-size: 12px;
+        background: #FFF;
+    }
+
+    #menu span.on{
+        color: #FFF;
+        background: #999;
     }
 
     #menu span:last-child{
