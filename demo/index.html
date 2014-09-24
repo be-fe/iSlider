@@ -8,7 +8,7 @@
 
 </head>
 <body>
-	<div id="tip">
+	<div id="tip" >
 		<p>Please use webkit browser to watch this example.</p>
 		<p>If you want to try touch Event please make sure you already turn on developer tool "Emulate touch screen".</p>
 		<p>Feel free to submit issue or bug to this project, address is <a href="https://github.com/BE-FE/MSlider">https://github.com/BE-FE/MSlider</a></div>
@@ -147,6 +147,44 @@
 			}
 		}
 
+		if (true) {
+			var menu = document.getElementById('menu');
+			var tip = document.getElementById('tip');
+			var flag = false;
+			var isChild = function (child, parent) {
+				var target = child;
+		        
+		        while (target !== parent && target !== document.body) {
+		            target = target.parentNode;
+		        }
+				
+				return target === parent;
+			}
+
+			window.addEventListener('touchmove', function (evt) {
+				flag = true;
+			}, true);
+
+			window.addEventListener('touchend', function (evt) {
+				if (!flag) {
+					if (isChild(evt.target, tip) || isChild(evt.target, menu)) {
+						flag = false;
+						return;
+					}
+					menu.className = menu.className == 'show' ? '' : 'show';
+					tip.className = tip.className == 'show' ? '' : 'show';
+				}
+				flag = false;
+			}, true)
+			
+			menu.className = 'show';
+			tip.className = 'show';
+			setTimeout(function(){
+				menu.className = '';
+				tip.className = '';
+			}, 500);
+		}
+		
 	})()
 	</script>
 </body>

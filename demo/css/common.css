@@ -127,13 +127,20 @@ and (max-device-width : 480px) {
     #outer {
         height: 100%;
         width: 100%;
-        background: #fff;
     }
+
     #tip {
         position: absolute;
         font-size: 12px;
         background: #fff;
         opacity: 0.8;
+        margin-top: -100%;
+        -webkit-transform: translateZ(0);
+        -webkit-transition: all 0.4s ease; 
+    }
+
+    #tip.show {
+        margin-top: 0;
     }
 
     #canvas {
@@ -141,7 +148,7 @@ and (max-device-width : 480px) {
         width: 100%;
         top: 0;
         left: 0;
-        background: #fff
+        background: #666;
     }
 
     #menu {
@@ -150,6 +157,10 @@ and (max-device-width : 480px) {
         left: 10px;
         font-size: 14px;
         width: 100%;
+        margin-bottom: -100%;
+    }
+    #menu.show {
+        margin-bottom: 0;
     }
 
     #menu span, #menu span.on{
