@@ -21,15 +21,24 @@ li img {
     max-width: 100%;
     max-height: 100%;
 }
-
-#info {
-    position: absolute;
-    top: 20px;
-    left: 60px;
+#tip {
+    padding: 10px;
+    z-index: 4;
 }
 
-#info strong {
-    
+#tip p {
+    margin: 5px 0;
+}
+
+#content {
+    position: relative;
+    overflow: hidden;
+}
+#info {
+    position: absolute;
+    top: 68px;
+    left: 360px;
+    z-index: 4;
 }
 
 #menu {
@@ -44,21 +53,21 @@ li img {
 }
 
 .rotated_menu {
-    top: 60px!important;
+    top: 14px!important;
     left: 40px!important;
     width: auto!important;
 }
 
 .rotated_outer {
     -webkit-transform: rotate(90deg);
-    -webkit-transform-origin: 60% 58%;
+    -webkit-transform-origin: 60% 48%%;
 }
 
 .rotated_canvas {
     width: 381px!important;
     height: 217px!important;
-    top: 200px!important;
-    left: 97px!important;
+    top: 140px!important;
+    left: 89px!important;
 }
 
 #menu span {
@@ -86,7 +95,7 @@ li img {
 #outer {
     height: 600px;
     width: 400px;
-    background: url('../imgs/bg_1.jpeg') no-repeat center center;
+    background: url('../imgs/bg_1.jpeg') no-repeat top center;
     background-size: 100%;
     overflow: hidden;
     position: relative;
@@ -97,7 +106,7 @@ li img {
     width: 217px;
     height: 381px;
     position: absolute;
-    top: 110px;
+    top: 58px;
     left: 92px;
     overflow: hidden;
     background: #333;
