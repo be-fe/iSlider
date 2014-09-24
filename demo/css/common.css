@@ -22,18 +22,46 @@ li img {
     max-height: 100%;
 }
 
-.menu {
+#info {
+    position: absolute;
+    top: 20px;
+    left: 60px;
+}
+
+#info strong {
+    
+}
+
+#menu {
     color: #000;
     font-size: 14px;
     position: absolute;
     z-index: 2;
     top: 100px;
     left: 350px;
-    height: 40px;
-    width: 150px;
+    width: 200px;
+    -webkit-transition: all .2s;
 }
 
-.menu span {
+.rotated_menu {
+    top: 60px!important;
+    left: 40px!important;
+    width: auto!important;
+}
+
+.rotated_outer {
+    -webkit-transform: rotate(90deg);
+    -webkit-transform-origin: 60% 58%;
+}
+
+.rotated_canvas {
+    width: 381px!important;
+    height: 217px!important;
+    top: 200px!important;
+    left: 97px!important;
+}
+
+#menu span {
     display: inline-block;
     text-align: center;
     line-height: 24px;
@@ -43,7 +71,7 @@ li img {
     cursor: pointer;
 }
 
-.menu span.on{
+#menu span.on{
     display: inline-block;
     text-align: center;
     line-height: 24px;
@@ -62,6 +90,7 @@ li img {
     background-size: 100%;
     overflow: hidden;
     position: relative;
+    -webkit-transition: all .2s;
 }
 
 #canvas {
