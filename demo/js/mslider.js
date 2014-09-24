@@ -6,7 +6,7 @@
  * @param {Object} opts 参数集
  * @param {Element} opts.dom 外层元素 
  * @param {Object} opts.data 数据列表
- * @param {Boolean} opts.isVerticle 是否竖直滚动
+ * @param {Boolean} opts.isVertical 是否竖直滚动
  * @param {Boolean} opts.isLooping 是否循环
  *
  * @class 
@@ -36,7 +36,7 @@ MSlider.prototype._setting = function () {
     //default type
     this.type = opts.type || 'pic';
     //default slide direction
-    this.isVerticle = opts.isVerticle || false;
+    this.isVertical = opts.isVertical || false;
     //slide events
     this.onslide = opts.onslide;
     this.onslidestart = opts.onslidestart;
@@ -49,11 +49,11 @@ MSlider.prototype._setting = function () {
     ? function (str) { console.log(str) }
     : function (){};
 
-    this.axis = this.isVerticle ? 'Y' : 'X';
+    this.axis = this.isVertical ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
     this.height = this.wrap.clientHeight;
     this.ratio = this.height / this.width;
-    this.scale = opts.isVerticle ? this.height : this.width;
+    this.scale = opts.isVertical ? this.height : this.width;
 
     //start from 0
     this.picIdx = this.picIdx || 0;
@@ -119,8 +119,8 @@ MSlider.prototype._renderItem = function (i) {
 
     if (this.type === 'pic') {
         html = item.height / item.width > this.ratio 
-        ? '<img height="' + window.innerHeight + '" src="' + item.content + '">'
-        : '<img width="' + window.innerWidth + '" src="' + item.content + '">';
+        ? '<img height="' + this.height + '" src="' + item.content + '">'
+        : '<img width="' + this.width + '" src="' + item.content + '">';
     } else if (this.type === 'dom') {
         html.innerHTML = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
     }

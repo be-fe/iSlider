@@ -18,7 +18,7 @@
 		<div id="outer"><div id="canvas"></div></div>
 		<div id="menu">
 			<span>isLooping: false</span>
-			<span>isVerticle: false</span>
+			<span>isVertical: false</span>
 			<span>isAutoplay: false</span>
 			<span>changeOrientation: 90</span>
 		</div>
@@ -65,10 +65,6 @@
 	    data: list,
 	    dom: document.getElementById("canvas"),
 	    duration: 1500,
-	    onslidebefore: function() {
-	    	window.scrollTo(0, 1);
-	    	mslider.reset();
-	    },
 	   	onslidechange: function(){
 	   		var idx = document.getElementById('info').getElementsByTagName('strong')[0];
 	   		idx.innerText = mslider.picIdx;
@@ -97,15 +93,14 @@
 			var target = spans[1];
 			if (target.className == 'on') {
 				target.className = '';
-				target.innerText = 'isVerticle: false';
+				target.innerText = 'isVertical: false';
 			} else {
 				target.className = 'on';	
-				target.innerText = 'isVerticle: true';
+				target.innerText = 'isVertical: true';
 			}
 
-			mslider._opts.isVerticle = !mslider._opts.isVerticle;
+			mslider._opts.isVertical = !mslider._opts.isVertical;
 			mslider.reset();
-			window.scrollTo(0, 1);
 		}
 
 		spans[2].onclick = function(){
@@ -120,7 +115,6 @@
 
 			mslider._opts.isAutoplay = !mslider._opts.isAutoplay;
 			mslider.reset();
-			window.scrollTo(0, 1);
 		}
 
 		spans[3].onclick = function(){
@@ -151,8 +145,6 @@
 					mslider.reset();
 				}, 200);
 			}
-
-			window.scrollTo(0, 1);
 		}
 
 		if (navigator.userAgent.match(/(iPhone\sOS)\s([\d_]+)|(Android)\s+([\d.]+)/)) {
@@ -194,7 +186,6 @@
 				tip.className = '';
 			}, 3000);
 		}
-		
 	})()
 	</script>
 </body>
