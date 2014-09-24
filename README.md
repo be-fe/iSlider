@@ -36,7 +36,7 @@ var MSlider = require('./mslider');
 var mslider = new MSlider({
     data: list,
     dom: document.getElementById("canvas"),
-    isVerticle: true
+    isVertical: true
 });
 ```
 Here is a example, you may change those parameter if you want and see what happen:
