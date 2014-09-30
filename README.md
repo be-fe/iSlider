@@ -49,7 +49,8 @@ TO-DO LIST
 * ~~Add damping effect when meeting the edge of the list~~
 * ~~handle onorientationchange Event~~
 * ~~Add layer slider not just pic slider~~
-* Add callback functional like onBeforeSlide onAfterSlide onSlide 
+* ~~Add callback functional like onBeforeSlide onAfterSlide onSlide 
+* add more ways to animate layer
 
 
 License
