@@ -122,7 +122,7 @@ MSlider.prototype._renderItem = function (i) {
         ? '<img height="' + this.height + '" src="' + item.content + '">'
         : '<img width="' + this.width + '" src="' + item.content + '">';
     } else if (this.type === 'dom') {
-        html.innerHTML = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
+        html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
     }
 
     return html;
@@ -201,7 +201,13 @@ MSlider.prototype._slide = function (n) {
         els[i].style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
     }
 
-    this.isAutoplay && this.play();
+    if (this.isAutoplay) {
+        if (this.picIdx === data.length - 1 && !this.isLooping) {
+            this.pause();
+        } else {
+            this.play();
+        }
+    }
 };
 
 //bind all event handler
@@ -252,7 +258,7 @@ MSlider.prototype._bindHandler = function () {
     var endHandler = function (evt) {
         evt.preventDefault();
 
-        var boundary = self.scale / 3;
+        var boundary = self.scale / 2;
         var metric = self.offset;
         var endTime = new Date().getTime();
 
