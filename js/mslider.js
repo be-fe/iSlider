@@ -45,9 +45,7 @@ MSlider.prototype._setting = function () {
 
     this.duration = opts.duration || 2000;
 
-    this.log = opts.isDebug 
-    ? function (str) { console.log(str) }
-    : function (){};
+    this.log = opts.isDebug ? function (str) { console.log(str) } : function (){};
 
     this.axis = this.isVertical ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
@@ -56,7 +54,7 @@ MSlider.prototype._setting = function () {
     this.scale = opts.isVertical ? this.height : this.width;
 
     //start from 0
-    this.picIdx = this.picIdx || 0;
+    this.cIdx = this.cIdx || 0;
 
     if (this.data.length < 2) {
         this.isLooping = false;
@@ -153,7 +151,7 @@ MSlider.prototype._renderHTML = function () {
         this.els.push(li);
         outer.appendChild(li);
 
-        li.innerHTML = this._renderItem(i - 1 + this.picIdx);
+        li.innerHTML = this._renderItem(i - 1 + this.cIdx);
     }
 
     if (!this.outer) {
@@ -166,17 +164,20 @@ MSlider.prototype._renderHTML = function () {
 MSlider.prototype._slide = function (n) {
     var data = this.data;
     var els = this.els;
-    var idx = this.picIdx + n;
+    var idx = this.cIdx + n;
     
-    if (!data[idx] && this.isLooping) {
-        this.picIdx = n > 0 ? 0 : data.length - 1;
-    } else if (data[idx]) {
-        this.picIdx = idx;
+
+    if (data[idx]){
+        this.cIdx = idx;
     } else {
-        n = 0;
+        if (this.isLooping) {
+            this.cIdx = n > 0 ? 0 : data.length - 1;    
+        } else {
+            n = 0;
+        }
     }
 
-    this.log('pic idx:' + this.picIdx);
+    this.log('pic idx:' + this.cIdx);
 
     var sEle;
     if (n > 0) {
@@ -202,7 +203,7 @@ MSlider.prototype._slide = function (n) {
     }
 
     if (this.isAutoplay) {
-        if (this.picIdx === data.length - 1 && !this.isLooping) {
+        if (this.cIdx === data.length - 1 && !this.isLooping) {
             this.pause();
         } else {
             this.play();
@@ -242,8 +243,10 @@ MSlider.prototype._bindHandler = function () {
         var axis = self.axis;
         var offset = evt.targetTouches[0]['page' + axis] - self['start' + axis];
 
-        if (offset > 0 && self.picIdx === 0 || offset < 0 && self.picIdx === self.data.length - 1) {
-            offset = self._damping(offset);
+        if (!self.isLooping) {
+            if (offset > 0 && self.cIdx === 0 || offset < 0 && self.cIdx === self.data.length - 1) {
+                offset = self._damping(offset);
+            }
         }
 
         for (var i = 0; i < 3; i++) {
