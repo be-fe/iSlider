@@ -70,7 +70,29 @@ MSlider.prototype._setting = function () {
 
     //set Damping function
     this._setUpDamping();
+
+    //animate
+    this.animateType = 'default';
+    var animateList = ['default'];
+    for (i=0; i<animateList.length; i++){
+        if (opts.animateType == animateList[i]){
+            this.animateType = opts.animateType;
+            break;
+        }
+    };
+    this._animate = {
+        'default': function (dom, axis, scale, i, offset){
+            if (offset){
+                dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+            }
+            else{
+                dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + scale * (i - 1) + 'px)';
+            }
+        }
+    };
+
 };
+
 
 //enable damping when slider meet the edge
 MSlider.prototype._setUpDamping = function () {
@@ -146,7 +168,7 @@ MSlider.prototype._renderHTML = function () {
         var li = document.createElement('li');
         li.style.width = this.width + 'px';
         li.style.height = this.height + 'px';
-        li.style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
+        this._animate[this.animateType](li, this.axis, this.scale, i);
 
         this.els.push(li);
         outer.appendChild(li);
@@ -199,7 +221,7 @@ MSlider.prototype._slide = function (n) {
         } else {
             els[i].style.webkitTransition = 'all 0s';
         }
-        els[i].style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
+        this._animate[this.animateType](els[i], this.axis, this.scale, i);
     }
 
     if (this.isAutoplay) {
@@ -252,7 +274,8 @@ MSlider.prototype._bindHandler = function () {
         for (var i = 0; i < 3; i++) {
             var item = self.els[i];
             item.style.webkitTransition = 'all 0s';
-            item.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + self.scale * (i - 1)) + 'px)';
+            self._animate[self.animateType](item, axis, self.scale, i, offset);
+            //item.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + self.scale * (i - 1)) + 'px)';
         }
 
         self.offset = offset;
