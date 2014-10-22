@@ -54,7 +54,7 @@ MSlider.prototype._setting = function () {
     this.scale = opts.isVertical ? this.height : this.width;
 
     //start from 0
-    this.slideIdx = this.slideIdx || 0;
+    this.cIdx = this.cIdx || 0;
 
     if (this.data.length < 2) {
         this.isLooping = false;
@@ -151,7 +151,7 @@ MSlider.prototype._renderHTML = function () {
         this.els.push(li);
         outer.appendChild(li);
 
-        li.innerHTML = this._renderItem(i - 1 + this.slideIdx);
+        li.innerHTML = this._renderItem(i - 1 + this.cIdx);
     }
 
     if (!this.outer) {
@@ -164,20 +164,20 @@ MSlider.prototype._renderHTML = function () {
 MSlider.prototype._slide = function (n) {
     var data = this.data;
     var els = this.els;
-    var idx = this.slideIdx + n;
+    var idx = this.cIdx + n;
     
 
     if (data[idx]){
-        this.slideIdx = idx;
+        this.cIdx = idx;
     } else {
         if (this.isLooping) {
-            this.slideIdx = n > 0 ? 0 : data.length - 1;    
+            this.cIdx = n > 0 ? 0 : data.length - 1;    
         } else {
             n = 0;
         }
     }
 
-    this.log('pic idx:' + this.slideIdx);
+    this.log('pic idx:' + this.cIdx);
 
     var sEle;
     if (n > 0) {
@@ -203,7 +203,7 @@ MSlider.prototype._slide = function (n) {
     }
 
     if (this.isAutoplay) {
-        if (this.slideIdx === data.length - 1 && !this.isLooping) {
+        if (this.cIdx === data.length - 1 && !this.isLooping) {
             this.pause();
         } else {
             this.play();
@@ -244,7 +244,7 @@ MSlider.prototype._bindHandler = function () {
         var offset = evt.targetTouches[0]['page' + axis] - self['start' + axis];
 
         if (!self.isLooping) {
-            if (offset > 0 && self.slideIdx === 0 || offset < 0 && self.slideIdx === self.data.length - 1) {
+            if (offset > 0 && self.cIdx === 0 || offset < 0 && self.cIdx === self.data.length - 1) {
                 offset = self._damping(offset);
             }
         }
@@ -317,5 +317,3 @@ MSlider.prototype.play = function () {
 MSlider.prototype.pause = function () {
     clearInterval(this.autoPlayTimer);
 };
-
-module.exports = MSlider;
