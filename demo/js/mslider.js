@@ -30,7 +30,10 @@ var MSlider = function (opts) {
 MSlider.prototype._setting = function () {
     var opts = this._opts;
 
+    //dom element wrapping pics
     this.wrap = opts.dom;
+
+    //pics data
     this.data = opts.data;
     
     //default type
@@ -45,6 +48,7 @@ MSlider.prototype._setting = function () {
 
     this.duration = opts.duration || 2000;
 
+    //debug mode
     this.log = opts.isDebug ? function (str) { console.log(str) } : function (){};
 
     this.axis = this.isVertical ? 'Y' : 'X';
@@ -131,16 +135,19 @@ MSlider.prototype._renderHTML = function () {
     var outer;
 
     if (this.outer) {
+        //used for reset
         this.outer.innerHTML = '';
         outer = this.outer;
     } else {
+        //used ofr initialization
         outer = document.createElement('ul');
     }
 
+    //ul width equels to div#canvas width
     outer.style.width = this.width + 'px';
     outer.style.height = this.height + 'px';
 
-    //storage li elements
+    //storage li elements, only store 3 elements to reduce memory usage
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
@@ -154,13 +161,14 @@ MSlider.prototype._renderHTML = function () {
         li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
     }
 
+    //append ul to div#canvas
     if (!this.outer) {
         this.outer = outer;
         this.wrap.appendChild(outer);
     }
 };
 
-//logical slider
+//logical slider, control left or right
 MSlider.prototype._slide = function (n) {
     var data = this.data;
     var els = this.els;
