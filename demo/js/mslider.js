@@ -54,7 +54,7 @@ MSlider.prototype._setting = function () {
     this.scale = opts.isVertical ? this.height : this.width;
 
     //start from 0
-    this.cIdx = this.cIdx || 0;
+    this.sliderIndex = this.sliderIndex || 0;
 
     if (this.data.length < 2) {
         this.isLooping = false;
@@ -151,7 +151,7 @@ MSlider.prototype._renderHTML = function () {
         this.els.push(li);
         outer.appendChild(li);
 
-        li.innerHTML = this._renderItem(i - 1 + this.cIdx);
+        li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
     }
 
     if (!this.outer) {
@@ -164,20 +164,20 @@ MSlider.prototype._renderHTML = function () {
 MSlider.prototype._slide = function (n) {
     var data = this.data;
     var els = this.els;
-    var idx = this.cIdx + n;
+    var idx = this.sliderIndex + n;
     
 
     if (data[idx]){
-        this.cIdx = idx;
+        this.sliderIndex = idx;
     } else {
         if (this.isLooping) {
-            this.cIdx = n > 0 ? 0 : data.length - 1;    
+            this.sliderIndex = n > 0 ? 0 : data.length - 1;    
         } else {
             n = 0;
         }
     }
 
-    this.log('pic idx:' + this.cIdx);
+    this.log('pic idx:' + this.sliderIndex);
 
     var sEle;
     if (n > 0) {
@@ -190,7 +190,7 @@ MSlider.prototype._slide = function (n) {
 
     if(n !== 0){
         sEle.innerHTML = this._renderItem(idx + n);
-        this.onslidechange && this.onslidechange();
+        this.onslidechange && this.onslidechange(this.sliderIndex);
     }
 
     for (var i = 0; i < 3; i++) {
@@ -203,7 +203,7 @@ MSlider.prototype._slide = function (n) {
     }
 
     if (this.isAutoplay) {
-        if (this.cIdx === data.length - 1 && !this.isLooping) {
+        if (this.sliderIndex === data.length - 1 && !this.isLooping) {
             this.pause();
         } else {
             this.play();
@@ -244,7 +244,7 @@ MSlider.prototype._bindHandler = function () {
         var offset = evt.targetTouches[0]['page' + axis] - self['start' + axis];
 
         if (!self.isLooping) {
-            if (offset > 0 && self.cIdx === 0 || offset < 0 && self.cIdx === self.data.length - 1) {
+            if (offset > 0 && self.sliderIndex === 0 || offset < 0 && self.sliderIndex === self.data.length - 1) {
                 offset = self._damping(offset);
             }
         }
