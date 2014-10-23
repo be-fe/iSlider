@@ -1,0 +1,36 @@
+body{
+	margin: 0;
+	padding: 0;
+	background: #333;
+	overflow: hidden;
+}
+/*ul wrapper*/
+#MSlider-canvas{
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+}
+
+.MSlider-ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	overflow: hidden;
+}
+.MSlider-li {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+	list-style: none;
+}
+.MSlider-li  img{
+	max-width: 100%;
+	max-height: 100%;
+}
