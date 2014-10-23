@@ -2,7 +2,6 @@ MSlider
 ==============
 
 <h3>Feature</h3>
-<p>
 * Mobile First
 * Reduce Memomry (Keep li elements in 3)
 * Multi-directional Slider (Vertical and Horizontal)
@@ -13,7 +12,6 @@ MSlider
 * Support Callback Functions (onBeforeSlide onAfterSlide onSlide)
 * ~~Customized Animation To Be Supported~~
 * ~~Zoom In And Zoom Out To Be Supported~~
-</p>
 
 Getting Started
 ==============
