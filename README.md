@@ -124,9 +124,19 @@ Options
 		<td>Default value is 'pic', 'dom' is also supported</td>
 	</tr>
 	<tr>
-		<td>isVertical</td>
-		<td>Boolean (true | fasle)</td>
-		<td>Slide verically or horizontally</td>
+		<td>duration</td>
+		<td>Integer (1000 == 1s)</td>
+		<td>Duration when an image slides</td>
+	</tr>
+	<tr>
+		<td>ulClass</td>
+		<td>String</td>
+		<td>CSS class name of ul</td>
+	</tr>
+	<tr>
+		<td>liClass</td>
+		<td>String</td>
+		<td>CSS class name of li</td>
 	</tr>
 	<tr>
 		<td>onslide</td>
@@ -149,21 +159,6 @@ Options
 		<td>Callback function when the autoplay mode is on and one image slides</td>
 	</tr>
 	<tr>
-		<td>duration</td>
-		<td>Integer (1000 == 1s)</td>
-		<td>Duration when an image slides</td>
-	</tr>
-	<tr>
-		<td>ulClass</td>
-		<td>String</td>
-		<td>CSS class name of ul</td>
-	</tr>
-	<tr>
-		<td>liClass</td>
-		<td>String</td>
-		<td>CSS class name of li</td>
-	</tr>
-	<tr>
 		<td>isDebug</td>
 		<td>Boolean (true | false)</td>
 		<td>Turn on/off the debug mode. Some debug message will output</td>
@@ -182,6 +177,11 @@ Options
 		<td>isAutoplay</td>
 		<td>Boolean (true | false)</td>
 		<td>Turn of/off autoplay mode</td>
+	</tr>
+		<tr>
+		<td>isVertical</td>
+		<td>Boolean (true | fasle)</td>
+		<td>Slide verically or horizontally</td>
 	</tr>
 </tbody>
 </table>
