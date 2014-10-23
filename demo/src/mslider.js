@@ -3,11 +3,21 @@
  * A simple, efficency mobile slider
  * @Author qbatyqi
  *
- * @param {Object} opts 参数集
- * @param {Element} opts.dom 外层元素 
- * @param {Object} opts.data 数据列表
- * @param {Boolean} opts.isVertical 是否竖直滚动
- * @param {Boolean} opts.isLooping 是否循环
+ * @param {Object} opts option 参数集
+ * @param {Element} opts.dom  outer wrapper 外层元素 
+ * @param {Object} opts.data content data 数据列表
+ * @param {String} opts.type content type 数据类型
+ * @param {Integer} opts.duration slide time gap 滑动间隔
+ * @param {String} opts.ulClass class of ul ul的css类
+ * @param {String} opts.liClass class of li li的css类
+ * @param {Function} opts.onslide Callback function when your finger is moving 手指滑动回调
+ * @param {Function} opts.onslidestart Callback function when your finger move out of the screen 手指触屏回调
+ * @param {Function} opts.onslidechange Callback function when the autoplay mode is on and one image slides 自动播放回调
+ * @param {Bolean} opts.isDebug Debug Mode 调试模式
+ * @param {Integer} opts.sliderIndex Starting image index 初始内容
+ * @param {Boolean} opts.isAutoplay Autoplay mode 自动播放
+ * @param {Boolean} opts.isVertical vertical/horizontal 是否竖直滚动
+ * @param {Boolean} opts.isLooping inifinite loop or not 是否循环
  *
  * @class 
  */
@@ -47,6 +57,11 @@ MSlider.prototype._setting = function () {
     this.onslidechange = opts.onslidechange;
 
     this.duration = opts.duration || 2000;
+
+    //ul class
+    this.ulClass = opts.ulClass || 'MSlider-ul';
+    //li class
+    this.liClass = opts.liClass || 'MSlider-li';
 
     //debug mode
     this.log = opts.isDebug ? function (str) { console.log(str) } : function (){};
@@ -141,6 +156,7 @@ MSlider.prototype._renderHTML = function () {
     } else {
         //used ofr initialization
         outer = document.createElement('ul');
+        outer.className = this.ulClass;
     }
 
     //ul width equels to div#canvas width
@@ -151,6 +167,7 @@ MSlider.prototype._renderHTML = function () {
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
+        li.className = this.liClass;
         li.style.width = this.width + 'px';
         li.style.height = this.height + 'px';
         li.style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';

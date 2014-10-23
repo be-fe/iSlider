@@ -1,0 +1,248 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Mslider by lcxfs1991</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Mslider</h1>
+        <p class="header">A efficency &amp; simple slider for webapp</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/lcxfs1991/MSlider/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/lcxfs1991/MSlider/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/lcxfs1991/MSlider">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/lcxfs1991">lcxfs1991</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="mslider" class="anchor" href="#mslider"><span class="octicon octicon-link"></span></a>MSlider</h1>
+
+<h3>
+<a name="feature" class="anchor" href="#feature"><span class="octicon octicon-link"></span></a>Feature</h3>
+
+<ul>
+<li>Mobile First</li>
+<li>Reduce Memomry (Keep li elements in 3)</li>
+<li>Multi-directional Slider (Vertical and Horizontal)</li>
+<li>Support Infinite Looping Slide</li>
+<li>Damping Effect (Add damping effect when meeting the edge of the list)</li>
+<li>Onorientationchange Event Supported</li>
+<li>Support different types of contents (Picture | Dom Element)</li>
+<li>Support Callback Functions (onslidestart | onslidechange | onslideend | onslide)</li>
+<li><del>Customized Animation To Be Supported</del></li>
+<li><del>Zoom In And Zoom Out To Be Supported</del></li>
+</ul>
+
+<h1>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h1>
+
+<p><b>Step 1. </b>Set meta and css and other resources</p>
+
+<p>Firstly, at the top of file, please put meta and link tag like the following.</p>
+
+<pre><code>&lt;meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/&gt;
+&lt;link type="text/css" rel="stylesheet" media="all" href="css/common.css"&gt;
+</code></pre>
+
+<p>Secondly, please prepare images/pictures and put them under a specific folder</p>
+
+<p><b>Step 2.</b> HTML markup</p>
+
+<pre><code>&lt;div id="MSlider-canvas"&gt;&lt;/div&gt;
+</code></pre>
+
+<p><b>Step 3.</b> Javascript</p>
+
+<p>Add mslider.js and app.js. Strongly recommend you to put your script at the bottom of the body tag.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"../src/mslider.js"</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"app.js"</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</pre></div>
+
+<p>Actually the code in app.js is the bootstrap code for the project. You can directly put the code at HTML file. Example codes are as follow</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="p">[</span>
+<span class="p">{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">475</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/1.jpg"</span><span class="p">,</span>
+<span class="p">},{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">527</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/2.jpg"</span><span class="p">,</span>
+<span class="p">},{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/3.jpg"</span><span class="p">,</span>
+<span class="p">},{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">458</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span><span class="s2">"imgs/5.jpg"</span>
+<span class="p">},{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">498</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span><span class="s2">"imgs/6.jpg"</span>
+<span class="p">},{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">377</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">600</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span><span class="s2">"imgs/7.jpg"</span>
+<span class="p">},{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">396</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">600</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span><span class="s2">"imgs/8.jpg"</span>
+<span class="p">},{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">374</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">600</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span><span class="s2">"imgs/9.jpg"</span>
+<span class="p">}</span>
+<span class="p">];</span>
+
+<span class="nx">mslider</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MSlider</span><span class="p">({</span>
+    <span class="nx">data</span><span class="o">:</span> <span class="nx">list</span><span class="p">,</span>
+    <span class="nx">dom</span><span class="o">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"MSlider-canvas"</span><span class="p">),</span>
+    <span class="nx">isVerticle</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isLooping</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isDebug</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isAutoplay</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+
+</pre></div>
+
+<h1>
+<a name="demo" class="anchor" href="#demo"><span class="octicon octicon-link"></span></a>Demo</h1>
+
+<ul>
+<li><a href="http://lcxfs1991.github.io/MSlider/demo/comprehensive/">Comprehensive</a></li>
+<li><a href="http://lcxfs1991.github.io/MSlider/demo/basic/">Basic</a></li>
+<li><a href="http://lcxfs1991.github.io/MSlider/demo/dom/">Dom</a></li>
+</ul>
+
+<h1>
+<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options</h1>
+
+<p>
+</p><table>
+<thead>
+    <tr>
+        <td>Option</td>
+        <td>Value</td>
+        <td>Description</td>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>dom</td>
+        <td>HTML Object</td>
+        <td>The DOM element that wraps image list</td>
+    </tr>
+    <tr>
+        <td>data</td>
+        <td>Array of Content(picture | html)</td>
+        <td>Picture data, for example:
+        <pre>
+[{
+    height: 377,
+    width: 600,
+    content:"pics/1.jpg"
+}]
+        </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>String (pic | dom)</td>
+        <td>Default value is 'pic', 'dom' is also supported</td>
+    </tr>
+    <tr>
+        <td>duration</td>
+        <td>Integer (1000 == 1s)</td>
+        <td>Time gap when an image slides</td>
+    </tr>
+    <tr>
+        <td>ulClass</td>
+        <td>String</td>
+        <td>CSS class name of ul</td>
+    </tr>
+    <tr>
+        <td>liClass</td>
+        <td>String</td>
+        <td>CSS class name of li</td>
+    </tr>
+    <tr>
+        <td>onslide</td>
+        <td>Function</td>
+        <td>Callback function when your finger is moving</td>
+    </tr>
+    <tr>
+        <td>onslidestart</td>
+        <td>Function</td>
+        <td>Callback function when your finger touch the screen</td>
+    </tr>
+    <tr>
+        <td>onslideend</td>
+        <td>Function</td>
+        <td>Callback function when your finger move out of the screen</td>
+    </tr>
+    <tr>
+        <td>onslidechange</td>
+        <td>Function</td>
+        <td>Callback function when the autoplay mode is on and one image slides</td>
+    </tr>
+    <tr>
+        <td>isDebug</td>
+        <td>Boolean (true | false)</td>
+        <td>Turn on/off the debug mode. Some debug message will output</td>
+    </tr>
+    <tr>
+        <td>sliderIndex</td>
+        <td>Integer ( 0 &lt;= sliderIndex &lt; number of images)</td>
+        <td>Starting image index</td>
+    </tr>
+    <tr>
+        <td>isLooping</td>
+        <td>Boolean (true | false)</td>
+        <td>Turn on/off infinite looping mode</td>
+    </tr>
+    <tr>
+        <td>isAutoplay</td>
+        <td>Boolean (true | false)</td>
+        <td>Turn of/off autoplay mode</td>
+    </tr>
+        <tr>
+        <td>isVertical</td>
+        <td>Boolean (true | fasle)</td>
+        <td>Slide verically or horizontally</td>
+    </tr>
+</tbody>
+</table>
+
+
+<h1>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p><a href="https://github.com/BE-FE/MSlider/blob/master/LICENSE">MIT</a></p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
