@@ -87,10 +87,10 @@ mslider = new MSlider({
 
 Demo
 ==============
-<ul>
-<li>[Comprehensive](http://BE-FE.github.io/MSlider/demo/)</li>
-<li>[Basic](http://BE-FE.github.io/MSlider/demo/Basic)</li>
-</ul>
+
+* [Comprehensive](http://BE-FE.github.io/MSlider/demo/)
+* [Basic](http://BE-FE.github.io/MSlider/demo/Basic)
+
 
 Options
 ==============
