@@ -1,5 +1,5 @@
-var MSlider = require('./mslider');
-var list = [{
+var list = [
+{
 	height: 475,
 	width: 400,
 	content: "imgs/1.jpg",
@@ -31,11 +31,12 @@ var list = [{
 	height: 374,
 	width: 600,
 	content:"imgs/9.jpg"
-}];
+}
+];
 	
 mslider = new MSlider({
     data: list,
-    dom: document.getElementById("canvas"),
+    dom: document.getElementById("MSlider-canvas"),
     isVerticle: true,
     isLooping: true,
     isDebug: true,
