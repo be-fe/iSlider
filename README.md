@@ -2,32 +2,34 @@ MSlider
 ==============
 
 <h3>Feature</h3>
-* Mobile First
-* Reduce Memomry (Keep li elements in 3)
-* Multi-directional Slider (Vertical and Horizontal)
-* Support Infinite Looping Slide
-* Damping Effect (Add damping effect when meeting the edge of the list)
-* Onorientationchange Event Supported
-* Support different types of contents (Picture | Dom Element)
-* Support Callback Functions (onBeforeSlide onAfterSlide onSlide)
-* ~~Customized Animation To Be Supported~~
-* ~~Zoom In And Zoom Out To Be Supported~~
+<ul>
+<li>Mobile First</li>
+<li>Reduce Memomry (Keep li elements in 3)</li>
+<li>Multi-directional Slider (Vertical and Horizontal)</li>
+<li>Support Infinite Looping Slide</li>
+<li>Damping Effect (Add damping effect when meeting the edge of the list)</li>
+<li>Onorientationchange Event Supported</li>
+<li>Support different types of contents (Picture | Dom Element)</li>
+<li>Support Callback Functions (onBeforeSlide onAfterSlide onSlide)</li>
+<li><del>Customized Animation To Be Supported</del></li>
+<li><del>Zoom In And Zoom Out To Be Supported</del></li>
+</ul>
 
 Getting Started
 ==============
 <h4>Resources</h4>
-<p>Step 1. Set meta and css and other resources</p>
+<p><b>Step 1. </b>Set meta and css and other resources</p>
 <p>Firstly, at the top of file, please put meta and link tag like the following.</p>
 ```
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
 <link type="text/css" rel="stylesheet" media="all" href="css/common.css">
 ```
 <p>Secondly, please prepare images/pictures and put them under a specific folder</p>
-<p>Step 2. HTML markup</p>
+<p><b>Step 2.</b> HTML markup</p>
 ```
 <div id="canvas"></div>
 ```
-<p>Step 3. Javascript</p>
+<p><b>Step 3.</b> Javascript</p>
 <p>Add mslider.js and app.js. Strongly recommend you to put your script at the bottom of the body tag.</p>
 ```javascript
 <script src="../src/mslider.js"></script>
@@ -105,13 +107,13 @@ Options
 		<td>data</td>
 		<td>Array of Content(picture | html)</td>
 		<td>Picture data, for example:
-			<pre>
-				[{
-					height: 377,
-					width: 600,
-					content:"pics/1.jpg"
-				}]
-			</pre>
+		<pre>
+		[{
+			height: 377,
+			width: 600,
+			content:"pics/1.jpg"
+			}]
+		</pre>
 		</td>
 	</tr>
 	<tr>
