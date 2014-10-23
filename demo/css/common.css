@@ -5,7 +5,7 @@ body{
 	overflow: hidden;
 }
 /*ul wrapper*/
-#canvas{
+#MSlider-canvas{
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
