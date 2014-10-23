@@ -154,12 +154,12 @@ Options
 		<td>Duration when an image slides</td>
 	</tr>
 	<tr>
-		<td>MSlider_ul</td>
+		<td>ulClass</td>
 		<td>String</td>
 		<td>CSS class name of ul</td>
 	</tr>
 	<tr>
-		<td>MSlider_li</td>
+		<td>liClass</td>
 		<td>String</td>
 		<td>CSS class name of li</td>
 	</tr>
