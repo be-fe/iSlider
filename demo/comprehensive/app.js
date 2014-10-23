@@ -46,8 +46,8 @@ var mslider = new MSlider({
     dom: document.getElementById("canvas"),
     duration: 1500,
    	onslidechange: function(idx){
-   		var idx = document.getElementById('info').getElementsByTagName('strong')[0];
-   		idx.innerText = this.sliderIndex;
+   		var target = document.getElementById('info').getElementsByTagName('strong')[0];
+   		target.innerText = idx;
    	}
 });
 
