@@ -1,4 +1,3 @@
-var MSlider = require('./mslider');
 var list = [{
 	height: 475,
 	width: 400,

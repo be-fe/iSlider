@@ -3,13 +3,6 @@
   "version": "1.0.0",
   "author": "qbatyqi",
   "devDependencies": {
-    "browserify": "",
-    "gulp": "",
-    "gulp-beautify": "",
-    "gulp-connect": "",
-    "gulp-jshint": "~1.8.4",
-    "gulp-less": "",
-    "gulp-uglify": "",
-    "vinyl-source-stream": ""
+    "gulp": ""
   }
 }

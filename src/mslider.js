@@ -340,5 +340,3 @@ MSlider.prototype.play = function () {
 MSlider.prototype.pause = function () {
     clearInterval(this.autoPlayTimer);
 };
-
-module.exports = MSlider;
