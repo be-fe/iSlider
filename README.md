@@ -131,7 +131,7 @@ Options
 	<tr>
 		<td>duration</td>
 		<td>Integer (1000 == 1s)</td>
-		<td>Duration when an image slides</td>
+		<td>Time gap when an image slides</td>
 	</tr>
 	<tr>
 		<td>ulClass</td>
