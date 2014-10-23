@@ -17,7 +17,6 @@ MSlider
 
 Getting Started
 ==============
-<h4>Resources</h4>
 <p><b>Step 1. </b>Set meta and css and other resources</p>
 <p>Firstly, at the top of file, please put meta and link tag like the following.</p>
 ```
@@ -27,7 +26,7 @@ Getting Started
 <p>Secondly, please prepare images/pictures and put them under a specific folder</p>
 <p><b>Step 2.</b> HTML markup</p>
 ```
-<div id="canvas"></div>
+<div id="MSlider-canvas"></div>
 ```
 <p><b>Step 3.</b> Javascript</p>
 <p>Add mslider.js and app.js. Strongly recommend you to put your script at the bottom of the body tag.</p>
