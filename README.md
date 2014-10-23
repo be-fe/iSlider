@@ -10,7 +10,7 @@ MSlider
 <li>Damping Effect (Add damping effect when meeting the edge of the list)</li>
 <li>Onorientationchange Event Supported</li>
 <li>Support different types of contents (Picture | Dom Element)</li>
-<li>Support Callback Functions (onBeforeSlide | onAfterSlide | onSlide)</li>
+<li>Support Callback Functions (onslidestart | onslidechange | onslideend | onslide)</li>
 <li><del>Customized Animation To Be Supported</del></li>
 <li><del>Zoom In And Zoom Out To Be Supported</del></li>
 </ul>
@@ -165,7 +165,7 @@ Options
 	</tr>
 	<tr>
 		<td>sliderIndex</td>
-		<td>Integer ( 0 &lt;= sliderIndex &lt;= number of images)</td>
+		<td>Integer ( 0 &lt;= sliderIndex &lt; number of images)</td>
 		<td>Starting image index</td>
 	</tr>
 	<tr>
