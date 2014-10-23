@@ -165,7 +165,7 @@ Options
 	</tr>
 	<tr>
 		<td>sliderIndex</td>
-		<td>Integer ( 0 <= sliderIndex <= number of images)</td>
+		<td>Integer ( 0 &lt;= sliderIndex &lt;= number of images)</td>
 		<td>Starting image index</td>
 	</tr>
 	<tr>
