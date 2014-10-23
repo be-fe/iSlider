@@ -49,9 +49,9 @@ MSlider.prototype._setting = function () {
     this.duration = opts.duration || 2000;
 
     //ul class
-    this.MSlider_ul = opts.MSlider_ul || 'MSlider-ul';
+    this.ulClass = opts.ulClass || 'MSlider-ul';
     //li class
-    this.MSlider_li = opts.MSlider_li || 'MSlider-li';
+    this.liClass = opts.liClass || 'MSlider-li';
 
     //debug mode
     this.log = opts.isDebug ? function (str) { console.log(str) } : function (){};
@@ -167,7 +167,7 @@ MSlider.prototype._renderHTML = function () {
     } else {
         //used ofr initialization
         outer = document.createElement('ul');
-        outer.className = this.MSlider_ul;
+        outer.className = this.ulClass;
     }
 
     //ul width equels to div#canvas width
@@ -178,7 +178,7 @@ MSlider.prototype._renderHTML = function () {
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
-        li.className = this.MSlider_li;
+        li.className = this.liClass;
         li.style.width = this.width + 'px';
         li.style.height = this.height + 'px';
         this._animate[this.animateType](li, this.axis, this.scale, i);

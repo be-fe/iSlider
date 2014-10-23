@@ -10,7 +10,7 @@ MSlider
 <li>Damping Effect (Add damping effect when meeting the edge of the list)</li>
 <li>Onorientationchange Event Supported</li>
 <li>Support different types of contents (Picture | Dom Element)</li>
-<li>Support Callback Functions (onBeforeSlide onAfterSlide onSlide)</li>
+<li>Support Callback Functions (onBeforeSlide | onAfterSlide | onSlide)</li>
 <li><del>Customized Animation To Be Supported</del></li>
 <li><del>Zoom In And Zoom Out To Be Supported</del></li>
 </ul>
@@ -39,7 +39,8 @@ Getting Started
 <p>Actually the code in app.js is the bootstrap code for the project. You can directly put the code at HTML file. Example codes are as follow</p>
 
 ```javascript
-var list = [{
+var list = [
+{
 	height: 475,
 	width: 400,
 	content: "imgs/1.jpg",
@@ -71,7 +72,8 @@ var list = [{
 	height: 374,
 	width: 600,
 	content:"imgs/9.jpg"
-}];
+}
+];
 	
 mslider = new MSlider({
     data: list,
@@ -108,22 +110,22 @@ Options
 		<td>Array of Content(picture | html)</td>
 		<td>Picture data, for example:
 		<pre>
-		[{
-			height: 377,
-			width: 600,
-			content:"pics/1.jpg"
-			}]
+[{
+	height: 377,
+	width: 600,
+	content:"pics/1.jpg"
+}]
 		</pre>
 		</td>
 	</tr>
 	<tr>
 		<td>type</td>
-		<td>String (pic/dom)</td>
+		<td>String (pic | dom)</td>
 		<td>Default value is 'pic', 'dom' is also supported</td>
 	</tr>
 	<tr>
 		<td>isVertical</td>
-		<td>Boolean (true/fasle)</td>
+		<td>Boolean (true | fasle)</td>
 		<td>Slide verically or horizontally</td>
 	</tr>
 	<tr>
@@ -163,7 +165,7 @@ Options
 	</tr>
 	<tr>
 		<td>isDebug</td>
-		<td>Boolean (true/false)</td>
+		<td>Boolean (true | false)</td>
 		<td>Turn on/off the debug mode. Some debug message will output</td>
 	</tr>
 	<tr>
@@ -173,12 +175,12 @@ Options
 	</tr>
 	<tr>
 		<td>isLooping</td>
-		<td>Boolean (true/false)</td>
+		<td>Boolean (true | false)</td>
 		<td>Turn on/off infinite looping mode</td>
 	</tr>
 	<tr>
 		<td>isAutoplay</td>
-		<td>Boolean (true/false)</td>
+		<td>Boolean (true | false)</td>
 		<td>Turn of/off autoplay mode</td>
 	</tr>
 </tbody>
