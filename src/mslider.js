@@ -165,7 +165,7 @@ MSlider.prototype._renderHTML = function () {
         this.outer.innerHTML = '';
         outer = this.outer;
     } else {
-        //used ofr initialization
+        //used for initialization
         outer = document.createElement('ul');
         outer.className = this.ulClass;
     }
