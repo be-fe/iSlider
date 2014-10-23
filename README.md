@@ -88,7 +88,7 @@ mslider = new MSlider({
 Demo
 ==============
 
-* [Comprehensive](http://lcxfs1991.github.io/MSlider/demo/basic/comprehensive)
+* [Comprehensive](http://lcxfs1991.github.io/MSlider/demo/comprehensive/)
 * [Basic](http://lcxfs1991.github.io/MSlider/demo/basic/)
 * [Dom](http://lcxfs1991.github.io/MSlider/demo/dom/)
 
