@@ -92,7 +92,7 @@ MSlider.prototype._setting = function () {
 
     //animate
     this.animateType = 'default';
-    var animateList = ['default'];
+    var animateList = ['default', 'rotate'];
     for (i=0; i<animateList.length; i++){
         if (opts.animateType == animateList[i]){
             this.animateType = opts.animateType;
@@ -101,12 +101,13 @@ MSlider.prototype._setting = function () {
     };
     this._animate = {
         'default': function (dom, axis, scale, i, offset){
-            if (offset){
-                dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
-            }
-            else{
-                dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + scale * (i - 1) + 'px)';
-            }
+            var offset = offset ? offset : "";
+            dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+        },
+        'rotate': function(dom, axis, scale, i, offset) {
+            var offset = offset ? offset : "";
+            var rotateDirect = axis == "X" ? "Y" : "X";
+            dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px) rotate' + rotateDirect + '(' + 90 * (i - 1)+ 'deg)';
         }
     };
 
