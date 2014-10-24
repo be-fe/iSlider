@@ -1,7 +1,8 @@
 MSlider
 ==============
 
-<h3>Feature</h3>
+Feature
+==============
 <ul>
 <li>Mobile First</li>
 <li>Reduce Memomry (Keep li elements in 3)</li>
