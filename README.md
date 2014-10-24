@@ -10,10 +10,10 @@ Feature
 <li>Fancy Effect (Damping effect, Infinite Looping, Vertical/Horizontal Sliding)</li>
 </ul>
 
-Getting Started (Basic Version)
+Getting Started (Picture Basic Version)
 ==============
 <h3>Demo</h3>
-* [Basic](http://be-fe.github.io/MSlider/demo/basic/)
+* [Picture Basic](http://be-fe.github.io/MSlider/demo/basic-picture/)
 
 <h3>Procedure</h3>
 <p>The following introduce how to set up a basic version of MSlider</p>
@@ -85,32 +85,87 @@ mslider = new MSlider({
 
 ```
 
-DOM Version
+Picture Comprehensive Version
+==============
+<h3>Description</h3>
+<p>This version shows how fancy we can be. Please enjoy it.</p>
+<h3>Demo</h3>
+* [Picture Comprehensive](http://be-fe.github.io/MSlider/demo/comprehensive-picture/)
+
+DOM Basic Version
 ==============
 <h3>Procedure</h3>
 <p>Step 1 is similar to basic version above</p>
 <p><b>Step 2.</b> HTML markup</p>
 <p>For DOM version, we may need to add some menus at the top, so there are some differences</p>
-<pre>
+```
+<div id="MSlider-outer">
+	<div id="MSlider-canvas">
+		<div id="MSlider-nav">
+			<a>Home</a>
+		</div>
+		<div id="MSlider-show"> 
 
-</pre>
-<p>For Step 3, we need to change some code in app.js. Please take a look at below code.</p>
-<pre>
-	
-</pre>
+		</div>
+	</div>
+</div>
+```
+
+<p><b>Step 3.</b> Javascript</p>
+<p>Add mslider.js and app.js. Strongly recommend you to put your script at the bottom of the body tag.</p>
+```javascript
+<script src="../src/mslider.js"></script>
+<script src="app.js"></script>
+```
+<p>The code in app.js is a bit different from picture basic version.</p>
+
+```javascript
+var list = [{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page3</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+}];
+
+var info = ['Home', 'Page 1', 'Page 2', 'Page3'];
+
+var mslider = new MSlider({
+    data: list,
+    type: 'dom',
+    dom: document.getElementById("MSlider-show"),
+    duration: 2000,
+    isVertical: true,
+    isLooping: true,
+    isDebug: true,
+    isAutoplay: true,
+   	onslidechange: function(idx){
+   		document.getElementById('MSlider-nav').children[0].innerText = info[idx];
+   	}
+});
+```
 
 
 <h3>Demo</h3>
-* [Dom](http://be-fe.github.io/MSlider/demo/dom/)
+* [Dom Basic](http://be-fe.github.io/MSlider/demo/basic-dom/)
 
 
-Comprehensive Version
+Dom Comprehensive Version
 ==============
 <h3>Description</h3>
 <p>This version shows how fancy we can be. Please enjoy it.</p>
-
 <h3>Demo</h3>
-* [Comprehensive](http://be-fe.github.io/MSlider/demo/comprehensive/)
+* [Dom Comprehensive](http://be-fe.github.io/MSlider/demo/comprehensive-dom/)
 
 
 Options
