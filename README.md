@@ -166,6 +166,10 @@ Dom Comprehensive Version
 <h3>Demo</h3>
 * [Dom Comprehensive Version](http://be-fe.github.io/MSlider/demo/comprehensive-dom/)
 
+Debug
+==============
+<p>Please use webkit browser to watch this example.If you want to try touch Event please make sure you already turn on developer tool "Emulate touch screen". For example, if you use Chrome, you can turn on developer tool and select mobile device simulator on left top.</p>
+
 
 Options
 ==============
