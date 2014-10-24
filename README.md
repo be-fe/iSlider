@@ -16,7 +16,7 @@ Getting Started (Picture Basic Version)
 * [Picture Basic Vesrion](http://be-fe.github.io/MSlider/demo/basic-picture/)
 
 <h3>Procedure</h3>
-<p>The following introduce how to set up a basic version of MSlider</p>
+<p>The following introduces how to set up a basic version of MSlider</p>
 <p><b>Step 1. </b>Set meta and css and other resources</p>
 <p>Firstly, at the top of file, please put meta and link tag like the following.</p>
 ```
@@ -99,9 +99,9 @@ DOM Basic Version
 * [Dom Basic Version](http://be-fe.github.io/MSlider/demo/basic-dom/)
 
 <h3>Procedure</h3>
-<p>Step 1 is similar to basic version above</p>
+<p><b>Step 1</b> is similar to basic version above</p>
 <p><b>Step 2.</b> HTML markup</p>
-<p>For DOM version, we may need to add some menus at the top, so there are some differences</p>
+<p>For DOM version, we will add a place at the top to display where the slider is. </p>
 ```
 <div id="MSlider-outer">
 	<div id="MSlider-canvas">
