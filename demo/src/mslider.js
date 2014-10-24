@@ -185,7 +185,7 @@ MSlider.prototype._slide = function (n) {
     var els = this.els;
     var idx = this.sliderIndex + n;
     
-
+    //check if the element has hit the data limit
     if (data[idx]){
         this.sliderIndex = idx;
     } else {
@@ -198,15 +198,18 @@ MSlider.prototype._slide = function (n) {
 
     this.log('pic idx:' + this.sliderIndex);
 
+    //change element position
     var sEle;
     if (n > 0) {
+        //slide left, first element goes to last
         sEle = els.shift();
         els.push(sEle);
     } else if (n < 0) {
+        //slide right, last element goest to first
         sEle = els.pop();
         els.unshift(sEle);
     } 
-
+    //change element content when slides
     if(n !== 0){
         sEle.innerHTML = this._renderItem(idx + n);
         this.onslidechange && this.onslidechange(this.sliderIndex);
@@ -221,6 +224,7 @@ MSlider.prototype._slide = function (n) {
         els[i].style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
     }
 
+    //if slide to end, and isLooping mode is off, then pause
     if (this.isAutoplay) {
         if (this.sliderIndex === data.length - 1 && !this.isLooping) {
             this.pause();

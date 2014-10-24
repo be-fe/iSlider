@@ -3,46 +3,50 @@ body {
     padding: 0;
     overflow: hidden;
 }
-li,
-ul {
+.MSlider-ul {
     list-style: none;
     margin: 0;
     padding: 0;
     height: 100%;
     overflow: hidden;
 }
-li {
+.MSlider-li  {
     position: absolute;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-box-pack: center;
     -webkit-box-align: center;
+    list-style: none;
 }
-li img {
+.MSlider-li img {
     max-width: 100%;
     max-height: 100%;
 }
-#tip {
+#MSlider-tip {
     padding: 10px;
     z-index: 4;
 }
 
-#tip p {
+#MSlider-tip p {
     margin: 5px 0;
 }
 
-#content {
+#MSlider-content {
     position: relative;
     overflow: hidden;
 }
-#info {
+#MSlider-info {
     position: absolute;
     top: 68px;
     left: 360px;
     z-index: 4;
 }
 
-#menu {
+#MSlider-menu {
     color: #000;
     font-size: 14px;
     position: absolute;
@@ -53,25 +57,25 @@ li img {
     -webkit-transition: all .2s ease;
 }
 
-.rotated_menu {
+.MSlider-rotated-menu {
     top: 14px!important;
     left: 40px!important;
     width: auto!important;
 }
 
-.rotated_outer {
+.MSlider-rotated-outer {
     -webkit-transform: rotate(90deg);
     -webkit-transform-origin: 60% 48%%;
 }
 
-.rotated_canvas {
+.MSlider-rotated-canvas {
     width: 381px!important;
     height: 217px!important;
     top: 140px!important;
     left: 89px!important;
 }
 
-#menu span {
+#MSlider-menu span {
     display: inline-block;
     text-align: center;
     line-height: 24px;
@@ -81,7 +85,7 @@ li img {
     cursor: pointer;
 }
 
-#menu span.on{
+#MSlider-menu span.on{
     display: inline-block;
     text-align: center;
     line-height: 24px;
@@ -93,7 +97,7 @@ li img {
     background-color: #666;
 }
 
-#outer {
+#MSlider-outer {
     height: 600px;
     width: 400px;
     background: url('../imgs/bg_1.jpeg') no-repeat top center;
@@ -103,7 +107,7 @@ li img {
     -webkit-transition: all .3s;
 }
 
-#canvas {
+#MSlider-canvas {
     width: 217px;
     height: 381px;
     position: absolute;
@@ -117,7 +121,7 @@ li img {
 and (min-device-width : 320px) 
 and (max-device-width : 480px) {
 
-    #content {
+    #MSlider-content {
         height: 100%;
         width: 100%;        
         position: absolute;
@@ -125,12 +129,12 @@ and (max-device-width : 480px) {
         left: 0;
     }
 
-    #outer {
+    #MSlider-outer {
         height: 100%;
         width: 100%;
     }
 
-    #tip {
+    #MSlider-tip {
         position: absolute;
         font-size: 12px;
         background: #fff;
@@ -140,11 +144,11 @@ and (max-device-width : 480px) {
         -webkit-transition: all 0.4s ease; 
     }
 
-    #tip.show {
+    #MSlider-tip.show {
         margin-top: 0;
     }
 
-    #canvas {
+    #MSlider-canvas {
         height: 100%;
         width: 100%;
         top: 0;
@@ -152,7 +156,7 @@ and (max-device-width : 480px) {
         background: #666;
     }
 
-    #menu {
+    #MSlider-menu {
         top: auto;
         bottom: 10px;
         left: 10px;
@@ -160,23 +164,23 @@ and (max-device-width : 480px) {
         width: 100%;
         margin-bottom: -100%;
     }
-    #menu.show {
+    #MSlider-menu.show {
         margin-bottom: 0;
     }
 
-    #menu span, #menu span.on{
+    #MSlider-menu span, #menu span.on{
         line-height: 18px;
         padding: 2px 4px;
         font-size: 12px;
         background: #FFF;
     }
 
-    #menu span.on{
+    #MSlider-menu span.on{
         color: #FFF;
         background: #999;
     }
 
-    #menu span:last-child{
+    #MSlider-menu span:last-child{
         display: none;
     }
 }

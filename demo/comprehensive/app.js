@@ -43,17 +43,17 @@ var list = [
 	
 var mslider = new MSlider({
     data: list,
-    dom: document.getElementById("canvas"),
+    dom: document.getElementById("MSlider-canvas"),
     duration: 1500,
    	onslidechange: function(idx){
-   		var target = document.getElementById('info').getElementsByTagName('strong')[0];
+   		var target = document.getElementById('MSlider-info').getElementsByTagName('strong')[0];
    		target.innerText = idx;
    	}
 });
 
 (function(){
-	var menu = document.getElementById('menu');
-	var spans = document.getElementsByTagName('span');
+	var menu = document.getElementById('MSlider-menu');
+	var spans = document.getElementById('MSlider-menu').children;
 
 	spans[0].onclick = function(){
 		var target = spans[0];
@@ -99,10 +99,10 @@ var mslider = new MSlider({
 
 	spans[3].onclick = function(){
 		var target = spans[3];
-		var outer = document.getElementById('outer');
-		var menu = document.getElementById('menu');
-		var canvas = document.getElementById('canvas');
-		var content = document.getElementById('content');
+		var outer = document.getElementById('MSlider-outer');
+		var menu = document.getElementById('MSlider-menu');
+		var canvas = document.getElementById('MSlider-canvas');
+		var content = document.getElementById('MSlider-content');
 
 		if (target.className == 'on') {
 			target.className = '';
@@ -116,20 +116,20 @@ var mslider = new MSlider({
 			}, 200);
 		} else {
 			target.className = 'on';
-			outer.className = 'rotated_outer';
-			menu.className = 'rotated_menu';
+			outer.className = 'MSlider-rotated-outer';
+			menu.className = 'MSlider-rotated-menu';
 			target.innerText = 'changeOrientation: 90';
 			setTimeout(function(){
 				content.appendChild(canvas);
-				canvas.className = 'rotated_canvas';
+				canvas.className = 'MSlider-rotated-canvas';
 				mslider.reset();
 			}, 200);
 		}
 	}
 
 	if (navigator.userAgent.match(/(iPhone\sOS)\s([\d_]+)|(Android)\s+([\d.]+)/)) {
-		var menu = document.getElementById('menu');
-		var tip = document.getElementById('tip');
+		var menu = document.getElementById('MSlider-menu');
+		var tip = document.getElementById('MSlider-tip');
 		var flag = false;
 		var isChild = function (child, parent) {
 			var target = child;
