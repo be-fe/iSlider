@@ -1,59 +1,37 @@
-var list = [
-{
-	height: 475,
-	width: 400,
-	content: "pics/1.jpg",
-},
-{
-	height: 527,
-	width: 400,
-	content: "pics/2.jpg",
-},
-{
- 	height: 400,
- 	width: 512,
- 	content: "pics/3.jpg",
-},
-{
-	height: 400,
-	width: 458,
-	content:"pics/5.jpg"
-},
-{
-	height: 400,
-	width: 498,
-	content:"pics/6.jpg"
-},
-{
-	height: 377,
-	width: 600,
-	content:"pics/7.jpg"
-},
-{
-	height: 396,
-	width: 600,
-	content:"pics/8.jpg"
-},
-{
-	height: 374,
-	width: 600,
-	content:"pics/9.jpg"
-}
-];
-	
+var list = [{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page3</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+}];
+
+var info = ['Home', 'Page 1', 'Page 2', 'Page3'];
+
 var mslider = new MSlider({
     data: list,
-    dom: document.getElementById("canvas"),
-    duration: 1500,
+    type: 'dom',
+    dom: document.getElementById("MSlider-show"),
+    duration: 2000,
    	onslidechange: function(idx){
-   		var target = document.getElementById('info').getElementsByTagName('strong')[0];
-   		target.innerText = idx;
+   		document.getElementById('MSlider-nav').children[0].innerText = info[idx];
    	}
 });
 
+
 (function(){
-	var menu = document.getElementById('menu');
-	var spans = document.getElementsByTagName('span');
+	var menu = document.getElementById('MSlider-menu');
+	var spans = document.getElementById('MSlider-menu').children;
 
 	spans[0].onclick = function(){
 		var target = spans[0];
@@ -99,10 +77,10 @@ var mslider = new MSlider({
 
 	spans[3].onclick = function(){
 		var target = spans[3];
-		var outer = document.getElementById('outer');
-		var menu = document.getElementById('menu');
-		var canvas = document.getElementById('canvas');
-		var content = document.getElementById('content');
+		var outer = document.getElementById('MSlider-outer');
+		var menu = document.getElementById('MSlider-menu');
+		var canvas = document.getElementById('MSlider-canvas');
+		var content = document.getElementById('MSlider-content');
 
 		if (target.className == 'on') {
 			target.className = '';
@@ -116,20 +94,20 @@ var mslider = new MSlider({
 			}, 200);
 		} else {
 			target.className = 'on';
-			outer.className = 'rotated_outer';
-			menu.className = 'rotated_menu';
+			outer.className = 'MSlider-rotated-outer';
+			menu.className = 'MSlider-rotated-menu';
 			target.innerText = 'changeOrientation: 90';
 			setTimeout(function(){
 				content.appendChild(canvas);
-				canvas.className = 'rotated_canvas';
+				canvas.className = 'MSlider-rotated-canvas';
 				mslider.reset();
 			}, 200);
 		}
 	}
 
 	if (navigator.userAgent.match(/(iPhone\sOS)\s([\d_]+)|(Android)\s+([\d.]+)/)) {
-		var menu = document.getElementById('menu');
-		var tip = document.getElementById('tip');
+		var menu = document.getElementById('MSlider-menu');
+		var tip = document.getElementById('MSlider-tip');
 		var flag = false;
 		var isChild = function (child, parent) {
 			var target = child;
@@ -151,19 +129,20 @@ var mslider = new MSlider({
 					flag = false;
 					return;
 				}
-				menu.className = menu.className == 'show' ? '' : 'show';
-				tip.className = tip.className == 'show' ? '' : 'show';
+				menu.className = menu.className == 'MSlider-show' ? '' : 'MSlider-show';
+				tip.className = tip.className == 'MSlider-show' ? '' : 'MSlider-show';
 			}
 			flag = false;
 
 			window.scrollTo(0, 1);
 		}, true)
 		
-		menu.className = 'show';
-		tip.className = 'show';
+		menu.className = 'MSlider-show';
+		tip.className = 'MSlider-show';
 		setTimeout(function(){
 			menu.className = '';
 			tip.className = '';
 		}, 3000);
 	}
-})()
+
+})();

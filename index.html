@@ -38,19 +38,25 @@
 
 <ul>
 <li>Mobile First</li>
-<li>Reduce Memomry (Keep li elements in 3)</li>
-<li>Multi-directional Slider (Vertical and Horizontal)</li>
-<li>Support Infinite Looping Slide</li>
-<li>Damping Effect (Add damping effect when meeting the edge of the list)</li>
-<li>Onorientationchange Event Supported</li>
-<li>Support different types of contents (Picture | Dom Element)</li>
-<li>Support Callback Functions (onslidestart | onslidechange | onslideend | onslide)</li>
-<li><del>Customized Animation To Be Supported</del></li>
-<li><del>Zoom In And Zoom Out To Be Supported</del></li>
+<li>Best Perfomance (Low Memory Usage and No Lagging By Keeping Only 3 li Elements)</li>
+<li>Multi-contents (Picture | Dom Element)</li>
+<li>Fancy Effect (Damping effect, Infinite Looping, Vertical/Horizontal Sliding)</li>
 </ul>
 
 <h1>
-<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h1>
+<a name="getting-started-picture-basic-version" class="anchor" href="#getting-started-picture-basic-version"><span class="octicon octicon-link"></span></a>Getting Started (Picture Basic Version)</h1>
+
+<h3>
+<a name="demo" class="anchor" href="#demo"><span class="octicon octicon-link"></span></a>Demo</h3>
+
+<ul>
+<li><a href="http://be-fe.github.io/MSlider/demo/basic-picture/">Picture Basic Vesrion</a></li>
+</ul>
+
+<h3>
+<a name="procedure" class="anchor" href="#procedure"><span class="octicon octicon-link"></span></a>Procedure</h3>
+
+<p>The following introduce how to set up a basic version of MSlider</p>
 
 <p><b>Step 1. </b>Set meta and css and other resources</p>
 
@@ -75,7 +81,7 @@
 <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"app.js"</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
 </pre></div>
 
-<p>Actually the code in app.js is the bootstrap code for the project. You can directly put the code at HTML file. Example codes are as follow</p>
+<p>Actually the code in app.js is the bootstrap code for the project. You can directly put the code at HTML file. Example codes are as follow. Only data and dom option parameters are necessary. Other parameters are optional. You can refer to the option table at the bottom of README</p>
 
 <div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="p">[</span>
 <span class="p">{</span>
@@ -116,7 +122,7 @@
 <span class="nx">mslider</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MSlider</span><span class="p">({</span>
     <span class="nx">data</span><span class="o">:</span> <span class="nx">list</span><span class="p">,</span>
     <span class="nx">dom</span><span class="o">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"MSlider-canvas"</span><span class="p">),</span>
-    <span class="nx">isVerticle</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isVertical</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="nx">isLooping</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="nx">isDebug</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="nx">isAutoplay</span><span class="o">:</span> <span class="kc">true</span>
@@ -125,12 +131,109 @@
 </pre></div>
 
 <h1>
-<a name="demo" class="anchor" href="#demo"><span class="octicon octicon-link"></span></a>Demo</h1>
+<a name="picture-comprehensive-version" class="anchor" href="#picture-comprehensive-version"><span class="octicon octicon-link"></span></a>Picture Comprehensive Version</h1>
+
+<h3>
+<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h3>
+
+<p>This version shows how fancy we can be. Please enjoy it.</p>
+
+<h3>
+<a name="demo-1" class="anchor" href="#demo-1"><span class="octicon octicon-link"></span></a>Demo</h3>
 
 <ul>
-<li><a href="http://be-fe.github.io/MSlider/demo/comprehensive/">Comprehensive</a></li>
-<li><a href="http://be-fe.github.io/MSlider/demo/basic/">Basic</a></li>
-<li><a href="http://be-fe.github.io/MSlider/demo/dom/">Dom</a></li>
+<li><a href="http://be-fe.github.io/MSlider/demo/comprehensive-picture/">Picture Comprehensive Version</a></li>
+</ul>
+
+<h1>
+<a name="dom-basic-version" class="anchor" href="#dom-basic-version"><span class="octicon octicon-link"></span></a>DOM Basic Version</h1>
+
+<h3>
+<a name="demo-2" class="anchor" href="#demo-2"><span class="octicon octicon-link"></span></a>Demo</h3>
+
+<ul>
+<li><a href="http://be-fe.github.io/MSlider/demo/basic-dom/">Dom Basic Version</a></li>
+</ul>
+
+<h3>
+<a name="procedure-1" class="anchor" href="#procedure-1"><span class="octicon octicon-link"></span></a>Procedure</h3>
+
+<p>Step 1 is similar to basic version above</p>
+
+<p><b>Step 2.</b> HTML markup</p>
+
+<p>For DOM version, we may need to add some menus at the top, so there are some differences</p>
+
+<pre><code>&lt;div id="MSlider-outer"&gt;
+    &lt;div id="MSlider-canvas"&gt;
+        &lt;div id="MSlider-nav"&gt;
+            &lt;a&gt;Home&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div id="MSlider-show"&gt; 
+
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p><b>Step 3.</b> Javascript</p>
+
+<p>Add mslider.js and app.js. Strongly recommend you to put your script at the bottom of the body tag.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"../src/mslider.js"</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"app.js"</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</pre></div>
+
+<p>The code in app.js is a bit different from picture basic version.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Home&lt;/h1&gt;&lt;h2&gt;This is home page&lt;/h2&gt;&lt;p&gt;home is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
+<span class="p">},{</span>
+    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Page1&lt;/h1&gt;&lt;h2&gt;This is page1&lt;/h2&gt;&lt;p&gt;page1 is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
+<span class="p">},{</span>
+    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Page2&lt;/h1&gt;&lt;h2&gt;This is Page2&lt;/h2&gt;&lt;p&gt;Page2 is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
+<span class="p">},{</span>
+    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Page3&lt;/h1&gt;&lt;h2&gt;This is page3&lt;/h2&gt;&lt;p&gt;page3 is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
+<span class="p">}];</span>
+
+<span class="kd">var</span> <span class="nx">info</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Home'</span><span class="p">,</span> <span class="s1">'Page 1'</span><span class="p">,</span> <span class="s1">'Page 2'</span><span class="p">,</span> <span class="s1">'Page3'</span><span class="p">];</span>
+
+<span class="kd">var</span> <span class="nx">mslider</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MSlider</span><span class="p">({</span>
+    <span class="nx">data</span><span class="o">:</span> <span class="nx">list</span><span class="p">,</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">'dom'</span><span class="p">,</span>
+    <span class="nx">dom</span><span class="o">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"MSlider-show"</span><span class="p">),</span>
+    <span class="nx">duration</span><span class="o">:</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="nx">isVertical</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isLooping</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isDebug</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isAutoplay</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">onslidechange</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">idx</span><span class="p">){</span>
+        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'MSlider-nav'</span><span class="p">).</span><span class="nx">children</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">innerText</span> <span class="o">=</span> <span class="nx">info</span><span class="p">[</span><span class="nx">idx</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<h1>
+<a name="dom-comprehensive-version" class="anchor" href="#dom-comprehensive-version"><span class="octicon octicon-link"></span></a>Dom Comprehensive Version</h1>
+
+<h3>
+<a name="description-1" class="anchor" href="#description-1"><span class="octicon octicon-link"></span></a>Description</h3>
+
+<p>This version shows how fancy we can be. Please enjoy it.</p>
+
+<h3>
+<a name="demo-3" class="anchor" href="#demo-3"><span class="octicon octicon-link"></span></a>Demo</h3>
+
+<ul>
+<li><a href="http://be-fe.github.io/MSlider/demo/comprehensive-dom/">Dom Comprehensive Version</a></li>
 </ul>
 
 <h1>
@@ -208,11 +311,6 @@
         <td>isDebug</td>
         <td>Boolean (true | false)</td>
         <td>Turn on/off the debug mode. Some debug message will output</td>
-    </tr>
-    <tr>
-        <td>sliderIndex</td>
-        <td>Integer ( 0 &lt;= sliderIndex &lt; number of images)</td>
-        <td>Starting image index</td>
     </tr>
     <tr>
         <td>isLooping</td>
