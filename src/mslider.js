@@ -1,23 +1,17 @@
 /**
  * MSlider 
- * A simple, efficency mobile slider
+ * A simple, efficent mobile slider
  * @Author qbatyqi
  *
- * @param {Object} opts option 参数集
- * @param {Element} opts.dom  outer wrapper 外层元素 
- * @param {Object} opts.data content data 数据列表
- * @param {String} opts.type content type 数据类型
- * @param {Integer} opts.duration slide time gap 滑动间隔
- * @param {String} opts.ulClass class of ul ul的css类
- * @param {String} opts.liClass class of li li的css类
- * @param {Function} opts.onslide Callback function when your finger is moving 手指滑动回调
- * @param {Function} opts.onslidestart Callback function when your finger move out of the screen 手指触屏回调
- * @param {Function} opts.onslidechange Callback function when the autoplay mode is on and one image slides 自动播放回调
- * @param {Bolean} opts.isDebug Debug Mode 调试模式
- * @param {Integer} opts.sliderIndex Starting image index 初始内容
- * @param {Boolean} opts.isAutoplay Autoplay mode 自动播放
- * @param {Boolean} opts.isVertical vertical/horizontal 是否竖直滚动
- * @param {Boolean} opts.isLooping inifinite loop or not 是否循环
+ * @param {Object}      opts option         参数集
+ * 
+ * Necessary Options                        必要参数
+ *
+ * @param {Element}     opts.dom            外层元素        Outer wrapper
+ * @param {Object}      opts.data           数据列表        Content data
+ *
+ * Other Options                            其它参数
+ * Please refer to README                   请参考README
  *
  * @class 
  */
@@ -50,12 +44,16 @@ MSlider.prototype._setting = function () {
     this.type = opts.type || 'pic';
     //default slide direction
     this.isVertical = opts.isVertical || false;
-    //slide events
-    this.onslide = opts.onslide;
-    this.onslidestart = opts.onslidestart;
-    this.onslideend = opts.onslideend;
-    this.onslidechange = opts.onslidechange;
 
+    //Callback function when your finger is moving
+    this.onslide = opts.onslide;
+    //Callback function when your finger touch the screen
+    this.onslidestart = opts.onslidestart;
+    //Callback function when the finger move out of the screen
+    this.onslideend = opts.onslideend;
+    //Callback function when the finger move out of the screen
+    this.onslidechange = opts.onslidechange;
+    //Slide time gap
     this.duration = opts.duration || 2000;
 
     //ul class
@@ -83,6 +81,7 @@ MSlider.prototype._setting = function () {
         this.isAutoplay = opts.isAutoplay || false;
     }
 
+    //Autoplay mode
     if (this.isAutoplay) {
         this.play();
     }

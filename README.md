@@ -1,22 +1,22 @@
 MSlider
 ==============
 
-<h3>Feature</h3>
+Feature
+==============
 <ul>
 <li>Mobile First</li>
-<li>Reduce Memomry (Keep li elements in 3)</li>
-<li>Multi-directional Slider (Vertical and Horizontal)</li>
-<li>Support Infinite Looping Slide</li>
-<li>Damping Effect (Add damping effect when meeting the edge of the list)</li>
-<li>Onorientationchange Event Supported</li>
-<li>Support different types of contents (Picture | Dom Element)</li>
-<li>Support Callback Functions (onslidestart | onslidechange | onslideend | onslide)</li>
-<li><del>Customized Animation To Be Supported</del></li>
-<li><del>Zoom In And Zoom Out To Be Supported</del></li>
+<li>Best Perfomance (Low Memory Usage and No Lagging By Keeping Only 3 li Elements)</li>
+<li>Multi-contents (Picture | Dom Element)</li>
+<li>Fancy Effect (Damping effect, Infinite Looping, Vertical/Horizontal Sliding)</li>
 </ul>
 
-Getting Started
+Getting Started (Picture Basic Version)
 ==============
+<h3>Demo</h3>
+* [Picture Basic Vesrion](http://be-fe.github.io/MSlider/demo/basic-picture/)
+
+<h3>Procedure</h3>
+<p>The following introduces how to set up a basic version of MSlider</p>
 <p><b>Step 1. </b>Set meta and css and other resources</p>
 <p>Firstly, at the top of file, please put meta and link tag like the following.</p>
 ```
@@ -35,7 +35,7 @@ Getting Started
 <script src="app.js"></script>
 ```
 
-<p>Actually the code in app.js is the bootstrap code for the project. You can directly put the code at HTML file. Example codes are as follow</p>
+<p>Actually the code in app.js is the bootstrap code for the project. You can directly put the code at HTML file. Example codes are as follow. Only data and dom option parameters are necessary. Other parameters are optional. You can refer to the option table at the bottom of README</p>
 
 ```javascript
 var list = [
@@ -85,12 +85,90 @@ mslider = new MSlider({
 
 ```
 
-Demo
+Picture Comprehensive Version
+==============
+<h3>Description</h3>
+<p>This version shows how fancy we can be. Please enjoy it.</p>
+<h3>Demo</h3>
+* [Picture Comprehensive Version](http://be-fe.github.io/MSlider/demo/comprehensive-picture/)
+
+DOM Basic Version
 ==============
 
-* [Comprehensive](http://lcxfs1991.github.io/MSlider/demo/comprehensive/)
-* [Basic](http://lcxfs1991.github.io/MSlider/demo/basic/)
-* [Dom](http://lcxfs1991.github.io/MSlider/demo/dom/)
+<h3>Demo</h3>
+* [Dom Basic Version](http://be-fe.github.io/MSlider/demo/basic-dom/)
+
+<h3>Procedure</h3>
+<p><b>Step 1</b> is similar to basic version above</p>
+<p><b>Step 2.</b> HTML markup</p>
+<p>For DOM version, we will add a place at the top to display where the slider is. </p>
+```
+<div id="MSlider-outer">
+	<div id="MSlider-canvas">
+		<div id="MSlider-nav">
+			<a>Home</a>
+		</div>
+		<div id="MSlider-show"> 
+
+		</div>
+	</div>
+</div>
+```
+
+<p><b>Step 3.</b> Javascript</p>
+<p>Add mslider.js and app.js. Strongly recommend you to put your script at the bottom of the body tag.</p>
+```javascript
+<script src="../src/mslider.js"></script>
+<script src="app.js"></script>
+```
+<p>The code in app.js is a bit different from picture basic version.</p>
+
+```javascript
+var list = [{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page3</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+}];
+
+var info = ['Home', 'Page 1', 'Page 2', 'Page3'];
+
+var mslider = new MSlider({
+    data: list,
+    type: 'dom',
+    dom: document.getElementById("MSlider-show"),
+    duration: 2000,
+    isVertical: true,
+    isLooping: true,
+    isDebug: true,
+    isAutoplay: true,
+   	onslidechange: function(idx){
+   		document.getElementById('MSlider-nav').children[0].innerText = info[idx];
+   	}
+});
+```
+
+Dom Comprehensive Version
+==============
+<h3>Description</h3>
+<p>This version shows how fancy we can be. Please enjoy it.</p>
+<h3>Demo</h3>
+* [Dom Comprehensive Version](http://be-fe.github.io/MSlider/demo/comprehensive-dom/)
+
+Debug
+==============
+<p>Please use webkit browser to watch this example.If you want to try touch Event please make sure you already turn on developer tool "Emulate touch screen". For example, if you use Chrome, you can turn on developer tool and select mobile device simulator on left top.</p>
 
 
 Options
@@ -167,11 +245,6 @@ Options
 		<td>isDebug</td>
 		<td>Boolean (true | false)</td>
 		<td>Turn on/off the debug mode. Some debug message will output</td>
-	</tr>
-	<tr>
-		<td>sliderIndex</td>
-		<td>Integer ( 0 &lt;= sliderIndex &lt; number of images)</td>
-		<td>Starting image index</td>
 	</tr>
 	<tr>
 		<td>isLooping</td>
