@@ -120,6 +120,7 @@ MSlider.prototype._animate = {
             dom.style.backgroundColor = bdColor || '#333';
             dom.style.position = 'absolute';
             dom.style.webkitBackfaceVisibility = 'visible';
+            dom.style.webkitPerspective = 1000;
             dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
             dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1)+ 'deg) translateZ('+ scale/2 +'px)';
         }
