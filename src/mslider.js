@@ -93,23 +93,39 @@ MSlider.prototype._setting = function () {
     //animate
     this.animateType = opts.animateType || 'default';
 
-    var animateList = ['default', 'rotate'];
-
-    this._animate = {
-        'default': function (dom, axis, scale, i, offset){
-            var offset = offset ? offset : "";
-            dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
-        },
-        'rotate': function(dom, axis, scale, i, offset) {
-            var offset = offset ? offset : "";
-            var rotateDirect = axis == "X" ? "Y" : "X";
-            dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px) rotate' + rotateDirect + '(' + 90 * (i - 1)+ 'deg)';
-        }
-    };
+    var animateList = ['default', 'rotate', '3d'];
 
     this._animateFunc = ( animateList.indexOf(this.animateType ) > -1 ) ? this._animate[this.animateType] : this._animate['default'];
 
 };
+
+//animate function options
+MSlider.prototype._animate = {
+    'default': function (dom, axis, scale, i, offset){
+        var offset = offset ? offset : 0;
+        dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+    },
+    'rotate': function(dom, axis, scale, i, offset) {
+        var offset = offset ? offset : 0;
+        var rotateDirect = axis == "X" ? "Y" : "X";
+        dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px) rotate' + rotateDirect + '(' + 90 * (i - 1)+ 'deg)';
+    },
+    '3d': function(dom, axis, scale, i, offset){
+        var offset = offset ? offset : 0;
+        var rotateDirect = (axis == "X") ? "Y" : "X";
+        var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
+        if ( this.isVertical ) {
+            dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+        }
+        else{
+            dom.style.backgroundColor = bdColor || '#333';
+            dom.style.position = 'absolute';
+            dom.style.webkitBackfaceVisibility = 'visible';
+            dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
+            dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1)+ 'deg) translateZ('+ scale/2 +'px)';
+        }
+    }
+}
 
 //enable damping when slider meet the edge
 MSlider.prototype._setUpDamping = function () {
