@@ -18,20 +18,20 @@ var list = [{
 
 var info = ['Home', 'Page 1', 'Page 2', 'Page3'];
 
-var mslider = new MSlider({
+var iSlider = new iSlider({
     data: list,
     type: 'dom',
-    dom: document.getElementById("MSlider-show"),
+    dom: document.getElementById("iSlider-show"),
     duration: 2000,
    	onslidechange: function(idx){
-   		document.getElementById('MSlider-nav').children[0].innerText = info[idx];
+   		document.getElementById('iSlider-nav').children[0].innerText = info[idx];
    	}
 });
 
 
 (function(){
-	var menu = document.getElementById('MSlider-menu');
-	var spans = document.getElementById('MSlider-menu').children;
+	var menu = document.getElementById('iSlider-menu');
+	var spans = document.getElementById('iSlider-menu').children;
 
 	spans[0].onclick = function(){
 		var target = spans[0];
@@ -43,8 +43,8 @@ var mslider = new MSlider({
 			target.innerText = 'isLooping: true';
 		}
 
-		mslider._opts.isLooping = !mslider._opts.isLooping 
-		mslider.reset();
+		iSlider._opts.isLooping = !iSlider._opts.isLooping 
+		iSlider.reset();
 	}
 
 	spans[1].onclick = function(){
@@ -57,8 +57,8 @@ var mslider = new MSlider({
 			target.innerText = 'isVertical: true';
 		}
 
-		mslider._opts.isVertical = !mslider._opts.isVertical;
-		mslider.reset();
+		iSlider._opts.isVertical = !iSlider._opts.isVertical;
+		iSlider.reset();
 	}
 
 	spans[2].onclick = function(){
@@ -71,16 +71,16 @@ var mslider = new MSlider({
 			target.innerText = 'isAutoplay: true';
 		}
 
-		mslider._opts.isAutoplay = !mslider._opts.isAutoplay;
-		mslider.reset();
+		iSlider._opts.isAutoplay = !iSlider._opts.isAutoplay;
+		iSlider.reset();
 	}
 
 	spans[3].onclick = function(){
 		var target = spans[3];
-		var outer = document.getElementById('MSlider-outer');
-		var menu = document.getElementById('MSlider-menu');
-		var canvas = document.getElementById('MSlider-canvas');
-		var content = document.getElementById('MSlider-content');
+		var outer = document.getElementById('iSlider-outer');
+		var menu = document.getElementById('iSlider-menu');
+		var canvas = document.getElementById('iSlider-canvas');
+		var content = document.getElementById('iSlider-content');
 
 		if (target.className == 'on') {
 			target.className = '';
@@ -90,24 +90,24 @@ var mslider = new MSlider({
 			canvas.className = '';
 			outer.appendChild(canvas);
 			setTimeout(function(){
-				mslider.reset();
+				iSlider.reset();
 			}, 200);
 		} else {
 			target.className = 'on';
-			outer.className = 'MSlider-rotated-outer';
-			menu.className = 'MSlider-rotated-menu';
+			outer.className = 'iSlider-rotated-outer';
+			menu.className = 'iSlider-rotated-menu';
 			target.innerText = 'changeOrientation: 90';
 			setTimeout(function(){
 				content.appendChild(canvas);
-				canvas.className = 'MSlider-rotated-canvas';
-				mslider.reset();
+				canvas.className = 'iSlider-rotated-canvas';
+				iSlider.reset();
 			}, 200);
 		}
 	}
 
 	if (navigator.userAgent.match(/(iPhone\sOS)\s([\d_]+)|(Android)\s+([\d.]+)/)) {
-		var menu = document.getElementById('MSlider-menu');
-		var tip = document.getElementById('MSlider-tip');
+		var menu = document.getElementById('iSlider-menu');
+		var tip = document.getElementById('iSlider-tip');
 		var flag = false;
 		var isChild = function (child, parent) {
 			var target = child;
@@ -129,16 +129,16 @@ var mslider = new MSlider({
 					flag = false;
 					return;
 				}
-				menu.className = menu.className == 'MSlider-show' ? '' : 'MSlider-show';
-				tip.className = tip.className == 'MSlider-show' ? '' : 'MSlider-show';
+				menu.className = menu.className == 'iSlider-show' ? '' : 'iSlider-show';
+				tip.className = tip.className == 'iSlider-show' ? '' : 'iSlider-show';
 			}
 			flag = false;
 
 			window.scrollTo(0, 1);
 		}, true)
 		
-		menu.className = 'MSlider-show';
-		tip.className = 'MSlider-show';
+		menu.className = 'iSlider-show';
+		tip.className = 'iSlider-show';
 		setTimeout(function(){
 			menu.className = '';
 			tip.className = '';

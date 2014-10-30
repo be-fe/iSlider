@@ -1,21 +1,15 @@
 /**
- * MSlider 
+ * iSlider 
  * A simple, efficent mobile slider
  * @Author qbatyqi
  *
- * @param {Object}      opts option         参数集
- * 
- * Necessary Options                        必要参数
- *
+ * @param {Object}      opts                参数集
  * @param {Element}     opts.dom            外层元素        Outer wrapper
  * @param {Object}      opts.data           数据列表        Content data
- *
- * Other Options                            其它参数
  * Please refer to README                   请参考README
- *
  * @class 
  */
-var MSlider = function (opts) {
+var iSlider = function (opts) {
     if (!opts.dom) {
         throw new Error("dom element can not be empty!");
     }
@@ -31,7 +25,7 @@ var MSlider = function (opts) {
 };
 
 //setting parameters for slider
-MSlider.prototype._setting = function () {
+iSlider.prototype._setting = function () {
     var opts = this._opts;
 
     //dom element wrapping pics
@@ -44,18 +38,17 @@ MSlider.prototype._setting = function () {
     this.type = opts.type || 'pic';
     //default slide direction
     this.isVertical = opts.isVertical || false;
-    //slide events
+
+    //Callback function when your finger is moving
     this.onslide = opts.onslide;
+    //Callback function when your finger touch the screen
     this.onslidestart = opts.onslidestart;
+    //Callback function when the finger move out of the screen
     this.onslideend = opts.onslideend;
+    //Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
-
+    //Slide time gap
     this.duration = opts.duration || 2000;
-
-    //ul class
-    this.ulClass = opts.ulClass || 'MSlider-ul';
-    //li class
-    this.liClass = opts.liClass || 'MSlider-li';
 
     //debug mode
     this.log = opts.isDebug ? function (str) { console.log(str) } : function (){};
@@ -77,16 +70,50 @@ MSlider.prototype._setting = function () {
         this.isAutoplay = opts.isAutoplay || false;
     }
 
+    //Autoplay mode
     if (this.isAutoplay) {
         this.play();
     }
 
     //set Damping function
     this._setUpDamping();
+
+    //set animate Function
+    this._animateFunc = (opts.animateType in this._animateFuncs) 
+    ? this._animateFuncs[this.animateType] 
+    : this._animateFuncs['default'];
 };
 
+//animate function options
+iSlider.prototype._animateFuncs = {
+    'default': function (dom, axis, scale, i, offset){
+        var offset = offset ? offset : 0;
+        dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+    },
+    'rotate': function(dom, axis, scale, i, offset) {
+        var offset = offset ? offset : 0;
+        var rotateDirect = axis == "X" ? "Y" : "X";
+        dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px) rotate' + rotateDirect + '(' + 90 * (i - 1)+ 'deg)';
+    },
+    '3d': function(dom, axis, scale, i, offset){
+        var offset = offset ? offset : 0;
+        var rotateDirect = (axis == "X") ? "Y" : "X";
+        var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
+        if ( this.isVertical ) {
+            dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+        } else {
+            dom.style.backgroundColor = bdColor || '#333';
+            dom.style.position = 'absolute';
+            dom.style.webkitBackfaceVisibility = 'visible';
+            dom.style.webkitPerspective = 1000;
+            dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
+            dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1)+ 'deg) translateZ('+ scale/2 +'px)';
+        }
+    }
+}
+
 //enable damping when slider meet the edge
-MSlider.prototype._setUpDamping = function () {
+iSlider.prototype._setUpDamping = function () {
     var oneIn2 = this.scale >> 1;
     var oneIn4 = oneIn2 >> 1;
     var oneIn16 = oneIn4 >> 2;
@@ -108,7 +135,7 @@ MSlider.prototype._setUpDamping = function () {
 };
 
 //render single item html by idx
-MSlider.prototype._renderItem = function (i) {
+iSlider.prototype._renderItem = function (i) {
     var item, html;
     var len = this.data.length;
 
@@ -140,7 +167,7 @@ MSlider.prototype._renderItem = function (i) {
 };
 
 //render list html
-MSlider.prototype._renderHTML = function () {
+iSlider.prototype._renderHTML = function () {
     var outer;
 
     if (this.outer) {
@@ -148,9 +175,8 @@ MSlider.prototype._renderHTML = function () {
         this.outer.innerHTML = '';
         outer = this.outer;
     } else {
-        //used ofr initialization
+        //used for initialization
         outer = document.createElement('ul');
-        outer.className = this.ulClass;
     }
 
     //ul width equels to div#canvas width
@@ -161,10 +187,9 @@ MSlider.prototype._renderHTML = function () {
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
-        li.className = this.liClass;
         li.style.width = this.width + 'px';
         li.style.height = this.height + 'px';
-        li.style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
+        this._animateFunc(li, this.axis, this.scale, i);
 
         this.els.push(li);
         outer.appendChild(li);
@@ -180,12 +205,11 @@ MSlider.prototype._renderHTML = function () {
 };
 
 //logical slider, control left or right
-MSlider.prototype._slide = function (n) {
+iSlider.prototype._slide = function (n) {
     var data = this.data;
     var els = this.els;
     var idx = this.sliderIndex + n;
-    
-    //check if the element has hit the data limit
+
     if (data[idx]){
         this.sliderIndex = idx;
     } else {
@@ -198,18 +222,15 @@ MSlider.prototype._slide = function (n) {
 
     this.log('pic idx:' + this.sliderIndex);
 
-    //change element position
     var sEle;
     if (n > 0) {
-        //slide left, first element goes to last
         sEle = els.shift();
         els.push(sEle);
     } else if (n < 0) {
-        //slide right, last element goest to first
         sEle = els.pop();
         els.unshift(sEle);
     } 
-    //change element content when slides
+
     if(n !== 0){
         sEle.innerHTML = this._renderItem(idx + n);
         this.onslidechange && this.onslidechange(this.sliderIndex);
@@ -221,10 +242,9 @@ MSlider.prototype._slide = function (n) {
         } else {
             els[i].style.webkitTransition = 'all 0s';
         }
-        els[i].style.webkitTransform = 'translateZ(0) translate' + this.axis + '(' + this.scale * (i - 1) + 'px)';
+        this._animateFunc(els[i], this.axis, this.scale, i);
     }
 
-    //if slide to end, and isLooping mode is off, then pause
     if (this.isAutoplay) {
         if (this.sliderIndex === data.length - 1 && !this.isLooping) {
             this.pause();
@@ -235,7 +255,7 @@ MSlider.prototype._slide = function (n) {
 };
 
 //bind all event handler
-MSlider.prototype._bindHandler = function () {
+iSlider.prototype._bindHandler = function () {
     var self = this;
     var scaleW = self.scaleW;
     var outer = self.outer;
@@ -262,7 +282,6 @@ MSlider.prototype._bindHandler = function () {
         self.onslide && self.onslide();
         self.log('Event: onslide');
 
-        
         var axis = self.axis;
         var offset = evt.targetTouches[0]['page' + axis] - self['start' + axis];
 
@@ -275,7 +294,8 @@ MSlider.prototype._bindHandler = function () {
         for (var i = 0; i < 3; i++) {
             var item = self.els[i];
             item.style.webkitTransition = 'all 0s';
-            item.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + self.scale * (i - 1)) + 'px)';
+            self._animateFunc(item, axis, self.scale, i, offset);
+            //item.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + self.scale * (i - 1)) + 'px)';
         }
 
         self.offset = offset;
@@ -319,7 +339,7 @@ MSlider.prototype._bindHandler = function () {
     window.addEventListener('orientationchange', orientationchangeHandler);
 };
 
-MSlider.prototype.reset = function () {
+iSlider.prototype.reset = function () {
     this.pause();
     this._setting();
     this._renderHTML();
@@ -327,7 +347,7 @@ MSlider.prototype.reset = function () {
 };
 
 //enable autoplay
-MSlider.prototype.play = function () {
+iSlider.prototype.play = function () {
     var self = this;
     var duration = this.duration;
     clearInterval(this.autoPlayTimer);
@@ -337,6 +357,6 @@ MSlider.prototype.play = function () {
 };
 
 //pause autoplay
-MSlider.prototype.pause = function () {
+iSlider.prototype.pause = function () {
     clearInterval(this.autoPlayTimer);
 };
