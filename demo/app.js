@@ -41,5 +41,5 @@ mslider = new MSlider({
     isLooping: true,
     isDebug: true,
     isAutoplay: false,
-    animateType: 'default'
+    animateType: '3d'
 });
