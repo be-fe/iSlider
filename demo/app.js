@@ -37,7 +37,7 @@ var list = [
 mslider = new MSlider({
     data: list,
     dom: document.getElementById("MSlider-canvas"),
-    isVertical: false,
+    isVertical: true,
     isLooping: true,
     isDebug: true,
     isAutoplay: false,

@@ -103,20 +103,18 @@ MSlider.prototype._animateFuncs = {
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
 
-        if ( this.isVertical ) {
-            dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+        this.wrap.style.webkitPerspective = 1000;
+
+        if (i == 1){
+            dom.style.zIndex = 100;
         }else{
-            this.wrap.style.webkitPerspective = 1000;
-            if (i == 1){
-                dom.style.zIndex = 100;
-            }else{
-                dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
-            }
-            dom.style.backgroundColor = bdColor || '#333';
-            dom.style.position = 'absolute';
-            dom.style.webkitBackfaceVisibility = 'visible';
-            dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1)+ 'deg) translateZ('+ (scale/2) +'px)';
+            dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
         }
+        
+        dom.style.backgroundColor = bdColor || '#333';
+        dom.style.position = 'absolute';
+        dom.style.webkitBackfaceVisibility = 'visible';
+        dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1)+ 'deg) translateZ('+ (scale/2) +'px)';
     },
 
     'flip': function(dom, axis, scale, i, offset) {
@@ -128,10 +126,10 @@ MSlider.prototype._animateFuncs = {
 
         if (offset > 0){
             dom.style.visibility = (i > 1) ? 'hidden' : 'visible';
-        }
-        else{
+        }else{
             dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
         }
+
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
         dom.style.webkitBackfaceVisibility = 'hidden';
