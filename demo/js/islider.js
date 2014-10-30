@@ -86,7 +86,8 @@ iSlider.prototype._setting = function () {
 
 //animate function options
 
-MSlider.prototype._animateFuncs = {
+iSlider.prototype._animateFuncs = {
+
     'default': function (dom, axis, scale, i, offset){
         var offset = offset ? offset : 0;
         dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
@@ -124,16 +125,18 @@ MSlider.prototype._animateFuncs = {
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
 
-        if ( this.isVertical ) {
-            dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
-        }else{
-            this.wrap.style.webkitPerspective = 1000;
+        this.wrap.style.webkitPerspective = 1000;
 
-            dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
-            dom.style.backgroundColor = bdColor || '#333';
-            dom.style.position = 'absolute';
-            dom.style.webkitTransform = 'translateZ('+ (scale/2) +'px) rotate' + rotateDirect + '(' + 180 * (offset/scale + i - 1)+ 'deg)';
+        if (offset > 0){
+            dom.style.visibility = (i > 1) ? 'hidden' : 'visible';
         }
+        else{
+            dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
+        }
+        dom.style.backgroundColor = bdColor || '#333';
+        dom.style.position = 'absolute';
+        dom.style.webkitBackfaceVisibility = 'hidden';
+        dom.style.webkitTransform = 'translateZ('+ (scale/2) +'px) rotate' + rotateDirect + '(' + 180 * (offset/scale + i - 1)+ 'deg)';
     }
 }
 
