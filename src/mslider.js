@@ -3,16 +3,10 @@
  * A simple, efficent mobile slider
  * @Author qbatyqi
  *
- * @param {Object}      opts option         参数集
- * 
- * Necessary Options                        必要参数
- *
+ * @param {Object}      opts                参数集
  * @param {Element}     opts.dom            外层元素        Outer wrapper
  * @param {Object}      opts.data           数据列表        Content data
- *
- * Other Options                            其它参数
  * Please refer to README                   请参考README
- *
  * @class 
  */
 var MSlider = function (opts) {
@@ -56,11 +50,6 @@ MSlider.prototype._setting = function () {
     //Slide time gap
     this.duration = opts.duration || 2000;
 
-    //ul class
-    this.ulClass = opts.ulClass || 'MSlider-ul';
-    //li class
-    this.liClass = opts.liClass || 'MSlider-li';
-
     //debug mode
     this.log = opts.isDebug ? function (str) { console.log(str) } : function (){};
 
@@ -89,17 +78,14 @@ MSlider.prototype._setting = function () {
     //set Damping function
     this._setUpDamping();
 
-    //animate
-    this.animateType = opts.animateType || 'default';
-
-    var animateList = ['default', 'rotate', '3d'];
-
-    this._animateFunc = ( animateList.indexOf(this.animateType ) > -1 ) ? this._animate[this.animateType] : this._animate['default'];
-
+    //set animate Function
+    this._animateFunc = (opts.animateType in this._animateFuncs) 
+    ? this._animateFuncs[this.animateType] 
+    : this._animateFuncs['default'];
 };
 
 //animate function options
-MSlider.prototype._animate = {
+MSlider.prototype._animateFuncs = {
     'default': function (dom, axis, scale, i, offset){
         var offset = offset ? offset : 0;
         dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
@@ -115,8 +101,7 @@ MSlider.prototype._animate = {
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
         if ( this.isVertical ) {
             dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
-        }
-        else{
+        } else {
             dom.style.backgroundColor = bdColor || '#333';
             dom.style.position = 'absolute';
             dom.style.webkitBackfaceVisibility = 'visible';
@@ -192,7 +177,6 @@ MSlider.prototype._renderHTML = function () {
     } else {
         //used for initialization
         outer = document.createElement('ul');
-        outer.className = this.ulClass;
     }
 
     //ul width equels to div#canvas width
@@ -203,7 +187,6 @@ MSlider.prototype._renderHTML = function () {
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
-        li.className = this.liClass;
         li.style.width = this.width + 'px';
         li.style.height = this.height + 'px';
         this._animateFunc(li, this.axis, this.scale, i);
@@ -226,7 +209,6 @@ MSlider.prototype._slide = function (n) {
     var data = this.data;
     var els = this.els;
     var idx = this.sliderIndex + n;
-    
 
     if (data[idx]){
         this.sliderIndex = idx;
@@ -300,7 +282,6 @@ MSlider.prototype._bindHandler = function () {
         self.onslide && self.onslide();
         self.log('Event: onslide');
 
-        
         var axis = self.axis;
         var offset = evt.targetTouches[0]['page' + axis] - self['start' + axis];
 
