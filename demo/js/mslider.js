@@ -128,9 +128,10 @@ MSlider.prototype._animateFuncs = {
         }else{
             this.wrap.style.webkitPerspective = 1000;
 
-            dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
+            //dom.style.zIndex = (offset < 0) ? (1-i) : (i-1);
             dom.style.backgroundColor = bdColor || '#333';
             dom.style.position = 'absolute';
+            dom.style.webkitBackfaceVisibility = 'hidden';
             dom.style.webkitTransform = 'translateZ('+ (scale/2) +'px) rotate' + rotateDirect + '(' + 180 * (offset/scale + i - 1)+ 'deg)';
         }
     }
