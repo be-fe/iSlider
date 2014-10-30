@@ -78,6 +78,7 @@ If you hope to implement the effects mentioned in introduction part, you can:
     </script>
 
 <h2 id="understanding">Understand The iSlider</h2>
+Here provides a clear description of what options you are able to manipulate:
 <table>
 <thead>
 	<tr>
@@ -114,16 +115,6 @@ If you hope to implement the effects mentioned in introduction part, you can:
 		<td>duration</td>
 		<td>Integer (1000 == 1s)</td>
 		<td>Time gap when an image slides</td>
-	</tr>
-	<tr>
-		<td>ulClass</td>
-		<td>String</td>
-		<td>CSS class name of ul</td>
-	</tr>
-	<tr>
-		<td>liClass</td>
-		<td>String</td>
-		<td>CSS class name of li</td>
 	</tr>
 	<tr>
 		<td>onslide</td>
