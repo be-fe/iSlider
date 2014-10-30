@@ -1,5 +1,7 @@
 <h1 id="intro">iSlider，Smooth slider for webapps</h1>
 
+<h3><a href="http://lcxfs1991.github.io/iSlider">iSlider Official Page</a></h3>
+
 iSlider is a high performance，dependency free, mobile-platform javascript slider.
 It can handle any elements that need to be slide, like picture list or different dom elements. 
 It features:
