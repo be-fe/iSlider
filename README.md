@@ -124,6 +124,11 @@ Here provides a clear description of what options you are able to manipulate:
 		<td>Time gap when an image slides</td>
 	</tr>
 	<tr>
+        <td>animationType</td>
+        <td>String</td>
+        <td>Currently, default, rotate, 3d and flip are supported animations</td>
+    </tr>
+	<tr>
 		<td>onslide</td>
 		<td>Function</td>
 		<td>Callback function when your finger is moving</td>
