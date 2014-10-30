@@ -2,10 +2,12 @@
 
 iSlider is a high performance，dependency free, mobile-platform javascript slider.
 
-iSlider can handle any element that need to be slide, like picture list or different dom elements. It adds :
+iSlider can handle any element that need to be slide, like picture list or different dom elements. 
+It features:
 
 * Animation can be customized with user defined functions (rotate, 3d, default).
 * You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange)
+* Damping effect, Infinite Looping, Autometic sliding, Vertical/Horizontal Sliding can be configure.
 
 <h2 id="getting-started">Getting Started</h2>
 The best way to learn the iScroll is by looking at the demos. In the archive you'll find a demo folderMost of the script features are outlined there.
@@ -43,6 +45,9 @@ To make it runnable, all you need to do is initiate:
     </script>
 
 That's it. 
+
+<h2 id="license">License (MIT)</h2>
+
 
 <h2 id="license">License (MIT)</h2>
 
