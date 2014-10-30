@@ -37,7 +37,7 @@ var list = [
 islider = new iSlider({
     data: list,
     dom: document.getElementById("iSlider-wrapper"),
-    isVertical: false,
+    isVertical: true,
     isLooping: true,
     isDebug: true,
     isAutoplay: false,
