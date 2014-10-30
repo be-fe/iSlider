@@ -1,8 +1,7 @@
 <h1 id="intro">iSlider，Smooth slider for webapps</h1>
 
 iSlider is a high performance，dependency free, mobile-platform javascript slider.
-
-iSlider can handle any element that need to be slide, like picture list or different dom elements. 
+It can handle any element that need to be slide, like picture list or different dom elements. 
 It features:
 
 * Animation can be customized with user defined functions (rotate, 3d, default).
@@ -45,9 +44,6 @@ To make it runnable, all you need to do is initiate:
     </script>
 
 That's it. 
-
-<h2 id="license">License (MIT)</h2>
-
 
 <h2 id="license">License (MIT)</h2>
 
