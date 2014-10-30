@@ -1,4 +1,4 @@
-var list = [
+var picList = [
 {
 	height: 475,
 	width: 400,
@@ -40,13 +40,35 @@ var list = [
 	content:"pics/9.jpg"
 }
 ];
+
+var domList = [
+{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page3</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+}
+];
+
+
 	
-var iSlider = new iSlider({
-    data: list,
-    dom: document.getElementById("iSlider-canvas"),
+var islider = new iSlider({
+    data: picList,
+    dom: document.getElementById("iSlider-show"),
     duration: 1500,
    	onslidechange: function(idx){
-   		var target = document.getElementById('iSlider-info').getElementsByTagName('strong')[0];
+   		var target = document.getElementById('iSlider-nav').children[0].innerText = 'Index: ' + idx;
    		target.innerText = idx;
    	}
 });
@@ -65,9 +87,9 @@ var iSlider = new iSlider({
 			target.innerText = 'isLooping: true';
 		}
 
-		iSlider._opts.isLooping = !iSlider._opts.isLooping 
-		iSlider.reset();
-	}
+		islider._opts.isLooping = !islider._opts.isLooping 
+		islider.reset();
+	};
 
 	spans[1].onclick = function(){
 		var target = spans[1];
@@ -79,9 +101,9 @@ var iSlider = new iSlider({
 			target.innerText = 'isVertical: true';
 		}
 
-		iSlider._opts.isVertical = !iSlider._opts.isVertical;
-		iSlider.reset();
-	}
+		islider._opts.isVertical = !islider._opts.isVertical;
+		islider.reset();
+	};
 
 	spans[2].onclick = function(){
 		var target = spans[2];
@@ -93,9 +115,9 @@ var iSlider = new iSlider({
 			target.innerText = 'isAutoplay: true';
 		}
 
-		iSlider._opts.isAutoplay = !iSlider._opts.isAutoplay;
-		iSlider.reset();
-	}
+		islider._opts.isAutoplay = !islider._opts.isAutoplay;
+		islider.reset();
+	};
 
 	spans[3].onclick = function(){
 		var target = spans[3];
@@ -104,7 +126,7 @@ var iSlider = new iSlider({
 		var canvas = document.getElementById('iSlider-canvas');
 		var content = document.getElementById('iSlider-content');
 
-		if (target.className == 'on') {
+		if (target.className === 'on') {
 			target.className = '';
 			outer.className = '';
 			menu.className = '';
@@ -112,7 +134,7 @@ var iSlider = new iSlider({
 			canvas.className = '';
 			outer.appendChild(canvas);
 			setTimeout(function(){
-				iSlider.reset();
+				islider.reset();
 			}, 200);
 		} else {
 			target.className = 'on';
@@ -122,10 +144,32 @@ var iSlider = new iSlider({
 			setTimeout(function(){
 				content.appendChild(canvas);
 				canvas.className = 'iSlider-rotated-canvas';
-				iSlider.reset();
+				islider.reset();
 			}, 200);
 		}
-	}
+	};
+
+	spans[4].childNodes[1].onchange = function() {
+		islider._opts.animateType = this.value;
+		console.log(islider._opts.sliderIndex);
+		islider.reset();
+
+	};
+
+	spans[5].childNodes[1].onchange = function() {
+		
+		if (this.value === 'dom') {
+			islider.sliderIndex = 0;
+			islider._opts.data = domList;
+		}
+		else if(this.value === 'pic') {
+			islider._opts.data = picList;
+		}
+		
+		islider._opts.type = this.value;
+
+		islider.reset();
+	};
 
 	if (navigator.userAgent.match(/(iPhone\sOS)\s([\d_]+)|(Android)\s+([\d.]+)/)) {
 		var menu = document.getElementById('iSlider-menu');
@@ -151,18 +195,16 @@ var iSlider = new iSlider({
 					flag = false;
 					return;
 				}
-				menu.className = menu.className == 'show' ? '' : 'show';
-				tip.className = tip.className == 'show' ? '' : 'show';
+				tip.className = (tip.className == 'show') ? '' : 'show';
 			}
 			flag = false;
 
 			window.scrollTo(0, 1);
 		}, true)
 		
-		menu.className = 'show';
+		menu.className = (menu.className == 'iSlider-rotated-menu') ?  'iSlider-rotated-menu show' : 'show';
 		tip.className = 'show';
 		setTimeout(function(){
-			menu.className = '';
 			tip.className = '';
 		}, 3000);
 	}

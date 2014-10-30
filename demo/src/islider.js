@@ -80,7 +80,7 @@ iSlider.prototype._setting = function () {
 
     //set animate Function
     this._animateFunc = (opts.animateType in this._animateFuncs) 
-    ? this._animateFuncs[this.animateType] 
+    ? this._animateFuncs[opts.animateType] 
     : this._animateFuncs['default'];
 };
 
