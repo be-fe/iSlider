@@ -161,6 +161,6 @@ Here provides a clear description of what options you are able to manipulate:
 
 <h2 id="license">License (MIT)</h2>
 
-Copyright (c) 2014 Matteo Spinelli
+Copyright (c) 2014 BE-FE
 
 [MIT](https://github.com/BE-FE/MSlider/blob/master/LICENSE)
