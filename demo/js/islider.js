@@ -1,5 +1,5 @@
 /**
- * MSlider 
+ * iSlider 
  * A simple, efficent mobile slider
  * @Author qbatyqi
  *
@@ -15,7 +15,7 @@
  *
  * @class 
  */
-var MSlider = function (opts) {
+var iSlider = function (opts) {
     if (!opts.dom) {
         throw new Error("dom element can not be empty!");
     }
@@ -31,7 +31,7 @@ var MSlider = function (opts) {
 };
 
 //setting parameters for slider
-MSlider.prototype._setting = function () {
+iSlider.prototype._setting = function () {
     var opts = this._opts;
 
     //dom element wrapping pics
@@ -57,9 +57,9 @@ MSlider.prototype._setting = function () {
     this.duration = opts.duration || 2000;
 
     //ul class
-    this.ulClass = opts.ulClass || 'MSlider-ul';
+    this.ulClass = opts.ulClass || 'iSlider-ul';
     //li class
-    this.liClass = opts.liClass || 'MSlider-li';
+    this.liClass = opts.liClass || 'iSlider-li';
 
     //debug mode
     this.log = opts.isDebug ? function (str) { console.log(str) } : function (){};
@@ -99,7 +99,7 @@ MSlider.prototype._setting = function () {
 };
 
 //animate function options
-MSlider.prototype._animate = {
+iSlider.prototype._animate = {
     'default': function (dom, axis, scale, i, offset){
         var offset = offset ? offset : 0;
         dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
@@ -128,7 +128,7 @@ MSlider.prototype._animate = {
 }
 
 //enable damping when slider meet the edge
-MSlider.prototype._setUpDamping = function () {
+iSlider.prototype._setUpDamping = function () {
     var oneIn2 = this.scale >> 1;
     var oneIn4 = oneIn2 >> 1;
     var oneIn16 = oneIn4 >> 2;
@@ -150,7 +150,7 @@ MSlider.prototype._setUpDamping = function () {
 };
 
 //render single item html by idx
-MSlider.prototype._renderItem = function (i) {
+iSlider.prototype._renderItem = function (i) {
     var item, html;
     var len = this.data.length;
 
@@ -182,7 +182,7 @@ MSlider.prototype._renderItem = function (i) {
 };
 
 //render list html
-MSlider.prototype._renderHTML = function () {
+iSlider.prototype._renderHTML = function () {
     var outer;
 
     if (this.outer) {
@@ -222,7 +222,7 @@ MSlider.prototype._renderHTML = function () {
 };
 
 //logical slider, control left or right
-MSlider.prototype._slide = function (n) {
+iSlider.prototype._slide = function (n) {
     var data = this.data;
     var els = this.els;
     var idx = this.sliderIndex + n;
@@ -273,7 +273,7 @@ MSlider.prototype._slide = function (n) {
 };
 
 //bind all event handler
-MSlider.prototype._bindHandler = function () {
+iSlider.prototype._bindHandler = function () {
     var self = this;
     var scaleW = self.scaleW;
     var outer = self.outer;
@@ -358,7 +358,7 @@ MSlider.prototype._bindHandler = function () {
     window.addEventListener('orientationchange', orientationchangeHandler);
 };
 
-MSlider.prototype.reset = function () {
+iSlider.prototype.reset = function () {
     this.pause();
     this._setting();
     this._renderHTML();
@@ -366,7 +366,7 @@ MSlider.prototype.reset = function () {
 };
 
 //enable autoplay
-MSlider.prototype.play = function () {
+iSlider.prototype.play = function () {
     var self = this;
     var duration = this.duration;
     clearInterval(this.autoPlayTimer);
@@ -376,6 +376,6 @@ MSlider.prototype.play = function () {
 };
 
 //pause autoplay
-MSlider.prototype.pause = function () {
+iSlider.prototype.pause = function () {
     clearInterval(this.autoPlayTimer);
 };

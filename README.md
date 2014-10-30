@@ -163,4 +163,4 @@ Here provides a clear description of what options you are able to manipulate:
 
 Copyright (c) 2014 BE-FE
 
-[MIT](https://github.com/BE-FE/MSlider/blob/master/LICENSE)
+[MIT](https://github.com/BE-FE/iSlider/blob/master/LICENSE)

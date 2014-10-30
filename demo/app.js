@@ -34,7 +34,7 @@ var list = [
 }
 ];
 	
-mslider = new MSlider({
+islider = new iSlider({
     data: list,
     dom: document.getElementById("iSlider-wrapper"),
     isVertical: false,
