@@ -86,6 +86,7 @@ MSlider.prototype._setting = function () {
 
 //animate function options
 MSlider.prototype._animateFuncs = {
+
     'default': function (dom, axis, scale, i, offset){
         var offset = offset ? offset : 0;
         dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
@@ -125,6 +126,12 @@ MSlider.prototype._animateFuncs = {
 
         this.wrap.style.webkitPerspective = 1000;
 
+        if (offset > 0){
+            dom.style.visibility = (i > 1) ? 'hidden' : 'visible';
+        }
+        else{
+            dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
+        }
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
         dom.style.webkitBackfaceVisibility = 'hidden';
