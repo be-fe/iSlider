@@ -83,6 +83,8 @@ If you hope to implement the effects mentioned in introduction part, you can:
 
 * <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
 
+<img src="qrcode.png"/>
+
 <h2 id="understanding">Understand The iSlider</h2>
 Here provides a clear description of what options you are able to manipulate:
 <table>
