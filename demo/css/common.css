@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 #iSlider-show ul {
@@ -49,8 +49,9 @@ body {
 }
 
 #iSlider-outer {
-    height: 600px;
+    height: 500px;
     width: 380px;
+    left: 40px;
     background: url('../imgs/bg_1.jpeg') no-repeat top center;
     background-size: 100%;
     overflow: hidden;
@@ -117,21 +118,19 @@ body {
 
 /* controller */
 #iSlider-menu {
+    float: left;
+    /*margin-left: 100px;*/
+    width: 200px;
     color: #000;
     font-size: 14px;
-    position: absolute;
+    /*position: absolute;*/
     z-index: 2;
-    top: 100px;
-    left: 350px;
-    width: 200px;
     -webkit-transition: all .2s ease;
 }
 
 .iSlider-rotated-menu {
-    position: absolute;
     top: 14px!important;
     left: 40px!important;
-    bottom: 30px!important;
     width: auto!important;
 }
 
@@ -141,10 +140,11 @@ body {
 }
 
 .iSlider-rotated-canvas {
+    float: left;
     width: 358px!important;
     height: 202px!important;
-    top: 149px!important;
-    left: 101px!important;
+    margin-top: 136px!important;
+    margin-left: 3px!important;
     z-index: 3;
 }
 
@@ -174,4 +174,28 @@ body {
     cursor: pointer;
     color: #fff;
     background-color: #666;
+}
+
+@media screen and (max-width:467px){
+
+    .iSlider-rotated-canvas {
+        margin-top: 320px!important;
+    }
+
+}
+
+@media screen and (min-width:468px) and (max-width:702px){
+
+    .iSlider-rotated-canvas {
+        margin-top: 182px!important;
+    }
+
+}
+
+@media screen and (max-width:768px){
+
+    #iSlider-tip {
+        display: none;
+    }
+
 }
