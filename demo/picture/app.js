@@ -151,7 +151,6 @@ var islider = new iSlider({
 
 	spans[4].childNodes[1].onchange = function() {
 		islider._opts.animateType = this.value;
-		console.log(islider._opts.sliderIndex);
 		islider.reset();
 
 	};
