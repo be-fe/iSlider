@@ -7,6 +7,7 @@
  * @param {Element}     opts.dom            外层元素        Outer wrapper
  * @param {Object}      opts.data           数据列表        Content data
  * Please refer to README                   请参考README
+
  * @class 
  */
 var iSlider = function (opts) {
@@ -233,7 +234,8 @@ iSlider.prototype._slide = function (n) {
     var data = this.data;
     var els = this.els;
     var idx = this.sliderIndex + n;
-
+    
+    //check if the element has hit the data limit
     if (data[idx]){
         this.sliderIndex = idx;
     } else {
@@ -246,15 +248,18 @@ iSlider.prototype._slide = function (n) {
 
     this.log('pic idx:' + this.sliderIndex);
 
+    //change element position
     var sEle;
     if (n > 0) {
+        //slide left, first element goes to last
         sEle = els.shift();
         els.push(sEle);
     } else if (n < 0) {
+        //slide right, last element goest to first
         sEle = els.pop();
         els.unshift(sEle);
     } 
-
+    //change element content when slides
     if(n !== 0){
         sEle.innerHTML = this._renderItem(idx + n);
         sEle.style.webkitTransition = 'none';
@@ -274,6 +279,7 @@ iSlider.prototype._slide = function (n) {
         this._animateFunc(els[i], this.axis, this.scale, i);
     }
 
+    //if slide to end, and isLooping mode is off, then pause
     if (this.isAutoplay) {
         if (this.sliderIndex === data.length - 1 && !this.isLooping) {
             this.pause();
