@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    /*overflow: hidden;*/
+    overflow: scroll;
 }
 
 #iSlider-show ul {
@@ -52,7 +52,7 @@ body {
     float: left;
     height: 500px;
     width: 380px;
-    margin-left: 40px;
+    /*margin-left: 40px;*/
     margin-right: 20px;
     background: url('../imgs/bg_1.jpeg') no-repeat top center;
     background-size: 100%;
@@ -137,8 +137,7 @@ body {
     -webkit-transform: rotate(90deg);
     -webkit-transform-origin: 60% 48%%;
     margin-top: -50px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 30px;
     z-index: -1;
 }
 
@@ -147,7 +146,7 @@ body {
     width: 358px!important;
     height: 202px!important;
     margin-top: -6px!important;
-    margin-left: 3px!important;
+    margin-left: -7px!important;
 }
 
 .iSlider-rotated-canvas span {
@@ -176,21 +175,6 @@ body {
     cursor: pointer;
     color: #fff;
     background-color: #666;
-}
-
-@media screen and (max-width:671px){
-
-    .iSlider-rotated-menu {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    #iSlider-menu {
-        
-        margin-left: 50px;
-        margin-right: auto;
-    }
-
 }
 
 @media screen and (max-width:768px){
