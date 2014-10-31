@@ -81,8 +81,7 @@ If you hope to implement the effects mentioned in introduction part, you can:
 
 <h2 id="demo">Demo of iSlider</h2>
 
-* <a href="http://lcxfs1991.github.io/iSlider/demo/dom/">Dom</a>
-* <a href="http://lcxfs1991.github.io/iSlider/demo/picture/">Picture</a>
+* <a href="http://lcxfs1991.github.io/iSlider/demo/">Demo</a>
 
 <h2 id="understanding">Understand The iSlider</h2>
 Here provides a clear description of what options you are able to manipulate:
