@@ -3,8 +3,78 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
-<link type="text/css" rel="stylesheet" media="all"
-    href="css/common.css">
+<style>
+	body {
+	    margin: 0;
+	    padding: 0;
+	    overflow: hidden;
+	}
+
+	#iSlider-wrapper {
+	    height: 1000px;
+	    width: 100%;
+	    background: #eee;
+	    background-size: 100%;
+	    overflow: hidden;
+	    position: relative;
+	    -webkit-transition: all .3s;
+	    border: 2px #eee solid;
+	}
+
+	#iSlider-wrapper ul {
+	    list-style: none;
+	    margin: 0;
+	    padding: 0;
+	    height: 100%;
+	    overflow: hidden;
+	}
+
+	#iSlider-wrapper li {
+	    position: absolute;
+	    margin: 0;
+	    padding: 0;
+	    height: 100%;
+	    overflow: hidden;
+	    display: -webkit-box;
+	    -webkit-box-orient: vertical;
+	    -webkit-box-pack: center;
+	    -webkit-box-align: center;
+	    list-style: none;
+	}
+
+	#iSlider-wrapper li img {
+	    max-width: 100%;
+	    max-height: 100%;
+	}
+
+	#iSlider-show {
+	    position: absolute;
+	    top: 30px;
+	    bottom: 0;
+	    margin-left: auto;
+	    margin-right: auto;
+	    width: 100%;
+	    overflow: hidden;
+	    background-color: #ffffff;
+	    text-align: center;
+	}
+
+	#iSlider-nav {
+	    display: -webkit-box;
+	    background-color: #eee;
+	}
+
+	#iSlider-nav a{
+	    -webkit-box-flex: 1;
+	    -webkit-transition: all 0.5 ease;
+	    display: block;
+	    font-size: 12px;
+	    text-align: center;
+	    height: 30px;
+	    line-height: 30px;
+	}
+
+</style>
 
 </head>
 <body>
@@ -16,7 +86,45 @@
 
 	</div>
 </div>
-	<script type="text/javascript" src="../js/islider.js"></script>
-	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="../public/js/islider.js"></script>
+	<script>
+		var list = [
+				{
+					'height' : '100%',
+					'width' : '100%',
+					'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
+				},
+				{
+					'height' : '100%',
+					'width' : '100%',
+					'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+				},
+				{
+					'height' : '100%',
+					'width' : '100%',
+					'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+				},
+				{
+					'height' : '100%',
+					'width' : '100%',
+					'content' : '<div><h1>Page3</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+				}];
+
+				var info = ['Home', 'Page 1', 'Page 2', 'Page3'];
+
+				var islider = new iSlider({
+				    data: list,
+				    type: 'dom',
+				    dom: document.getElementById("iSlider-show"),
+				    duration: 2000,
+				    isVertical: false,
+				    isLooping: true,
+				    isDebug: true,
+				    isAutoplay: true,
+				   	onslidechange: function(idx){
+				   		document.getElementById('iSlider-nav').children[0].innerText = info[idx];
+				   	}
+				});
+	</script>
 </body>
 </html>
