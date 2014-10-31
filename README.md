@@ -120,7 +120,7 @@ var data = [{
 		<td>每个图片滑动的间隔时间，仅限于自动滑动模式</td>
 	</tr>
 	<tr>
-        <td>animationType</td>
+        <td>animateType</td>
         <td>String</td>
         <td>目前支持默认(default), 旋转(rotate）, 三维(3d) and 轻弹(flip)</td>
     </tr>
