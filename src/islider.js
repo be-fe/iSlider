@@ -102,7 +102,7 @@ iSlider.prototype._animateFuncs = {
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
 
-        this.wrap.style.webkitPerspective = 1000;
+        this.wrap.style.webkitPerspective = scale * 4;
 
         if (i == 1){
             dom.style.zIndex = 100;
@@ -121,7 +121,7 @@ iSlider.prototype._animateFuncs = {
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
 
-        this.wrap.style.webkitPerspective = 1000;
+        this.wrap.style.webkitPerspective = scale * 4;
 
         if (offset > 0){
             dom.style.visibility = (i > 1) ? 'hidden' : 'visible';
