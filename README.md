@@ -80,6 +80,8 @@ var data = [{
 
 * <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
 
+<img src="qrcode.png"/>
+
 <h2 id="understanding">深入了解iSlider</h2>
 这里提供对iSlider类选项最清楚的描述: 
 <table>
