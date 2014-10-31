@@ -30,6 +30,10 @@ body {
     max-height: 100%;
 }
 
+#iSlider-show li div {
+    padding: 6px;
+}
+
 #iSlider-tip {
     padding: 10px;
     z-index: 4;
@@ -61,7 +65,7 @@ body {
     top: 57px;
     left: 90px;
     overflow: hidden;
-    background: #FFF;
+    background: #333;
 }
 
 #iSlider-nav {

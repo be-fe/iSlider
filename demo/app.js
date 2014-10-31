@@ -157,12 +157,16 @@ var islider = new iSlider({
 
 	spans[5].childNodes[1].onchange = function() {
 		
+		var canvas = document.getElementById('iSlider-canvas');
+
 		if (this.value === 'dom') {
 			islider.sliderIndex = 0;
 			islider._opts.data = domList;
+			canvas.style.backgroundColor = '#ffffff';
 		}
 		else if(this.value === 'pic') {
 			islider._opts.data = picList;
+			canvas.style.backgroundColor = '#333';
 		}
 		
 		islider._opts.type = this.value;
