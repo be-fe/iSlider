@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+<link type="text/css" rel="stylesheet" media="all"
+    href="css/common.css">
+
+</head>
+<body>
+	<div id="iSlider-tip" >
+		<p>Please use webkit browser to watch this example.</p>
+		<p>If you want to try touch Event please make sure you already turn on developer tool "Emulate touch screen".</p>
+		<p>Feel free to submit issue or bug to this project, address is <a href="https://github.com/BE-FE/iSlider">https://github.com/BE-FE/iSlider</a></div>
+	<div id="iSlider-content">
+		<!-- 外层画布 -->
+		<div id="iSlider-outer">
+			<div id="iSlider-canvas">
+				<div id="iSlider-nav">
+					<a>Index: 0</a>
+				</div>
+				<div id="iSlider-show"> 
+					
+				</div>
+			</div>
+		</div>
+
+		<div id="iSlider-menu">
+			<span>isLooping: false</span>
+			<span>isVertical: false</span>
+			<span>isAutoplay: false</span>
+			<span>changeOrientation: 90</span>
+			<span>
+				animationType:
+				<select>
+					<option value="default">Default</option>
+					<option value="rotate">Rotate</option>
+					<option value="3d">3d</option>
+					<option value="flip">Flip</option>
+				</select>
+			</span>
+			<span>
+				Type: 
+				<select>
+					<option value="pic">Picture</option>
+					<option value="dom">Dom</option>
+				</select>
+			</span>
+		</div>
+	</div>
+	
+
+	<script type="text/javascript" src="src/islider.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+
+</body>
+</html>
