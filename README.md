@@ -1,9 +1,9 @@
-<h1 id="intro">iSlider，一个流畅的webapp图文滑动工具</h1>
+<h1 id="intro">iSlider</h1>
 
 <h3><a href="https://github.com/BE-FE/iSlider/blob/master/README_English.md">iSlider English README</a></h3>
 <h3><a href="http://be-fe.github.io/iSlider/">iSlider 官网</a></h3>
 
-iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动插件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：
+iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：
 
 * 能够自定义动画，自带的动画包括 旋转(rotate), 三维(3d), 轻弹(flip), 默认(default)
 * 你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)
@@ -123,7 +123,7 @@ var data = [{
 		<td>每个图片滑动的间隔时间，仅限于自动滑动模式</td>
 	</tr>
 	<tr>
-        <td>animationType</td>
+        <td>animateType</td>
         <td>String</td>
         <td>目前支持默认(default), 旋转(rotate）, 三维(3d) and 轻弹(flip)</td>
     </tr>

@@ -125,7 +125,7 @@ Here provides a clear description of what options you are able to manipulate:
 		<td>Time gap when an image slides. Applied only to isAutoplay is true</td>
 	</tr>
 	<tr>
-        <td>animationType</td>
+        <td>animateType</td>
         <td>String</td>
         <td>Currently, default, rotate, 3d and flip are supported animations</td>
     </tr>
