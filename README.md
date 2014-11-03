@@ -5,7 +5,9 @@
 
 <h2 id="demo">iSlider展示</h2>
 
-* <a width="150px" height="150px" href="http://be-fe.github.io/iSlider/demo/">Demo</a>
+<img width="150px" height="150px" src="qrcode.png"/>
+
+* <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
 
 iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：
 
@@ -80,9 +82,6 @@ var data = [{
 		    isAutoplay: true
     	});
     </script>
-
-
-<img src="qrcode.png"/>
 
 <h2 id="understanding">深入了解iSlider</h2>
 这里提供对iSlider类选项最清楚的描述: 

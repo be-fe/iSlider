@@ -4,7 +4,9 @@
 
 <h2 id="demo">Demo of iSlider</h2>
 
-* <a width="150px" height="150px" href="http://be-fe.github.io/iSlider/demo/">Demo</a>
+<img width="150px" height="150px" src="qrcode.png"/>
+
+* <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
 
 iSlider is a high performance，dependency free, mobile-platform javascript slider.
 It can handle any elements that need to be slide, like picture list or different dom elements. 
@@ -82,8 +84,6 @@ If you hope to implement the effects mentioned in introduction part, you can:
 		    isAutoplay: true
     	});
     </script>
-
-<img src="qrcode.png"/>
 
 <h2 id="understanding">Understand The iSlider</h2>
 Here provides a clear description of what options you are able to manipulate:
