@@ -3,6 +3,10 @@
 <h3><a href="https://github.com/BE-FE/iSlider/blob/master/README_English.md">iSlider English README</a></h3>
 <h3><a href="http://be-fe.github.io/iSlider/">iSlider 官网</a></h3>
 
+<h2 id="demo">iSlider展示</h2>
+
+* <a width="150px" height="150px" href="http://be-fe.github.io/iSlider/demo/">Demo</a>
+
 iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：
 
 * 能够自定义动画，自带的动画包括 旋转(rotate), 三维(3d), 轻弹(flip), 默认(default)
@@ -77,9 +81,6 @@ var data = [{
     	});
     </script>
 
-<h2 id="demo">iSlider展示</h2>
-
-* <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
 
 <img src="qrcode.png"/>
 
