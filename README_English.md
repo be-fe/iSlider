@@ -2,12 +2,6 @@
 
 <h3><a href="http://lcxfs1991.github.io/iSlider">iSlider Official Page</a></h3>
 
-<h2 id="demo">Demo of iSlider</h2>
-
-<img width="150px" height="150px" src="qrcode.png"/>
-
-* <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
-
 iSlider is a high performance，dependency free, mobile-platform javascript slider.
 It can handle any elements that need to be slide, like picture list or different dom elements. 
 It features:
@@ -15,6 +9,12 @@ It features:
 * Animation can be customized with user defined functions (rotate, 3d, default).
 * You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange)
 * Damping effect, Infinite Looping, Autometic sliding and Vertical/Horizontal Sliding can be configured.
+
+<h2 id="demo">Demo of iSlider</h2>
+
+<img width="150px" height="150px" src="qrcode.png"/>
+
+* <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
 
 <h2 id="getting-started">Getting Started</h2>
 The best way to learn the iScroll is by looking at the demos. In the archive you'll find a demo folder. Most of the script features are outlined there.
