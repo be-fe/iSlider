@@ -3,17 +3,17 @@
 <h3><a href="https://github.com/BE-FE/iSlider/blob/master/README_English.md">iSlider English README</a></h3>
 <h3><a href="http://be-fe.github.io/iSlider/">iSlider 官网</a></h3>
 
-<h2 id="demo">iSlider展示</h2>
-
-<img width="150px" height="150px" src="qrcode.png"/>
-
-* <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
-
 iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：
 
 * 能够自定义动画，自带的动画包括 旋转(rotate), 三维(3d), 轻弹(flip), 默认(default)
 * 你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)
 * 我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动
+
+<h2 id="demo">iSlider展示</h2>
+
+<img width="150px" height="150px" src="qrcode.png"/>
+
+* <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
 
 <h2 id="getting-started">开始部署iSlider</h2>
 部署iScroll最容易的办法是查阅我们提供的简易例子。大部份代码存放在demo文件夹的文件里面。*iSlider* 是必要新建的一个类。
