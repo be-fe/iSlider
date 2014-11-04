@@ -101,6 +101,7 @@ iSlider.prototype._animateFuncs = {
         var offset = offset ? offset : 0;
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
+        if (this.isVertical){ offset = -offset; }
 
         this.wrap.style.webkitPerspective = scale * 4;
 
@@ -121,6 +122,7 @@ iSlider.prototype._animateFuncs = {
         var offset = offset ? offset : 0;
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
+        if (this.isVertical){ offset = -offset; }
 
         this.wrap.style.webkitPerspective = scale * 4;
 
@@ -264,13 +266,24 @@ iSlider.prototype._slide = function (n) {
     this.log('pic idx:' + this.sliderIndex);
 
     var sEle;
-    if (n > 0) {
-        sEle = els.shift();
-        els.push(sEle);
-    } else if (n < 0) {
-        sEle = els.pop();
-        els.unshift(sEle);
-    } 
+    if ( this.isVertical && (this._opts.animateType == '3d' || this._opts.animateType == 'flip')) {
+        if (n > 0) {
+            sEle = els.pop();
+            els.unshift(sEle);
+        } else if (n < 0) {
+            sEle = els.shift();
+            els.push(sEle);
+        }
+    }
+    else{
+        if (n > 0) {
+            sEle = els.shift();
+            els.push(sEle);
+        } else if (n < 0) {
+            sEle = els.pop();
+            els.unshift(sEle);
+        }
+    }
 
     if(n !== 0){
         sEle.innerHTML = this._renderItem(idx + n);
@@ -341,7 +354,6 @@ iSlider.prototype._bindHandler = function () {
             var item = self.els[i];
             item.style.webkitTransition = 'all 0s';
             self._animateFunc(item, axis, self.scale, i, offset);
-            //item.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + self.scale * (i - 1)) + 'px)';
         }
 
         self.offset = offset;
