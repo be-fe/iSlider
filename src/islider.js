@@ -101,6 +101,7 @@ iSlider.prototype._animateFuncs = {
         var offset = offset ? offset : 0;
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
+        if (this.isVertical){ offset = -offset; }
 
         this.wrap.style.webkitPerspective = scale * 4;
 
@@ -112,14 +113,16 @@ iSlider.prototype._animateFuncs = {
         
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
-        dom.style.webkitBackfaceVisibility = 'visible';
-        dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1)+ 'deg) translateZ('+ (scale/2) +'px)';
+        dom.style.webkitBackfaceVisibility = 'hidden';
+        dom.style.webkitTransformStyle = 'preserve-3d'; 
+        dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1)+ 'deg) translateZ('+ (0.888 * scale/2) +'px) scale(0.888)';
     },
 
     'flip': function(dom, axis, scale, i, offset) {
         var offset = offset ? offset : 0;
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
+        if (this.isVertical){ offset = -offset; }
 
         this.wrap.style.webkitPerspective = scale * 4;
 
@@ -132,7 +135,23 @@ iSlider.prototype._animateFuncs = {
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
         dom.style.webkitBackfaceVisibility = 'hidden';
-        dom.style.webkitTransform = 'translateZ('+ (scale/2) +'px) rotate' + rotateDirect + '(' + 180 * (offset/scale + i - 1)+ 'deg)';
+        dom.style.webkitTransform = 'translateZ('+ (scale/2) +'px) rotate' + rotateDirect + '(' + 180 * (offset/scale + i - 1)+ 'deg) scale(0.875)';
+    },
+
+    'depth': function(dom, axis, scale, i, offset) {
+        var offset = offset ? offset : 0;
+        var rotateDirect = (axis == "X") ? "Y" : "X";
+        var zoomScale = (4 - Math.abs(i - 1)) * 0.15;
+
+        this.wrap.style.webkitPerspective = scale * 4;
+
+        if (i == 1){
+            dom.style.zIndex = 100;
+        }else{
+            dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
+        }
+
+        dom.style.webkitTransform = 'scale('+ zoomScale +', '+ zoomScale +') translateZ(0) translate' + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
     }
 }
 
@@ -247,13 +266,24 @@ iSlider.prototype._slide = function (n) {
     this.log('pic idx:' + this.sliderIndex);
 
     var sEle;
-    if (n > 0) {
-        sEle = els.shift();
-        els.push(sEle);
-    } else if (n < 0) {
-        sEle = els.pop();
-        els.unshift(sEle);
-    } 
+    if ( this.isVertical && (this._opts.animateType == '3d' || this._opts.animateType == 'flip')) {
+        if (n > 0) {
+            sEle = els.pop();
+            els.unshift(sEle);
+        } else if (n < 0) {
+            sEle = els.shift();
+            els.push(sEle);
+        }
+    }
+    else{
+        if (n > 0) {
+            sEle = els.shift();
+            els.push(sEle);
+        } else if (n < 0) {
+            sEle = els.pop();
+            els.unshift(sEle);
+        }
+    }
 
     if(n !== 0){
         sEle.innerHTML = this._renderItem(idx + n);
@@ -324,7 +354,6 @@ iSlider.prototype._bindHandler = function () {
             var item = self.els[i];
             item.style.webkitTransition = 'all 0s';
             self._animateFunc(item, axis, self.scale, i, offset);
-            //item.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + self.scale * (i - 1)) + 'px)';
         }
 
         self.offset = offset;
