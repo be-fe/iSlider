@@ -10,6 +10,12 @@ It features:
 * You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange)
 * Damping effect, Infinite Looping, Autometic sliding and Vertical/Horizontal Sliding can be configured.
 
+<h2 id="demo">Demo of iSlider</h2>
+
+<img width="150px" height="150px" src="qrcode.png"/>
+
+* <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
+
 <h2 id="getting-started">Getting Started</h2>
 The best way to learn the iScroll is by looking at the demos. In the archive you'll find a demo folder. Most of the script features are outlined there.
 *iSlider* is a class that needs to be initiated for each dom area. 
@@ -78,10 +84,6 @@ If you hope to implement the effects mentioned in introduction part, you can:
 		    isAutoplay: true
     	});
     </script>
-
-<h2 id="demo">Demo of iSlider</h2>
-
-* <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
 
 <h2 id="understanding">Understand The iSlider</h2>
 Here provides a clear description of what options you are able to manipulate:
