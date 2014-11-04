@@ -307,8 +307,6 @@ iSlider.prototype._slide = function (n) {
     if (this.isAutoplay) {
         if (this.sliderIndex === data.length - 1 && !this.isLooping) {
             this.pause();
-        } else {
-            this.play();
         }
     }
 };
@@ -378,6 +376,7 @@ iSlider.prototype._bindHandler = function () {
             self._slide(0);
         }
 
+        self.isAutoplay && self.play();
         self.offset = 0;
         self.onslideend && self.onslideend();
         self.log('Event: afterslide');
