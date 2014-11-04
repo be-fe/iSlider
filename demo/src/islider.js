@@ -7,7 +7,6 @@
  * @param {Element}     opts.dom            外层元素        Outer wrapper
  * @param {Object}      opts.data           数据列表        Content data
  * Please refer to README                   请参考README
-
  * @class 
  */
 var iSlider = function (opts) {
@@ -102,8 +101,9 @@ iSlider.prototype._animateFuncs = {
         var offset = offset ? offset : 0;
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
+        if (this.isVertical){ offset = -offset; }
 
-        this.wrap.style.webkitPerspective = 1000;
+        this.wrap.style.webkitPerspective = scale * 4;
 
         if (i == 1){
             dom.style.zIndex = 100;
@@ -113,16 +113,18 @@ iSlider.prototype._animateFuncs = {
         
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
-        dom.style.webkitBackfaceVisibility = 'visible';
-        dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1)+ 'deg) translateZ('+ (scale/2) +'px)';
+        dom.style.webkitBackfaceVisibility = 'hidden';
+        dom.style.webkitTransformStyle = 'preserve-3d'; 
+        dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1)+ 'deg) translateZ('+ (0.888 * scale/2) +'px) scale(0.888)';
     },
 
     'flip': function(dom, axis, scale, i, offset) {
         var offset = offset ? offset : 0;
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
+        if (this.isVertical){ offset = -offset; }
 
-        this.wrap.style.webkitPerspective = 1000;
+        this.wrap.style.webkitPerspective = scale * 4;
 
         if (offset > 0){
             dom.style.visibility = (i > 1) ? 'hidden' : 'visible';
@@ -133,7 +135,23 @@ iSlider.prototype._animateFuncs = {
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
         dom.style.webkitBackfaceVisibility = 'hidden';
-        dom.style.webkitTransform = 'translateZ('+ (scale/2) +'px) rotate' + rotateDirect + '(' + 180 * (offset/scale + i - 1)+ 'deg)';
+        dom.style.webkitTransform = 'translateZ('+ (scale/2) +'px) rotate' + rotateDirect + '(' + 180 * (offset/scale + i - 1)+ 'deg) scale(0.875)';
+    },
+
+    'depth': function(dom, axis, scale, i, offset) {
+        var offset = offset ? offset : 0;
+        var rotateDirect = (axis == "X") ? "Y" : "X";
+        var zoomScale = (4 - Math.abs(i - 1)) * 0.15;
+
+        this.wrap.style.webkitPerspective = scale * 4;
+
+        if (i == 1){
+            dom.style.zIndex = 100;
+        }else{
+            dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
+        }
+
+        dom.style.webkitTransform = 'scale('+ zoomScale +', '+ zoomScale +') translateZ(0) translate' + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
     }
 }
 
@@ -234,8 +252,7 @@ iSlider.prototype._slide = function (n) {
     var data = this.data;
     var els = this.els;
     var idx = this.sliderIndex + n;
-    
-    //check if the element has hit the data limit
+
     if (data[idx]){
         this.sliderIndex = idx;
     } else {
@@ -248,18 +265,26 @@ iSlider.prototype._slide = function (n) {
 
     this.log('pic idx:' + this.sliderIndex);
 
-    //change element position
     var sEle;
-    if (n > 0) {
-        //slide left, first element goes to last
-        sEle = els.shift();
-        els.push(sEle);
-    } else if (n < 0) {
-        //slide right, last element goest to first
-        sEle = els.pop();
-        els.unshift(sEle);
-    } 
-    //change element content when slides
+    if ( this.isVertical && (this._opts.animateType == '3d' || this._opts.animateType == 'flip')) {
+        if (n > 0) {
+            sEle = els.pop();
+            els.unshift(sEle);
+        } else if (n < 0) {
+            sEle = els.shift();
+            els.push(sEle);
+        }
+    }
+    else{
+        if (n > 0) {
+            sEle = els.shift();
+            els.push(sEle);
+        } else if (n < 0) {
+            sEle = els.pop();
+            els.unshift(sEle);
+        }
+    }
+
     if(n !== 0){
         sEle.innerHTML = this._renderItem(idx + n);
         sEle.style.webkitTransition = 'none';
@@ -279,12 +304,9 @@ iSlider.prototype._slide = function (n) {
         this._animateFunc(els[i], this.axis, this.scale, i);
     }
 
-    //if slide to end, and isLooping mode is off, then pause
     if (this.isAutoplay) {
         if (this.sliderIndex === data.length - 1 && !this.isLooping) {
             this.pause();
-        } else {
-            this.play();
         }
     }
 };
@@ -330,7 +352,6 @@ iSlider.prototype._bindHandler = function () {
             var item = self.els[i];
             item.style.webkitTransition = 'all 0s';
             self._animateFunc(item, axis, self.scale, i, offset);
-            //item.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + self.scale * (i - 1)) + 'px)';
         }
 
         self.offset = offset;
@@ -355,6 +376,7 @@ iSlider.prototype._bindHandler = function () {
             self._slide(0);
         }
 
+        self.isAutoplay && self.play();
         self.offset = 0;
         self.onslideend && self.onslideend();
         self.log('Event: afterslide');
