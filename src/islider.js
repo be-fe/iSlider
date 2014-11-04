@@ -112,8 +112,9 @@ iSlider.prototype._animateFuncs = {
         
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
-        dom.style.webkitBackfaceVisibility = 'visible';
-        dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1)+ 'deg) translateZ('+ (scale/2) +'px)';
+        dom.style.webkitBackfaceVisibility = 'hidden';
+        dom.style.webkitTransformStyle = 'preserve-3d'; 
+        dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1)+ 'deg) translateZ('+ (0.888 * scale/2) +'px) scale(0.888)';
     },
 
     'flip': function(dom, axis, scale, i, offset) {
@@ -132,13 +133,13 @@ iSlider.prototype._animateFuncs = {
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
         dom.style.webkitBackfaceVisibility = 'hidden';
-        dom.style.webkitTransform = 'translateZ('+ (scale/2) +'px) rotate' + rotateDirect + '(' + 180 * (offset/scale + i - 1)+ 'deg)';
+        dom.style.webkitTransform = 'translateZ('+ (scale/2) +'px) rotate' + rotateDirect + '(' + 180 * (offset/scale + i - 1)+ 'deg) scale(0.875)';
     },
 
     'depth': function(dom, axis, scale, i, offset) {
         var offset = offset ? offset : 0;
         var rotateDirect = (axis == "X") ? "Y" : "X";
-        var zoomScale = (4 - Math.abs(i - 1)) * 0.18
+        var zoomScale = (4 - Math.abs(i - 1)) * 0.15;
 
         this.wrap.style.webkitPerspective = scale * 4;
 
@@ -147,8 +148,8 @@ iSlider.prototype._animateFuncs = {
         }else{
             dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
         }
-        
-        dom.style.webkitTransform = 'scale('+ zoomScale +', '+ zoomScale +') translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+
+        dom.style.webkitTransform = 'scale('+ zoomScale +', '+ zoomScale +') translateZ(0) translate' + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
     }
 }
 
