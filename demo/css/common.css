@@ -178,6 +178,36 @@ body {
     background-color: #666;
 }
 
+@media screen and (max-width:660px){
+
+    body {
+        background-color: #333;
+    }
+
+    #iSlider-outer {
+        background: none;
+        /*height: 100%;*/
+        width: 100%;
+    }
+
+    #iSlider-canvas {
+        background: none;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+
+    #iSlider-nav {
+        display: none;
+    }
+
+    #iSlider-show ul li{
+        width: 100%;
+    }
+
+}
+
 @media screen and (max-width:768px){
 
     #iSlider-menu {
