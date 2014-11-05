@@ -22,7 +22,7 @@ var iSlider = function (opts) {
     this._setting();
     this._renderHTML();
     this._bindHandler();
-    this._checkTabHidden
+    this._checkTabHidden();
 };
 
 //setting parameters for slider
