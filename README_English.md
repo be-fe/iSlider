@@ -1,12 +1,13 @@
 <h1 id="intro">iSlider，Smooth slider for webapps</h1>
 
-<h3><a href="http://lcxfs1991.github.io/iSlider">iSlider Official Page</a></h3>
+<h3><a href="http://be-fe.github.io/iSlider/index_en.html">iSlider English Official Page</a></h3>
+<h3><a href="http://be-fe.github.io/iSlider/index.html">iSlider Chinse Official Page</a></h3>
 
 iSlider is a high performance，dependency free, mobile-platform javascript slider.
 It can handle any elements that need to be slide, like picture list or different dom elements. 
 It features:
 
-* Animation can be customized with user defined functions (rotate, 3d, default).
+* Animation can be customized with user defined functions (default, rotate, flip, depth).
 * You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange)
 * Damping effect, Infinite Looping, Autometic sliding and Vertical/Horizontal Sliding can be configured.
 
@@ -127,7 +128,7 @@ Here provides a clear description of what options you are able to manipulate:
 	<tr>
         <td>animateType</td>
         <td>String</td>
-        <td>Currently, default, rotate, 3d and flip are supported animations</td>
+        <td>Currently, default, rotate, flip and depth are supported animations</td>
     </tr>
 	<tr>
 		<td>onslide</td>
