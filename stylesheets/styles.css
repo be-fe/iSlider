@@ -146,7 +146,7 @@ img {
   max-width: 650px;
   padding: 5px;
   margin: 10px 0 32px 0;
-  border: 1px solid #ccc;
+  /*border: 1px solid #ccc;*/
 }
 
 p img {
@@ -418,4 +418,38 @@ footer {
     font-size:12pt;
     color:#444;
   }
+}
+
+.iSlider-effect {
+  height: 340px;
+  width: 260px;
+  overflow: hidden;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #000000;
+}
+
+.iSlider-effect ul {
+  list-style: none;
+  /*margin: 0;*/
+  margin-top: -5px;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.iSlider-effect li {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  list-style: none;
+}
+.iSlider-effect li  img{
+  max-width: 100%;
+  max-height: 100%;
 }
