@@ -22,6 +22,7 @@ var iSlider = function (opts) {
     this._setting();
     this._renderHTML();
     this._bindHandler();
+    this._checkTabHidden
 };
 
 //setting parameters for slider
@@ -83,6 +84,24 @@ iSlider.prototype._setting = function () {
     ? this._animateFuncs[opts.animateType] 
     : this._animateFuncs['default'];
 };
+
+iSlider.prototype._checkTabHidden = function() {
+
+    var self = this;
+
+    window.addEventListener('focus', function() {
+
+        self.isAutoplay && self.play();
+
+    }, false);
+
+    window.addEventListener('blur', function() {
+
+        self.pause();
+
+    }, false);
+
+}
 
 //animate function options
 iSlider.prototype._animateFuncs = {
@@ -384,8 +403,7 @@ iSlider.prototype._bindHandler = function () {
 
     var orientationchangeHandler = function (evt) {
         setTimeout(function(){
-            self._setting();
-            self._renderHTML();
+            self.reset();
             self.log('Event: orientationchange');
         },100);
     };
