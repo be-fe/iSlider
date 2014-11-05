@@ -1,42 +1,42 @@
 var picList = [
 {
 	// height: 475,
-	// width: 400,
+	width: '100%',
 	content: "pics/1.jpg",
 },
 {
 	// height: 527,
-	// width: 400,
+	width: '100%',
 	content: "pics/2.jpg",
 },
 {
  	// height: 400,
- 	// width: 512,
+ 	width: '100%',
  	content: "pics/3.jpg",
 },
 {
 	// height: 400,
-	// width: 458,
+	width: '100%',
 	content:"pics/5.jpg"
 },
 {
 	// height: 400,
-	// width: 498,
+	width: '100%',
 	content:"pics/6.jpg"
 },
 {
 	// height: 377,
-	// width: 600,
+	width: '100%',
 	content:"pics/7.jpg"
 },
 {
 	// height: 396,
-	// width: 600,
+	width: '100%',
 	content:"pics/8.jpg"
 },
 {
 	// height: 374,
-	// width: 600,
+	width: '100%',
 	content:"pics/9.jpg"
 }
 ];
@@ -66,7 +66,7 @@ var domList = [
 var islider = new iSlider({
     data: picList,
     dom: document.getElementById("iSlider-show"),
-    duration: 1500,
+    duration: 2000,
    	onslidechange: function(idx){
    		var target = document.getElementById('iSlider-nav').children[0].innerText = 'Index: ' + idx;
    		target.innerText = idx;
@@ -178,6 +178,8 @@ var islider = new iSlider({
 
 	document.getElementById('iSlider-menu-tag').addEventListener('touchstart', function(event) {
 
+		event.preventDefault();
+
 		if (toggle === 0) {
 			window.document.getElementById('iSlider-menu-tag').style.marginLeft = '30px';
 			window.document.getElementById('iSlider-menu').style.marginLeft = '0';
@@ -191,6 +193,10 @@ var islider = new iSlider({
 		
 
 	}, false);
+
+	window.addEventListener("orientationchange", function() {
+	    alert(window.orientation);
+	});
 
 	if (navigator.userAgent.match(/(iPhone\sOS)\s([\d_]+)|(Android)\s+([\d.]+)/)) {
 		var menu = document.getElementById('iSlider-menu');

@@ -65,8 +65,8 @@ body {
     width: 200px;
     height: 358px;
     position: absolute;
-    top: 57px;
-    left: 90px;
+    margin-top: 57px;
+    margin-left: 90px;
     overflow: hidden;
     background: #333;
 }
@@ -182,11 +182,22 @@ body {
     background-color: #666;
 }
 
-@media screen and (max-width:660px){
+@media screen and (max-width:1024px){
 
     body {
         background-color: #333;
     }
+
+    #iSlider-outer {
+        background: none;
+    }
+
+    #iSlider-canvas {
+        top: 0;
+        left: 0;
+    }
+
+
 
     #iSlider-menu {
         /*display: none;*/
@@ -200,14 +211,14 @@ body {
         display: block;
         position: absolute;
         width: 250px;
-        height: 20px;
+        height: 60px;
         margin-left: -200px;
         padding-right: 10px;
         border-radius: 10px;
         background-color: #ffffff;
         color: #000000;
         text-align: right;
-        line-height: 20px;
+        line-height: 60px;
     }
 
     .iSlider-menu-animation {
@@ -223,22 +234,6 @@ body {
 
     #iSlider-menu span:nth-child(4) {
         display: none;
-    }
-
-    #iSlider-outer {
-        background: none;
-        height: 100%;
-        min-height: 800px;
-        width: 100%;
-        top: 0;
-    }
-
-    #iSlider-canvas {
-        background: none;
-        height: 100%;
-        width: 100%;
-        left: 0;
-        top: 0;
     }
 
     #iSlider-nav {
@@ -259,7 +254,40 @@ body {
 
 }
 
-@media screen and (max-width:768px){
+@media screen and (max-width:1024px) and (orientation:landscape){
+    /*#iSlider-outer {
+        background: none;
+        height: device-height;
+
+    }
+*/
+    /*#iSlider-canvas {
+        width: 100%;
+        height: 100%;
+        top: auto;
+        left: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }*/
+}
+
+@media screen and (max-width:1024px) and (orientation:portrait){
+    /*#iSlider-outer {
+        background: none;
+        height: device-height;
+        top: 0;
+    }
+
+    #iSlider-canvas {
+        background: none;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }*/
+}
+
+@media screen and (max-width:1024px){
 
     #iSlider-tip {
         display: none;
