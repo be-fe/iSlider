@@ -61,8 +61,24 @@ var domList = [
 }
 ];
 
+// adjust image size based on window screen width
+var outer = document.getElementById('iSlider-outer');
+var show = document.getElementById('iSlider-show');
 
-	
+if (window.innerWidth <= 1024) {
+
+	outer.style.height = window.innerHeight + 'px';
+	show.style.height = window.innerHeight + 'px';
+}
+
+window.addEventListener('resize', function() {
+
+	outer.style.height = window.innerHeight + 'px';
+	show.style.height = window.innerHeight + 'px';
+
+}, false);
+
+//initialization
 var islider = new iSlider({
     data: picList,
     dom: document.getElementById("iSlider-show"),
@@ -73,8 +89,9 @@ var islider = new iSlider({
    	}
 });
 
-
 (function(){
+
+	//menu setting
 	var menu = document.getElementById('iSlider-menu');
 	var spans = document.getElementById('iSlider-menu').children;
 
@@ -175,6 +192,7 @@ var islider = new iSlider({
 		islider.reset();
 	};
 
+	//menu if it is mobile
 	var toggle = 0;
 
 	document.getElementById('iSlider-menu-tag').addEventListener('touchstart', function(event) {
@@ -194,10 +212,6 @@ var islider = new iSlider({
 		
 
 	}, false);
-
-	window.addEventListener("orientationchange", function() {
-	    alert(window.orientation);
-	});
 
 	if (navigator.userAgent.match(/(iPhone\sOS)\s([\d_]+)|(Android)\s+([\d.]+)/)) {
 		var menu = document.getElementById('iSlider-menu');
