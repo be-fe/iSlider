@@ -119,15 +119,16 @@ iSlider.prototype._animateFuncs = {
     '3d': function(dom, axis, scale, i, offset){
         var offset = offset ? offset : 0;
         var rotateDirect = (axis == "X") ? "Y" : "X";
+        var absoluteOffset = Math.abs(offset);
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
         if (this.isVertical){ offset = -offset; }
 
         this.wrap.style.webkitPerspective = scale * 4;
 
         if (i == 1){
-            dom.style.zIndex = 100;
+            dom.style.zIndex = scale - absoluteOffset;
         }else{
-            dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
+            dom.style.zIndex = (offset > 0) ? (1-i)*absoluteOffset : (i-1)*absoluteOffset;
         }
         
         dom.style.backgroundColor = bdColor || '#333';
