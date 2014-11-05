@@ -85,26 +85,20 @@ iSlider.prototype._setting = function () {
     : this._animateFuncs['default'];
 };
 
+//fixed bug: for android device if autoplay called background
 iSlider.prototype._checkTabHidden = function() {
-
     var self = this;
-
     window.addEventListener('focus', function() {
-
         self.isAutoplay && self.play();
-
     }, false);
-
     window.addEventListener('blur', function() {
-
         self.pause();
-
     }, false);
-
 }
 
 //animate function options
 iSlider.prototype._animateFuncs = {
+
     'default': function (dom, axis, scale, i, offset){
         var offset = offset ? offset : 0;
         dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
