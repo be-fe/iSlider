@@ -1,0 +1,334 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>iSlider by BE-FE</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">iSlider</h1>
+        <p class="header">Smooth mobile slider for webapps</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/BE-FE/iSlider/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/BE-FE/iSlider/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/BE-FE/iSlider">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/BE-FE">BE-FE</a></p>
+
+
+      </header>
+      <section>
+        <h1 id="intro">
+<a id="islider" class="anchor" href="#islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>iSlider，Smooth slider for webapps</h1>
+
+<h4>
+<a id="islider-官网" class="anchor" href="#islider-%E5%AE%98%E7%BD%91" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://be-fe.github.io/iSlider/index.html">iSlider </a>
+</h4>
+
+<h4>
+<a id="islider-example" class="anchor" href="#islider-example" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://be-fe.github.io/iSlider/demo/">iSlider Example</a>
+</h4>
+
+<ul>
+    <li>Animation can be customized with user defined functions (rotate, 3d, default).</li>
+    <li>You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange)</li>
+    <li>Damping effect, Infinite Looping, Autometic sliding and Vertical/Horizontal Sliding can be configured.</li>
+</ul>
+
+<h2 id="demo">
+<a id="islider展示" class="anchor" href="#islider%E5%B1%95%E7%A4%BA" aria-hidden="true"><span class="octicon octicon-link"></span></a>iSlider Demo</h2>
+<p>If you use PC，please open a webkit broswer and choose mobile mode to test</p>
+
+<div style="position:relative;text-align:center">
+    <h4>QR Code</h4>
+    <img width="150px" height="150px" src="https://raw.githubusercontent.com/BE-FE/iSlider/master/qrcode.png">
+</div>
+
+<h4 style="text-align: center">default effect</h4>
+<div id="default-effect" class="iSlider-effect"></div>
+
+<h4 style="text-align: center">rotate effect</h4>
+<div id="rotate-effect" class="iSlider-effect"></div>
+
+<h4 style="text-align: center">flip effect</h4>
+<div id="flip-effect" class="iSlider-effect"></div>
+
+<h4 style="text-align: center">depth effect</h4>
+<div id="depth-effect" class="iSlider-effect"></div>
+
+<h2 id="getting-started">
+<a id="开始部署islider" class="anchor" href="#%E5%BC%80%E5%A7%8B%E9%83%A8%E7%BD%B2islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>The best way to learn the iScroll is by looking at the demos. In the archive you'll find a demo folder. Most of the script features are outlined there.<em>iSlider</em> is a class that needs to be initiated for each dom area. </p>
+
+<p>Before you start, you need to prepare some data for iSlider:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">475</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/1.jpg"</span><span class="p">,</span>
+<span class="p">},{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">527</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/2.jpg"</span><span class="p">,</span>
+<span class="p">},{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/3.jpg"</span><span class="p">,</span>
+<span class="p">}];</span>
+</pre></div>
+
+<p>HTML structure you only need to prepare is :</p>
+
+<pre><code>&lt;div id="iSlider-wrapper"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>To make it runnable, all you need to do is to initiate: </p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+    var mySlider = new ISlider({
+        dom : document.getElementById('iSlider-wrapper'),
+        data : data
+    });
+&lt;/script&gt;
+</code></pre>
+
+<p>That's it. </p>
+
+<h2 id="configuration">
+<a id="配置islider" class="anchor" href="#%E9%85%8D%E7%BD%AEislider" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configure the iSlider</h2>
+
+<p>Besides the basic ways you can do with iSlider, you can customized the features we provide. For example, if you prefers to put dom elements on the list, you can change the data array like this: </p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Home&lt;/h1&gt;&lt;h2&gt;This is home page&lt;/h2&gt;&lt;p&gt;home is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
+<span class="p">},{</span>
+    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Page1&lt;/h1&gt;&lt;h2&gt;This is page1&lt;/h2&gt;&lt;p&gt;page1 is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
+<span class="p">},{</span>
+    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Page2&lt;/h1&gt;&lt;h2&gt;This is Page2&lt;/h2&gt;&lt;p&gt;Page2 is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
+<span class="p">}];</span>
+</pre></div>
+
+<p>If you hope to implement the effects mentioned in introduction part, you can: </p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+    var mySlider = new ISlider({
+        dom : document.getElementById('iSlider-wrapper'),
+        data : data,
+        duration: 2000,
+        isVertical: true,
+        isLooping: true,
+        isDebug: true,
+        isAutoplay: true
+    });
+&lt;/script&gt;
+</code></pre>
+
+<h2 id="understanding">
+<a id="深入了解islider" class="anchor" href="#%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>Understand The iSlider</h2>
+
+<p>Here provides a clear description of what options you are able to manipulate:</p>
+
+<table>
+<thead>
+    <tr>
+        <td>Option</td>
+        <td>Value</td>
+        <td>Description</td>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>dom</td>
+        <td>HTML Object</td>
+        <td>The DOM element that wraps image list</td>
+    </tr>
+    <tr>
+        <td>data</td>
+        <td>Array of Content(picture | html)</td>
+        <td>Picture data, for example:
+        <pre>[{
+    height: 377,
+    width: 600,
+    content:"pics/1.jpg"
+}]
+        </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>String (pic | dom)</td>
+        <td>Default value is 'pic', 'dom' is also supported</td>
+    </tr>
+    <tr>
+        <td>duration</td>
+        <td>Integer (1000 == 1s)</td>
+        <td>Time gap when an image slides. Applied only to isAutoplay is true</td>
+    </tr>
+    <tr>
+        <td>animateType</td>
+        <td>String</td>
+        <td>Currently, default, rotate, flip and depth are supported animations</td>
+    </tr>
+    <tr>
+        <td>onslide</td>
+        <td>Function</td>
+        <td>Callback function when your finger is moving</td>
+    </tr>
+    <tr>
+        <td>onslidestart</td>
+        <td>Function</td>
+        <td>Callback function when your finger touch the screen</td>
+    </tr>
+    <tr>
+        <td>onslideend</td>
+        <td>Function</td>
+        <td>Callback function when your finger move out of the screen</td>
+    </tr>
+    <tr>
+        <td>onslidechange</td>
+        <td>Function</td>
+        <td>Callback function when the autoplay mode is on and one image slides</td>
+    </tr>
+    <tr>
+        <td>isDebug</td>
+        <td>Boolean (true | false)</td>
+        <td>Turn on/off the debug mode. Some debug message will output</td>
+    </tr>
+    <tr>
+        <td>isLooping</td>
+        <td>Boolean (true | false)</td>
+        <td>Turn on/off infinite looping mode</td>
+    </tr>
+    <tr>
+        <td>isAutoplay</td>
+        <td>Boolean (true | false)</td>
+        <td>Turn of/off autoplay mode</td>
+    </tr>
+        <tr>
+        <td>isVertical</td>
+        <td>Boolean (true | fasle)</td>
+        <td>Slide verically or horizontally</td>
+    </tr>
+</tbody>
+</table>
+
+<h2 id="license">
+<a id="license-mit" class="anchor" href="#license-mit" aria-hidden="true"><span class="octicon octicon-link"></span></a>License (MIT)</h2>
+
+<p>Copyright (c) 2014 BE-FE</p>
+
+<p><a href="https://github.com/BE-FE/iSlider/blob/master/LICENSE">MIT</a></p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+	<script src="demo/src/islider.js"></script>
+    <script>
+        var picList = [
+        {
+            width: 150,
+            height: 207,
+            content: "demo/pics/1.jpg",
+        },
+        {
+            width: 150,
+            height: 207,
+            content: "demo/pics/2.jpg",
+        },
+        {
+            width: 150,
+            height: 207,
+            content: "demo/pics/3.jpg",
+        },
+        {
+            width: 150,
+            height: 207,
+            content:"demo/pics/5.jpg"
+        },
+        {
+            width: 150,
+            height: 207,
+            content:"demo/pics/6.jpg"
+        },
+        {
+            width: 300,
+            height: 414,
+            content:"demo/pics/7.jpg"
+        },
+        {
+            width: 150,
+            height: 207,
+            content:"demo/pics/8.jpg"
+        },
+        {
+            width: 150,
+            height: 207,
+            content:"demo/pics/9.jpg"
+        }
+        ];
+
+        //default effect
+        var islider1 = new iSlider({
+            data: picList,
+            dom: document.getElementById("default-effect"),
+            duration: 2000,
+            animateType: 'default',
+            isAutoplay: true,
+            isLooping: true,
+            isVertical: true
+        });
+
+        //rotate effect
+        var islider2 = new iSlider({
+            data: picList,
+            dom: document.getElementById("rotate-effect"),
+            duration: 2000,
+            animateType: 'rotate',
+            isAutoplay: true,
+            isLooping: true,
+        });
+
+        //flip effect
+        var islider3 = new iSlider({
+            data: picList,
+            dom: document.getElementById("flip-effect"),
+            duration: 2000,
+            animateType: 'flip',
+            isAutoplay: true,
+            isLooping: true
+        });
+
+        //depth effect
+        var islider4 = new iSlider({
+            data: picList,
+            dom: document.getElementById("depth-effect"),
+            duration: 2000,
+            animateType: 'depth',
+            isAutoplay: true,
+            isLooping: true,
+            isVertical: true,
+        });
+    </script>
+  </body>
+</html>
