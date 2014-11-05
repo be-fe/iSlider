@@ -34,7 +34,7 @@
 <a id="islider" class="anchor" href="#islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>iSlider</h1>
 
 <h4>
-<a id="islider-english" class="anchor" href="#islider-english" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BE-FE/iSlider/blob/master/README_English.md">iSlider English</a>
+<a id="islider-english" class="anchor" href="#islider-english" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://be-fe.github.io/iSlider/index_en.html">iSlider English</a>
 </h4>
 
 <h4>
@@ -48,15 +48,31 @@
 <p>iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：</p>
 
 <ul>
-<li>能够自定义动画，自带的动画包括 旋转(rotate), 三维(3d), 轻弹(flip), 默认(default)</li>
+<li>能够自定义动画，自带的动画包括default, rotate, flip 和 depth</li>
 <li>你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)</li>
 <li>我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动</li>
 </ul>
 
 <h2 id="demo">
 <a id="islider展示" class="anchor" href="#islider%E5%B1%95%E7%A4%BA" aria-hidden="true"><span class="octicon octicon-link"></span></a>iSlider展示</h2>
+<p>若是PC，请打开webkit浏览器进行测试</p>
 
-<p><img width="150px" height="150px" src="https://raw.githubusercontent.com/BE-FE/iSlider/master/qrcode.png"></p>
+<div style="position:relative;text-align:center">
+    <h4>二维码</h4>
+    <img width="150px" height="150px" src="https://raw.githubusercontent.com/BE-FE/iSlider/master/qrcode.png">
+</div>
+
+<h4 style="text-align: center">default效果</h4>
+<div id="default-effect" class="iSlider-effect"></div>
+
+<h4 style="text-align: center">rotate效果</h4>
+<div id="rotate-effect" class="iSlider-effect"></div>
+
+<h4 style="text-align: center">flip效果</h4>
+<div id="flip-effect" class="iSlider-effect"></div>
+
+<h4 style="text-align: center">depth效果</h4>
+<div id="depth-effect" class="iSlider-effect"></div>
 
 <h2 id="getting-started">
 <a id="开始部署islider" class="anchor" href="#%E5%BC%80%E5%A7%8B%E9%83%A8%E7%BD%B2islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>开始部署iSlider</h2>
@@ -177,7 +193,7 @@
     <tr>
         <td>animateType</td>
         <td>String</td>
-        <td>目前支持默认(default), 旋转(rotate）, 三维(3d) and 轻弹(flip)</td>
+        <td>目前支持default, rotate, flip 和 depth</td>
     </tr>
     <tr>
         <td>onslide</td>
@@ -234,6 +250,92 @@
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
+	<script src="demo/src/islider.js"></script>
+    <script>
+        var picList = [
+        {
+            width: 150,
+            height: 207,
+            content: "demo/pics/1.jpg",
+        },
+        {
+            width: 150,
+            height: 207,
+            content: "demo/pics/2.jpg",
+        },
+        {
+            width: 150,
+            height: 207,
+            content: "demo/pics/3.jpg",
+        },
+        {
+            width: 150,
+            height: 207,
+            content:"demo/pics/5.jpg"
+        },
+        {
+            width: 150,
+            height: 207,
+            content:"demo/pics/6.jpg"
+        },
+        {
+            width: 300,
+            height: 414,
+            content:"demo/pics/7.jpg"
+        },
+        {
+            width: 150,
+            height: 207,
+            content:"demo/pics/8.jpg"
+        },
+        {
+            width: 150,
+            height: 207,
+            content:"demo/pics/9.jpg"
+        }
+        ];
+
+        //default effect
+        var islider1 = new iSlider({
+            data: picList,
+            dom: document.getElementById("default-effect"),
+            duration: 2000,
+            animateType: 'default',
+            isAutoplay: true,
+            isLooping: true,
+            isVertical: true
+        });
+
+        //rotate effect
+        var islider2 = new iSlider({
+            data: picList,
+            dom: document.getElementById("rotate-effect"),
+            duration: 2000,
+            animateType: 'rotate',
+            isAutoplay: true,
+            isLooping: true,
+        });
+
+        //flip effect
+        var islider3 = new iSlider({
+            data: picList,
+            dom: document.getElementById("flip-effect"),
+            duration: 2000,
+            animateType: 'flip',
+            isAutoplay: true,
+            isLooping: true
+        });
+
+        //depth effect
+        var islider4 = new iSlider({
+            data: picList,
+            dom: document.getElementById("depth-effect"),
+            duration: 2000,
+            animateType: 'depth',
+            isAutoplay: true,
+            isLooping: true,
+            isVertical: true,
+        });
+    </script>
   </body>
 </html>
