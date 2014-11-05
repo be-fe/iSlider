@@ -1,42 +1,42 @@
 var picList = [
 {
-	height: 475,
-	width: 400,
+	width: 300,
+	height: 414,
 	content: "pics/1.jpg",
 },
 {
-	height: 527,
-	width: 400,
+	width: 300,
+	height: 414,
 	content: "pics/2.jpg",
 },
 {
- 	height: 400,
- 	width: 512,
+ 	width: 300,
+	height: 414,
  	content: "pics/3.jpg",
 },
 {
-	height: 400,
-	width: 458,
+	width: 300,
+	height: 414,
 	content:"pics/5.jpg"
 },
 {
-	height: 400,
-	width: 498,
+	width: 300,
+	height: 414,
 	content:"pics/6.jpg"
 },
 {
-	height: 377,
-	width: 600,
+	width: 300,
+	height: 414,
 	content:"pics/7.jpg"
 },
 {
-	height: 396,
-	width: 600,
+	width: 300,
+	height: 414,
 	content:"pics/8.jpg"
 },
 {
-	height: 374,
-	width: 600,
+	width: 300,
+	height: 414,
 	content:"pics/9.jpg"
 }
 ];
@@ -61,12 +61,28 @@ var domList = [
 }
 ];
 
+// adjust image size based on window screen width
+var outer = document.getElementById('iSlider-outer');
+var show = document.getElementById('iSlider-show');
 
-	
+if (window.innerWidth <= 1024) {
+
+	outer.style.height = window.innerHeight + 'px';
+	show.style.height = window.innerHeight + 'px';
+}
+
+window.addEventListener('resize', function() {
+
+	outer.style.height = window.innerHeight + 'px';
+	show.style.height = window.innerHeight + 'px';
+
+}, false);
+
+//initialization
 var islider = new iSlider({
     data: picList,
     dom: document.getElementById("iSlider-show"),
-    duration: 1500,
+    duration: 2000,
    	onslidechange: function(idx){
    		var target = document.getElementById('iSlider-nav').children[0].innerText = 'Index: ' + idx;
    		target.innerText = idx;
@@ -74,6 +90,8 @@ var islider = new iSlider({
 });
 
 (function(){
+
+	//menu setting
 	var menu = document.getElementById('iSlider-menu');
 	var spans = document.getElementById('iSlider-menu').children;
 
@@ -173,6 +191,27 @@ var islider = new iSlider({
 
 		islider.reset();
 	};
+
+	//menu if it is mobile
+	var toggle = 0;
+
+	document.getElementById('iSlider-menu-tag').addEventListener('touchstart', function(event) {
+
+		event.preventDefault();
+
+		if (toggle === 0) {
+			window.document.getElementById('iSlider-menu-tag').style.marginLeft = '30px';
+			window.document.getElementById('iSlider-menu').style.marginLeft = '0';
+			toggle = 1;
+		}
+		else {
+			window.document.getElementById('iSlider-menu-tag').style.marginLeft = '-200px';
+			window.document.getElementById('iSlider-menu').style.marginLeft = '-230px';
+			toggle = 0;
+		}
+		
+
+	}, false);
 
 	if (navigator.userAgent.match(/(iPhone\sOS)\s([\d_]+)|(Android)\s+([\d.]+)/)) {
 		var menu = document.getElementById('iSlider-menu');
