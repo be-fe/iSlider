@@ -1,0 +1,239 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>iSlider by BE-FE</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">iSlider</h1>
+        <p class="header">Smooth mobile slider for webapps</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/BE-FE/iSlider/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/BE-FE/iSlider/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/BE-FE/iSlider">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/BE-FE">BE-FE</a></p>
+
+
+      </header>
+      <section>
+        <h1 id="intro">
+<a id="islider" class="anchor" href="#islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>iSlider</h1>
+
+<h4>
+<a id="islider-english" class="anchor" href="#islider-english" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BE-FE/iSlider/blob/master/README_English.md">iSlider English</a>
+</h4>
+
+<h4>
+<a id="islider-官网" class="anchor" href="#islider-%E5%AE%98%E7%BD%91" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://be-fe.github.io/iSlider/">iSlider 官网</a>
+</h4>
+
+<h4>
+<a id="islider-example" class="anchor" href="#islider-example" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://be-fe.github.io/iSlider/demo/">iSlider Example</a>
+</h4>
+
+<p>iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：</p>
+
+<ul>
+<li>能够自定义动画，自带的动画包括 旋转(rotate), 三维(3d), 轻弹(flip), 默认(default)</li>
+<li>你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)</li>
+<li>我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动</li>
+</ul>
+
+<h2 id="demo">
+<a id="islider展示" class="anchor" href="#islider%E5%B1%95%E7%A4%BA" aria-hidden="true"><span class="octicon octicon-link"></span></a>iSlider展示</h2>
+
+<p><img width="150px" height="150px" src="https://raw.githubusercontent.com/BE-FE/iSlider/master/qrcode.png"></p>
+
+<h2 id="getting-started">
+<a id="开始部署islider" class="anchor" href="#%E5%BC%80%E5%A7%8B%E9%83%A8%E7%BD%B2islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>开始部署iSlider</h2>
+
+<p>部署iScroll最容易的办法是查阅我们提供的简易例子。大部份代码存放在demo文件夹的文件里面。<em>iSlider</em> 是必要新建的一个类。</p>
+
+<p>在你开始之前，你需要为iSlider先新建好数据:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">475</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/1.jpg"</span><span class="p">,</span>
+<span class="p">},{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">527</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/2.jpg"</span><span class="p">,</span>
+<span class="p">},{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/3.jpg"</span><span class="p">,</span>
+<span class="p">}];</span>
+</pre></div>
+
+<p>HTML代码如下:</p>
+
+<pre><code>&lt;div id="iSlider-wrapper"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>要使其运行，按下面例子新建ISlider类: </p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+    var mySlider = new ISlider({
+        dom : document.getElementById('iSlider-wrapper'),
+        data : data
+    });
+&lt;/script&gt;
+</code></pre>
+
+<p>That's it. </p>
+
+<h2 id="configuration">
+<a id="配置islider" class="anchor" href="#%E9%85%8D%E7%BD%AEislider" aria-hidden="true"><span class="octicon octicon-link"></span></a>配置iSlider</h2>
+
+<p>除了上文提到的基本部署模式，你还可以自定义我们提供的特性。例如，如果你想滑动DOM元素而非图片，你可以按以下的格式新建DOM数据: </p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Home&lt;/h1&gt;&lt;h2&gt;This is home page&lt;/h2&gt;&lt;p&gt;home is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
+<span class="p">},{</span>
+    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Page1&lt;/h1&gt;&lt;h2&gt;This is page1&lt;/h2&gt;&lt;p&gt;page1 is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
+<span class="p">},{</span>
+    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
+    <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Page2&lt;/h1&gt;&lt;h2&gt;This is Page2&lt;/h2&gt;&lt;p&gt;Page2 is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
+<span class="p">}];</span>
+</pre></div>
+
+<p>如果你想实现介绍部份提到的效果，你可以按以下格式设置: </p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+    var mySlider = new ISlider({
+        dom : document.getElementById('iSlider-wrapper'),
+        data : data,
+        duration: 2000,
+        isVertical: true,
+        isLooping: true,
+        isDebug: true,
+        isAutoplay: true
+    });
+&lt;/script&gt;
+</code></pre>
+
+<h2 id="understanding">
+<a id="深入了解islider" class="anchor" href="#%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>深入了解iSlider</h2>
+
+<p>这里提供对iSlider类选项最清楚的描述: </p>
+
+<table>
+<thead>
+    <tr>
+        <td>选项</td>
+        <td>数值</td>
+        <td>解释</td>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>dom</td>
+        <td>HTML Object</td>
+        <td>包含图片或者DOM元素的包裹DOM元素</td>
+    </tr>
+    <tr>
+        <td>data</td>
+        <td>Array of Content(picture | html)</td>
+        <td>若是图片数据，格式如下:
+        <pre>
+[{
+    height: 377,
+    width: 600,
+    content:"pics/1.jpg"
+}]
+        </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>String (pic | dom)</td>
+        <td>默认值是'pic', 也支持'dom'</td>
+    </tr>
+    <tr>
+        <td>duration</td>
+        <td>Integer (1000 == 1s)</td>
+        <td>每个图片滑动的间隔时间，仅限于自动滑动模式</td>
+    </tr>
+    <tr>
+        <td>animateType</td>
+        <td>String</td>
+        <td>目前支持默认(default), 旋转(rotate）, 三维(3d) and 轻弹(flip)</td>
+    </tr>
+    <tr>
+        <td>onslide</td>
+        <td>Function</td>
+        <td>手指滑动时的回调函数</td>
+    </tr>
+    <tr>
+        <td>onslidestart</td>
+        <td>Function</td>
+        <td>手指触屏时的回调函数</td>
+    </tr>
+    <tr>
+        <td>onslideend</td>
+        <td>Function</td>
+        <td>手指离开屏幕时的回调函数</td>
+    </tr>
+    <tr>
+        <td>onslidechange</td>
+        <td>Function</td>
+        <td>自动滑动模式下当图片滑动时的回调函数</td>
+    </tr>
+    <tr>
+        <td>isDebug</td>
+        <td>Boolean (true | false)</td>
+        <td>开启/关闭调度模式</td>
+    </tr>
+    <tr>
+        <td>isLooping</td>
+        <td>Boolean (true | false)</td>
+        <td>开启/关闭循环模式</td>
+    </tr>
+    <tr>
+        <td>isAutoplay</td>
+        <td>Boolean (true | false)</td>
+        <td>开启/关闭自动滑动模式</td>
+    </tr>
+        <tr>
+        <td>isVertical</td>
+        <td>Boolean (true | fasle)</td>
+        <td>开启水平/垂直滑动模式</td>
+    </tr>
+</tbody>
+</table>
+
+<h2 id="license">
+<a id="license-mit" class="anchor" href="#license-mit" aria-hidden="true"><span class="octicon octicon-link"></span></a>License (MIT)</h2>
+
+<p>Copyright (c) 2014 BE-FE</p>
+
+<p><a href="https://github.com/BE-FE/iSlider/blob/master/LICENSE">MIT</a></p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
