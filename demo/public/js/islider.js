@@ -104,13 +104,7 @@ iSlider.prototype._animateFuncs = {
         dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
     },
 
-    'rotate': function(dom, axis, scale, i, offset) {
-        var offset = offset ? offset : 0;
-        var rotateDirect = axis == "X" ? "Y" : "X";
-        dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px) rotate' + rotateDirect + '(' + 90 * (i - 1)+ 'deg)';
-    },
-
-    '3d': function(dom, axis, scale, i, offset){
+    'rotate': function(dom, axis, scale, i, offset){
         var offset = offset ? offset : 0;
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var absoluteOffset = Math.abs(offset);
