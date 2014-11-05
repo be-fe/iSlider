@@ -384,8 +384,7 @@ iSlider.prototype._bindHandler = function () {
 
     var orientationchangeHandler = function (evt) {
         setTimeout(function(){
-            self._setting();
-            self._renderHTML();
+            self.reset();
             self.log('Event: orientationchange');
         },100);
     };

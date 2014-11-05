@@ -1,42 +1,42 @@
 var picList = [
 {
-	// height: 475,
-	width: '100%',
+	width: 300,
+	height: 414,
 	content: "pics/1.jpg",
 },
 {
-	// height: 527,
-	width: '100%',
+	width: 300,
+	height: 414,
 	content: "pics/2.jpg",
 },
 {
- 	// height: 400,
- 	width: '100%',
+ 	width: 300,
+	height: 414,
  	content: "pics/3.jpg",
 },
 {
-	// height: 400,
-	width: '100%',
+	width: 300,
+	height: 414,
 	content:"pics/5.jpg"
 },
 {
-	// height: 400,
-	width: '100%',
+	width: 300,
+	height: 414,
 	content:"pics/6.jpg"
 },
 {
-	// height: 377,
-	width: '100%',
+	width: 300,
+	height: 414,
 	content:"pics/7.jpg"
 },
 {
-	// height: 396,
-	width: '100%',
+	width: 300,
+	height: 414,
 	content:"pics/8.jpg"
 },
 {
-	// height: 374,
-	width: '100%',
+	width: 300,
+	height: 414,
 	content:"pics/9.jpg"
 }
 ];
@@ -72,6 +72,7 @@ var islider = new iSlider({
    		target.innerText = idx;
    	}
 });
+
 
 (function(){
 	var menu = document.getElementById('iSlider-menu');
