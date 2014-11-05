@@ -64,17 +64,33 @@ var domList = [
 // adjust image size based on window screen width
 var outer = document.getElementById('iSlider-outer');
 var show = document.getElementById('iSlider-show');
+var imgRatio = 414 / 300;
+var screenRatio = false;
 
 if (window.innerWidth <= 1024) {
+	var screenRatio = window.innerHeight / window.innerWidth;
 
-	outer.style.height = window.innerHeight + 'px';
-	show.style.height = window.innerHeight + 'px';
+	if (screenRatio < imgRatio) {
+		outer.style.height = window.innerHeight + 'px';
+		show.style.height = window.innerHeight + 'px';
+	}
+	else {
+		outer.style.width = window.innerWidth + 'px';
+		show.style.width = window.innerWidth + 'px';
+	}
+	
 }
 
 window.addEventListener('resize', function() {
 
-	outer.style.height = window.innerHeight + 'px';
-	show.style.height = window.innerHeight + 'px';
+	if (screenRatio < imgRatio) {
+		outer.style.height = window.innerHeight + 'px';
+		show.style.height = window.innerHeight + 'px';
+	}
+	else {
+		outer.style.width = window.innerWidth + 'px';
+		show.style.width = window.innerWidth + 'px';
+	}
 
 }, false);
 
