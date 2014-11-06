@@ -202,9 +202,9 @@ iSlider.prototype._renderItem = function (i) {
     var len = this.data.length;
 
     if (!this.isLooping) {
-        if ( this.isVertical && (this._opts.animateType == 'rotate' || this._opts.animateType == 'flip')) {
-            i = Math.abs(i);
-        }
+        // if ( this.isVertical && (this._opts.animateType == 'rotate' || this._opts.animateType == 'flip')) {
+        //     i = Math.abs(i);
+        // }
         item = this.data[i] || { empty : true };
     } else {
         if (i < 0) {
@@ -259,7 +259,11 @@ iSlider.prototype._renderHTML = function () {
         this.els.push(li);
         outer.appendChild(li);
 
-        li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
+        if ( this.isVertical && (this._opts.animateType == 'rotate' || this._opts.animateType == 'flip')) {
+            li.innerHTML = this._renderItem(1 - i + this.sliderIndex);
+        }else{
+            li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
+        }
     }
 
     //append ul to div#canvas
