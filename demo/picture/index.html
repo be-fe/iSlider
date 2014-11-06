@@ -31,14 +31,28 @@
 			padding: 0;
 			height: 100%;
 			overflow: hidden;
-			display: -webkit-box;
-			-webkit-box-pack: center;
-			-webkit-box-align: center;
+
+			display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+		  	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+		  	/*display: -ms-flexbox; */     /* TWEENER - IE 10 */
+		  	display: -webkit-flex;     /* NEW - Chrome */
+		  	display: flex;  
+
+		  	align-items: center;
+		  	-webkit-align-items: center;
+
+		  	justify-content: center;
+		  	-webkit-justify-content: center;
+
+
+			
 			list-style: none;
 		}
 		#iSlider-wrapper li  img{
-			max-width: 100%;
 			max-height: 100%;
+			max-width:100% !important;
+		    height:auto;
+		    display:block;
 		}
 
 	</style>
