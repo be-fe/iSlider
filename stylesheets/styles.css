@@ -453,3 +453,31 @@ footer {
   max-width: 100%;
   max-height: 100%;
 }
+
+.iSlider-effect div{
+  background-color: #ffffff;
+  padding: 3px;
+}
+
+#menu-select {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#menu-select span {
+  display: inline-block;
+  border: 2px solid #777;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  width: 60px;
+  cursor: pointer;
+}
+
+#menu-select span:hover {
+  background-color: #e74c3c;
+}
+
+#menu-select span.on {
+  background-color: #e74c3c;
+}

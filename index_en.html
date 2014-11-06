@@ -34,11 +34,9 @@
 <a id="islider" class="anchor" href="#islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>iSlider，Smooth slider for webapps</h1>
 
 <h4>
-<a id="islider-官网" class="anchor" href="#islider-%E5%AE%98%E7%BD%91" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://be-fe.github.io/iSlider/index.html">iSlider </a>
-</h4>
-
-<h4>
-<a id="islider-example" class="anchor" href="#islider-example" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://be-fe.github.io/iSlider/demo/">iSlider Example</a>
+    <a href="http://be-fe.github.io/iSlider/index.html">iSlider 中文官网</a>
+    <br>
+    <a href="http://be-fe.github.io/iSlider/demo/">iSlider Example</a>
 </h4>
 
 <ul>
@@ -56,17 +54,23 @@
     <img width="150px" height="150px" src="https://raw.githubusercontent.com/BE-FE/iSlider/master/qrcode.png">
 </div>
 
-<h4 style="text-align: center">default effect</h4>
-<div id="default-effect" class="iSlider-effect"></div>
+<h4 style="text-align: center">Animation Effect</h4>
+<div id="animation-effect" class="iSlider-effect"></div>
+<div id="menu-select">
+    <span class="on">default</span>
+    <span>rotate</span>
+    <span>flip</span>
+    <span>depth</span>
+</div>
 
-<h4 style="text-align: center">rotate effect</h4>
-<div id="rotate-effect" class="iSlider-effect"></div>
+<h4 style="text-align: center">Verical Slide</h4>
+<div id="vertical-slide" class="iSlider-effect"></div>
 
-<h4 style="text-align: center">flip effect</h4>
-<div id="flip-effect" class="iSlider-effect"></div>
+<h4 style="text-align: center">Non-Looping(Damping Effect When It is the First/Last Pic)</h4>
+<div id="non-looping" class="iSlider-effect"></div>
 
-<h4 style="text-align: center">depth effect</h4>
-<div id="depth-effect" class="iSlider-effect"></div>
+<h4 style="text-align: center">DOM</h4>
+<div id="dom-effect" class="iSlider-effect"></div>
 
 <h2 id="getting-started">
 <a id="开始部署islider" class="anchor" href="#%E5%BC%80%E5%A7%8B%E9%83%A8%E7%BD%B2islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
@@ -303,47 +307,106 @@
         }
         ];
 
-        //default effect
+        var domList = [
+        {
+            'height' : '100%',
+            'width' : '100%',
+            'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
+        },{
+            'height' : '100%',
+            'width' : '100%',
+            'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+        },{
+            'height' : '100%',
+            'width' : '100%',
+            'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+        },{
+            'height' : '100%',
+            'width' : '100%',
+            'content' : '<div><h1>Page3</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+        }
+        ];
+
+        //all animation effect
         var islider1 = new iSlider({
             data: picList,
-            dom: document.getElementById("default-effect"),
+            dom: document.getElementById("animation-effect"),
             duration: 2000,
             animateType: 'default',
             isAutoplay: true,
             isLooping: true,
-            isVertical: true
         });
 
-        //rotate effect
+        //vertical slide
         var islider2 = new iSlider({
             data: picList,
-            dom: document.getElementById("rotate-effect"),
+            dom: document.getElementById("vertical-slide"),
             duration: 2000,
-            animateType: 'rotate',
+            animateType: 'default',
+            isVertical: true,
             isAutoplay: true,
             isLooping: true,
         });
 
-        //flip effect
+        //nonLooping nonAutoplay
         var islider3 = new iSlider({
             data: picList,
-            dom: document.getElementById("flip-effect"),
-            duration: 2000,
-            animateType: 'flip',
-            isAutoplay: true,
-            isLooping: true
+            dom: document.getElementById("non-looping"),
+            animateType: 'default',
         });
 
-        //depth effect
+
+
+        //dom
         var islider4 = new iSlider({
-            data: picList,
-            dom: document.getElementById("depth-effect"),
-            duration: 2000,
-            animateType: 'depth',
+            data: domList,
+            dom: document.getElementById("dom-effect"),
+            type: 'dom',
+            animateType: 'default',
             isAutoplay: true,
             isLooping: true,
-            isVertical: true,
         });
+
+        var menu = document.getElementById('menu-select').children;
+
+        function clickMenuActive() {
+
+            for (var i = 0; i < menu.length; i++) {
+                menu[i].className = '';
+            }
+
+            this.className = 'on';
+            
+        }
+
+        menu[0].onclick = function() {
+
+            clickMenuActive();
+            islider1._opts.animateType = this.innerHTML;
+            islider1.reset();
+        };
+
+        menu[1].onclick = function() {
+
+            clickMenuActive();
+            islider1._opts.animateType = this.innerHTML;
+            islider1.reset();
+        };
+
+        menu[2].onclick = function() {
+
+            clickMenuActive();
+            islider1._opts.animateType = this.innerHTML;
+            islider1.reset();
+        };
+
+        menu[3].onclick = function() {
+
+            clickMenuActive();
+            islider1._opts.animateType = this.innerHTML;
+            islider1.reset();
+        };
+
     </script>
   </body>
 </html>
