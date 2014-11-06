@@ -1,7 +1,7 @@
 <h1 id="intro">iSlider，Smooth slider for webapps</h1>
 
 <h3><a href="http://be-fe.github.io/iSlider/index_en.html">iSlider English Official Page</a></h3>
-<h3><a href="http://be-fe.github.io/iSlider/index.html">iSlider Chinse Official Page</a></h3>
+<h3><a href="http://be-fe.github.io/iSlider/index.html">iSlider 中文官网</a></h3>
 
 iSlider is a high performance，dependency free, mobile-platform javascript slider.
 It can handle any elements that need to be slide, like picture list or different dom elements. 
@@ -25,16 +25,16 @@ Before you start, you need to prepare some data for iSlider:
 
 ``` javascript
 var data = [{
-	height: 475,
-	width: 400,
+	height: 300,
+	width: 414,
 	content: "imgs/1.jpg",
 },{
-	height: 527,
-	width: 400,
+	height: 300,
+	width: 414,
 	content: "imgs/2.jpg",
 },{
- 	height: 400,
- 	width: 512,
+ 	height: 300,
+	width: 414,
  	content: "imgs/3.jpg",
 }];
 ```
