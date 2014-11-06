@@ -64,35 +64,13 @@ var domList = [
 // adjust image size based on window screen width
 var outer = document.getElementById('iSlider-outer');
 var show = document.getElementById('iSlider-show');
-var imgRatio = 414 / 300;
+var imgH = 414;
+var imgW = 300;
+var winH = window.innerHeight;
+var winW = window.innerWidth;
+var imgRatio = imgH / imgW;
 var screenRatio = false;
-
-if (window.innerWidth <= 1024) {
-	var screenRatio = window.innerHeight / window.innerWidth;
-
-	if (screenRatio < imgRatio) {
-		outer.style.height = window.innerHeight + 'px';
-		show.style.height = window.innerHeight + 'px';
-	}
-	else {
-		outer.style.width = window.innerWidth + 'px';
-		show.style.width = window.innerWidth + 'px';
-	}
-	
-}
-
-window.addEventListener('resize', function() {
-
-	if (screenRatio < imgRatio) {
-		outer.style.height = window.innerHeight + 'px';
-		show.style.height = window.innerHeight + 'px';
-	}
-	else {
-		outer.style.width = window.innerWidth + 'px';
-		show.style.width = window.innerWidth + 'px';
-	}
-
-}, false);
+var Agent = window.navigator.userAgent || window.navigator.appVersion;
 
 //initialization
 var islider = new iSlider({
@@ -104,6 +82,50 @@ var islider = new iSlider({
    		target.innerText = idx;
    	}
 });
+
+//adapt image to screen
+function adaptImageToScreen() {
+
+	if (Agent.match(/(Android)\s+([\d.]+)/)) {
+		setTimeout(function() {
+			winH = window.innerHeight;
+			winW = window.innerWidth;
+			outer.style.height = winH + 'px';
+			show.style.height = winH + 'px';
+			outer.style.width = ((winH / imgH) * imgW) + 'px';
+			show.style.width = ((winH / imgH) * imgW) + 'px';
+			
+			var marginLeft = (winW - show.clientWidth) / 2;
+			outer.style.marginLeft = marginLeft + 'px';
+
+			islider.reset();
+		}, 200);
+	}
+	else {
+		winH = window.innerHeight;
+		winW = window.innerWidth;
+		outer.style.height = winH + 'px';
+		show.style.height = winH + 'px';
+		outer.style.width = ((winH / imgH) * imgW) + 'px';
+		show.style.width = ((winH / imgH) * imgW) + 'px';
+		
+		var marginLeft = (winW - show.clientWidth) / 2;
+		outer.style.marginLeft = marginLeft + 'px';
+
+		islider.reset();
+	}
+}
+
+//adjust image at first time
+if (window.innerWidth <= 1024) {
+	adaptImageToScreen();
+}
+
+//adjust image when rotate the screen
+window.addEventListener('resize', function() {
+
+	adaptImageToScreen();
+}, false);
 
 (function(){
 

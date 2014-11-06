@@ -99,6 +99,15 @@ iSlider.prototype._setPlayWhenFocus = function() {
 }
 
 //animate function options
+/**
+ * animation parmas: 
+ *
+ * @param {Element}      dom             图片的外层<li>容器       Img wrapper
+ * @param {String}       axis            动画方向                animate direction
+ * @param {Number}       scale           容器宽度                Outer wrapper
+ * @param {Number}       i               <li>容器index           Img wrapper's index
+ * @param {Number}       offset          滑动距离                move distance
+ */
 iSlider.prototype._animateFuncs = {
 
     'default': function (dom, axis, scale, i, offset) {
@@ -118,7 +127,7 @@ iSlider.prototype._animateFuncs = {
         if (i == 1){
             dom.style.zIndex = scale - absoluteOffset;
         }else{
-            dom.style.zIndex = (offset > 0) ? (1-i)*absoluteOffset : (i-1)*absoluteOffset;
+            dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
         }
         
         dom.style.backgroundColor = bdColor || '#333';
@@ -158,7 +167,7 @@ iSlider.prototype._animateFuncs = {
         if (i == 1){
             dom.style.zIndex = 100;
         }else{
-            dom.style.zIndex = (offset > 0) ? (1-i) : (i-1);
+            dom.style.zIndex = (offset > 0) ? (1 - i) : (i - 1);
         }
 
         dom.style.webkitTransform = 'scale('+ zoomScale +', '+ zoomScale +') translateZ(0) translate' + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
@@ -247,7 +256,11 @@ iSlider.prototype._renderHTML = function () {
         this.els.push(li);
         outer.appendChild(li);
 
-        li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
+        if ( this.isVertical && (this._opts.animateType == 'rotate' || this._opts.animateType == 'flip')) {
+            li.innerHTML = this._renderItem(1 - i + this.sliderIndex);
+        }else{
+            li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
+        }
     }
 
     //append ul to div#canvas
@@ -276,7 +289,7 @@ iSlider.prototype._slide = function (n) {
     this.log('pic idx:' + this.sliderIndex);
 
     var sEle;
-    if ( this.isVertical && (this._opts.animateType == '3d' || this._opts.animateType == 'flip')) {
+    if ( this.isVertical && (this._opts.animateType == 'rotate' || this._opts.animateType == 'flip')) {
         if (n > 0) {
             sEle = els.pop();
             els.unshift(sEle);

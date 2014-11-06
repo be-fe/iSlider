@@ -77,7 +77,7 @@
 <h2 id="getting-started">
 <a id="开始部署islider" class="anchor" href="#%E5%BC%80%E5%A7%8B%E9%83%A8%E7%BD%B2islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>开始部署iSlider</h2>
 
-<p>部署iScroll最容易的办法是查阅我们提供的简易例子。大部份代码存放在demo文件夹的文件里面。<em>iSlider</em> 是必要新建的一个类。</p>
+<p>部署iSlider最容易的办法是查阅我们提供的简易例子。大部份代码存放在demo文件夹的文件里面。<em>iSlider</em> 是必要新建的一个类。</p>
 
 <p>在你开始之前，你需要为iSlider先新建好数据:</p>
 
@@ -104,9 +104,24 @@
 <p>要使其运行，按下面例子新建ISlider类: </p>
 
 <pre><code>&lt;script type="text/javascript"&gt;
-    var mySlider = new ISlider({
+    var iSlider = new iSlider({
         dom : document.getElementById('iSlider-wrapper'),
         data : data
+    });
+&lt;/script&gt;
+</code></pre>
+
+<p>如果你想加其它效果，可以按照我们demo/picture示例添加:</p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+    var islider = new iSlider({
+            data: list,
+            dom: document.getElementById("iSlider-wrapper"),
+            isVertical: true,
+            isLooping: false,
+            isDebug: true,
+            isAutoplay: false,
+            animateType: 'rotate'
     });
 &lt;/script&gt;
 </code></pre>
@@ -136,7 +151,7 @@
 <p>如果你想实现介绍部份提到的效果，你可以按以下格式设置: </p>
 
 <pre><code>&lt;script type="text/javascript"&gt;
-    var mySlider = new ISlider({
+    var iSlider = new iSlider({
         dom : document.getElementById('iSlider-wrapper'),
         data : data,
         duration: 2000,
