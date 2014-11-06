@@ -15,7 +15,7 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 <img width="150px" height="150px" src="qrcode.png"/>
 
 <h2 id="getting-started">开始部署iSlider</h2>
-部署iScroll最容易的办法是查阅我们提供的简易例子。大部份代码存放在demo文件夹的文件里面。*iSlider* 是必要新建的一个类。
+部署iSlider最容易的办法是查阅我们提供的简易例子。大部份代码存放在demo文件夹的文件里面。*iSlider* 是必要新建的一个类。
 
 在你开始之前，你需要为iSlider先新建好数据:
 
@@ -42,7 +42,7 @@ HTML代码如下:
 要使其运行，按下面例子新建ISlider类: 
 
  	<script type="text/javascript">
-    	var islider = new ISlider({
+    	var islider = new iSlider({
     		dom : document.getElementById('iSlider-wrapper'),
     		data : data
     	});
