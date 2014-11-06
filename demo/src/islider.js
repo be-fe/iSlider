@@ -22,7 +22,6 @@ var iSlider = function (opts) {
     this._setting();
     this._renderHTML();
     this._bindHandler();
-    this._checkTabHidden();
 };
 
 //setting parameters for slider
@@ -83,10 +82,13 @@ iSlider.prototype._setting = function () {
     this._animateFunc = (opts.animateType in this._animateFuncs) 
     ? this._animateFuncs[opts.animateType] 
     : this._animateFuncs['default'];
+
+    //stop autoplay when window blur
+    this._setPlayWhenFocus();
 };
 
-//fixed bug: for android device if autoplay called background
-iSlider.prototype._checkTabHidden = function() {
+//fixed bug for android device
+iSlider.prototype._setPlayWhenFocus = function() {
     var self = this;
     window.addEventListener('focus', function() {
         self.isAutoplay && self.play();
@@ -113,9 +115,9 @@ iSlider.prototype._animateFuncs = {
 
         this.wrap.style.webkitPerspective = scale * 4;
 
-        if (i == 1) {
+        if (i == 1){
             dom.style.zIndex = scale - absoluteOffset;
-        } else {
+        }else{
             dom.style.zIndex = (offset > 0) ? (1-i)*absoluteOffset : (i-1)*absoluteOffset;
         }
         
@@ -134,9 +136,9 @@ iSlider.prototype._animateFuncs = {
 
         this.wrap.style.webkitPerspective = scale * 4;
 
-        if (offset > 0) {
+        if (offset > 0){
             dom.style.visibility = (i > 1) ? 'hidden' : 'visible';
-        } else {
+        }else{
             dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
         }
 
@@ -146,7 +148,7 @@ iSlider.prototype._animateFuncs = {
         dom.style.webkitTransform = 'translateZ('+ (scale/2) +'px) rotate' + rotateDirect + '(' + 180 * (offset/scale + i - 1)+ 'deg) scale(0.875)';
     },
 
-    'depth': function(dom, axis, scale, i, offset) {
+    'depth': function (dom, axis, scale, i, offset) {
         var offset = offset ? offset : 0;
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var zoomScale = (4 - Math.abs(i - 1)) * 0.15;
@@ -261,7 +263,7 @@ iSlider.prototype._slide = function (n) {
     var els = this.els;
     var idx = this.sliderIndex + n;
 
-    if (data[idx]) {
+    if (data[idx]){
         this.sliderIndex = idx;
     } else {
         if (this.isLooping) {
@@ -282,8 +284,7 @@ iSlider.prototype._slide = function (n) {
             sEle = els.shift();
             els.push(sEle);
         }
-    }
-    else{
+    } else {
         if (n > 0) {
             sEle = els.shift();
             els.push(sEle);
@@ -298,7 +299,7 @@ iSlider.prototype._slide = function (n) {
         sEle.style.webkitTransition = 'none';
         sEle.style.visibility = 'hidden';
 
-        setTimeout(function(){
+        setTimeout(function() {
             sEle.style.visibility = 'visible';
         }, 200);
 
@@ -391,7 +392,7 @@ iSlider.prototype._bindHandler = function () {
     };
 
     var orientationchangeHandler = function (evt) {
-        setTimeout(function () {
+        setTimeout(function() {
             self.reset();
             self.log('Event: orientationchange');
         },100);
