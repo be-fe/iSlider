@@ -42,11 +42,26 @@ HTML代码如下:
 要使其运行，按下面例子新建ISlider类: 
 
  	<script type="text/javascript">
-    	var mySlider = new ISlider({
+    	var iSlider = new ISlider({
     		dom : document.getElementById('iSlider-wrapper'),
     		data : data
     	});
     </script>
+
+如果你想加其它效果，可以按照我们demo/picture示例添加:
+	
+	<script type="text/javascript">
+    	var islider = new iSlider({
+			    data: list,
+			    dom: document.getElementById("iSlider-wrapper"),
+			    isVertical: true,
+			    isLooping: false,
+			    isDebug: true,
+			    isAutoplay: false,
+			    animateType: 'rotate'
+		});
+    </script>
+	
 
 That's it. 
 
@@ -71,7 +86,7 @@ var data = [{
 如果你想实现介绍部份提到的效果，你可以按以下格式设置: 
 
 	<script type="text/javascript">
-    	var mySlider = new ISlider({
+    	var iSlider = new ISlider({
     		dom : document.getElementById('iSlider-wrapper'),
     		data : data,
     		duration: 2000,
