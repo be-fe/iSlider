@@ -1,7 +1,7 @@
 <h1 id="intro">iSlider</h1>
 
-<h4><a href="http://be-fe.github.io/iSlider/index_en.html">iSlider English</a></h4>
-<h4><a href="http://be-fe.github.io/iSlider/">iSlider 官网</a></h4>
+<h4><a href="http://be-fe.github.io/iSlider/index_en.html">iSlider English Official Page</a></h4>
+<h4><a href="http://be-fe.github.io/iSlider/index.html">iSlider 中文官网</a></h4>
 <h4><a href="http://be-fe.github.io/iSlider/demo/">iSlider Example</a></h4>
 
 iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：
@@ -21,16 +21,16 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 
 ``` javascript
 var data = [{
-	height: 475,
-	width: 400,
+	height: 300,
+	width: 414,
 	content: "imgs/1.jpg",
 },{
-	height: 527,
-	width: 400,
+	height: 300,
+	width: 414,
 	content: "imgs/2.jpg",
 },{
- 	height: 400,
- 	width: 512,
+ 	height: 300,
+	width: 414,
  	content: "imgs/3.jpg",
 }];
 ```
