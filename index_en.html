@@ -71,7 +71,7 @@
 <h2 id="getting-started">
 <a id="开始部署islider" class="anchor" href="#%E5%BC%80%E5%A7%8B%E9%83%A8%E7%BD%B2islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
 
-<p>The best way to learn the iScroll is by looking at the demos. In the archive you'll find a demo folder. Most of the script features are outlined there.<em>iSlider</em> is a class that needs to be initiated for each dom area. </p>
+<p>The best way to learn the iSlider is by looking at the demos. In the archive you'll find a demo folder. Most of the script features are outlined there.<em>iSlider</em> is a class that needs to be initiated for each dom area. </p>
 
 <p>Before you start, you need to prepare some data for iSlider:</p>
 
@@ -98,9 +98,24 @@
 <p>To make it runnable, all you need to do is to initiate: </p>
 
 <pre><code>&lt;script type="text/javascript"&gt;
-    var mySlider = new ISlider({
+    var iSlider = new iSlider({
         dom : document.getElementById('iSlider-wrapper'),
         data : data
+    });
+&lt;/script&gt;
+</code></pre>
+
+<p>If you want to add more effects or options, you can follow the demo in demo/picture</p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+    var islider = new iSlider({
+            data: list,
+            dom: document.getElementById("iSlider-wrapper"),
+            isVertical: true,
+            isLooping: false,
+            isDebug: true,
+            isAutoplay: false,
+            animateType: 'rotate'
     });
 &lt;/script&gt;
 </code></pre>
