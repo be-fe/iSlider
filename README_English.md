@@ -46,7 +46,7 @@ HTML structure you only need to prepare is :
 To make it runnable, all you need to do is to initiate:
 
  	<script type="text/javascript">
-    	var mySlider = new ISlider({
+    	var islider = new ISlider({
     		dom : document.getElementById('iSlider-wrapper'),
     		data : data
     	});
@@ -55,10 +55,15 @@ To make it runnable, all you need to do is to initiate:
 If you want to add more effects or options, you can follow the demo in demo/picture
 
 	<script type="text/javascript">
-    	var mySlider = new ISlider({
-    		dom : document.getElementById('iSlider-wrapper'),
-    		data : data
-    	});
+    	var islider = new iSlider({
+			    data: list,
+			    dom: document.getElementById("iSlider-wrapper"),
+			    isVertical: true,
+			    isLooping: false,
+			    isDebug: true,
+			    isAutoplay: false,
+			    animateType: 'rotate'
+		});
     </script>
 
 That's it. 
