@@ -42,7 +42,7 @@ HTML代码如下:
 要使其运行，按下面例子新建ISlider类: 
 
  	<script type="text/javascript">
-    	var iSlider = new ISlider({
+    	var islider = new ISlider({
     		dom : document.getElementById('iSlider-wrapper'),
     		data : data
     	});
@@ -86,7 +86,7 @@ var data = [{
 如果你想实现介绍部份提到的效果，你可以按以下格式设置: 
 
 	<script type="text/javascript">
-    	var iSlider = new ISlider({
+    	var islider = new iSlider({
     		dom : document.getElementById('iSlider-wrapper'),
     		data : data,
     		duration: 2000,
