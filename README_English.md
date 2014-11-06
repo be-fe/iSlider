@@ -52,6 +52,15 @@ To make it runnable, all you need to do is to initiate:
     	});
     </script>
 
+If you want to add more effects or options, you can follow the demo in demo/picture
+
+	<script type="text/javascript">
+    	var mySlider = new ISlider({
+    		dom : document.getElementById('iSlider-wrapper'),
+    		data : data
+    	});
+    </script>
+
 That's it. 
 
 <h2 id="configuration">Configure the iSlider</h2>
