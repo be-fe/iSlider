@@ -122,8 +122,7 @@ if (window.innerWidth <= 1024) {
 }
 
 //adjust image when rotate the screen
-window.addEventListener('resize', function() {
-
+window.addEventListener('orientationchange', function(event) {
 	adaptImageToScreen();
 }, false);
 
