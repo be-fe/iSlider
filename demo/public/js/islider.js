@@ -202,9 +202,6 @@ iSlider.prototype._renderItem = function (i) {
     var len = this.data.length;
 
     if (!this.isLooping) {
-        // if ( this.isVertical && (this._opts.animateType == 'rotate' || this._opts.animateType == 'flip')) {
-        //     i = Math.abs(i);
-        // }
         item = this.data[i] || { empty : true };
     } else {
         if (i < 0) {
@@ -221,9 +218,10 @@ iSlider.prototype._renderItem = function (i) {
     }
 
     if (this.type === 'pic') {
-        html = item.height / item.width > this.ratio 
-        ? '<img height="' + this.height + '" src="' + item.content + '">'
-        : '<img width="' + this.width + '" src="' + item.content + '">';
+        // html = item.height / item.width > this.ratio 
+        // ? '<img height="' + this.height + '" src="' + item.content + '">'
+        // : '<img width="' + this.width + '" src="' + item.content + '">';
+        html = '<img src="' + item.content +'">';
     } else if (this.type === 'dom') {
         html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
     }
