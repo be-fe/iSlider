@@ -18,7 +18,7 @@ It features:
 * <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
 
 <h2 id="getting-started">Getting Started</h2>
-The best way to learn the iScroll is by looking at the demos. In the archive you'll find a demo folder. Most of the script features are outlined there.
+The best way to learn the iSlider is by looking at the demos. In the archive you'll find a demo folder. Most of the script features are outlined there.
 *iSlider* is a class that needs to be initiated for each dom area. 
 
 Before you start, you need to prepare some data for iSlider:
@@ -46,7 +46,7 @@ HTML structure you only need to prepare is :
 To make it runnable, all you need to do is to initiate:
 
  	<script type="text/javascript">
-    	var islider = new ISlider({
+    	var islider = new iSlider({
     		dom : document.getElementById('iSlider-wrapper'),
     		data : data
     	});
