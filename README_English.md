@@ -89,7 +89,7 @@ var data = [{
 If you hope to implement the effects mentioned in introduction part, you can:
 
 	<script type="text/javascript">
-    	var mySlider = new ISlider({
+    	var islider = new iSlider({
     		dom : document.getElementById('iSlider-wrapper'),
     		data : data,
     		duration: 2000,
