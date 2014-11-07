@@ -142,11 +142,11 @@ hr {
 
 img {
   position: relative;
-  /*margin: 0 auto;
+  margin: 0 auto;
   max-width: 650px;
   padding: 5px;
-  margin: 10px 0 32px 0;*/
-  /*border: 1px solid #ccc;*/
+  margin: 10px 0 32px 0;
+  border: 1px solid #ccc;
 }
 
 p img {
@@ -420,19 +420,29 @@ footer {
   }
 }
 
+#iSlider-effect-wrapper {
+    height: 517.5px;
+    width: 375px;
+    margin: 0 auto;
+    background: url('../demo/imgs/bg_1.png') no-repeat top center;
+    background-size: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
 .iSlider-effect {
-  height: 340px;
-  width: 246.4px;
+  height: 310.5px;
+  width: 225px;
   overflow: hidden;
   position: relative;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   border: 1px solid #000000;
 }
 
 .iSlider-effect ul {
   list-style: none;
   padding: 0;
+  margin: 0;
   height: 100%;
   overflow: hidden;
 }
@@ -450,6 +460,8 @@ footer {
 .iSlider-effect ul li img{
   max-width: 100%;
   max-height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .iSlider-effect div{
@@ -470,6 +482,18 @@ footer {
   margin: 5px;
   width: 60px;
   cursor: pointer;
+}
+
+#animation-effect {
+  border: 0;
+  width: 204px;
+  height: 357px;
+  background-color: #000000;
+  margin-top: 55px;
+}
+
+#animation-effect ul li img {
+  border: 0;
 }
 
 #menu-select span:hover {

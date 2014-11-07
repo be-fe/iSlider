@@ -52,7 +52,7 @@ body {
     float: left;
     height: 500px;
     width: 380px;
-    background: url('../imgs/bg_1.jpeg') no-repeat top center;
+    background: url('../imgs/bg_1.png') no-repeat top center;
     background-size: 100%;
     overflow: hidden;
     position: relative;
