@@ -376,40 +376,40 @@
 
         var menu = document.getElementById('menu-select').children;
 
-        function clickMenuActive() {
+        function clickMenuActive(target) {
 
             for (var i = 0; i < menu.length; i++) {
                 menu[i].className = '';
             }
 
-            this.className = 'on';
+            target.className = 'on';
             
         }
 
         menu[0].onclick = function() {
 
-            clickMenuActive();
+            clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
             islider1.reset();
         };
 
         menu[1].onclick = function() {
 
-            clickMenuActive();
+            clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
             islider1.reset();
         };
 
         menu[2].onclick = function() {
 
-            clickMenuActive();
+            clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
             islider1.reset();
         };
 
         menu[3].onclick = function() {
 
-            clickMenuActive();
+            clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
             islider1.reset();
         };
