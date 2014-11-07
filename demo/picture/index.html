@@ -31,28 +31,14 @@
 			padding: 0;
 			height: 100%;
 			overflow: hidden;
-
-			display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-		  	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-		  	/*display: -ms-flexbox; */     /* TWEENER - IE 10 */
-		  	display: -webkit-flex;     /* NEW - Chrome */
-		  	display: flex;  
-
-		  	align-items: center;
-		  	-webkit-align-items: center;
-
-		  	justify-content: center;
-		  	-webkit-justify-content: center;
-
-
-			
+			display: -webkit-box;
+			-webkit-box-pack: center;
+			-webkit-box-align: center;
 			list-style: none;
 		}
 		#iSlider-wrapper li  img{
+			max-width: 100%;
 			max-height: 100%;
-			max-width:100% !important;
-		    height:auto;
-		    display:block;
 		}
 
 	</style>
@@ -65,36 +51,36 @@
 	<script>
 		var list = [
 			{
-				height: 300,
-				width: 414,
+				height: 414,
+				width: 300,
 				content: "../public/imgs/1.jpg",
 			},{
-				height: 300,
-				width: 414,
+				height: 414,
+				width: 300,
 				content: "../public/imgs/2.jpg",
 			},{
-			 	height: 300,
-				width: 414,
+			 	height: 414,
+				width: 300,
 			 	content: "../public/imgs/3.jpg",
 			},{
-				height: 300,
-				width: 414,
+				height: 414,
+				width: 300,
 				content:"../public/imgs/5.jpg"
 			},{
-				height: 300,
-				width: 414,
+				height: 414,
+				width: 300,
 				content:"../public/imgs/6.jpg"
 			},{
-				height: 300,
-				width: 414,
+				height: 414,
+				width: 300,
 				content:"../public/imgs/7.jpg"
 			},{
-				height: 300,
-				width: 414,
+				height: 414,
+				width: 300,
 				content:"../public/imgs/8.jpg"
 			},{
-				height: 300,
-				width: 414,
+				height: 414,
+				width: 300,
 				content:"../public/imgs/9.jpg"
 			}
 			];

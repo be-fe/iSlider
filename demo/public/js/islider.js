@@ -218,10 +218,9 @@ iSlider.prototype._renderItem = function (i) {
     }
 
     if (this.type === 'pic') {
-        // html = item.height / item.width > this.ratio 
-        // ? '<img height="' + this.height + '" src="' + item.content + '">'
-        // : '<img width="' + this.width + '" src="' + item.content + '">';
-        html = '<img src="' + item.content +'">';
+        html = item.height / item.width > this.ratio 
+        ? '<img height="' + this.height + '" src="' + item.content + '">'
+        : '<img width="' + this.width + '" src="' + item.content + '">';
     } else if (this.type === 'dom') {
         html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
     }
