@@ -251,14 +251,16 @@ iSlider.prototype._renderHTML = function () {
         var li = document.createElement('li');
         li.style.width = this.width + 'px';
         li.style.height = this.height + 'px';
+
+        //prepare style animation
         this._animateFunc(li, this.axis, this.scale, i);
 
         this.els.push(li);
         outer.appendChild(li);
 
-        if ( this.isVertical && (this._opts.animateType == 'rotate' || this._opts.animateType == 'flip')) {
+        if (this.isVertical && (this._opts.animateType == 'rotate' || this._opts.animateType == 'flip')) {
             li.innerHTML = this._renderItem(1 - i + this.sliderIndex);
-        }else{
+        } else {
             li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
         }
     }
