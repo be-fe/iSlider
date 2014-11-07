@@ -43,7 +43,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p, ul, ol, table, dl {
-  margin:0 0 22px;
+  /*margin:0 0 22px;*/
 }
 
 h1, h2, h3 {
@@ -99,12 +99,12 @@ strong {
 
 ul {
   list-style: inside;
-  padding-left: 25px;
+  /*padding-left: 25px;*/
 }
 
 ol {
   list-style: decimal inside;
-  padding-left: 20px;
+  /*padding-left: 20px;*/
 }
 
 blockquote {
@@ -142,10 +142,10 @@ hr {
 
 img {
   position: relative;
-  margin: 0 auto;
+  /*margin: 0 auto;
   max-width: 650px;
   padding: 5px;
-  margin: 10px 0 32px 0;
+  margin: 10px 0 32px 0;*/
   /*border: 1px solid #ccc;*/
 }
 
@@ -422,7 +422,7 @@ footer {
 
 .iSlider-effect {
   height: 340px;
-  width: 260px;
+  width: 246.4px;
   overflow: hidden;
   position: relative;
   margin-left: auto;
@@ -432,8 +432,6 @@ footer {
 
 .iSlider-effect ul {
   list-style: none;
-  /*margin: 0;*/
-  margin-top: -5px;
   padding: 0;
   height: 100%;
   overflow: hidden;
@@ -449,7 +447,7 @@ footer {
   -webkit-box-align: center;
   list-style: none;
 }
-.iSlider-effect li  img{
+.iSlider-effect ul li img{
   max-width: 100%;
   max-height: 100%;
 }
