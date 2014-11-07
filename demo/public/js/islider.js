@@ -220,7 +220,7 @@ iSlider.prototype._renderItem = function (i) {
     } else if (this.type === 'dom') {
         html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
     } else if (this.type === 'overspread') {
-        html = item.height / item.width > this.ratio 
+        html = this.ratio < 1 
         ? '<div style="height: 100%; width:100%; background:url(' + item.content + ') center no-repeat; background-size:' + this.width + 'px auto;"></div>'
         : '<div style="height: 100%; width:100%; background:url(' + item.content + ') center no-repeat; background-size: auto ' + this.height + 'px;"></div>';
     }
