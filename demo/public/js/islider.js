@@ -440,3 +440,11 @@ iSlider.prototype.play = function () {
 iSlider.prototype.pause = function () {
     clearInterval(this.autoPlayTimer);
 };
+
+//plugin extend
+iSlider.prototype.extend = function(plugin){
+    var fn = iSlider.prototype;
+    Object.keys(plugin).forEach(function(property) {
+        Object.defineProperty(fn, property, Object.getOwnPropertyDescriptor( plugin, property ) );
+    })
+}
