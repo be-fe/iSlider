@@ -171,16 +171,24 @@ iSlider.prototype._animateFuncs = {
 
     'tear': function (dom, axis, scale, i, offset) {
         var rotateDirect = (axis == "X") ? "Y" : "X";
-        var zoomScale = 1 - (Math.abs(i - 1) * 0.2);
         var absoluteOffset = Math.abs(offset);
-
+        
         this.wrap.style.webkitPerspective = scale * 4;
 
         if (i == 1) {
             dom.style.zIndex = scale - absoluteOffset;
+            dom.cur = 1;
         } else {
             dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
         }
+
+        if (dom.cur && dom.cur != i){
+            setTimeout(function(){
+                dom.cur = null
+            },300)
+        }
+
+        var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i-1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
 
         dom.style.webkitTransform = 'scale('+ zoomScale + ', '+ zoomScale + ') translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
     }
@@ -415,6 +423,10 @@ iSlider.prototype._bindHandler = function () {
         } else {
             self._slide(0);
         }
+
+        // setTimeout(function(){
+
+        // })
 
         self.isAutoplay && self.play();
         self.offset = 0;
