@@ -167,6 +167,21 @@ iSlider.prototype._animateFuncs = {
         }
 
         dom.style.webkitTransform = 'scale('+ zoomScale + ', '+ zoomScale + ') translateZ(0) translate' + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
+    },
+
+    'tear': function (dom, axis, scale, i, offset) {
+        var rotateDirect = (axis == "X") ? "Y" : "X";
+        var zoomScale = 1 - (Math.abs(i - 1) * 0.2);
+
+        this.wrap.style.webkitPerspective = scale * 4;
+
+        if (i == 1) {
+            dom.style.zIndex = 100;
+        } else {
+            dom.style.zIndex = (offset > 0) ? (1 - i) : (i - 1);
+        }
+
+        dom.style.webkitTransform = 'scale('+ zoomScale + ', '+ zoomScale + ') translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
     }
 }
 

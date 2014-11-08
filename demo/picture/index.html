@@ -87,13 +87,14 @@
 			];
 				
 		var	islider = new iSlider({
+			type: 'overspread',
 		    data: list,
 		    dom: document.getElementById("iSlider-wrapper"),
 		    isVertical: true,
 		    isLooping: false,
 		    isDebug: true,
 		    isAutoplay: false,
-		    animateType: 'default'
+		    animateType: 'tear'
 		});
 		islider.bindMouse();
 
