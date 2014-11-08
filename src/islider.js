@@ -172,13 +172,14 @@ iSlider.prototype._animateFuncs = {
     'tear': function (dom, axis, scale, i, offset) {
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var zoomScale = 1 - (Math.abs(i - 1) * 0.2);
+        var absoluteOffset = Math.abs(offset);
 
         this.wrap.style.webkitPerspective = scale * 4;
 
         if (i == 1) {
-            dom.style.zIndex = 100;
+            dom.style.zIndex = scale - absoluteOffset;
         } else {
-            dom.style.zIndex = (offset > 0) ? (1 - i) : (i - 1);
+            dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
         }
 
         dom.style.webkitTransform = 'scale('+ zoomScale + ', '+ zoomScale + ') translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
