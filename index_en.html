@@ -265,6 +265,7 @@
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
 	<script src="demo/src/islider.js"></script>
+    <script src="demo/src/plugins/islider_desktop.js"></script>
     <script>
         var picList = [
         {
@@ -337,7 +338,9 @@
             animateType: 'default',
             isAutoplay: true,
             isLooping: true,
+            // isVertical: true,
         });
+        islider1.bindMouse();
 
         //vertical slide
         var islider2 = new iSlider({
@@ -349,6 +352,7 @@
             isAutoplay: true,
             isLooping: true,
         });
+        islider2.bindMouse();
 
         //nonLooping nonAutoplay
         var islider3 = new iSlider({
@@ -356,8 +360,7 @@
             dom: document.getElementById("non-looping"),
             animateType: 'default',
         });
-
-
+        islider3.bindMouse();
 
         //dom
         var islider4 = new iSlider({
@@ -368,43 +371,44 @@
             isAutoplay: true,
             isLooping: true,
         });
+        islider4.bindMouse();
 
         var menu = document.getElementById('menu-select').children;
 
-        function clickMenuActive() {
+        function clickMenuActive(target) {
 
             for (var i = 0; i < menu.length; i++) {
                 menu[i].className = '';
             }
 
-            this.className = 'on';
+            target.className = 'on';
             
         }
 
         menu[0].onclick = function() {
 
-            clickMenuActive();
+            clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
             islider1.reset();
         };
 
         menu[1].onclick = function() {
 
-            clickMenuActive();
+            clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
             islider1.reset();
         };
 
         menu[2].onclick = function() {
 
-            clickMenuActive();
+            clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
             islider1.reset();
         };
 
         menu[3].onclick = function() {
 
-            clickMenuActive();
+            clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
             islider1.reset();
         };

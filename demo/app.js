@@ -82,6 +82,7 @@ var islider = new iSlider({
    		target.innerText = idx;
    	}
 });
+islider.bindMouse();
 
 //adapt image to screen
 function adaptImageToScreen() {
@@ -232,7 +233,10 @@ window.addEventListener('orientationchange', function(event) {
 	//menu if it is mobile
 	var toggle = 0;
 
-	document.getElementById('iSlider-menu-tag').addEventListener('touchstart', function(event) {
+	document.getElementById('iSlider-menu-tag').addEventListener('touchstart', menuSlide, false);
+	document.getElementById('iSlider-menu-tag').addEventListener('mousedown', menuSlide, false);
+
+	function menuSlide(event) {
 
 		event.preventDefault();
 
@@ -248,7 +252,7 @@ window.addEventListener('orientationchange', function(event) {
 		}
 		
 
-	}, false);
+	}
 
 	if (navigator.userAgent.match(/(iPhone\sOS)\s([\d_]+)|(Android)\s+([\d.]+)/)) {
 		var menu = document.getElementById('iSlider-menu');
