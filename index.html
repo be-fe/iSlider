@@ -269,6 +269,7 @@
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
 	<script src="demo/src/islider.js"></script>
+    <script src="demo/src/plugins/islider_desktop.js"></script>
     <script>
         var picList = [
         {
@@ -343,6 +344,7 @@
             isLooping: true,
             // isVertical: true,
         });
+        islider1.bindMouse();
 
         //vertical slide
         var islider2 = new iSlider({
@@ -354,6 +356,7 @@
             isAutoplay: true,
             isLooping: true,
         });
+        islider2.bindMouse();
 
         //nonLooping nonAutoplay
         var islider3 = new iSlider({
@@ -361,8 +364,7 @@
             dom: document.getElementById("non-looping"),
             animateType: 'default',
         });
-
-
+        islider3.bindMouse();
 
         //dom
         var islider4 = new iSlider({
@@ -373,6 +375,7 @@
             isAutoplay: true,
             isLooping: true,
         });
+        islider4.bindMouse();
 
         var menu = document.getElementById('menu-select').children;
 
