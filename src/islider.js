@@ -9,6 +9,9 @@
  * Please refer to README                   请参考README
  * @class 
  */
+
+"use strict";
+
 var iSlider = function (opts) {
     if (!opts.dom) {
         throw new Error("dom element can not be empty!");
@@ -470,9 +473,9 @@ iSlider.prototype.pause = function () {
 };
 
 //plugin extend
-iSlider.prototype.extend = function(plugin){
-    var fn = iSlider.prototype;
+iSlider.prototype.extend = function(plugin, main){
+    if (!main) { var main = iSlider.prototype;};
     Object.keys(plugin).forEach(function(property) {
-        Object.defineProperty(fn, property, Object.getOwnPropertyDescriptor( plugin, property ) );
-    })
-}
+        Object.defineProperty(main, property, Object.getOwnPropertyDescriptor( plugin, property ));
+    });
+};

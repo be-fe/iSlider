@@ -9,6 +9,7 @@
  * Please refer to README                   请参考README
  * @class 
  */
+
 "use strict";
 
 var iSlider = function (opts) {
@@ -257,7 +258,6 @@ iSlider.prototype._renderItem = function (i) {
 //render list html
 iSlider.prototype._renderHTML = function () {
     var outer;
-    var data = this.data;
 
     if (this.outer) {
         //used for reset
@@ -292,15 +292,6 @@ iSlider.prototype._renderHTML = function () {
         }
     }
 
-    if (data.length > 3) {
-        var imgLoader = document.createElement('img');
-        imgLoader.src = data[3].content;
-        imgLoader.style.display = 'none';
-        outer.appendChild(imgLoader);
-        this.imgLoader = imgLoader; 
-    }
-
-
     //append ul to div#canvas
     if (!this.outer) {
         this.outer = outer;
@@ -316,9 +307,6 @@ iSlider.prototype._slide = function (n) {
 
     if (data[idx]){
         this.sliderIndex = idx;
-        if (this.imgLoader && data[idx + 2]) {
-            this.imgLoader.src = data[idx + 2].content;
-        }
     } else {
         if (this.isLooping) {
             this.sliderIndex = n > 0 ? 0 : data.length - 1;    
@@ -485,9 +473,9 @@ iSlider.prototype.pause = function () {
 };
 
 //plugin extend
-iSlider.prototype.extend = function(plugin){
-    var fn = iSlider.prototype;
+iSlider.prototype.extend = function(plugin, main){
+    if (!main) { var main = iSlider.prototype;};
     Object.keys(plugin).forEach(function(property) {
-        Object.defineProperty(fn, property, Object.getOwnPropertyDescriptor( plugin, property ) );
-    })
-}
+        Object.defineProperty(main, property, Object.getOwnPropertyDescriptor( plugin, property ));
+    });
+};
