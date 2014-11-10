@@ -422,49 +422,58 @@ iSlider.prototype._bindHandler = function () {
     var scaleW = self.scaleW;
     var outer = self.outer;
     var len = self.data.length;
+    var isMoving = false;  // judge mousemove start or end
+
+    var hasTouch = (function () {
+        return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+    })();
+
+    var startEvt = hasTouch ? 'touchstart' : 'mousedown';
+    var moveEvt = hasTouch ? 'touchmove' : 'mousemove';
+    var endEvt = hasTouch ? 'touchend' : 'mouseup';
 
     var startHandler = function (evt) {
+        isMoving = true;
         self.pause();
         self.onslidestart && self.onslidestart();
         // self.log('Event: beforeslide');
 
         self.startTime = new Date().getTime();
-        self.startX = evt.targetTouches[0].pageX;
-        self.startY = evt.targetTouches[0].pageY;
+        self.startX = hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
+        self.startY = hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
 
-        var target = evt.target;
-        while (target.nodeName != 'LI' && target.nodeName != 'BODY') {
-            target = target.parentNode;
-        }
-        self.target = target;
     };
 
     var moveHandler = function (evt) {
-        evt.preventDefault();
-        self.onslide && self.onslide();
-        // self.log('Event: onslide');
+        if (isMoving) {
+            evt.preventDefault();
+            self.onslide && self.onslide();
+            self.log('Event: onslide');
 
-        var axis = self.axis;
-        var offset = evt.targetTouches[0]['page' + axis] - self['start' + axis];
+            var axis = self.axis;
+            var currentPoint = hasTouch ? evt.targetTouches[0]['page' + axis] : evt['page' + axis];
+            var offset = currentPoint - self['start' + axis];
 
-        if (!self.isLooping) {
-            if (offset > 0 && self.sliderIndex === 0 || offset < 0 && self.sliderIndex === self.data.length - 1) {
-                offset = self._damping(offset);
+            if (!self.isLooping) {
+                if (offset > 0 && self.sliderIndex === 0 || offset < 0 && self.sliderIndex === self.data.length - 1) {
+                    offset = self._damping(offset);
+                }
             }
-        }
 
-        for (var i = 0; i < 3; i++) {
-            var item = self.els[i];
-            item.style.webkitTransition = 'all 0s';
-            self._animateFunc(item, axis, self.scale, i, offset);
-        }
+            for (var i = 0; i < 3; i++) {
+                var item = self.els[i];
+                item.style.webkitTransition = 'all 0s';
+                self._animateFunc(item, axis, self.scale, i, offset);
+            }
 
-        self.offset = offset;
+            self.offset = offset;
+        }
     };
 
     var endHandler = function (evt) {
         evt.preventDefault();
 
+        isMoving = false; 
         var boundary = self.scale / 2;
         var metric = self.offset;
         var endTime = new Date().getTime();
@@ -494,9 +503,9 @@ iSlider.prototype._bindHandler = function () {
         },100);
     };
 
-    outer.addEventListener('touchstart', startHandler);
-    outer.addEventListener('touchmove', moveHandler);
-    outer.addEventListener('touchend', endHandler);
+    outer.addEventListener(startEvt, startHandler);
+    outer.addEventListener(moveEvt, moveHandler);
+    outer.addEventListener(endEvt, endHandler);
     window.addEventListener('orientationchange', orientationchangeHandler);
 };
 
