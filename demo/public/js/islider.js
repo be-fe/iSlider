@@ -368,36 +368,36 @@ iSlider.prototype._bindHandler = function () {
     var scaleW = self.scaleW;
     var outer = self.outer;
     var len = self.data.length;
-    var bDrag = false;
+    var isMoving = false;  // judge mousemove start or end
 
-    var support = (function () {
+    var hasTouch = (function () {
         return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
     })();
 
-    var startEvt = support ? 'touchstart' : 'mousedown';
-    var moveEvt = support ? 'touchmove' : 'mousemove';
-    var endEvt = support ? 'touchend' : 'mouseup';
+    var startEvt = hasTouch ? 'touchstart' : 'mousedown';
+    var moveEvt = hasTouch ? 'touchmove' : 'mousemove';
+    var endEvt = hasTouch ? 'touchend' : 'mouseup';
 
     var startHandler = function (evt) {
-        bDrag = true;
+        isMoving = true;
         self.pause();
         self.onslidestart && self.onslidestart();
         self.log('Event: beforeslide');
 
         self.startTime = new Date().getTime();
-        self.startX = support ? evt.targetTouches[0].pageX : evt.pageX;
-        self.startY = support ? evt.targetTouches[0].pageY : evt.pageY;
+        self.startX = hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
+        self.startY = hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
 
     };
 
     var moveHandler = function (evt) {
-        if ( bDrag ) {
+        if (isMoving) {
             evt.preventDefault();
             self.onslide && self.onslide();
             self.log('Event: onslide');
 
             var axis = self.axis;
-            var currentPoint = support ? evt.targetTouches[0]['page' + axis] : evt['page' + axis];
+            var currentPoint = hasTouch ? evt.targetTouches[0]['page' + axis] : evt['page' + axis];
             var offset = currentPoint - self['start' + axis];
 
             if (!self.isLooping) {
@@ -419,7 +419,7 @@ iSlider.prototype._bindHandler = function () {
     var endHandler = function (evt) {
         evt.preventDefault();
 
-        bDrag = false; 
+        isMoving = false; 
         var boundary = self.scale / 2;
         var metric = self.offset;
         var endTime = new Date().getTime();
