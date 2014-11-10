@@ -48,6 +48,7 @@
 	<!-- Outer Canvas 外层画布 -->
 	<div id="iSlider-wrapper"></div>
 	<script src="../public/js/islider.js"></script>
+	<script src="../public/js/islider_desktop.js"></script>
 	<script>
 		var list = [
 			{
@@ -90,11 +91,12 @@
 		    data: list,
 		    dom: document.getElementById("iSlider-wrapper"),
 		    isVertical: true,
-		    isLooping: false,
+		    isLooping: true,
 		    isDebug: true,
 		    isAutoplay: false,
-		    animateType: 'rotate'
+		    animateType: 'tear'
 		});
+		islider.bindMouse();
 
 	</script>
 </body>

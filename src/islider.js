@@ -167,6 +167,30 @@ iSlider.prototype._animateFuncs = {
         }
 
         dom.style.webkitTransform = 'scale('+ zoomScale + ', '+ zoomScale + ') translateZ(0) translate' + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
+    },
+
+    'tear': function (dom, axis, scale, i, offset) {
+        var rotateDirect = (axis == "X") ? "Y" : "X";
+        var absoluteOffset = Math.abs(offset);
+        
+        this.wrap.style.webkitPerspective = scale * 4;
+
+        if (i == 1) {
+            dom.style.zIndex = scale - absoluteOffset;
+            dom.cur = 1;
+        } else {
+            dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset * 1000 : (i - 1) * absoluteOffset*1000;
+        }
+
+        if (dom.cur && dom.cur != i){
+            setTimeout(function(){
+                dom.cur = null
+            },300)
+        }
+
+        var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i-1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
+
+        dom.style.webkitTransform = 'scale('+ zoomScale + ', '+ zoomScale + ') translateZ(0) translate' + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
     }
 }
 
@@ -400,6 +424,10 @@ iSlider.prototype._bindHandler = function () {
             self._slide(0);
         }
 
+        // setTimeout(function(){
+
+        // })
+
         self.isAutoplay && self.play();
         self.offset = 0;
         self.onslideend && self.onslideend();
@@ -440,3 +468,11 @@ iSlider.prototype.play = function () {
 iSlider.prototype.pause = function () {
     clearInterval(this.autoPlayTimer);
 };
+
+//plugin extend
+iSlider.prototype.extend = function(plugin){
+    var fn = iSlider.prototype;
+    Object.keys(plugin).forEach(function(property) {
+        Object.defineProperty(fn, property, Object.getOwnPropertyDescriptor( plugin, property ) );
+    })
+}
