@@ -38,6 +38,7 @@ iSlider.prototype._setting = function () {
 
     // loaded image
     this.loadedImage = [];
+    // cached first three images of li
     this.cachedImage = [];
 
     // default type
@@ -323,6 +324,7 @@ iSlider.prototype._renderHTML = function () {
         }
         if (li.children[0]) {
             var img = new Image();
+            // to support overspread pre load
             if (this.isOverspread) {
                 img.src = li.children[0].style.backgroundImage
                           .substring(4, li.children[0].style.backgroundImage.length - 1);
@@ -374,7 +376,7 @@ iSlider.prototype._preLoadImg = function() {
     var sliderIndex = [dataLen - 1, 0, 1];
 
     var isImgComplete = setTimeout(function() {
-
+        // wait for first three images of li to complete, won't cause duplicate loading
         for (var i = 0; i < elsLen; i++) {
             if (self.cachedImage[i] && self.cachedImage[i].complete) {
                 self._getImgSize(self.cachedImage[i], sliderIndex[i]);
@@ -384,6 +386,7 @@ iSlider.prototype._preLoadImg = function() {
         if (imgCompleteNum >= 2) {
             clearTimeout(isImgComplete);
             self._startLoadingImg(2, 'right');
+            // check whether to load image from right to left
             if (dataLen - 2 !== 3 && self.isLooping) {
                 self._startLoadingImg(dataLen - 2, 'left');
             }
