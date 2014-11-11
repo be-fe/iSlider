@@ -38,6 +38,7 @@ iSlider.prototype._setting = function () {
 
     // loaded image
     this.loadedImage = [];
+    this.cachedImage = [];
 
     // default type
     this.type = opts.type || 'pic';
@@ -320,9 +321,19 @@ iSlider.prototype._renderHTML = function () {
         else {
             li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
         }
+        if (li.children[0]) {
+            var img = new Image();
+            if (this.isOverspread) {
+                img.src = li.children[0].style.backgroundImage
+                          .substring(4, li.children[0].style.backgroundImage.length - 1);
+            }
+            else {
+                img.src = li.children[0].src;
+            }
+            this.cachedImage.push(img);
+        }
     }
-
-    this._preLoadImg(this.els);
+    this._preLoadImg();
     // append ul to div#canvas
     if (!this.outer) {
         this.outer = outer;
@@ -351,23 +362,22 @@ iSlider.prototype._startLoadingImg = function(index, direction) {
     this.loadedImage[dirIndex] = new Image();
     this.loadedImage[dirIndex].src = this.data[index].content;
     this._getImgSize(this.loadedImage[dirIndex], index);
-
 };
 
 // pre load image
-iSlider.prototype._preLoadImg = function(els) {
+iSlider.prototype._preLoadImg = function() {
 
     var self = this;
     var dataLen = this.data.length;
-    var elsLen = els.length;
+    var elsLen = this.els.length;
     var imgCompleteNum = 0;
     var sliderIndex = [dataLen - 1, 0, 1];
 
     var isImgComplete = setTimeout(function() {
 
         for (var i = 0; i < elsLen; i++) {
-            if (els[i].children[0] && els[i].children[0].complete) {
-                self._getImgSize(els[i].children[0], sliderIndex[i]);
+            if (self.cachedImage[i] && self.cachedImage[i].complete) {
+                self._getImgSize(self.cachedImage[i], sliderIndex[i]);
                 imgCompleteNum++;
             }
         }
@@ -379,7 +389,7 @@ iSlider.prototype._preLoadImg = function(els) {
             }
         }
         else {
-            self._preLoadImg(els);
+            self._preLoadImg();
         }
     }, 200);
 };
