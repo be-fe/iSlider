@@ -432,6 +432,7 @@ iSlider.prototype._bindHandler = function () {
     var endEvt = hasTouch ? 'touchend' : 'mouseup';
 
     var startHandler = function (evt) {
+        evt.preventDefault();
         isMoving = true;
         self.pause();
         self.onslidestart && self.onslidestart();
