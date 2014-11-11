@@ -34,7 +34,7 @@ iSlider.prototype._setting = function () {
     // pics data
     this.data = opts.data;
 
-    //loaded image
+    // loaded image
     this.loadedImage = [];
 
     // default type
@@ -54,7 +54,7 @@ iSlider.prototype._setting = function () {
     this.duration = opts.duration || 2000;
 
     // debug mode
-    this.log = opts.isDebug ? function(str) { console.log(str); } : function() {};
+    this.log = opts.isDebug ? function(str) {console.log(str);} : function() {};
 
     this.axis = this.isVertical ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
@@ -68,7 +68,7 @@ iSlider.prototype._setting = function () {
     if (this.data.length < 2) {
         this.isLooping = false;
         this.isAutoPlay = false;
-    } 
+    }
     else {
         this.isLooping = opts.isLooping || false;
         this.isAutoplay = opts.isAutoplay || false;
@@ -138,22 +138,22 @@ iSlider.prototype._animateFuncs = {
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
         dom.style.webkitBackfaceVisibility = 'hidden';
-        dom.style.webkitTransformStyle = 'preserve-3d'; 
-        dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset/scale + i - 1) + 'deg) translateZ('
-                                    + (0.888 * scale/2) + 'px) scale(0.888)';
+        dom.style.webkitTransformStyle = 'preserve-3d';
+        dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ('
+                                    + (0.888 * scale / 2) + 'px) scale(0.888)';
     },
 
     'flip': function (dom, axis, scale, i, offset) {
         var rotateDirect = (axis === 'X') ? 'Y' : 'X';
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
-        if (this.isVertical) { 
-            offset = -offset; 
+        if (this.isVertical) {
+            offset = -offset;
         }
         this.wrap.style.webkitPerspective = scale * 4;
 
         if (offset > 0) {
             dom.style.visibility = (i > 1) ? 'hidden' : 'visible';
-        } 
+        }
         else {
             dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
         }
@@ -161,8 +161,8 @@ iSlider.prototype._animateFuncs = {
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
         dom.style.webkitBackfaceVisibility = 'hidden';
-        dom.style.webkitTransform = 'translateZ('+ (scale/2) +'px) rotate' + rotateDirect
-                                    + '(' + 180 * (offset/scale + i - 1)+ 'deg) scale(0.875)';
+        dom.style.webkitTransform = 'translateZ(' + (scale / 2) + 'px) rotate' + rotateDirect
+                                    + '(' + 180 * (offset / scale + i - 1) + 'deg) scale(0.875)';
     },
 
     'depth': function (dom, axis, scale, i, offset) {
@@ -172,38 +172,37 @@ iSlider.prototype._animateFuncs = {
 
         if (i === 1) {
             dom.style.zIndex = 100;
-        } 
+        }
         else {
             dom.style.zIndex = (offset > 0) ? (1 - i) : (i - 1);
         }
 
-        dom.style.webkitTransform = 'scale('+ zoomScale + ', '+ zoomScale + ') translateZ(0) translate' 
+        dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
                                     + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
     },
 
     'tear': function (dom, axis, scale, i, offset) {
-        var rotateDirect = (axis === 'X') ? 'Y' : 'X';
         var absoluteOffset = Math.abs(offset);
-        
+
         this.wrap.style.webkitPerspective = scale * 4;
 
         if (i === 1) {
             dom.style.zIndex = scale - absoluteOffset;
             dom.cur = 1;
-        } 
+        }
         else {
-            dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset * 1000 : (i - 1) * absoluteOffset*1000;
+            dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset * 1000 : (i - 1) * absoluteOffset * 1000;
         }
 
-        if (dom.cur && dom.cur !== i){
-            setTimeout(function(){
-                dom.cur = null
-            },300)
+        if (dom.cur && dom.cur !== i) {
+            setTimeout(function() {
+                dom.cur = null;
+            },300);
         }
 
-        var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i-1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
+        var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i - 1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
 
-        dom.style.webkitTransform = 'scale('+ zoomScale + ', '+ zoomScale + ') translateZ(0) translate'
+        dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
                                     + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
     }
 };
@@ -220,10 +219,10 @@ iSlider.prototype._setUpDamping = function () {
 
         if (dis < oneIn2) {
             result = dis >> 1;
-        } 
+        }
         else if (dis < oneIn2 + oneIn4) {
             result = oneIn4 + ((dis - oneIn2) >> 2);
-        } 
+        }
         else {
             result = oneIn4 + oneIn16 + ((dis - oneIn2 - oneIn4) >> 3);
         }
@@ -240,14 +239,14 @@ iSlider.prototype._renderItem = function (i) {
 
     if (!this.isLooping) {
         item = this.data[i] || {empty: true};
-    } 
+    }
     else {
         if (i < 0) {
             item = this.data[len + i];
-        } 
+        }
         else if (i > len - 1) {
             item = this.data[i - len];
-        } 
+        }
         else {
             item = this.data[i];
         }
@@ -266,11 +265,11 @@ iSlider.prototype._renderItem = function (i) {
         html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
     }
     else if (this.type === 'overspread') {
-        html = this.ratio < 1 
-        ? '<div style="height: 100%; width:100%; background:url(' + item.content + ') center no-repeat; background-size:'
-            + this.width + 'px auto;"></div>'
-        : '<div style="height: 100%; width:100%; background:url(' + item.content + ') center no-repeat; background-size: auto '
-            + this.height + 'px;"></div>';
+        html = this.ratio < 1
+        ? '<div style="height: 100%; width:100%; background:url('
+            + item.content + ') center no-repeat; background-size:' + this.width + 'px auto;"></div>'
+        : '<div style="height: 100%; width:100%; background:url('
+            + item.content + ') center no-repeat; background-size: auto ' + this.height + 'px;"></div>';
     }
 
     return html;
@@ -284,7 +283,7 @@ iSlider.prototype._renderHTML = function () {
         // used for reset
         this.outer.innerHTML = '';
         outer = this.outer;
-    } 
+    }
     else {
         // used for initialization
         outer = document.createElement('ul');
@@ -329,7 +328,7 @@ iSlider.prototype._getImgSize = function(img, index) {
 
     var self = this;
 
-    if (this.data[index].width === undefined 
+    if (this.data[index].width === undefined
         || this.data[index].height === undefined) {
 
         img.onload = function() {
@@ -358,7 +357,6 @@ iSlider.prototype._preLoadImg = function(els) {
     var sliderIndex = [dataLen - 1, 0, 1];
 
     var isImgComplete = setTimeout(function() {
-
         for (var i = 0; i < elsLen; i++) {
             if (els[i].children[0] && els[i].children[0].complete) {
                 self._getImgSize(els[i].children[0], sliderIndex[i]);
@@ -400,8 +398,8 @@ iSlider.prototype._slide = function (n) {
     }
     else {
         if (this.isLooping) {
-            this.sliderIndex = n > 0 ? 0 : data.length - 1;    
-        } 
+            this.sliderIndex = n > 0 ? 0 : data.length - 1;
+        }
         else {
             n = 0;
         }
@@ -410,16 +408,16 @@ iSlider.prototype._slide = function (n) {
     this.log('pic idx:' + this.sliderIndex);
 
     var sEle;
-    if ( this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
+    if (this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
         if (n > 0) {
             sEle = els.pop();
             els.unshift(sEle);
-        } 
+        }
         else if (n < 0) {
             sEle = els.shift();
             els.push(sEle);
         }
-    } 
+    }
     else {
         if (n > 0) {
             sEle = els.shift();
@@ -460,7 +458,8 @@ iSlider.prototype._slide = function (n) {
 iSlider.prototype._bindHandler = function () {
     var self = this;
     var outer = self.outer;
-    var isMoving = false;// judge mousemove start or end
+    // judge mousemove start or end
+    var isMoving = false;
 
     var hasTouch = (function () {
         return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
@@ -523,10 +522,10 @@ iSlider.prototype._bindHandler = function () {
 
         if (metric >= boundary) {
             self._slide(-1);
-        } 
+        }
         else if (metric < -boundary) {
             self._slide(1);
-        } 
+        }
         else {
             self._slide(0);
         }

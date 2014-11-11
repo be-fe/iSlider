@@ -161,8 +161,8 @@ iSlider.prototype._animateFuncs = {
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
         dom.style.webkitBackfaceVisibility = 'hidden';
-        dom.style.webkitTransform = 'translateZ(' + (scale/2) + 'px) rotate' + rotateDirect
-                                    + '(' + 180 * (offset/scale + i - 1) + 'deg) scale(0.875)';
+        dom.style.webkitTransform = 'translateZ(' + (scale / 2) + 'px) rotate' + rotateDirect
+                                    + '(' + 180 * (offset / scale + i - 1) + 'deg) scale(0.875)';
     },
 
     'depth': function (dom, axis, scale, i, offset) {
@@ -177,7 +177,7 @@ iSlider.prototype._animateFuncs = {
             dom.style.zIndex = (offset > 0) ? (1 - i) : (i - 1);
         }
 
-        dom.style.webkitTransform = 'scale('+ zoomScale + ', '+ zoomScale + ') translateZ(0) translate'
+        dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
                                     + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
     },
 
@@ -194,15 +194,15 @@ iSlider.prototype._animateFuncs = {
             dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset * 1000 : (i - 1) * absoluteOffset * 1000;
         }
 
-        if (dom.cur && dom.cur !== i){
-            setTimeout(function(){
+        if (dom.cur && dom.cur !== i) {
+            setTimeout(function() {
                 dom.cur = null;
             },300);
         }
 
-        var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i-1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
+        var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i - 1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
 
-        dom.style.webkitTransform = 'scale('+ zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
+        dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
                                     + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
     }
 };
@@ -266,9 +266,9 @@ iSlider.prototype._renderItem = function (i) {
     }
     else if (this.type === 'overspread') {
         html = this.ratio < 1
-        ? '<div style="height: 100%; width:100%; background:url(' 
+        ? '<div style="height: 100%; width:100%; background:url('
             + item.content + ') center no-repeat; background-size:' + this.width + 'px auto;"></div>'
-        : '<div style="height: 100%; width:100%; background:url(' 
+        : '<div style="height: 100%; width:100%; background:url('
             + item.content + ') center no-repeat; background-size: auto ' + this.height + 'px;"></div>';
     }
 
@@ -459,7 +459,8 @@ iSlider.prototype._slide = function (n) {
 iSlider.prototype._bindHandler = function () {
     var self = this;
     var outer = self.outer;
-    var isMoving = false;// judge mousemove start or end
+    // judge mousemove start or end
+    var isMoving = false;
 
     var hasTouch = (function () {
         return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
