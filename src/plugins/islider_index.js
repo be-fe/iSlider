@@ -20,9 +20,9 @@ iSlider.prototype.extend({
 
             wrap.appendChild(indexLayer); 
 
+            var fragment = document.createDocumentFragment();
             for (i = 0; i < len; i++){
                 var point = document.createElement('li');
-
 
                 point.style.height = '10px';
                 point.style.width = '10px';
@@ -38,10 +38,10 @@ iSlider.prototype.extend({
                     point.style.backgroundColor = 'white';
                 }
 
-                indexLayer.appendChild(point);
-
+                fragment.appendChild(point);
             }
 
+            indexLayer.appendChild(fragment);
             this.pointList = pointList;
         }
     },
@@ -58,7 +58,6 @@ iSlider.prototype.extend({
                 pointList[i].style.backgroundColor = 'white';
             }
         } 
-
     }
 
 })
