@@ -11,7 +11,6 @@
  */
 
 'use strict';
-
 var iSlider = function (opts) {
     if (!opts.dom) {
         throw new Error('dom element can not be empty!');
@@ -37,6 +36,11 @@ iSlider.prototype._setting = function () {
     // pics data
     this.data = opts.data;
 
+    // loaded image
+    this.loadedImage = [];
+    // cached first three images of li
+    this.cachedImage = [];
+
     // default type
     this.type = opts.type || 'pic';
     // default slide direction
@@ -56,7 +60,7 @@ iSlider.prototype._setting = function () {
     this.duration = opts.duration || 2000;
 
     // debug mode
-    this.log = opts.isDebug ? function (str) { console.log(str) } : function (){};
+    this.log = opts.isDebug ? function(str) {console.log(str);} : function() {};
 
     this.axis = this.isVertical ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
@@ -110,7 +114,7 @@ iSlider.prototype._setPlayWhenFocus = function() {
 
 // animate function options
 /**
- * animation parmas: 
+ * animation parmas:
  *
  * @param {Element}      dom             图片的外层<li>容器       Img wrapper
  * @param {String}       axis            动画方向                animate direction
@@ -128,7 +132,8 @@ iSlider.prototype._animateFuncs = {
         var rotateDirect = (axis === 'X') ? 'Y' : 'X';
         var absoluteOffset = Math.abs(offset);
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
-        if (this.isVertical){
+
+        if (this.isVertical) {
             offset = -offset;
         }
 
@@ -145,14 +150,16 @@ iSlider.prototype._animateFuncs = {
         dom.style.position = 'absolute';
         dom.style.webkitBackfaceVisibility = 'hidden';
         dom.style.webkitTransformStyle = 'preserve-3d';
-        dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ(' + (0.888 * scale / 2) + 'px) scale(0.888)';
+        dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ('
+                                    + (0.888 * scale / 2) + 'px) scale(0.888)';
     },
 
     'flip': function (dom, axis, scale, i, offset) {
         var rotateDirect = (axis === 'X') ? 'Y' : 'X';
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
-        if (this.isVertical){ offset = -offset; }
-
+        if (this.isVertical) {
+            offset = -offset;
+        }
         this.wrap.style.webkitPerspective = scale * 4;
 
         if (offset > 0) {
@@ -165,7 +172,8 @@ iSlider.prototype._animateFuncs = {
         dom.style.backgroundColor = bdColor || '#333';
         dom.style.position = 'absolute';
         dom.style.webkitBackfaceVisibility = 'hidden';
-        dom.style.webkitTransform = 'translateZ(' + (scale / 2) + 'px) rotate' + rotateDirect + '(' + 180 * (offset/scale + i - 1) + 'deg) scale(0.875)';
+        dom.style.webkitTransform = 'translateZ(' + (scale / 2) + 'px) rotate' + rotateDirect
+                                    + '(' + 180 * (offset / scale + i - 1) + 'deg) scale(0.875)';
     },
 
     'depth': function (dom, axis, scale, i, offset) {
@@ -179,8 +187,8 @@ iSlider.prototype._animateFuncs = {
         else {
             dom.style.zIndex = (offset > 0) ? (1 - i) : (i - 1);
         }
-
-        dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate' + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
+        dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
+                                    + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
     },
 
     'tear': function (dom, axis, scale, i, offset) {
@@ -191,18 +199,19 @@ iSlider.prototype._animateFuncs = {
             dom.cur = 1;
         }
         else {
-            dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset * 1000 : (i - 1) * absoluteOffset*1000;
+            dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset * 1000 : (i - 1) * absoluteOffset * 1000;
         }
 
         if (dom.cur && dom.cur !== i) {
-            setTimeout(function(){
+            setTimeout(function() {
                 dom.cur = null;
             }, 300);
         }
 
         var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i - 1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
 
-        dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate' + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
+        dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
+                                    + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
     }
 };
 
@@ -265,8 +274,10 @@ iSlider.prototype._renderItem = function (i) {
     }
     else if (this.type === 'pic' && this.isOverspread) {
         html = this.ratio < 1
-        ? '<div style="height: 100%; width:100%; background:url(' + item.content + ') center no-repeat; background-size:' + this.width + 'px auto;"></div>'
-        : '<div style="height: 100%; width:100%; background:url(' + item.content + ') center no-repeat; background-size: auto ' + this.height + 'px;"></div>';
+        ? '<div style="height: 100%; width:100%; background:url(' + item.content
+            + ') center no-repeat; background-size:' + this.width + 'px auto;"></div>'
+        : '<div style="height: 100%; width:100%; background:url(' + item.content
+            + ') center no-repeat; background-size: auto ' + this.height + 'px;"></div>';
     }
 
     return html;
@@ -311,8 +322,20 @@ iSlider.prototype._renderHTML = function () {
         else {
             li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
         }
+        if (li.children[0]) {
+            var img = new Image();
+            // to support overspread pre load
+            if (this.isOverspread) {
+                img.src = li.children[0].style.backgroundImage
+                          .substring(4, li.children[0].style.backgroundImage.length - 1);
+            }
+            else {
+                img.src = li.children[0].src;
+            }
+            this.cachedImage.push(img);
+        }
     }
-
+    this._preLoadImg();
     // append ul to div#canvas
     if (!this.outer) {
         this.outer = outer;
@@ -320,18 +343,83 @@ iSlider.prototype._renderHTML = function () {
     }
 };
 
+// get image size when the image is ready
+iSlider.prototype._getImgSize = function(img, index) {
+
+    var self = this;
+
+    if (this.data[index].width === undefined
+        || this.data[index].height === undefined) {
+
+        img.onload = function() {
+            self.data[index].height = img.height;
+            self.data[index].width = img.width;
+        };
+    }
+};
+
+// start loading image
+iSlider.prototype._startLoadingImg = function(index, direction) {
+    var dirIndex = (direction === 'right') ? 1 : 0;
+    this.loadedImage[dirIndex] = new Image();
+    this.loadedImage[dirIndex].src = this.data[index].content;
+    this._getImgSize(this.loadedImage[dirIndex], index);
+};
+
+// pre load image
+iSlider.prototype._preLoadImg = function() {
+
+    var self = this;
+    var dataLen = this.data.length;
+    var elsLen = this.els.length;
+    var imgCompleteNum = 0;
+    var sliderIndex = [dataLen - 1, 0, 1];
+
+    var isImgComplete = setTimeout(function() {
+        // wait for first three images of li to complete, won't cause duplicate loading
+        for (var i = 0; i < elsLen; i++) {
+            if (self.cachedImage[i] && self.cachedImage[i].complete) {
+                self._getImgSize(self.cachedImage[i], sliderIndex[i]);
+                imgCompleteNum++;
+            }
+        }
+        if (imgCompleteNum >= 2) {
+            clearTimeout(isImgComplete);
+            self._startLoadingImg(2, 'right');
+            // check whether to load image from right to left
+            if (dataLen - 2 !== 3 && self.isLooping) {
+                self._startLoadingImg(dataLen - 2, 'left');
+            }
+        }
+        else {
+            self._preLoadImg();
+        }
+    }, 200);
+};
+
 // logical slider, control left or right
 iSlider.prototype._slide = function (n) {
     var data = this.data;
+    var dataLen = this.data.length;
     var els = this.els;
     var idx = this.sliderIndex + n;
+    var loadIndex = false;
+
+    if (n > 0) {
+        loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
+        this._startLoadingImg(loadIndex, 'right');
+    }
+    else if (this.isLooping) {
+        loadIndex = (idx - 2 < 0) ? (dataLen - 2 + idx) : (idx - 2);
+        this._startLoadingImg(loadIndex, 'right');
+    }
 
     if (data[idx]) {
         this.sliderIndex = idx;
     }
     else {
         if (this.isLooping) {
-            this.sliderIndex = n > 0 ? 0 : data.length - 1;   
+            this.sliderIndex = n > 0 ? 0 : data.length - 1;
         }
         else {
             n = 0;
@@ -389,21 +477,21 @@ iSlider.prototype._slide = function (n) {
 };
 
 // bind all event handler
-iSlider.prototype._bindHandler = function () {
+iSlider.prototype._bindHandler = function() {
     var self = this;
     var outer = self.outer;
-    var len = self.data.length;
-    var isMoving = false;  // judge mousemove start or end
+    // judge mousemove start or end
+    var isMoving = false;
 
-    var hasTouch = (function () {
-        return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+    var hasTouch = (function() {
+        return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
     })();
 
     var startEvt = hasTouch ? 'touchstart' : 'mousedown';
     var moveEvt = hasTouch ? 'touchmove' : 'mousemove';
     var endEvt = hasTouch ? 'touchend' : 'mouseup';
 
-    var startHandler = function (evt) {
+    var startHandler = function(evt) {
         evt.preventDefault();
         isMoving = true;
         self.pause();
@@ -483,7 +571,7 @@ iSlider.prototype._bindHandler = function () {
     window.addEventListener('orientationchange', orientationchangeHandler);
 };
 
-iSlider.prototype.reset = function () {
+iSlider.prototype.reset = function() {
     this.pause();
     this._setting();
     this._renderHTML();
@@ -491,7 +579,7 @@ iSlider.prototype.reset = function () {
 };
 
 // enable autoplay
-iSlider.prototype.play = function () {
+iSlider.prototype.play = function() {
     var self = this;
     var duration = this.duration;
     clearInterval(this.autoPlayTimer);
@@ -501,16 +589,15 @@ iSlider.prototype.play = function () {
 };
 
 // pause autoplay
-iSlider.prototype.pause = function () {
+iSlider.prototype.pause = function() {
     clearInterval(this.autoPlayTimer);
 };
 
 // plugin extend
-iSlider.prototype.extend = function(plugin, main){
-    if (!main) { 
+iSlider.prototype.extend = function(plugin, main) {
+    if (!main) {
         var main = iSlider.prototype;
     }
-
     Object.keys(plugin).forEach(function(property) {
         Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
     });
