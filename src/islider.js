@@ -9,6 +9,8 @@
  * Please refer to README                   请参考README
  * @class
  */
+
+'use strict';
 var iSlider = function (opts) {
     if (!opts.dom) {
         throw new Error('dom element can not be empty!');
@@ -41,6 +43,8 @@ iSlider.prototype._setting = function () {
     this.type = opts.type || 'pic';
     // default slide direction
     this.isVertical = opts.isVertical || false;
+
+    this.isOverspread = opts.isOverspread || false;
 
     // Callback function when your finger is moving
     this.onslide = opts.onslide;
@@ -87,6 +91,10 @@ iSlider.prototype._setting = function () {
     ? this._animateFuncs[opts.animateType]
     : this._animateFuncs['default'];
 
+    if (opts.animateType === 'tear' && this.isVertical) {
+        this.isOverspread = true;
+    }
+
     // stop autoplay when window blur
     this._setPlayWhenFocus();
 };
@@ -122,6 +130,7 @@ iSlider.prototype._animateFuncs = {
         var rotateDirect = (axis === 'X') ? 'Y' : 'X';
         var absoluteOffset = Math.abs(offset);
         var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
+
         if (this.isVertical) {
             offset = -offset;
         }
@@ -176,15 +185,12 @@ iSlider.prototype._animateFuncs = {
         else {
             dom.style.zIndex = (offset > 0) ? (1 - i) : (i - 1);
         }
-
         dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
                                     + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
     },
 
     'tear': function (dom, axis, scale, i, offset) {
         var absoluteOffset = Math.abs(offset);
-
-        this.wrap.style.webkitPerspective = scale * 4;
 
         if (i === 1) {
             dom.style.zIndex = scale - absoluteOffset;
@@ -197,7 +203,7 @@ iSlider.prototype._animateFuncs = {
         if (dom.cur && dom.cur !== i) {
             setTimeout(function() {
                 dom.cur = null;
-            },300);
+            }, 300);
         }
 
         var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i - 1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
@@ -256,7 +262,7 @@ iSlider.prototype._renderItem = function (i) {
         return '';
     }
 
-    if (this.type === 'pic') {
+    if (this.type === 'pic' && !this.isOverspread) {
         html = item.height / item.width > this.ratio
         ? '<img height="' + this.height + '" src="' + item.content + '">'
         : '<img width="' + this.width + '" src="' + item.content + '">';
@@ -264,12 +270,12 @@ iSlider.prototype._renderItem = function (i) {
     else if (this.type === 'dom') {
         html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
     }
-    else if (this.type === 'overspread') {
+    else if (this.type === 'pic' && this.isOverspread) {
         html = this.ratio < 1
-        ? '<div style="height: 100%; width:100%; background:url('
-            + item.content + ') center no-repeat; background-size:' + this.width + 'px auto;"></div>'
-        : '<div style="height: 100%; width:100%; background:url('
-            + item.content + ') center no-repeat; background-size: auto ' + this.height + 'px;"></div>';
+        ? '<div style="height: 100%; width:100%; background:url(' + item.content
+            + ') center no-repeat; background-size:' + this.width + 'px auto;"></div>'
+        : '<div style="height: 100%; width:100%; background:url(' + item.content
+            + ') center no-repeat; background-size: auto ' + this.height + 'px;"></div>';
     }
 
     return html;
@@ -278,6 +284,8 @@ iSlider.prototype._renderItem = function (i) {
 // render list html
 iSlider.prototype._renderHTML = function () {
     var outer;
+
+    this.wrap.style.height = this.height + 'px';
 
     if (this.outer) {
         // used for reset
@@ -315,7 +323,6 @@ iSlider.prototype._renderHTML = function () {
     }
 
     this._preLoadImg(this.els);
-
     // append ul to div#canvas
     if (!this.outer) {
         this.outer = outer;
@@ -423,7 +430,8 @@ iSlider.prototype._slide = function (n) {
         if (n > 0) {
             sEle = els.shift();
             els.push(sEle);
-        } else if (n < 0) {
+        }
+        else if (n < 0) {
             sEle = els.pop();
             els.unshift(sEle);
         }
@@ -456,13 +464,13 @@ iSlider.prototype._slide = function (n) {
 };
 
 // bind all event handler
-iSlider.prototype._bindHandler = function () {
+iSlider.prototype._bindHandler = function() {
     var self = this;
     var outer = self.outer;
     // judge mousemove start or end
     var isMoving = false;
 
-    var hasTouch = (function () {
+    var hasTouch = (function() {
         return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
     })();
 
@@ -470,7 +478,7 @@ iSlider.prototype._bindHandler = function () {
     var moveEvt = hasTouch ? 'touchmove' : 'mousemove';
     var endEvt = hasTouch ? 'touchend' : 'mouseup';
 
-    var startHandler = function (evt) {
+    var startHandler = function(evt) {
         evt.preventDefault();
         isMoving = true;
         self.pause();
@@ -494,7 +502,7 @@ iSlider.prototype._bindHandler = function () {
             var offset = currentPoint - self['start' + axis];
 
             if (!self.isLooping) {
-                if (offset > 0 && self.sliderIndex === 0 || offset < 0 && self.sliderIndex === self.data.length - 1) {
+                if (offset > 0 && self.sliderIndex === 0 || offset < 0 && self.sliderIndex === len - 1) {
                     offset = self._damping(offset);
                 }
             }
@@ -573,9 +581,11 @@ iSlider.prototype.pause = function() {
 };
 
 // plugin extend
-iSlider.prototype.extend = function(plugin) {
-    var fn = iSlider.prototype;
+iSlider.prototype.extend = function(plugin, main) {
+    if (!main) {
+        var main = iSlider.prototype;
+    }
     Object.keys(plugin).forEach(function(property) {
-        Object.defineProperty(fn, property, Object.getOwnPropertyDescriptor(plugin, property));
+        Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
     });
 };
