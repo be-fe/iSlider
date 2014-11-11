@@ -510,6 +510,7 @@ iSlider.prototype._bindHandler = function() {
             self.onslide && self.onslide();
             self.log('Event: onslide');
 
+            var len = self.data.length;
             var axis = self.axis;
             var currentPoint = hasTouch ? evt.targetTouches[0]['page' + axis] : evt['page' + axis];
             var offset = currentPoint - self['start' + axis];
