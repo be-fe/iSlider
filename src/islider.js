@@ -42,6 +42,8 @@ iSlider.prototype._setting = function () {
     //default slide direction
     this.isVertical = opts.isVertical || false;
 
+    this.isOverspread = opts.isOverspread || false;
+
     //Callback function when your finger is moving
     this.onslide = opts.onslide;
     //Callback function when your finger touch the screen
@@ -85,6 +87,10 @@ iSlider.prototype._setting = function () {
     this._animateFunc = (opts.animateType in this._animateFuncs) 
     ? this._animateFuncs[opts.animateType] 
     : this._animateFuncs['default'];
+
+    if (opts.animateType === 'tear' && this.isVertical) {
+        this.isOverspread = true;
+    }
 
     //stop autoplay when window blur
     this._setPlayWhenFocus();
@@ -175,8 +181,6 @@ iSlider.prototype._animateFuncs = {
     'tear': function (dom, axis, scale, i, offset) {
         var rotateDirect = (axis == "X") ? "Y" : "X";
         var absoluteOffset = Math.abs(offset);
-        
-        this.wrap.style.webkitPerspective = scale * 4;
 
         if (i == 1) {
             dom.style.zIndex = scale - absoluteOffset;
@@ -187,8 +191,8 @@ iSlider.prototype._animateFuncs = {
 
         if (dom.cur && dom.cur != i){
             setTimeout(function(){
-                dom.cur = null
-            },300)
+                dom.cur = null;
+            }, 300)
         }
 
         var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i-1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
@@ -240,13 +244,13 @@ iSlider.prototype._renderItem = function (i) {
         return '';
     }
 
-    if (this.type === 'pic') {
+    if (this.type === 'pic' && !this.isOverspread) {
         html = item.height / item.width > this.ratio 
         ? '<img height="' + this.height + '" src="' + item.content + '">'
         : '<img width="' + this.width + '" src="' + item.content + '">';
     } else if (this.type === 'dom') {
         html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
-    } else if (this.type === 'overspread') {
+    } else if (this.type === 'pic' && this.isOverspread) {
         html = this.ratio < 1 
         ? '<div style="height: 100%; width:100%; background:url(' + item.content + ') center no-repeat; background-size:' + this.width + 'px auto;"></div>'
         : '<div style="height: 100%; width:100%; background:url(' + item.content + ') center no-repeat; background-size: auto ' + this.height + 'px;"></div>';
@@ -258,6 +262,8 @@ iSlider.prototype._renderItem = function (i) {
 //render list html
 iSlider.prototype._renderHTML = function () {
     var outer;
+
+    this.wrap.style.height = this.height + "px";
 
     if (this.outer) {
         //used for reset
