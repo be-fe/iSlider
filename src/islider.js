@@ -307,6 +307,7 @@ iSlider.prototype._renderHTML = function () {
     }
 };
 
+//get image size when the image is ready
 iSlider.prototype._getImgSize = function(img, index) {
 
     var self = this;
@@ -322,6 +323,7 @@ iSlider.prototype._getImgSize = function(img, index) {
     }
 }
 
+// start loading image
 iSlider.prototype._startLoadingImg = function(index, direction) {
     var dirIndex = (direction === 'right')? 1 : 0;
     this.loadedImage[dirIndex] = new Image();
@@ -330,6 +332,7 @@ iSlider.prototype._startLoadingImg = function(index, direction) {
 
 }
 
+//pre load image
 iSlider.prototype._preLoadImg = function(els) {
 
     var self = this;
@@ -346,7 +349,6 @@ iSlider.prototype._preLoadImg = function(els) {
                 imgCompleteNum++;
             }
         }
-
         if (imgCompleteNum >= 2) {
             clearTimeout(isImgComplete);
             self._startLoadingImg(2, 'right');
