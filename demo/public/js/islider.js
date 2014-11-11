@@ -20,7 +20,6 @@ var iSlider = function (opts) {
 
     this._opts = opts;
     this._setting();
-    this._preLoadImg();
     this._renderHTML();
     this._bindHandler();
 };
@@ -34,6 +33,9 @@ iSlider.prototype._setting = function () {
 
     //pics data
     this.data = opts.data;
+
+    //loaded image
+    this.loadedImage = [];
     
     //default type
     this.type = opts.type || 'pic';
@@ -86,55 +88,6 @@ iSlider.prototype._setting = function () {
 
     //stop autoplay when window blur
     this._setPlayWhenFocus();
-};
-
-iSlider.prototype._getImgSize = function(img, index) {
-
-    if (this.data[index].width == undefined 
-        || this.data[index].height == undefined) {
-        
-        this.data[index].height = img.height;
-        this.data[index].width = img.width;
-    }
-}
-
-//start loading image from two directions
-iSlider.prototype._startLoadingImg = function(startIndex, increment, limit) {
-
-    var self = this;
-    var imgLoading = setTimeout(function(){
-        
-        clearTimeout(imgLoading);
-        var img = new Image();
-        img.src = self.data[startIndex].content;
-        startIndex += increment;
-
-        if ((increment > 0 && startIndex < limit ) || (increment < 0 && startIndex > limit) ) {
-            img.onload = function() {
-                self._getImgSize(img, startIndex - increment);
-                self._startLoadingImg(startIndex, increment, limit);
-            }
-        }
-        else {
-            img.onload = function() {
-                console.log('finish loading');
-                self._getImgSize(img, startIndex - increment);
-            }
-        }
-
-    }, 10);
-
-}
-
-//preload images
-iSlider.prototype._preLoadImg = function() {
-
-    //preload image from 0 to mid point
-    this._startLoadingImg(0, 1, this.data.length / 2 + this.data.length % 2);
-
-    //preload iamge from end to mid point
-    this._startLoadingImg(this.data.length - 1, -1, this.data.length / 2 + this.data.length % 2);
-    
 };
 
 //fixed bug for android device
@@ -345,6 +298,8 @@ iSlider.prototype._renderHTML = function () {
         }
     }
 
+    this._preLoadImg(this.els);
+    
     //append ul to div#canvas
     if (!this.outer) {
         this.outer = outer;
@@ -352,11 +307,79 @@ iSlider.prototype._renderHTML = function () {
     }
 };
 
+//get image size when the image is ready
+iSlider.prototype._getImgSize = function(img, index) {
+
+    var self = this;
+
+    if (this.data[index].width == undefined 
+        || this.data[index].height == undefined) {
+        
+        img.onload = function() {
+            self.data[index].height = img.height;
+            self.data[index].width = img.width;
+            console.log(self.data[index]);
+        }
+    }
+}
+
+// start loading image
+iSlider.prototype._startLoadingImg = function(index, direction) {
+    var dirIndex = (direction === 'right')? 1 : 0;
+    this.loadedImage[dirIndex] = new Image();
+    this.loadedImage[dirIndex].src = this.data[index].content;
+    this._getImgSize(this.loadedImage[dirIndex], index);
+
+}
+
+//pre load image
+iSlider.prototype._preLoadImg = function(els) {
+
+    var self = this;
+    var dataLen = this.data.length;
+    var elsLen = els.length;
+    var imgCompleteNum = 0;
+    var sliderIndex = [dataLen - 1, 0, 1];
+
+    var isImgComplete = setTimeout(function() {
+
+        for (var i = 0; i < elsLen; i++) {
+            if (els[i].children[0] && els[i].children[0].complete) {
+                self._getImgSize(els[i].children[0], sliderIndex[i]);
+                imgCompleteNum++;
+            }
+        }
+        if (imgCompleteNum >= 2) {
+            clearTimeout(isImgComplete);
+            self._startLoadingImg(2, 'right');
+            if (dataLen - 2 !== 3 && self.isLooping) {
+                self._startLoadingImg(dataLen - 2, 'left');
+            }
+            
+        }
+        else {
+            self._preLoadImg(els);
+        }
+    }, 200);
+    
+};
+
 //logical slider, control left or right
 iSlider.prototype._slide = function (n) {
     var data = this.data;
+    var dataLen = this.data.length;
     var els = this.els;
     var idx = this.sliderIndex + n;
+    var loadIndex = false;
+
+    if (n > 0) {
+        loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
+        this._startLoadingImg(loadIndex, 'right');
+    }
+    else if (this.isLooping) {
+        loadIndex = (idx - 2 < 0 ) ? (dataLen - 2 + idx) : (idx - 2);
+        this._startLoadingImg(loadIndex, 'right');
+    }
 
     if (data[idx]){
         this.sliderIndex = idx;
