@@ -34,9 +34,6 @@ iSlider.prototype._setting = function () {
 
     //pics data
     this.data = opts.data;
-
-    //preload image into the array
-    this.loadedImg = [];
     
     //default type
     this.type = opts.type || 'pic';
@@ -114,15 +111,13 @@ iSlider.prototype._startLoadingImg = function(startIndex, increment, limit) {
 
         if ((increment > 0 && startIndex < limit ) || (increment < 0 && startIndex > limit) ) {
             img.onload = function() {
-                self.loadedImg[startIndex - increment] = img;
                 self._getImgSize(img, startIndex - increment);
                 self._startLoadingImg(startIndex, increment, limit);
             }
         }
         else {
             img.onload = function() {
-                self.loadedImg[startIndex - increment] = img;
-                (self._opts.isDebug)? (console.log(self.loadedImg)) : ("");
+                console.log('finish loading');
                 self._getImgSize(img, startIndex - increment);
             }
         }
@@ -298,18 +293,9 @@ iSlider.prototype._renderItem = function (i) {
     }
 
     if (this.type === 'pic') {
-        //check whether the image is loaded or not
-        if (this.loadedImg[renderIndex] && this.loadedImg[renderIndex].complete) {
-            (item.height / item.width > this.ratio) ? (this.loadedImg[renderIndex].height = this.height) :
-                                                      (this.loadedImg[renderIndex].width = this.width);
-            return this.loadedImg[renderIndex];
-        }
-        else {
-            html = item.height / item.width > this.ratio 
-            ? '<img height="' + this.height + '" src="' + item.content + '">'
-            : '<img width="' + this.width + '" src="' + item.content + '">';
-        }
-
+        html = item.height / item.width > this.ratio 
+        ? '<img height="' + this.height + '" src="' + item.content + '">'
+        : '<img width="' + this.width + '" src="' + item.content + '">';
     } else if (this.type === 'dom') {
         html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
     } else if (this.type === 'overspread') {
@@ -352,13 +338,11 @@ iSlider.prototype._renderHTML = function () {
         outer.appendChild(li);
 
         if (this.isVertical && (this._opts.animateType == 'rotate' || this._opts.animateType == 'flip')) {
-            renderIndex = 1 - i + this.sliderIndex;
+            li.innerHTML = this._renderItem(1 - i + this.sliderIndex);
         } 
         else {
-            renderIndex = i - 1 + this.sliderIndex;
+            li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
         }
-        var img = this._renderItem(renderIndex);
-        li.innerHTML = img;
     }
 
     //append ul to div#canvas
@@ -406,15 +390,7 @@ iSlider.prototype._slide = function (n) {
     }
 
     if (n !== 0) {
-        renderIndex = idx + n;
-        var img = this._renderItem(renderIndex);
-        if (typeof img === 'string') {
-            sEle.innerHTML = img;
-        }
-        else {
-            sEle.innerHTML = "";
-            sEle.appendChild(img);
-        }
+        sEle.innerHTML = this._renderItem(idx + n);
         sEle.style.webkitTransition = 'none';
         sEle.style.visibility = 'hidden';
 
