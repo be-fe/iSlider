@@ -37,7 +37,6 @@ iSlider.prototype._setting = function () {
 
     //preload image into the array
     this.loadedImg = [];
-    this.startPoint = 0;
     
     //default type
     this.type = opts.type || 'pic';
@@ -92,31 +91,55 @@ iSlider.prototype._setting = function () {
     this._setPlayWhenFocus();
 };
 
-//preload images
-iSlider.prototype._preLoadImg = function() {
+iSlider.prototype._getImgSize = function(img, index) {
+
+    if (this.data[index].width == undefined 
+        || this.data[index].height == undefined) {
+        
+        this.data[index].height = img.height;
+        this.data[index].width = img.width;
+    }
+}
+
+//start loading image from two directions
+iSlider.prototype._startLoadingImg = function(startIndex, increment, limit) {
 
     var self = this;
     var imgLoading = setTimeout(function(){
+        
         clearTimeout(imgLoading);
-
         var img = new Image();
-        img.src = self.data[self.startPoint].content;
-        self.startPoint++;
+        img.src = self.data[startIndex].content;
+        startIndex += increment;
 
-        if (self.startPoint < self.data.length) {
+        if ((increment > 0 && startIndex < limit ) || (increment < 0 && startIndex > limit) ) {
             img.onload = function() {
-                self.loadedImg.push(img);
-                self._preLoadImg();
-                console.log(img);
+                self.loadedImg[startIndex - increment] = img;
+                self._getImgSize(img, startIndex - increment);
+                self._startLoadingImg(startIndex, increment, limit);
             }
         }
         else {
-            self.loadedImg.push(img);
-            console.log(img);
-            console.log(self.loadedImg);
+            img.onload = function() {
+                self.loadedImg[startIndex - increment] = img;
+                (self._opts.isDebug)? (console.log(self.loadedImg)) : ("");
+                self._getImgSize(img, startIndex - increment);
+            }
         }
 
     }, 10);
+
+}
+
+//preload images
+iSlider.prototype._preLoadImg = function() {
+
+    //preload image from 0 to mid point
+    this._startLoadingImg(0, 1, this.data.length / 2 + this.data.length % 2);
+
+    //preload iamge from end to mid point
+    this._startLoadingImg(this.data.length - 1, -1, this.data.length / 2 + this.data.length % 2);
+    
 };
 
 //fixed bug for android device
@@ -436,7 +459,7 @@ iSlider.prototype._bindHandler = function () {
         isMoving = true;
         self.pause();
         self.onslidestart && self.onslidestart();
-        // self.log('Event: beforeslide');
+        self.log('Event: beforeslide');
 
         self.startTime = new Date().getTime();
         self.startX = hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
@@ -493,7 +516,7 @@ iSlider.prototype._bindHandler = function () {
         self.isAutoplay && self.play();
         self.offset = 0;
         self.onslideend && self.onslideend();
-        // self.log('Event: afterslide');
+        self.log('Event: afterslide');
     };
 
     var orientationchangeHandler = function (evt) {
