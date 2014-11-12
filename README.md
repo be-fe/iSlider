@@ -8,7 +8,7 @@ iSlider is a high performance，dependency free, mobile-platform javascript slid
 It can handle any elements that need to be slide, like picture list or different dom elements. 
 It features:
 
-* Animation can be customized with user defined functions (default, rotate, flip, depth).
+* Animation can be customized with user defined functions (default, rotate, depth, flow, flip).
 * You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange)
 * Damping effect, Infinite Looping, Autometic sliding and Vertical/Horizontal Sliding can be configured.
 
@@ -143,7 +143,7 @@ Here provides a clear description of what options you are able to manipulate:
 	<tr>
         <td>animateType</td>
         <td>String</td>
-        <td>Currently, default, rotate, flip and depth are supported animations</td>
+        <td>Currently, default, rotate, flow, depth, flip and depth are supported animations</td>
     </tr>
 	<tr>
 		<td>onslide</td>
