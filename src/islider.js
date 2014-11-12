@@ -342,7 +342,7 @@ iSlider.prototype._renderHTML = function () {
         else {
             li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
         }
-        if (li.children[0]) {
+        if (li.children[0] && this.type !== 'dom') {
             var img = new Image();
             // to support overspread pre load
             if (this.isOverspread) {
@@ -355,7 +355,9 @@ iSlider.prototype._renderHTML = function () {
             this.cachedImage.push(img);
         }
     }
-    this._preLoadImg();
+    if (this.type !== 'dom') {
+        this._preLoadImg();
+    }
     // append ul to div#canvas
     if (!this.outer) {
         this.outer = outer;
@@ -427,11 +429,15 @@ iSlider.prototype._slide = function (n) {
 
     if (n > 0) {
         loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
-        this._startLoadingImg(loadIndex, 'right');
+        if (this.type !== 'dom') {
+            this._startLoadingImg(loadIndex, 'right');
+        }
     }
     else if (this.isLooping) {
         loadIndex = (idx - 2 < 0) ? (dataLen - 2 + idx) : (idx - 2);
-        this._startLoadingImg(loadIndex, 'right');
+        if (this.type !== 'dom') {
+            this._startLoadingImg(loadIndex, 'right');
+        }
     }
 
     if (data[idx]) {
