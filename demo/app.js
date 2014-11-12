@@ -64,6 +64,7 @@ var domList = [
 // adjust image size based on window screen width
 var outer = document.getElementById('iSlider-outer');
 var show = document.getElementById('iSlider-show');
+var canvas = document.getElementById('iSlider-canvas');
 var imgH = 414;
 var imgW = 300;
 var winH = window.innerHeight;
@@ -71,6 +72,31 @@ var winW = window.innerWidth;
 var imgRatio = imgH / imgW;
 var screenRatio = false;
 var Agent = window.navigator.userAgent || window.navigator.appVersion;
+var menuList = document.getElementById('option-menu');
+var optionMenuToggle = 0;
+var optionSubMenu = document.getElementById('iSlider-option').children[0].children;
+
+
+menuList.addEventListener('click', function() {
+	if (optionMenuToggle === 0) {
+		if (optionSubMenu[3].className === 'on') {
+			canvas.style.marginTop = '-270px';
+		}
+		else {
+			canvas.style.marginLeft = '340px';
+		}
+		optionMenuToggle = 1;
+	}
+	else {
+		if (optionSubMenu[3].className === 'on') {
+			canvas.style.marginTop = '2px';
+		}
+		else {
+			canvas.style.marginLeft = '113px';
+		}
+		optionMenuToggle = 0;
+	}
+}, false);
 
 //initialization
 var islider = new iSlider({
@@ -78,11 +104,10 @@ var islider = new iSlider({
     dom: document.getElementById("iSlider-show"),
     duration: 2000,
    	onslidechange: function(idx){
-   		var target = document.getElementById('iSlider-nav').children[0].innerText = 'Index: ' + idx;
+   		var target = document.getElementById('iSlider-nav').children[1].innerText = 'Index: ' + idx;
    		target.innerText = idx;
    	}
 });
-islider.bindMouse();
 
 //adapt image to screen
 function adaptImageToScreen() {
@@ -131,10 +156,9 @@ window.addEventListener('orientationchange', function(event) {
 
 	//menu setting
 	var menu = document.getElementById('iSlider-menu');
-	var spans = document.getElementById('iSlider-menu').children;
 
-	spans[0].onclick = function(){
-		var target = spans[0];
+	optionSubMenu[0].onclick = function(event){
+		var target = event.target;
 		if (target.className == 'on') {
 			target.className = '';
 			target.innerText = 'isLooping: false';
@@ -147,8 +171,8 @@ window.addEventListener('orientationchange', function(event) {
 		islider.reset();
 	};
 
-	spans[1].onclick = function(){
-		var target = spans[1];
+	optionSubMenu[1].onclick = function(){
+		var target = event.target;
 		if (target.className == 'on') {
 			target.className = '';
 			target.innerText = 'isVertical: false';
@@ -161,8 +185,8 @@ window.addEventListener('orientationchange', function(event) {
 		islider.reset();
 	};
 
-	spans[2].onclick = function(){
-		var target = spans[2];
+	optionSubMenu[2].onclick = function(){
+		var target = event.target;
 		if (target.className == 'on') {
 			target.className = '';
 			target.innerText = 'isAutoplay: false';
@@ -175,43 +199,68 @@ window.addEventListener('orientationchange', function(event) {
 		islider.reset();
 	};
 
-	spans[3].onclick = function(){
-		var target = spans[3];
+	optionSubMenu[3].onclick = function(){
+		var target = event.target;
 		var outer = document.getElementById('iSlider-outer');
-		var menu = document.getElementById('iSlider-menu');
-		var canvas = document.getElementById('iSlider-canvas');
 		var content = document.getElementById('iSlider-content');
+		var canvas = document.getElementById('iSlider-canvas');
+		var show = document.getElementById('iSlider-show');
+		var nav = document.getElementById('iSlider-nav');
+		var hiddenDiv = document.getElementById('iSlider-hidden');
+		var optionSubMenuWrap = document.getElementById('iSlider-option');
 
 		if (target.className === 'on') {
+			show.style.width = '';
+			show.style.height = '';
+			show.style.top = '';
+	    	show.style.left = '';
 			target.className = '';
-			outer.className = '';
-			menu.className = '';
+			outer.className = 'iSlider-outer-pc';
+			show.className = '';
+			nav.className = '';
+			optionSubMenuWrap.children[0].className = '';
+			optionSubMenuWrap.children[0].style.marginTop = '';
 			target.innerText = 'changeOrientation: 0';
-			canvas.className = '';
-			outer.appendChild(canvas);
+			hiddenDiv.style.height= '100%';
+			hiddenDiv.style.marginTop = '';
+			optionSubMenuWrap.style.marginTop = '72px';
+			canvas.style.marginTop = '72px';
+			canvas.style.marginLeft = '';
+			optionMenuToggle = 0;
 			setTimeout(function(){
 				islider.reset();
 			}, 200);
 		} else {
 			target.className = 'on';
+			show.style.width = '240px';
+			show.style.height = '224px';
+			show.style.top = '110px';
+	    	show.style.left = '22px';
+	    	hiddenDiv.style.height = '522px';
+	    	hiddenDiv.style.marginTop = '70px';
+	    	optionSubMenuWrap.style.marginTop = '2px';
+	    	canvas.style.marginTop = '2px';
+	    	canvas.style.marginLeft = '';
 			outer.className = 'iSlider-rotated-outer';
-			menu.className = 'iSlider-rotated-menu';
+			show.className = 'iSlider-rotated-show';
+			nav.className = 'iSlider-rotated-nav';
+			optionSubMenuWrap.children[0].className = 'iSlider-rotated-option';
+			optionSubMenuWrap.children[0].style.marginTop = '210px';
 			target.innerText = 'changeOrientation: 90';
+			optionMenuToggle = 0;
 			setTimeout(function(){
-				content.appendChild(canvas);
-				canvas.className = 'iSlider-rotated-canvas';
 				islider.reset();
 			}, 200);
 		}
 	};
 
-	spans[4].childNodes[1].onchange = function() {
+	optionSubMenu[4].childNodes[1].onchange = function() {
 		islider._opts.animateType = this.value;
 		islider.reset();
 
 	};
 
-	spans[5].childNodes[1].onchange = function() {
+	optionSubMenu[5].childNodes[1].onchange = function() {
 		
 		var canvas = document.getElementById('iSlider-canvas');
 
@@ -233,8 +282,8 @@ window.addEventListener('orientationchange', function(event) {
 	//menu if it is mobile
 	var toggle = 0;
 
-	document.getElementById('iSlider-menu-tag').addEventListener('touchstart', menuSlide, false);
-	document.getElementById('iSlider-menu-tag').addEventListener('mousedown', menuSlide, false);
+	// document.getElementById('iSlider-menu-tag').addEventListener('touchstart', menuSlide, false);
+	// document.getElementById('iSlider-menu-tag').addEventListener('mousedown', menuSlide, false);
 
 	function menuSlide(event) {
 
