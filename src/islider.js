@@ -1,7 +1,7 @@
 /**
  * iSlider
  * A simple, efficent mobile slider
- * @Author qbatyqi
+ * @Author BEFE
  *
  * @param {Object}      opts                参数集
  * @param {Element}     opts.dom            外层元素        Outer wrapper
@@ -30,10 +30,10 @@ var iSlider = function (opts) {
 iSlider.prototype._setting = function () {
     var opts = this._opts;
 
-    // dom element wrapping pics
+    // dom element wrapping content
     this.wrap = opts.dom;
 
-    // pics data
+    // your data
     this.data = opts.data;
 
     // loaded image
@@ -45,7 +45,7 @@ iSlider.prototype._setting = function () {
     this.type = opts.type || 'pic';
     // default slide direction
     this.isVertical = opts.isVertical || false;
-
+    // Overspread mode
     this.isOverspread = opts.isOverspread || false;
 
     // Callback function when your finger is moving
@@ -56,7 +56,7 @@ iSlider.prototype._setting = function () {
     this.onslideend = opts.onslideend;
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
-    // Slide time gap
+    // Play time gap
     this.duration = opts.duration || 2000;
 
     // debug mode
@@ -71,6 +71,7 @@ iSlider.prototype._setting = function () {
     // start from 0
     this.sliderIndex = this.sliderIndex || 0;
 
+    // looping logic adjust
     if (this.data.length < 2) {
         this.isLooping = false;
         this.isAutoPlay = false;
@@ -78,6 +79,12 @@ iSlider.prototype._setting = function () {
     else {
         this.isLooping = opts.isLooping || false;
         this.isAutoplay = opts.isAutoplay || false;
+    }
+
+    // little trick set, when you chooce tear & vertical same time, 
+    // iSlider overspread mode will be set true autometicly
+    if (opts.animateType === 'tear' && this.isVertical) {
+        this.isOverspread = true;
     }
 
     // Autoplay mode
@@ -92,10 +99,6 @@ iSlider.prototype._setting = function () {
     this._animateFunc = (opts.animateType in this._animateFuncs)
     ? this._animateFuncs[opts.animateType]
     : this._animateFuncs['default'];
-
-    if (opts.animateType === 'tear' && this.isVertical) {
-        this.isOverspread = true;
-    }
 
     // stop autoplay when window blur
     this._setPlayWhenFocus();
@@ -112,14 +115,13 @@ iSlider.prototype._setPlayWhenFocus = function() {
     }, false);
 };
 
-// animate function options
 /**
  * animation parmas:
  *
  * @param {Element}      dom             图片的外层<li>容器       Img wrapper
  * @param {String}       axis            动画方向                animate direction
  * @param {Number}       scale           容器宽度                Outer wrapper
- * @param {Number}       i               <li>容器index           Img wrapper's index
+ * @param {Number}       i               <li>容器index          Img wrapper's index
  * @param {Number}       offset          滑动距离                move distance
  */
 iSlider.prototype._animateFuncs = {
