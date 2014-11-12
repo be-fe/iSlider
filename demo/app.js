@@ -74,13 +74,18 @@ var screenRatio = false;
 var Agent = window.navigator.userAgent || window.navigator.appVersion;
 var menuList = document.getElementById('option-menu');
 var optionMenuToggle = 0;
+var optionSubMenuWrap = document.getElementById('iSlider-option');
 var optionSubMenu = document.getElementById('iSlider-option').children[0].children;
+var hiddenDiv = document.getElementById('iSlider-hidden');
 
 
 menuList.addEventListener('click', function() {
 	if (optionMenuToggle === 0) {
 		if (optionSubMenu[3].className === 'on') {
 			canvas.style.marginTop = '-270px';
+		}
+		else if (winW <= 1024) {
+			canvas.style.marginLeft = '310px';
 		}
 		else {
 			canvas.style.marginLeft = '340px';
@@ -90,6 +95,9 @@ menuList.addEventListener('click', function() {
 	else {
 		if (optionSubMenu[3].className === 'on') {
 			canvas.style.marginTop = '2px';
+		}
+		else if (winW <= 1024) {
+			canvas.style.marginLeft = 'auto';
 		}
 		else {
 			canvas.style.marginLeft = '113px';
@@ -120,7 +128,13 @@ function adaptImageToScreen() {
 			show.style.height = winH + 'px';
 			outer.style.width = ((winH / imgH) * imgW) + 'px';
 			show.style.width = ((winH / imgH) * imgW) + 'px';
-			
+			show.style.marginTop = '30px';
+			optionSubMenuWrap.style.height = winH + 'px';
+			// optionSubMenuWrap.style.width =  ((winH / imgH) * imgW) + 'px';
+			optionSubMenuWrap.style.marginTop = '0px';
+			optionSubMenuWrap.style.marginLeft = '0px';
+			optionSubMenuWrap.style.width = '100%';
+
 			var marginLeft = (winW - show.clientWidth) / 2;
 			outer.style.marginLeft = marginLeft + 'px';
 
@@ -134,6 +148,12 @@ function adaptImageToScreen() {
 		show.style.height = winH + 'px';
 		outer.style.width = ((winH / imgH) * imgW) + 'px';
 		show.style.width = ((winH / imgH) * imgW) + 'px';
+		show.style.marginTop = '30px';
+		optionSubMenuWrap.style.height = winH + 'px';
+		// optionSubMenuWrap.style.width =  ((winH / imgH) * imgW) + 'px';
+		optionSubMenuWrap.style.marginTop = '0px';
+		optionSubMenuWrap.style.marginLeft = '0px';
+		optionSubMenuWrap.style.width = '100%';
 		
 		var marginLeft = (winW - show.clientWidth) / 2;
 		outer.style.marginLeft = marginLeft + 'px';
@@ -144,6 +164,7 @@ function adaptImageToScreen() {
 
 //adjust image at first time
 if (window.innerWidth <= 1024) {
+	hiddenDiv.style.width = '';
 	adaptImageToScreen();
 }
 
@@ -153,9 +174,6 @@ window.addEventListener('orientationchange', function(event) {
 }, false);
 
 (function(){
-
-	//menu setting
-	var menu = document.getElementById('iSlider-menu');
 
 	optionSubMenu[0].onclick = function(event){
 		var target = event.target;
@@ -206,7 +224,6 @@ window.addEventListener('orientationchange', function(event) {
 		var canvas = document.getElementById('iSlider-canvas');
 		var show = document.getElementById('iSlider-show');
 		var nav = document.getElementById('iSlider-nav');
-		var hiddenDiv = document.getElementById('iSlider-hidden');
 		var optionSubMenuWrap = document.getElementById('iSlider-option');
 
 		if (target.className === 'on') {
@@ -279,32 +296,7 @@ window.addEventListener('orientationchange', function(event) {
 		islider.reset();
 	};
 
-	//menu if it is mobile
-	var toggle = 0;
-
-	// document.getElementById('iSlider-menu-tag').addEventListener('touchstart', menuSlide, false);
-	// document.getElementById('iSlider-menu-tag').addEventListener('mousedown', menuSlide, false);
-
-	function menuSlide(event) {
-
-		event.preventDefault();
-
-		if (toggle === 0) {
-			window.document.getElementById('iSlider-menu-tag').style.marginLeft = '30px';
-			window.document.getElementById('iSlider-menu').style.marginLeft = '0';
-			toggle = 1;
-		}
-		else {
-			window.document.getElementById('iSlider-menu-tag').style.marginLeft = '-200px';
-			window.document.getElementById('iSlider-menu').style.marginLeft = '-230px';
-			toggle = 0;
-		}
-		
-
-	}
-
 	if (navigator.userAgent.match(/(iPhone\sOS)\s([\d_]+)|(Android)\s+([\d.]+)/)) {
-		var menu = document.getElementById('iSlider-menu');
 		var tip = document.getElementById('iSlider-tip');
 		var flag = false;
 		var isChild = function (child, parent) {
@@ -316,28 +308,5 @@ window.addEventListener('orientationchange', function(event) {
 			
 			return target === parent;
 		}
-
-		window.addEventListener('touchmove', function (evt) {
-			flag = true;
-		}, true);
-
-		window.addEventListener('touchend', function (evt) {
-			if (!flag) {
-				if (isChild(evt.target, tip) || isChild(evt.target, menu)) {
-					flag = false;
-					return;
-				}
-				tip.className = (tip.className == 'show') ? '' : 'show';
-			}
-			flag = false;
-
-			window.scrollTo(0, 1);
-		}, true)
-		
-		menu.className = (menu.className == 'iSlider-rotated-menu') ?  'iSlider-rotated-menu show' : 'show';
-		tip.className = 'show';
-		setTimeout(function(){
-			tip.className = '';
-		}, 3000);
 	}
 })()
