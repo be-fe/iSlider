@@ -177,7 +177,7 @@ iSlider.prototype._animateFuncs = {
     },
 
     'depth': function (dom, axis, scale, i, offset) {
-        var zoomScale = (4 - Math.abs(i - 1)) * 0.15;
+        var zoomScale = (4 - Math.abs(i - 1)) * 0.18;
 
         this.wrap.style.webkitPerspective = scale * 4;
 
