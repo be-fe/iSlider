@@ -2,4 +2,5 @@ node_modules/
 *.exe
 *.sublime-*
 output/
+test/
 
