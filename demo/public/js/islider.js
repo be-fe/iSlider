@@ -290,7 +290,7 @@ iSlider.prototype._renderItem = function (i) {
         : '<img width="' + this.width + '" src="' + item.content + '">';
     }
     else if (this.type === 'dom') {
-        html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
+        html = '<div style="height: 100%; width: 100%;">' + item.content + '</div>';
     }
     else if (this.type === 'pic' && this.isOverspread) {
         html = this.ratio < 1
@@ -420,12 +420,16 @@ iSlider.prototype._preLoadImg = function() {
 };
 
 // logical slider, control left or right
-iSlider.prototype._slide = function (n) {
+iSlider.prototype._slide = function (n, dataIndex) {
     var data = this.data;
     var dataLen = this.data.length;
     var els = this.els;
-    var idx = this.sliderIndex + n;
+    var idx = dataIndex || this.sliderIndex + n;
     var loadIndex = false;
+
+    if (dataIndex === 0){
+        idx = 0;
+    }
 
     if (n > 0) {
         loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
@@ -485,7 +489,7 @@ iSlider.prototype._slide = function (n) {
             sEle.style.visibility = 'visible';
         }, 200);
 
-        this.onslidechange && this.onslidechange(this.sliderIndex);
+        this.onslidechange && this.onslidechange(dataIndex || this.sliderIndex);
     }
 
     for (var i = 0; i < 3; i++) {
@@ -629,3 +633,31 @@ iSlider.prototype.extend = function(plugin, main) {
         Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
     });
 };
+
+//goto
+iSlider.prototype.goto = function(idx, callback) {
+    var self = this;
+
+    var afterSlide = function(){
+        self.els[0].innerHTML = self._renderItem(idx - 1);
+        self.els[2].innerHTML = self._renderItem(idx + 1);
+    };
+
+    if (idx < self.sliderIndex) {
+        this.els[0].innerHTML = self._renderItem(idx);
+        console.log(idx);
+        self._slide(-1, idx);
+        afterSlide();
+    }
+    else if (idx > self.sliderIndex) {
+        this.els[2].innerHTML = self._renderItem(idx);
+        self._slide(1, idx);
+        afterSlide();
+    }
+    else{
+        self._slide(0);
+    }
+
+    callback && callback();
+};
+
