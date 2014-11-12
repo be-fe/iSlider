@@ -1,7 +1,7 @@
 iSlider.prototype.extend({
-    renderIndex: function(indexOpts){
-        if (this.type != 'dom') {
-            var indexOpts = indexOpts || {};
+    renderIndex: function(indexOpts) {
+        if (this.type !== 'dom') {
+            indexOpts = indexOpts || {};
             var data = this.data;
             var len = data.length;
             var wrap = this.wrap;
@@ -18,10 +18,10 @@ iSlider.prototype.extend({
             indexLayer.style.marginLeft = '-30%';
             indexLayer.style.zIndex = '1000000';
 
-            wrap.appendChild(indexLayer); 
+            wrap.appendChild(indexLayer);
 
             var fragment = document.createDocumentFragment();
-            for (i = 0; i < len; i++){
+            for (var i = 0; i < len; i++) {
                 var point = document.createElement('li');
 
                 point.style.height = '10px';
@@ -34,7 +34,7 @@ iSlider.prototype.extend({
 
                 pointList.push(point);
 
-                if (i == 0) {
+                if (i === 0) {
                     point.style.backgroundColor = 'white';
                 }
 
@@ -46,18 +46,18 @@ iSlider.prototype.extend({
         }
     },
 
-    changeIndex: function(){
+    changeIndex: function() {
         var idx = this.sliderIndex;
         var data = this.data;
         var len = data.length;
         var pointList = this.pointList;
 
-        for (i = 0; i < len; i++){
+        for (var i = 0; i < len; i++) {
             pointList[i].style.backgroundColor = '';
-            if (i == idx) {
+            if (i === idx) {
                 pointList[i].style.backgroundColor = 'white';
             }
-        } 
+        }
     }
 
-})
+});
