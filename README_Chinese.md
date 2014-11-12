@@ -7,9 +7,12 @@
 
 iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：
 
-* 能够自定义动画，自带的动画包括 default, rotate, flip, depth
+* 性能极好，硬件加速，极小占用内存
+* 能够自定义动画，自带的动画包括 default, rotate, depth, flow, flip and card
 * 你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)
 * 我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动
+* 支持桌面鼠标动作，方便测试
+* 支持图片预加载，改善用户体验
 
 <h2 id="demo">iSlider展示</h2>
 
@@ -22,16 +25,16 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 
 ``` javascript
 var data = [{
-	height: 300,
-	width: 414,
+	height: 414,
+	width: 300,
 	content: "imgs/1.jpg",
 },{
-	height: 300,
-	width: 414,
+	height: 414,
+	width: 300,
 	content: "imgs/2.jpg",
 },{
- 	height: 300,
-	width: 414,
+ 	height: 414,
+	width: 300,
  	content: "imgs/3.jpg",
 }];
 ```
@@ -140,7 +143,7 @@ var data = [{
 	<tr>
         <td>animateType</td>
         <td>String</td>
-        <td>目前支持默认default, rotate, flip, depth</td>
+        <td>目前支持默认default, rotate, depth, flow, flip and card</td>
     </tr>
 	<tr>
 		<td>onslide</td>
@@ -181,6 +184,12 @@ var data = [{
 		<td>isVertical</td>
 		<td>Boolean (true | fasle)</td>
 		<td>开启水平/垂直滑动模式</td>
+	</tr>
+	</tr>
+		<tr>
+		<td>isOverspread</td>
+		<td>Boolean (true | fasle)</td>
+		<td>是否平铺整个浏览器屏幕</td>
 	</tr>
 </tbody>
 </table>

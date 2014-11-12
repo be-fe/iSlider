@@ -8,9 +8,12 @@ iSlider is a high performance，dependency free, mobile-platform javascript slid
 It can handle any elements that need to be slide, like picture list or different dom elements. 
 It features:
 
-* Animation can be customized with user defined functions (default, rotate, flip, depth).
-* You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange)
+* Performance is extremely great with hardware acceleration and little memory consumption.
+* Animation can be customized with user defined functions (default, rotate, depth, flow, flip, card).
+* You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange).
 * Damping effect, Infinite Looping, Autometic sliding and Vertical/Horizontal Sliding can be configured.
+* Support desktop gesture which is convenient for testing.
+* Support image preloader to improve user experience.
 
 <h2 id="demo">Demo of iSlider</h2>
 
@@ -26,16 +29,16 @@ Before you start, you need to prepare some data for iSlider:
 
 ``` javascript
 var data = [{
-	height: 300,
-	width: 414,
+	height: 414,
+	width: 300,
 	content: "imgs/1.jpg",
 },{
-	height: 300,
-	width: 414,
+	height: 414,
+	width: 300,
 	content: "imgs/2.jpg",
 },{
- 	height: 300,
-	width: 414,
+ 	height: 414,
+	width: 300,
  	content: "imgs/3.jpg",
 }];
 ```
@@ -143,7 +146,7 @@ Here provides a clear description of what options you are able to manipulate:
 	<tr>
         <td>animateType</td>
         <td>String</td>
-        <td>Currently, default, rotate, flip and depth are supported animations</td>
+        <td>Currently, default, rotate, flow, depth, flip and card are supported animations</td>
     </tr>
 	<tr>
 		<td>onslide</td>
@@ -184,6 +187,12 @@ Here provides a clear description of what options you are able to manipulate:
 		<td>isVertical</td>
 		<td>Boolean (true | fasle)</td>
 		<td>Slide verically or horizontally</td>
+	</tr>
+	</tr>
+		<tr>
+		<td>isOverspread</td>
+		<td>Boolean (true | fasle)</td>
+		<td>Decide whether to cover the whole browser screen or not</td>
 	</tr>
 </tbody>
 </table>
