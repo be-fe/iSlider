@@ -9,7 +9,7 @@ It can handle any elements that need to be slide, like picture list or different
 It features:
 
 * Performance is extremely great with hardware acceleration and little memory consumption.
-* Animation can be customized with user defined functions (default, rotate, depth, flow, flip).
+* Animation can be customized with user defined functions (default, rotate, depth, flow, flip, card).
 * You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange).
 * Damping effect, Infinite Looping, Autometic sliding and Vertical/Horizontal Sliding can be configured.
 * Support desktop gesture which is convenient for testing.
@@ -146,7 +146,7 @@ Here provides a clear description of what options you are able to manipulate:
 	<tr>
         <td>animateType</td>
         <td>String</td>
-        <td>Currently, default, rotate, flow, depth, flip and depth are supported animations</td>
+        <td>Currently, default, rotate, flow, depth, flip and card are supported animations</td>
     </tr>
 	<tr>
 		<td>onslide</td>

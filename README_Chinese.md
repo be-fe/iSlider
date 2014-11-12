@@ -8,7 +8,7 @@
 iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：
 
 * 性能极好，硬件加速，极小占用内存
-* 能够自定义动画，自带的动画包括 default, rotate, depth, flow, flip
+* 能够自定义动画，自带的动画包括 default, rotate, depth, flow, flip and card
 * 你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)
 * 我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动
 * 支持桌面鼠标动作，方便测试
@@ -143,7 +143,7 @@ var data = [{
 	<tr>
         <td>animateType</td>
         <td>String</td>
-        <td>目前支持默认default, rotate, depth, flow, flip</td>
+        <td>目前支持默认default, rotate, depth, flow, flip and card</td>
     </tr>
 	<tr>
 		<td>onslide</td>
