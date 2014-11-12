@@ -191,7 +191,27 @@ iSlider.prototype._animateFuncs = {
                                     + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
     },
 
-    'tear': function (dom, axis, scale, i, offset) {
+    'flow': function (dom, axis, scale, i, offset) {
+        var absoluteOffset = Math.abs(offset);
+        var rotateDirect = (axis === 'X') ? 'Y' : 'X';
+        var directAmend = (axis === 'X') ? 1 : -1;
+        var offsetRatio = Math.abs(offset / scale);
+
+        this.wrap.style.webkitPerspective = scale * 4;
+
+        if (i === 1) {
+            dom.style.zIndex = scale - absoluteOffset;
+        }
+        else {
+            dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
+        }
+
+        dom.style.webkitTransform = 'scale(0.7, 0.7) translateZ(' + (offsetRatio * 150 - 150) * Math.abs(i - 1) + 'px)'
+            + 'translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)'
+            + 'rotate' + rotateDirect + '(' + directAmend * (30 -  offsetRatio * 30) * (1 - i) + 'deg)';
+    },
+
+    'card': function (dom, axis, scale, i, offset) {
         var absoluteOffset = Math.abs(offset);
 
         if (i === 1) {
