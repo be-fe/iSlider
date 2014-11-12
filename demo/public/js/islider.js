@@ -60,7 +60,7 @@ iSlider.prototype._setting = function () {
     this.duration = opts.duration || 2000;
 
     // debug mode
-    this.log = opts.isDebug ? function(str) {console.log(str);} : function() {};
+    this.log = opts.isDebug ? function(str) {window.console.log(str);} : function() {};
 
     this.axis = this.isVertical ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
@@ -75,13 +75,12 @@ iSlider.prototype._setting = function () {
     if (this.data.length < 2) {
         this.isLooping = false;
         this.isAutoPlay = false;
-    }
-    else {
+    } else {
         this.isLooping = opts.isLooping || false;
         this.isAutoplay = opts.isAutoplay || false;
     }
 
-    // little trick set, when you chooce tear & vertical same time, 
+    // little trick set, when you chooce tear & vertical same time
     // iSlider overspread mode will be set true autometicly
     if (opts.animateType === 'tear' && this.isVertical) {
         this.isOverspread = true;
@@ -143,8 +142,7 @@ iSlider.prototype._animateFuncs = {
 
         if (i === 1) {
             dom.style.zIndex = scale - absoluteOffset;
-        }
-        else {
+        } else {
             dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
         }
 
@@ -166,8 +164,7 @@ iSlider.prototype._animateFuncs = {
 
         if (offset > 0) {
             dom.style.visibility = (i > 1) ? 'hidden' : 'visible';
-        }
-        else {
+        } else {
             dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
         }
 
@@ -185,8 +182,7 @@ iSlider.prototype._animateFuncs = {
 
         if (i === 1) {
             dom.style.zIndex = 100;
-        }
-        else {
+        } else {
             dom.style.zIndex = (offset > 0) ? (1 - i) : (i - 1);
         }
         dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
@@ -203,8 +199,7 @@ iSlider.prototype._animateFuncs = {
 
         if (i === 1) {
             dom.style.zIndex = scale - absoluteOffset;
-        }
-        else {
+        } else {
             dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
         }
 
@@ -219,8 +214,7 @@ iSlider.prototype._animateFuncs = {
         if (i === 1) {
             dom.style.zIndex = scale - absoluteOffset;
             dom.cur = 1;
-        }
-        else {
+        } else {
             dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset * 1000 : (i - 1) * absoluteOffset * 1000;
         }
 
@@ -249,11 +243,9 @@ iSlider.prototype._setUpDamping = function () {
 
         if (dis < oneIn2) {
             result = dis >> 1;
-        }
-        else if (dis < oneIn2 + oneIn4) {
+        } else if (dis < oneIn2 + oneIn4) {
             result = oneIn4 + ((dis - oneIn2) >> 2);
-        }
-        else {
+        } else {
             result = oneIn4 + oneIn16 + ((dis - oneIn2 - oneIn4) >> 3);
         }
 
@@ -269,15 +261,12 @@ iSlider.prototype._renderItem = function (i) {
 
     if (!this.isLooping) {
         item = this.data[i] || {empty: true};
-    }
-    else {
+    } else {
         if (i < 0) {
             item = this.data[len + i];
-        }
-        else if (i > len - 1) {
+        } else if (i > len - 1) {
             item = this.data[i - len];
-        }
-        else {
+        } else {
             item = this.data[i];
         }
     }
@@ -290,11 +279,9 @@ iSlider.prototype._renderItem = function (i) {
         html = item.height / item.width > this.ratio
         ? '<img height="' + this.height + '" src="' + item.content + '">'
         : '<img width="' + this.width + '" src="' + item.content + '">';
-    }
-    else if (this.type === 'dom') {
+    } else if (this.type === 'dom') {
         html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
-    }
-    else if (this.type === 'pic' && this.isOverspread) {
+    } else if (this.type === 'pic' && this.isOverspread) {
         html = this.ratio < 1
         ? '<div style="height: 100%; width:100%; background:url(' + item.content
             + ') center no-repeat; background-size:' + this.width + 'px auto;"></div>'
@@ -315,8 +302,7 @@ iSlider.prototype._renderHTML = function () {
         // used for reset
         this.outer.innerHTML = '';
         outer = this.outer;
-    }
-    else {
+    } else {
         // used for initialization
         outer = document.createElement('ul');
     }
@@ -340,8 +326,7 @@ iSlider.prototype._renderHTML = function () {
 
         if (this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
             li.innerHTML = this._renderItem(1 - i + this.sliderIndex);
-        }
-        else {
+        } else {
             li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
         }
         if (li.children[0] && this.type !== 'dom') {
@@ -350,8 +335,7 @@ iSlider.prototype._renderHTML = function () {
             if (this.isOverspread) {
                 img.src = li.children[0].style.backgroundImage
                           .substring(4, li.children[0].style.backgroundImage.length - 1);
-            }
-            else {
+            } else {
                 img.src = li.children[0].src;
             }
             this.cachedImage.push(img);
@@ -414,8 +398,7 @@ iSlider.prototype._preLoadImg = function() {
             if (dataLen - 2 !== 3 && self.isLooping) {
                 self._startLoadingImg(dataLen - 2, 'left');
             }
-        }
-        else {
+        } else {
             self._preLoadImg();
         }
     }, 200);
@@ -434,8 +417,7 @@ iSlider.prototype._slide = function (n) {
         if (this.type !== 'dom') {
             this._startLoadingImg(loadIndex, 'right');
         }
-    }
-    else if (this.isLooping) {
+    } else if (this.isLooping) {
         loadIndex = (idx - 2 < 0) ? (dataLen - 2 + idx) : (idx - 2);
         if (this.type !== 'dom') {
             this._startLoadingImg(loadIndex, 'right');
@@ -444,12 +426,10 @@ iSlider.prototype._slide = function (n) {
 
     if (data[idx]) {
         this.sliderIndex = idx;
-    }
-    else {
+    } else {
         if (this.isLooping) {
             this.sliderIndex = n > 0 ? 0 : data.length - 1;
-        }
-        else {
+        } else {
             n = 0;
         }
     }
@@ -461,18 +441,15 @@ iSlider.prototype._slide = function (n) {
         if (n > 0) {
             sEle = els.pop();
             els.unshift(sEle);
-        }
-        else if (n < 0) {
+        } else if (n < 0) {
             sEle = els.shift();
             els.push(sEle);
         }
-    }
-    else {
+    } else {
         if (n > 0) {
             sEle = els.shift();
             els.push(sEle);
-        }
-        else if (n < 0) {
+        } else if (n < 0) {
             sEle = els.pop();
             els.unshift(sEle);
         }
@@ -509,7 +486,7 @@ iSlider.prototype._bindHandler = function() {
     var self = this;
     var outer = self.outer;
     // judge mousemove start or end
-    var isMoving = false;
+    var isMoving = false;
 
     var hasTouch = (function() {
         return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
@@ -521,7 +498,7 @@ iSlider.prototype._bindHandler = function() {
 
     var startHandler = function(evt) {
         evt.preventDefault();
-        isMoving = true;
+        isMoving = true;
         self.pause();
         self.onslidestart && self.onslidestart();
         self.log('Event: beforeslide');
@@ -573,11 +550,9 @@ iSlider.prototype._bindHandler = function() {
 
         if (metric >= boundary) {
             self._slide(-1);
-        }
-        else if (metric < -boundary) {
+        } else if (metric < -boundary) {
             self._slide(1);
-        }
-        else {
+        } else {
             self._slide(0);
         }
 
@@ -625,7 +600,7 @@ iSlider.prototype.pause = function() {
 // plugin extend
 iSlider.prototype.extend = function(plugin, main) {
     if (!main) {
-        var main = iSlider.prototype;
+        main = iSlider.prototype;
     }
     Object.keys(plugin).forEach(function(property) {
         Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
