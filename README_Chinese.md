@@ -25,16 +25,16 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 
 ``` javascript
 var data = [{
-	height: 300,
-	width: 414,
+	height: 414,
+	width: 300,
 	content: "imgs/1.jpg",
 },{
-	height: 300,
-	width: 414,
+	height: 414,
+	width: 300,
 	content: "imgs/2.jpg",
 },{
- 	height: 300,
-	width: 414,
+ 	height: 414,
+	width: 300,
  	content: "imgs/3.jpg",
 }];
 ```

@@ -29,16 +29,16 @@ Before you start, you need to prepare some data for iSlider:
 
 ``` javascript
 var data = [{
-	height: 300,
-	width: 414,
+	height: 414,
+	width: 300,
 	content: "imgs/1.jpg",
 },{
-	height: 300,
-	width: 414,
+	height: 414,
+	width: 300,
 	content: "imgs/2.jpg",
 },{
- 	height: 300,
-	width: 414,
+ 	height: 414,
+	width: 300,
  	content: "imgs/3.jpg",
 }];
 ```
