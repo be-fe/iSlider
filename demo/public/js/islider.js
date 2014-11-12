@@ -643,16 +643,22 @@ iSlider.prototype.goto = function(idx, callback) {
         self.els[2].innerHTML = self._renderItem(idx + 1);
     };
 
-    if (idx < self.sliderIndex) {
+    if (idx < self.sliderIndex - 1) {
         this.els[0].innerHTML = self._renderItem(idx);
         console.log(idx);
         self._slide(-1, idx);
         afterSlide();
     }
-    else if (idx > self.sliderIndex) {
+    else if (idx == self.sliderIndex - 1){
+        self._slide(-1);
+    }
+    else if (idx > self.sliderIndex + 1) {
         this.els[2].innerHTML = self._renderItem(idx);
         self._slide(1, idx);
         afterSlide();
+    }
+    else if (idx == self.sliderIndex + 1){
+        self._slide(1);
     }
     else{
         self._slide(0);
