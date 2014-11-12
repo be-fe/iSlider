@@ -427,7 +427,7 @@ iSlider.prototype._slide = function (n, dataIndex) {
     var idx = dataIndex || this.sliderIndex + n;
     var loadIndex = false;
 
-    if (dataIndex === 0){
+    if (dataIndex === 0) {
         idx = 0;
     }
 
@@ -634,23 +634,22 @@ iSlider.prototype.extend = function(plugin, main) {
     });
 };
 
-//goto
+// goto
 iSlider.prototype.goto = function(idx, callback) {
     var self = this;
 
-    var afterSlide = function(){
+    var afterSlide = function() {
         self.els[0].innerHTML = self._renderItem(idx - 1);
         self.els[2].innerHTML = self._renderItem(idx + 1);
     };
 
-    if (self.data[idx]){
+    if (self.data[idx]) {
         if (idx < self.sliderIndex - 1) {
             this.els[0].innerHTML = self._renderItem(idx);
-            console.log(idx);
             self._slide(-1, idx);
             afterSlide();
         }
-        else if (idx === self.sliderIndex - 1){
+        else if (idx === self.sliderIndex - 1) {
             self._slide(-1);
         }
         else if (idx > self.sliderIndex + 1) {
@@ -658,14 +657,13 @@ iSlider.prototype.goto = function(idx, callback) {
             self._slide(1, idx);
             afterSlide();
         }
-        else if (idx === self.sliderIndex + 1){
+        else if (idx === self.sliderIndex + 1) {
             self._slide(1);
         }
-        else{
+        else {
             self._slide(0);
         }
 
         callback && callback();
     }
 };
-
