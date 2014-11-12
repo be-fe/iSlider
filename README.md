@@ -8,9 +8,12 @@ iSlider is a high performance，dependency free, mobile-platform javascript slid
 It can handle any elements that need to be slide, like picture list or different dom elements. 
 It features:
 
+* Performance is extremely great with hardware acceleration and little memory consumption.
 * Animation can be customized with user defined functions (default, rotate, depth, flow, flip).
-* You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange)
+* You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange).
 * Damping effect, Infinite Looping, Autometic sliding and Vertical/Horizontal Sliding can be configured.
+* Support desktop gesture which is convenient for testing.
+* Support image preloader to improve user experience.
 
 <h2 id="demo">Demo of iSlider</h2>
 
@@ -184,6 +187,12 @@ Here provides a clear description of what options you are able to manipulate:
 		<td>isVertical</td>
 		<td>Boolean (true | fasle)</td>
 		<td>Slide verically or horizontally</td>
+	</tr>
+	</tr>
+		<tr>
+		<td>isOverspread</td>
+		<td>Boolean (true | fasle)</td>
+		<td>Decide whether to cover the whole browser screen or not</td>
 	</tr>
 </tbody>
 </table>

@@ -410,7 +410,7 @@ iSlider.prototype._slide = function (n) {
     var dataLen = this.data.length;
     var els = this.els;
     var idx = this.sliderIndex + n;
-    var loadIndex = false;
+    var loadIndex = 0;
 
     if (n > 0) {
         loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
