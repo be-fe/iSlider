@@ -63,9 +63,15 @@ var domList = [
 
 // adjust image size based on window screen width
 var outer = document.getElementById('iSlider-outer');
-var show = document.getElementById('iSlider-show');
+var content = document.getElementById('iSlider-content');
 var canvas = document.getElementById('iSlider-canvas');
+var show = document.getElementById('iSlider-show');
 var nav = document.getElementById('iSlider-nav');
+var optionSubMenuWrap = document.getElementById('iSlider-option');
+var optionSubMenu = document.getElementById('iSlider-option').children[0].children;
+var hiddenDiv = document.getElementById('iSlider-hidden');
+var menuList = document.getElementById('option-menu');
+
 var imgH = 414;
 var imgW = 300;
 var winH = window.innerHeight;
@@ -73,13 +79,8 @@ var winW = window.innerWidth;
 var imgRatio = imgH / imgW;
 var screenRatio = false;
 var Agent = window.navigator.userAgent || window.navigator.appVersion;
-var menuList = document.getElementById('option-menu');
 var optionMenuToggle = 0;
-var optionSubMenuWrap = document.getElementById('iSlider-option');
-var optionSubMenu = document.getElementById('iSlider-option').children[0].children;
-var hiddenDiv = document.getElementById('iSlider-hidden');
 var navMargeinLeft = 0;
-
 
 menuList.addEventListener('click', function() {
 	if (optionMenuToggle === 0) {
@@ -181,12 +182,6 @@ var islider = new iSlider({
 
 	optionSubMenu[4].onclick = function(){
 		var target = event.target;
-		var outer = document.getElementById('iSlider-outer');
-		var content = document.getElementById('iSlider-content');
-		var canvas = document.getElementById('iSlider-canvas');
-		var show = document.getElementById('iSlider-show');
-		var nav = document.getElementById('iSlider-nav');
-		var optionSubMenuWrap = document.getElementById('iSlider-option');
 
 		if (target.className === 'on') {
 			show.style.width = '';
