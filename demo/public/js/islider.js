@@ -136,8 +136,8 @@ iSlider.prototype._animateFuncs = {
             dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
         }
 
-        dom.style.cssText += 'webkitBackfaceVisibility:hidden; webkitTransformStyle:preserve-3d; '
-            + 'backgroundColor:' + bdColor + '; position:absolute;';
+        dom.style.cssText += '-webkit-backface-visibility:hidden; -webkit-transform-style:preserve-3d; '
+            + 'background-color:' + bdColor + '; position:absolute;';
         dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ('
                                     + (0.888 * scale / 2) + 'px) scale(0.888)';
     },
@@ -156,7 +156,7 @@ iSlider.prototype._animateFuncs = {
             dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
         }
 
-        dom.style.cssText = 'position:absolute; webkitBackfaceVisibility:hidden; backgroundColor:' + bdColor + ';';
+        dom.style.cssText += 'position:absolute; -webkit-backface-visibility:hidden; background-color:' + bdColor + ';';
         dom.style.webkitTransform = 'translateZ(' + (scale / 2) + 'px) rotate' + rotateDirect
                                     + '(' + 180 * (offset / scale + i - 1) + 'deg) scale(0.875)';
     },
@@ -210,7 +210,9 @@ iSlider.prototype._animateFuncs = {
     }
 };
 
-// enable damping when slider meet the edge
+/**
+ *  enable damping when slider meet the edge
+ */
 iSlider.prototype._setUpDamping = function () {
     var oneIn2 = this.scale >> 1;
     var oneIn4 = oneIn2 >> 1;
@@ -232,7 +234,9 @@ iSlider.prototype._setUpDamping = function () {
     };
 };
 
-// render single item html by idx
+/**
+ *  render single item html by idx
+ */
 iSlider.prototype._renderItem = function (el, i) {
     var item;
     var html;
@@ -273,7 +277,9 @@ iSlider.prototype._renderItem = function (el, i) {
     html && (el.innerHTML = html);
 };
 
-// render list html
+/**
+ *  render list html
+ */
 iSlider.prototype._renderHTML = function () {
     this.outer && (this.outer.innerHTML = '');
 
@@ -305,14 +311,18 @@ iSlider.prototype._renderHTML = function () {
     }
 };
 
-// logical slider, control left or right
-iSlider.prototype._slide = function (n, dataIndex) {
+/**
+ *  slide logical, goto data index
+ */
+iSlider.prototype.slideTo = function (dataIndex) {
     var data = this.data;
     var els = this.els;
-    var idx = dataIndex || this.sliderIndex + n;
+    var idx = dataIndex;
+    var n = dataIndex - this.sliderIndex;
 
-    if (dataIndex === 0) {
-        idx = 0;
+    if (Math.abs(n) > 1) {
+        var nextEls = n > 0 ? this.els[2] : this.els[0]
+        this._renderItem(nextEls, idx);
     }
 
     // get right item of data
@@ -320,9 +330,9 @@ iSlider.prototype._slide = function (n, dataIndex) {
         this.sliderIndex = idx;
     } else {
         if (this.isLooping) {
-            this.sliderIndex = n > 0 ? 0 : data.length - 1;
+            this.sliderIndex = (dataIndex - this.sliderIndex) > 0 ? 0 : data.length - 1;
         } else {
-            n = 0;
+            this.sliderIndex = 0;
         }
     }
 
@@ -351,7 +361,12 @@ iSlider.prototype._slide = function (n, dataIndex) {
     // slidechange should render new item
     // and change new item style to fit animation
     if (n !== 0) {
-        this._renderItem(sEle, idx + n);
+        if ( Math.abs(n) > 1) {
+            this._renderItem(els[0], idx - 1);
+            this._renderItem(els[2], idx + 1);
+        } else if (Math.abs(n) === 1) {
+            this._renderItem(sEle, idx + n);
+        }
         sEle.style.webkitTransition = 'none';
         sEle.style.visibility = 'hidden';
 
@@ -360,7 +375,7 @@ iSlider.prototype._slide = function (n, dataIndex) {
         }, 200);
 
         this.onslidechange && this.onslidechange(this.sliderIndex);
-    }
+    } 
 
     // do the trick animation
     for (var i = 0; i < 3; i++) {
@@ -376,7 +391,9 @@ iSlider.prototype._slide = function (n, dataIndex) {
     }
 };
 
-// bind all event handler
+/**
+* bind all event handler
+*/
 iSlider.prototype._bindHandler = function() {
     var self = this;
     // judge mousemove start or end
@@ -438,11 +455,11 @@ iSlider.prototype._bindHandler = function() {
         // a quick slide should also slide at least 14 px
         boundary = endTime - self.startTime > 300 ? boundary : 14;
         if (metric >= boundary) {
-            self._slide(-1);
+            self.slideTo(self.sliderIndex - 1);
         } else if (metric < -boundary) {
-            self._slide(1);
+            self.slideTo(self.sliderIndex + 1);
         } else {
-            self._slide(0);
+            self.slideTo(self.sliderIndex);
         }
 
         self.offset = 0;
@@ -471,22 +488,29 @@ iSlider.prototype.reset = function() {
     this.isAutoplay && this.play();
 };
 
-// enable autoplay
+/**
+* enable autoplay
+*/
 iSlider.prototype.play = function() {
     var self = this;
     var duration = this.duration;
     clearInterval(this.autoPlayTimer);
     this.autoPlayTimer = setInterval(function () {
-        self._slide(1);
+        self.slideTo(self.sliderIndex + 1);
     }, duration);
 };
 
-// pause autoplay
+/**
+* pause autoplay
+*/
 iSlider.prototype.pause = function() {
     clearInterval(this.autoPlayTimer);
 };
 
-// plugin extend
+
+/**
+* plugin extend
+*/
 iSlider.prototype.extend = function(plugin, main) {
     if (!main) {
         main = iSlider.prototype;
@@ -494,38 +518,4 @@ iSlider.prototype.extend = function(plugin, main) {
     Object.keys(plugin).forEach(function(property) {
         Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
     });
-};
-
-// goto
-iSlider.prototype.goto = function(idx, callback) {
-    var self = this;
-
-    var afterSlide = function() {
-        self._renderItem(self.els[0], (idx - 1));
-        self._renderItem(self.els[2], (idx + 1));
-    };
-
-    if (self.data[idx]) {
-        if (idx < self.sliderIndex - 1) {
-            self._renderItem(self.els[0], idx);
-            self._slide(-1, idx);
-            afterSlide();
-        }
-        else if (idx === self.sliderIndex - 1) {
-            self._slide(-1);
-        }
-        else if (idx > self.sliderIndex + 1) {
-            self._renderItem(self.els[2], idx);
-            self._slide(1, idx);
-            afterSlide();
-        }
-        else if (idx === self.sliderIndex + 1) {
-            self._slide(1);
-        }
-        else {
-            self._slide(0);
-        }
-
-        callback && callback();
-    }
 };

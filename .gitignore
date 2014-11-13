@@ -1,3 +1,4 @@
+.DS_Store
 node_modules/
 *.exe
 *.sublime-*
@@ -5,4 +6,4 @@ output/
 test/
 
 
-.DS_Store
+
