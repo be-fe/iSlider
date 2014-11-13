@@ -1,43 +1,144 @@
-var picList = [
+var longList = [
+{
+	width: 640,
+	height: 400,
+	content: "pics/long/1.jpg",
+},
+{
+	width: 640,
+	height: 400,
+	content: "pics/long/2.jpg",
+},
+{
+ 	width: 640,
+	height: 400,
+ 	content: "pics/long/3.jpg",
+},
+{
+	width: 640,
+	height: 400,
+	content:"pics/long/4.jpg"
+},
+{
+	width: 640,
+	height: 400,
+	content:"pics/long/5.jpg"
+},
+{
+	width: 640,
+	height: 400,
+	content:"pics/long/6.jpg"
+},
+{
+	width: 640,
+	height: 400,
+	content:"pics/long/7.jpg"
+},
+{
+	width: 640,
+	height: 400,
+	content:"pics/long/8.jpg"
+},
+{
+	width: 640,
+	height: 400,
+	content:"pics/long/9.jpg"
+}
+];
+
+var highList = [
 {
 	width: 300,
 	height: 414,
-	content: "pics/1.jpg",
+	content: "pics/high/1.jpg",
 },
 {
 	width: 300,
 	height: 414,
-	content: "pics/2.jpg",
+	content: "pics/high/2.jpg",
 },
 {
  	width: 300,
 	height: 414,
- 	content: "pics/3.jpg",
+ 	content: "pics/high/3.jpg",
 },
 {
 	width: 300,
 	height: 414,
-	content:"pics/5.jpg"
+	content:"pics/high/4.jpg"
 },
 {
 	width: 300,
 	height: 414,
-	content:"pics/6.jpg"
+	content:"pics/high/5.jpg"
 },
 {
 	width: 300,
 	height: 414,
-	content:"pics/7.jpg"
+	content:"pics/high/6.jpg"
 },
 {
 	width: 300,
 	height: 414,
-	content:"pics/8.jpg"
+	content:"pics/high/7.jpg"
 },
 {
 	width: 300,
 	height: 414,
-	content:"pics/9.jpg"
+	content:"pics/high/8.jpg"
+},
+{
+	width: 300,
+	height: 414,
+	content:"pics/high/8.jpg"
+}
+];
+
+var randomList = [
+{
+	width: 400,
+	height: 457,
+	content: "pics/random/1.jpg",
+},
+{
+	width: 400,
+	height: 527,
+	content: "pics/random/2.jpg",
+},
+{
+ 	width: 536,
+	height: 800,
+ 	content: "pics/random/3.jpg",
+},
+{
+	width: 512,
+	height: 400,
+	content:"pics/random/4.jpg"
+},
+{
+	width: 458,
+	height: 400,
+	content:"pics/random/5.jpg"
+},
+{
+	width: 498,
+	height: 400,
+	content:"pics/random/6.jpg"
+},
+{
+	width: 600,
+	height: 377,
+	content:"pics/random/7.jpg"
+},
+{
+	width: 600,
+	height: 396,
+	content:"pics/random/8.jpg"
+},
+{
+	width: 600,
+	height: 374,
+	content:"pics/random/9.jpg"
 }
 ];
 
@@ -64,6 +165,7 @@ var domList = [
 	'content' : '<div class="dom-demo"><h1>Entertainment</h1><h2>This is page4</h2><p>page4 is pretty awsome</p><div>'
 }
 ];
+
 
 // adjust image size based on window screen width
 var outer = document.getElementById('iSlider-outer');
@@ -116,7 +218,7 @@ menuList.addEventListener('click', function() {
 
 //initialization
 var islider = new iSlider({
-    data: picList,
+    data: randomList,
     dom: document.getElementById("iSlider-show"),
     duration: 2000,
    	onslidechange: function(idx){
@@ -233,6 +335,16 @@ var islider = new iSlider({
 
 	optionSubMenu[5].childNodes[1].onchange = function() {
 		islider._opts.animateType = this.value;
+
+		if (this.value === 'default') {
+			islider._opts.data = randomList;
+		}
+		else if (this.value === 'flow' || this.value === 'depth' || this.value === 'flip') {
+			islider._opts.data = longList;
+		}
+		else {
+			islider._opts.data = highList;
+		}
 		islider.reset();
 
 	};
