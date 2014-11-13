@@ -55,6 +55,10 @@ body {
     background-color: #3498db;
 }
 
+#iSlider-dom-nav {
+    display: none;
+}
+
 .iSlider-rotated-nav {
     width: 450px;
     margin-left: -210px;

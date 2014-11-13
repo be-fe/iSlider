@@ -72,13 +72,9 @@ var optionSubMenu = document.getElementById('iSlider-option').children[0].childr
 var hiddenDiv = document.getElementById('iSlider-hidden');
 var menuList = document.getElementById('option-menu');
 
-var imgH = 414;
-var imgW = 300;
 var winH = window.innerHeight;
 var winW = window.innerWidth;
-var imgRatio = imgH / imgW;
-var screenRatio = false;
-var Agent = window.navigator.userAgent || window.navigator.appVersion;
+
 var optionMenuToggle = 0;
 var navMargeinLeft = 0;
 
