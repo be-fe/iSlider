@@ -83,7 +83,7 @@ var navMargeinLeft = 0;
 
 menuList.addEventListener('click', function() {
 	if (optionMenuToggle === 0) {
-		if (optionSubMenu[3].className === 'on') {
+		if (optionSubMenu[4].className === 'on') {
 			canvas.style.marginTop = '-270px';
 		}
 		else if (winW <= 1024) {
@@ -96,7 +96,7 @@ menuList.addEventListener('click', function() {
 		optionMenuToggle = 1;
 	}
 	else {
-		if (optionSubMenu[3].className === 'on') {
+		if (optionSubMenu[4].className === 'on') {
 			canvas.style.marginTop = '2px';
 		}
 		else if (winW <= 1024) {
@@ -167,6 +167,20 @@ var islider = new iSlider({
 
 	optionSubMenu[3].onclick = function(){
 		var target = event.target;
+		if (target.className == 'on') {
+			target.className = '';
+			target.innerText = 'isOverspread: false';
+		} else {
+			target.className = 'on';	
+			target.innerText = 'isOverspread: true';
+		}
+
+		islider._opts.isOverspread = !islider._opts.isOverspread;
+		islider.reset();
+	};
+
+	optionSubMenu[4].onclick = function(){
+		var target = event.target;
 		var outer = document.getElementById('iSlider-outer');
 		var content = document.getElementById('iSlider-content');
 		var canvas = document.getElementById('iSlider-canvas');
@@ -219,13 +233,13 @@ var islider = new iSlider({
 		}
 	};
 
-	optionSubMenu[4].childNodes[1].onchange = function() {
+	optionSubMenu[5].childNodes[1].onchange = function() {
 		islider._opts.animateType = this.value;
 		islider.reset();
 
 	};
 
-	optionSubMenu[5].childNodes[1].onchange = function() {
+	optionSubMenu[6].childNodes[1].onchange = function() {
 		
 		var canvas = document.getElementById('iSlider-canvas');
 
