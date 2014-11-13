@@ -58,6 +58,14 @@ var domList = [
 	'height' : '100%',
 	'width' : '100%',
 	'content' : '<div><h1>Page3</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page4</h1><h2>This is page4</h2><p>page4 is pretty awsome</p><div>'
+},{
+	'height' : '100%',
+	'width' : '100%',
+	'content' : '<div><h1>Page5</h1><h2>This is page5</h2><p>page5 is pretty awsome</p><div>'
 }
 ];
 
@@ -71,6 +79,9 @@ var optionSubMenuWrap = document.getElementById('iSlider-option');
 var optionSubMenu = document.getElementById('iSlider-option').children[0].children;
 var hiddenDiv = document.getElementById('iSlider-hidden');
 var menuList = document.getElementById('option-menu');
+
+var tabWrapper = document.getElementById('iSlider-dom-nav');
+var tabs = document.getElementById('iSlider-dom-nav').children;
 
 var winH = window.innerHeight;
 var winW = window.innerWidth;
@@ -237,6 +248,28 @@ var islider = new iSlider({
 		if (this.value === 'dom') {
 			islider.sliderIndex = 0;
 			islider._opts.data = domList;
+			tabWrapper.style.display = 'block';
+			tabs[0].style.background = '#666666';
+
+			islider.onslidechange = function(idx){
+		   		for(i = 0; i < tabs.length; i++){
+		   			if (i == idx){
+		   				tabs[i].style.background = '#666666';
+		   			}
+		   			else{
+		   				tabs[i].style.backgroundColor = '#fff';
+		   			}
+		   		}
+		   	}
+
+		   	for(i = 0; i < tabs.length; i++){
+				tabs[i].id = i;
+				tabs[i].addEventListener('click', function(e){
+					var idx = parseInt(e.target.id);
+					islider.goto(idx);
+				}, false);
+			}
+
 			canvas.style.backgroundColor = '#ffffff';
 		}
 		else if(this.value === 'pic') {

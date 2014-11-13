@@ -13,7 +13,6 @@ body {
 }
 
 .iSlider-outer-pc {
-    pointer-events: auto;
     margin-left: auto;
     margin-right: auto;
     height: 595px;
@@ -53,10 +52,15 @@ body {
 .iSlider-nav-pc {
     display: -webkit-box;
     background-color: #3498db;
+    pointer-events: auto;
 }
 
 #iSlider-dom-nav {
     display: none;
+    position: absolute;
+    pointer-events: auto;
+    z-index: 10000;
+    cursor: pointer;
 }
 
 .iSlider-rotated-nav {
@@ -97,6 +101,8 @@ body {
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
+    pointer-events: auto;
+     z-index: 9999;
 }
 
 .iSlider-rotated-show {
@@ -143,6 +149,7 @@ body {
     margin-left: 113px;
     overflow: hidden;
     background: #7a9dbb;
+    pointer-events: auto;
 }
 
 .iSlider-rotated-option {
