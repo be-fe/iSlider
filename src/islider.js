@@ -81,6 +81,8 @@ iSlider.prototype._setting = function () {
         this.play();
     }
 
+    // debug mode
+    this.log = opts.isDebug ? function(str) {window.console.log(str);} : function() {};
     // set Damping function
     this._setUpDamping();
     // stop autoplay when window blur
