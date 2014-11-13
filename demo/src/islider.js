@@ -65,6 +65,8 @@ iSlider.prototype._setting = function () {
     this.axis = this.isVertical ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
     this.height = this.wrap.clientHeight;
+    console.log(this.width);
+    console.log(this.height);
     this.ratio = this.height / this.width;
     this.scale = opts.isVertical ? this.height : this.width;
 

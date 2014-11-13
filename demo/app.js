@@ -65,6 +65,7 @@ var domList = [
 var outer = document.getElementById('iSlider-outer');
 var show = document.getElementById('iSlider-show');
 var canvas = document.getElementById('iSlider-canvas');
+var nav = document.getElementById('iSlider-nav');
 var imgH = 414;
 var imgW = 300;
 var winH = window.innerHeight;
@@ -77,6 +78,7 @@ var optionMenuToggle = 0;
 var optionSubMenuWrap = document.getElementById('iSlider-option');
 var optionSubMenu = document.getElementById('iSlider-option').children[0].children;
 var hiddenDiv = document.getElementById('iSlider-hidden');
+var navMargeinLeft = 0;
 
 
 menuList.addEventListener('click', function() {
@@ -86,6 +88,7 @@ menuList.addEventListener('click', function() {
 		}
 		else if (winW <= 1024) {
 			canvas.style.marginLeft = '310px';
+			nav.style.marginLeft = '0';
 		}
 		else {
 			canvas.style.marginLeft = '340px';
@@ -98,6 +101,7 @@ menuList.addEventListener('click', function() {
 		}
 		else if (winW <= 1024) {
 			canvas.style.marginLeft = 'auto';
+			nav.style.marginLeft = navMargeinLeft + 'px';
 		}
 		else {
 			canvas.style.marginLeft = '113px';
@@ -116,62 +120,6 @@ var islider = new iSlider({
    		target.innerText = idx;
    	}
 });
-
-//adapt image to screen
-function adaptImageToScreen() {
-
-	if (Agent.match(/(Android)\s+([\d.]+)/)) {
-		setTimeout(function() {
-			winH = window.innerHeight;
-			winW = window.innerWidth;
-			outer.style.height = winH + 'px';
-			show.style.height = winH + 'px';
-			outer.style.width = ((winH / imgH) * imgW) + 'px';
-			show.style.width = ((winH / imgH) * imgW) + 'px';
-			show.style.marginTop = '30px';
-			optionSubMenuWrap.style.height = winH + 'px';
-			// optionSubMenuWrap.style.width =  ((winH / imgH) * imgW) + 'px';
-			optionSubMenuWrap.style.marginTop = '0px';
-			optionSubMenuWrap.style.marginLeft = '0px';
-			optionSubMenuWrap.style.width = '100%';
-
-			var marginLeft = (winW - show.clientWidth) / 2;
-			outer.style.marginLeft = marginLeft + 'px';
-
-			islider.reset();
-		}, 200);
-	}
-	else {
-		winH = window.innerHeight;
-		winW = window.innerWidth;
-		outer.style.height = winH + 'px';
-		show.style.height = winH + 'px';
-		outer.style.width = ((winH / imgH) * imgW) + 'px';
-		show.style.width = ((winH / imgH) * imgW) + 'px';
-		show.style.marginTop = '30px';
-		optionSubMenuWrap.style.height = winH + 'px';
-		// optionSubMenuWrap.style.width =  ((winH / imgH) * imgW) + 'px';
-		optionSubMenuWrap.style.marginTop = '0px';
-		optionSubMenuWrap.style.marginLeft = '0px';
-		optionSubMenuWrap.style.width = '100%';
-		
-		var marginLeft = (winW - show.clientWidth) / 2;
-		outer.style.marginLeft = marginLeft + 'px';
-
-		islider.reset();
-	}
-}
-
-//adjust image at first time
-if (window.innerWidth <= 1024) {
-	hiddenDiv.style.width = '';
-	adaptImageToScreen();
-}
-
-//adjust image when rotate the screen
-window.addEventListener('orientationchange', function(event) {
-	adaptImageToScreen();
-}, false);
 
 (function(){
 
@@ -233,8 +181,8 @@ window.addEventListener('orientationchange', function(event) {
 	    	show.style.left = '';
 			target.className = '';
 			outer.className = 'iSlider-outer-pc';
-			show.className = '';
-			nav.className = '';
+			show.className = 'iSlider-show-pc';
+			nav.className = 'iSlider-nav-pc';
 			optionSubMenuWrap.children[0].className = '';
 			optionSubMenuWrap.children[0].style.marginTop = '';
 			target.innerText = 'changeOrientation: 0';
@@ -258,9 +206,9 @@ window.addEventListener('orientationchange', function(event) {
 	    	optionSubMenuWrap.style.marginTop = '2px';
 	    	canvas.style.marginTop = '2px';
 	    	canvas.style.marginLeft = '';
-			outer.className = 'iSlider-rotated-outer';
-			show.className = 'iSlider-rotated-show';
-			nav.className = 'iSlider-rotated-nav';
+			outer.className = 'iSlider-outer-pc iSlider-rotated-outer';
+			show.className = 'iSlider-show-pc iSlider-rotated-show';
+			nav.className = 'iSlider-nav-pc iSlider-rotated-nav';
 			optionSubMenuWrap.children[0].className = 'iSlider-rotated-option';
 			optionSubMenuWrap.children[0].style.marginTop = '210px';
 			target.innerText = 'changeOrientation: 90';
