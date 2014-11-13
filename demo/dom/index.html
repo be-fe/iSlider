@@ -81,6 +81,11 @@
 <div id="iSlider-wrapper">
 	<div id="iSlider-nav">
 		<a>Home</a>
+		<a>Page1</a>
+		<a>Page2</a>
+		<a>Page3</a>
+		<a>Page4</a>
+		<a>Page5</a>
 	</div>
 	<div id="iSlider-show"> 
 
@@ -90,28 +95,27 @@
 	<script>
 		var list = [
 		{
-			'height' : '100%',
-			'width' : '100%',
 			'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
 		},
 		{
-			'height' : '100%',
-			'width' : '100%',
 			'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
 		},
 		{
-			'height' : '100%',
-			'width' : '100%',
 			'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
 		},
 		{
-			'height' : '100%',
-			'width' : '100%',
-			'content' : '<div><h1>Page3</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+			'content' : '<div><h1>Page3</h1><h2>This is Page3</h2><p>Page3 is pretty awsome</p><div>'
+		},
+		{
+			'content' : '<div><h1>Page4</h1><h2>This is Page4</h2><p>Page4 is pretty awsome</p><div>'
+		},
+		{
+			'content' : '<div><h1>Page5</h1><h2>This is page5</h2><p>page5 is pretty awsome</p><div>'
 		}];
 
-		var info = ['Home', 'Page 1', 'Page 2', 'Page3'];
 
+		var tabs = document.getElementById('iSlider-nav').children;
+		tabs[0].style.background = '#666666';
 		var islider = new iSlider({
 		    data: list,
 		    type: 'dom',
@@ -120,11 +124,26 @@
 		    isVertical: false,
 		    isLooping: true,
 		    isDebug: true,
-		    isAutoplay: true,
+		    isAutoplay: false,
 		   	onslidechange: function(idx){
-		   		document.getElementById('iSlider-nav').children[0].innerText = info[idx];
+		   		for(i = 0; i < tabs.length; i++){
+		   			if (i == idx){
+		   				tabs[i].style.background = '#666666';
+		   			}
+		   			else{
+		   				tabs[i].style.backgroundColor = '#fff';
+		   			}
+		   		}
 		   	}
 		});
+
+		for(i = 0; i < tabs.length; i++){
+			tabs[i].id = i;
+			tabs[i].addEventListener('click', function(e){
+				var idx = parseInt(e.target.id);
+				islider.goto(idx);
+			}, false);
+		}
 	</script>
 </body>
 </html>

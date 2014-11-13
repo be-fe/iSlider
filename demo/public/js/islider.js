@@ -265,8 +265,9 @@ iSlider.prototype._renderItem = function (el, i) {
         } else {
             el.style.background = 'url(' + item.content + ') 50% 50% / cover no-repeat';
         }
-    } else if (this.type === 'dom') {
-        html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
+    } 
+    else if (this.type === 'dom') {
+        html = '<div style="height: 100%; width: 100%;">' + item.content + '</div>';
     }
 
     html && (el.innerHTML = html);
@@ -305,10 +306,15 @@ iSlider.prototype._renderHTML = function () {
 };
 
 // logical slider, control left or right
-iSlider.prototype._slide = function (n) {
+iSlider.prototype._slide = function (n, dataIndex) {
     var data = this.data;
     var els = this.els;
-    var idx = this.sliderIndex + n;
+    var idx = dataIndex || this.sliderIndex + n;
+    var loadIndex = 0;
+
+    if (dataIndex === 0) {
+        idx = 0;
+    }
 
     // get right item of data
     if (data[idx]) {
@@ -489,4 +495,38 @@ iSlider.prototype.extend = function(plugin, main) {
     Object.keys(plugin).forEach(function(property) {
         Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
     });
+};
+
+// goto
+iSlider.prototype.goto = function(idx, callback) {
+    var self = this;
+
+    var afterSlide = function() {
+        self._renderItem(self.els[0], (idx - 1));
+        self._renderItem(self.els[2], (idx + 1));
+    };
+
+    if (self.data[idx]) {
+        if (idx < self.sliderIndex - 1) {
+            self._renderItem(self.els[0], idx);
+            self._slide(-1, idx);
+            afterSlide();
+        }
+        else if (idx === self.sliderIndex - 1) {
+            self._slide(-1);
+        }
+        else if (idx > self.sliderIndex + 1) {
+            self._renderItem(self.els[2], idx);
+            self._slide(1, idx);
+            afterSlide();
+        }
+        else if (idx === self.sliderIndex + 1) {
+            self._slide(1);
+        }
+        else {
+            self._slide(0);
+        }
+
+        callback && callback();
+    }
 };
