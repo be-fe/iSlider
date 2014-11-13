@@ -330,9 +330,10 @@ iSlider.prototype.slideTo = function (dataIndex) {
         this.sliderIndex = idx;
     } else {
         if (this.isLooping) {
-            this.sliderIndex = (dataIndex - this.sliderIndex) > 0 ? 0 : data.length - 1;
+            this.sliderIndex = n > 0 ? 0 : data.length - 1;
         } else {
-            this.sliderIndex = 0;
+            this.sliderIndex = this.sliderIndex;
+            n = 0;
         }
     }
 
