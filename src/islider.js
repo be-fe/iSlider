@@ -1,7 +1,7 @@
 /**
  * iSlider
  * A simple, efficent mobile slider
- * @Author qbatyqi
+ * @Author BEFE
  *
  * @param {Object}      opts                参数集
  * @param {Element}     opts.dom            外层元素        Outer wrapper
@@ -30,10 +30,10 @@ var iSlider = function (opts) {
 iSlider.prototype._setting = function () {
     var opts = this._opts;
 
-    // dom element wrapping pics
+    // dom element wrapping content
     this.wrap = opts.dom;
 
-    // pics data
+    // your data
     this.data = opts.data;
 
     // loaded image
@@ -45,7 +45,7 @@ iSlider.prototype._setting = function () {
     this.type = opts.type || 'pic';
     // default slide direction
     this.isVertical = opts.isVertical || false;
-
+    // Overspread mode
     this.isOverspread = opts.isOverspread || false;
 
     // Callback function when your finger is moving
@@ -56,11 +56,11 @@ iSlider.prototype._setting = function () {
     this.onslideend = opts.onslideend;
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
-    // Slide time gap
+    // Play time gap
     this.duration = opts.duration || 2000;
 
     // debug mode
-    this.log = opts.isDebug ? function(str) {console.log(str);} : function() {};
+    this.log = opts.isDebug ? function(str) {window.console.log(str);} : function() {};
 
     this.axis = this.isVertical ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
@@ -71,13 +71,19 @@ iSlider.prototype._setting = function () {
     // start from 0
     this.sliderIndex = this.sliderIndex || 0;
 
+    // looping logic adjust
     if (this.data.length < 2) {
         this.isLooping = false;
         this.isAutoPlay = false;
-    }
-    else {
+    } else {
         this.isLooping = opts.isLooping || false;
         this.isAutoplay = opts.isAutoplay || false;
+    }
+
+    // little trick set, when you chooce tear & vertical same time
+    // iSlider overspread mode will be set true autometicly
+    if (opts.animateType === 'tear' && this.isVertical) {
+        this.isOverspread = true;
     }
 
     // Autoplay mode
@@ -92,10 +98,6 @@ iSlider.prototype._setting = function () {
     this._animateFunc = (opts.animateType in this._animateFuncs)
     ? this._animateFuncs[opts.animateType]
     : this._animateFuncs['default'];
-
-    if (opts.animateType === 'tear' && this.isVertical) {
-        this.isOverspread = true;
-    }
 
     // stop autoplay when window blur
     this._setPlayWhenFocus();
@@ -112,14 +114,13 @@ iSlider.prototype._setPlayWhenFocus = function() {
     }, false);
 };
 
-// animate function options
 /**
  * animation parmas:
  *
  * @param {Element}      dom             图片的外层<li>容器       Img wrapper
  * @param {String}       axis            动画方向                animate direction
  * @param {Number}       scale           容器宽度                Outer wrapper
- * @param {Number}       i               <li>容器index           Img wrapper's index
+ * @param {Number}       i               <li>容器index          Img wrapper's index
  * @param {Number}       offset          滑动距离                move distance
  */
 iSlider.prototype._animateFuncs = {
@@ -141,8 +142,7 @@ iSlider.prototype._animateFuncs = {
 
         if (i === 1) {
             dom.style.zIndex = scale - absoluteOffset;
-        }
-        else {
+        } else {
             dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
         }
 
@@ -164,8 +164,7 @@ iSlider.prototype._animateFuncs = {
 
         if (offset > 0) {
             dom.style.visibility = (i > 1) ? 'hidden' : 'visible';
-        }
-        else {
+        } else {
             dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
         }
 
@@ -183,8 +182,7 @@ iSlider.prototype._animateFuncs = {
 
         if (i === 1) {
             dom.style.zIndex = 100;
-        }
-        else {
+        } else {
             dom.style.zIndex = (offset > 0) ? (1 - i) : (i - 1);
         }
         dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
@@ -201,8 +199,7 @@ iSlider.prototype._animateFuncs = {
 
         if (i === 1) {
             dom.style.zIndex = scale - absoluteOffset;
-        }
-        else {
+        } else {
             dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
         }
 
@@ -217,8 +214,7 @@ iSlider.prototype._animateFuncs = {
         if (i === 1) {
             dom.style.zIndex = scale - absoluteOffset;
             dom.cur = 1;
-        }
-        else {
+        } else {
             dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset * 1000 : (i - 1) * absoluteOffset * 1000;
         }
 
@@ -247,11 +243,9 @@ iSlider.prototype._setUpDamping = function () {
 
         if (dis < oneIn2) {
             result = dis >> 1;
-        }
-        else if (dis < oneIn2 + oneIn4) {
+        } else if (dis < oneIn2 + oneIn4) {
             result = oneIn4 + ((dis - oneIn2) >> 2);
-        }
-        else {
+        } else {
             result = oneIn4 + oneIn16 + ((dis - oneIn2 - oneIn4) >> 3);
         }
 
@@ -267,15 +261,12 @@ iSlider.prototype._renderItem = function (i) {
 
     if (!this.isLooping) {
         item = this.data[i] || {empty: true};
-    }
-    else {
+    } else {
         if (i < 0) {
             item = this.data[len + i];
-        }
-        else if (i > len - 1) {
+        } else if (i > len - 1) {
             item = this.data[i - len];
-        }
-        else {
+        } else {
             item = this.data[i];
         }
     }
@@ -313,8 +304,7 @@ iSlider.prototype._renderHTML = function () {
         // used for reset
         this.outer.innerHTML = '';
         outer = this.outer;
-    }
-    else {
+    } else {
         // used for initialization
         outer = document.createElement('ul');
     }
@@ -338,8 +328,7 @@ iSlider.prototype._renderHTML = function () {
 
         if (this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
             li.innerHTML = this._renderItem(1 - i + this.sliderIndex);
-        }
-        else {
+        } else {
             li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
         }
         if (li.children[0] && this.type !== 'dom') {
@@ -348,8 +337,7 @@ iSlider.prototype._renderHTML = function () {
             if (this.isOverspread) {
                 img.src = li.children[0].style.backgroundImage
                           .substring(4, li.children[0].style.backgroundImage.length - 1);
-            }
-            else {
+            } else {
                 img.src = li.children[0].src;
             }
             this.cachedImage.push(img);
@@ -412,8 +400,7 @@ iSlider.prototype._preLoadImg = function() {
             if (dataLen - 2 !== 3 && self.isLooping) {
                 self._startLoadingImg(dataLen - 2, 'left');
             }
-        }
-        else {
+        } else {
             self._preLoadImg();
         }
     }, 200);
@@ -425,7 +412,7 @@ iSlider.prototype._slide = function (n, dataIndex) {
     var dataLen = this.data.length;
     var els = this.els;
     var idx = dataIndex || this.sliderIndex + n;
-    var loadIndex = false;
+    var loadIndex = 0;
 
     if (dataIndex === 0) {
         idx = 0;
@@ -436,8 +423,7 @@ iSlider.prototype._slide = function (n, dataIndex) {
         if (this.type !== 'dom') {
             this._startLoadingImg(loadIndex, 'right');
         }
-    }
-    else if (this.isLooping) {
+    } else if (this.isLooping) {
         loadIndex = (idx - 2 < 0) ? (dataLen - 2 + idx) : (idx - 2);
         if (this.type !== 'dom') {
             this._startLoadingImg(loadIndex, 'right');
@@ -446,12 +432,10 @@ iSlider.prototype._slide = function (n, dataIndex) {
 
     if (data[idx]) {
         this.sliderIndex = idx;
-    }
-    else {
+    } else {
         if (this.isLooping) {
             this.sliderIndex = n > 0 ? 0 : data.length - 1;
-        }
-        else {
+        } else {
             n = 0;
         }
     }
@@ -463,18 +447,15 @@ iSlider.prototype._slide = function (n, dataIndex) {
         if (n > 0) {
             sEle = els.pop();
             els.unshift(sEle);
-        }
-        else if (n < 0) {
+        } else if (n < 0) {
             sEle = els.shift();
             els.push(sEle);
         }
-    }
-    else {
+    } else {
         if (n > 0) {
             sEle = els.shift();
             els.push(sEle);
-        }
-        else if (n < 0) {
+        } else if (n < 0) {
             sEle = els.pop();
             els.unshift(sEle);
         }
@@ -489,7 +470,7 @@ iSlider.prototype._slide = function (n, dataIndex) {
             sEle.style.visibility = 'visible';
         }, 200);
 
-        this.onslidechange && this.onslidechange(dataIndex || this.sliderIndex);
+        this.onslidechange && this.onslidechange(this.sliderIndex);
     }
 
     for (var i = 0; i < 3; i++) {
@@ -511,7 +492,7 @@ iSlider.prototype._bindHandler = function() {
     var self = this;
     var outer = self.outer;
     // judge mousemove start or end
-    var isMoving = false;
+    var isMoving = false;
 
     var hasTouch = (function() {
         return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
@@ -523,7 +504,7 @@ iSlider.prototype._bindHandler = function() {
 
     var startHandler = function(evt) {
         evt.preventDefault();
-        isMoving = true;
+        isMoving = true;
         self.pause();
         self.onslidestart && self.onslidestart();
         self.log('Event: beforeslide');
@@ -575,11 +556,9 @@ iSlider.prototype._bindHandler = function() {
 
         if (metric >= boundary) {
             self._slide(-1);
-        }
-        else if (metric < -boundary) {
+        } else if (metric < -boundary) {
             self._slide(1);
-        }
-        else {
+        } else {
             self._slide(0);
         }
 
@@ -627,7 +606,7 @@ iSlider.prototype.pause = function() {
 // plugin extend
 iSlider.prototype.extend = function(plugin, main) {
     if (!main) {
-        var main = iSlider.prototype;
+        main = iSlider.prototype;
     }
     Object.keys(plugin).forEach(function(property) {
         Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
