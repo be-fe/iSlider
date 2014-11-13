@@ -45,27 +45,23 @@ var domList = [
 {
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo"><h1>Domestic</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo"><h1>International</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div><h1>Page3</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo"><h1>Sports</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div><h1>Page4</h1><h2>This is page4</h2><p>page4 is pretty awsome</p><div>'
-},{
-	'height' : '100%',
-	'width' : '100%',
-	'content' : '<div><h1>Page5</h1><h2>This is page5</h2><p>page5 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo"><h1>Entertainment</h1><h2>This is page4</h2><p>page4 is pretty awsome</p><div>'
 }
 ];
 
@@ -251,13 +247,15 @@ var islider = new iSlider({
 			tabWrapper.style.display = 'block';
 			tabs[0].style.background = '#666666';
 
-			islider.onslidechange = function(idx){
+			islider._opts.onslidechange = function(idx){
 		   		for(i = 0; i < tabs.length; i++){
-		   			if (i == idx){
+		   			if (i === idx){
 		   				tabs[i].style.background = '#666666';
+		   				tabs[i].style.color = '#ffffff';
 		   			}
 		   			else{
 		   				tabs[i].style.backgroundColor = '#fff';
+		   				tabs[i].style.color = '#000000';
 		   			}
 		   		}
 		   	}
@@ -274,6 +272,7 @@ var islider = new iSlider({
 		}
 		else if(this.value === 'pic') {
 			islider._opts.data = picList;
+			tabWrapper.style.display = 'none';
 			canvas.style.backgroundColor = '#333';
 		}
 		

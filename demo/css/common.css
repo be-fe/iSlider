@@ -63,6 +63,14 @@ body {
     cursor: pointer;
 }
 
+#iSlider-dom-nav a {
+    display: inline-block;
+}
+
+#iSlider-dom-nav a:nth-child(1) {
+    color: #ffffff;
+}
+
 .iSlider-rotated-nav {
     width: 450px;
     margin-left: -210px;
@@ -219,6 +227,10 @@ body {
         margin-top: 0;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    #iSlider-dom-nav a {
+        margin-right: 10px;
     }
 
     #iSlider-show ul li{
