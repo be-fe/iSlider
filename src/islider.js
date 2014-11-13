@@ -310,7 +310,6 @@ iSlider.prototype._slide = function (n, dataIndex) {
     var data = this.data;
     var els = this.els;
     var idx = dataIndex || this.sliderIndex + n;
-    var loadIndex = 0;
 
     if (dataIndex === 0) {
         idx = 0;
