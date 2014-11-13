@@ -11,6 +11,7 @@
  */
 
 'use strict';
+
 var iSlider = function (opts) {
     if (!opts.dom) {
         throw new Error('dom element can not be empty!');
@@ -32,21 +33,24 @@ iSlider.prototype._setting = function () {
 
     // dom element wrapping content
     this.wrap = opts.dom;
-
     // your data
     this.data = opts.data;
-
-    // loaded image
-    this.loadedImage = [];
-    // cached first three images of li
-    this.cachedImage = [];
-
     // default type
     this.type = opts.type || 'pic';
     // default slide direction
     this.isVertical = opts.isVertical || false;
     // Overspread mode
     this.isOverspread = opts.isOverspread || false;
+    // Play time gap
+    this.duration = opts.duration || 2000;
+    // start from 0
+    this.sliderIndex = this.sliderIndex || 0;
+
+    this.axis = this.isVertical ? 'Y' : 'X';
+    this.width = this.wrap.clientWidth;
+    this.height = this.wrap.clientHeight;
+    this.ratio = this.height / this.width;
+    this.scale = opts.isVertical ? this.height : this.width;
 
     // Callback function when your finger is moving
     this.onslide = opts.onslide;
@@ -56,20 +60,6 @@ iSlider.prototype._setting = function () {
     this.onslideend = opts.onslideend;
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
-    // Play time gap
-    this.duration = opts.duration || 2000;
-
-    // debug mode
-    this.log = opts.isDebug ? function(str) {window.console.log(str);} : function() {};
-
-    this.axis = this.isVertical ? 'Y' : 'X';
-    this.width = this.wrap.clientWidth;
-    this.height = this.wrap.clientHeight;
-    this.ratio = this.height / this.width;
-    this.scale = opts.isVertical ? this.height : this.width;
-
-    // start from 0
-    this.sliderIndex = this.sliderIndex || 0;
 
     // looping logic adjust
     if (this.data.length < 2) {
@@ -82,7 +72,7 @@ iSlider.prototype._setting = function () {
 
     // little trick set, when you chooce tear & vertical same time
     // iSlider overspread mode will be set true autometicly
-    if (opts.animateType === 'tear' && this.isVertical) {
+    if (opts.animateType === 'card' && this.isVertical) {
         this.isOverspread = true;
     }
 
@@ -91,16 +81,16 @@ iSlider.prototype._setting = function () {
         this.play();
     }
 
+    // debug mode
+    this.log = opts.isDebug ? function(str) {window.console.log(str);} : function() {};
     // set Damping function
     this._setUpDamping();
-
+    // stop autoplay when window blur
+    this._setPlayWhenFocus();
     // set animate Function
     this._animateFunc = (opts.animateType in this._animateFuncs)
     ? this._animateFuncs[opts.animateType]
     : this._animateFuncs['default'];
-
-    // stop autoplay when window blur
-    this._setPlayWhenFocus();
 };
 
 // fixed bug for android device
@@ -146,10 +136,8 @@ iSlider.prototype._animateFuncs = {
             dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
         }
 
-        dom.style.backgroundColor = bdColor || '#333';
-        dom.style.position = 'absolute';
-        dom.style.webkitBackfaceVisibility = 'hidden';
-        dom.style.webkitTransformStyle = 'preserve-3d';
+        dom.style.cssText += 'webkitBackfaceVisibility:hidden; webkitTransformStyle:preserve-3d; '
+            + 'backgroundColor:' + bdColor + '; position:absolute;';
         dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ('
                                     + (0.888 * scale / 2) + 'px) scale(0.888)';
     },
@@ -168,23 +156,15 @@ iSlider.prototype._animateFuncs = {
             dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
         }
 
-        dom.style.backgroundColor = bdColor || '#333';
-        dom.style.position = 'absolute';
-        dom.style.webkitBackfaceVisibility = 'hidden';
+        dom.style.cssText = 'position:absolute; webkitBackfaceVisibility:hidden; backgroundColor:' + bdColor + ';';
         dom.style.webkitTransform = 'translateZ(' + (scale / 2) + 'px) rotate' + rotateDirect
                                     + '(' + 180 * (offset / scale + i - 1) + 'deg) scale(0.875)';
     },
 
     'depth': function (dom, axis, scale, i, offset) {
         var zoomScale = (4 - Math.abs(i - 1)) * 0.18;
-
         this.wrap.style.webkitPerspective = scale * 4;
-
-        if (i === 1) {
-            dom.style.zIndex = 100;
-        } else {
-            dom.style.zIndex = (offset > 0) ? (1 - i) : (i - 1);
-        }
+        dom.style.zIndex = (i === 1) ? 100 : (offset > 0) ? (1 - i) : (i - 1);
         dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
                                     + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
     },
@@ -225,9 +205,8 @@ iSlider.prototype._animateFuncs = {
         }
 
         var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i - 1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
-
-        dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate'
-                                    + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
+        dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate' + axis
+            + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
     }
 };
 
@@ -254,11 +233,12 @@ iSlider.prototype._setUpDamping = function () {
 };
 
 // render single item html by idx
-iSlider.prototype._renderItem = function (i) {
+iSlider.prototype._renderItem = function (el, i) {
     var item;
     var html;
     var len = this.data.length;
 
+    // get the right item of data
     if (!this.isLooping) {
         item = this.data[i] || {empty: true};
     } else {
@@ -272,78 +252,52 @@ iSlider.prototype._renderItem = function (i) {
     }
 
     if (item.empty) {
-        return '';
+        el.innerHTML = '';
+        el.style.background = '';
+        return ;
     }
 
-    if (this.type === 'pic' && !this.isOverspread) {
-        html = item.height / item.width > this.ratio
-        ? '<img height="' + this.height + '" src="' + item.content + '">'
-        : '<img width="' + this.width + '" src="' + item.content + '">';
-    } else if (this.type === 'dom') {
-        html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
-    } else if (this.type === 'pic' && this.isOverspread) {
-        html = this.ratio < 1
-        ? '<div style="height: 100%; width:100%; background:url(' + item.content
-            + ') center no-repeat; background-size:' + this.width + 'px auto;"></div>'
-        : '<div style="height: 100%; width:100%; background:url(' + item.content
-            + ') center no-repeat; background-size: auto ' + this.height + 'px;"></div>';
+    if (this.type === 'pic') {
+        if (!this.isOverspread) {
+            html = item.height / item.width > this.ratio
+            ? '<img height="' + this.height + '" src="' + item.content + '">'
+            : '<img width="' + this.width + '" src="' + item.content + '">';
+        } else {
+            el.style.background = 'url(' + item.content + ') 50% 50% / cover no-repeat';
+        }
+    } 
+    else if (this.type === 'dom') {
+        html = '<div style="height: 100%; width: 100%;">' + item.content + '</div>';
     }
 
-    return html;
+    html && (el.innerHTML = html);
 };
 
 // render list html
 iSlider.prototype._renderHTML = function () {
-    var outer;
+    this.outer && (this.outer.innerHTML = '');
 
-    this.wrap.style.height = this.height + 'px';
-
-    if (this.outer) {
-        // used for reset
-        this.outer.innerHTML = '';
-        outer = this.outer;
-    } else {
-        // used for initialization
-        outer = document.createElement('ul');
-    }
-
-    // ul width equels to div#canvas width
-    outer.style.width = this.width + 'px';
-    outer.style.height = this.height + 'px';
+    // initail ul element
+    var outer = this.outer || document.createElement('ul');
+    outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
 
     // storage li elements, only store 3 elements to reduce memory usage
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
-        li.style.width = this.width + 'px';
-        li.style.height = this.height + 'px';
+        li.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
+        this.els.push(li);
 
         // prepare style animation
         this._animateFunc(li, this.axis, this.scale, i, 0);
-
-        this.els.push(li);
-        outer.appendChild(li);
-
         if (this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
-            li.innerHTML = this._renderItem(1 - i + this.sliderIndex);
+            this._renderItem(li, 1 - i + this.sliderIndex);
         } else {
-            li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
+            this._renderItem(li, i - 1 + this.sliderIndex);
         }
-        if (li.children[0] && this.type !== 'dom') {
-            var img = new Image();
-            // to support overspread pre load
-            if (this.isOverspread) {
-                img.src = li.children[0].style.backgroundImage
-                          .substring(4, li.children[0].style.backgroundImage.length - 1);
-            } else {
-                img.src = li.children[0].src;
-            }
-            this.cachedImage.push(img);
-        }
+        outer.appendChild(li);
     }
-    if (this.type !== 'dom') {
-        this._preLoadImg();
-    }
+
     // append ul to div#canvas
     if (!this.outer) {
         this.outer = outer;
@@ -351,79 +305,18 @@ iSlider.prototype._renderHTML = function () {
     }
 };
 
-// get image size when the image is ready
-iSlider.prototype._getImgSize = function(img, index) {
-
-    var self = this;
-
-    if (this.data[index].width === undefined
-        || this.data[index].height === undefined) {
-
-        img.onload = function() {
-            self.data[index].height = img.height;
-            self.data[index].width = img.width;
-        };
-    }
-};
-
-// start loading image
-iSlider.prototype._startLoadingImg = function(index, direction) {
-    var dirIndex = (direction === 'right') ? 1 : 0;
-    this.loadedImage[dirIndex] = new Image();
-    this.loadedImage[dirIndex].src = this.data[index].content;
-    this._getImgSize(this.loadedImage[dirIndex], index);
-};
-
-// pre load image
-iSlider.prototype._preLoadImg = function() {
-
-    var self = this;
-    var dataLen = this.data.length;
-    var elsLen = this.els.length;
-    var imgCompleteNum = 0;
-    var sliderIndex = [dataLen - 1, 0, 1];
-
-    var isImgComplete = setTimeout(function() {
-        // wait for first three images of li to complete, won't cause duplicate loading
-        for (var i = 0; i < elsLen; i++) {
-            if (self.cachedImage[i] && self.cachedImage[i].complete) {
-                self._getImgSize(self.cachedImage[i], sliderIndex[i]);
-                imgCompleteNum++;
-            }
-        }
-        if (imgCompleteNum >= 2) {
-            clearTimeout(isImgComplete);
-            self._startLoadingImg(2, 'right');
-            // check whether to load image from right to left
-            if (dataLen - 2 !== 3 && self.isLooping) {
-                self._startLoadingImg(dataLen - 2, 'left');
-            }
-        } else {
-            self._preLoadImg();
-        }
-    }, 200);
-};
-
 // logical slider, control left or right
-iSlider.prototype._slide = function (n) {
+iSlider.prototype._slide = function (n, dataIndex) {
     var data = this.data;
-    var dataLen = this.data.length;
     var els = this.els;
-    var idx = this.sliderIndex + n;
-    var loadIndex = false;
+    var idx = dataIndex || this.sliderIndex + n;
+    var loadIndex = 0;
 
-    if (n > 0) {
-        loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
-        if (this.type !== 'dom') {
-            this._startLoadingImg(loadIndex, 'right');
-        }
-    } else if (this.isLooping) {
-        loadIndex = (idx - 2 < 0) ? (dataLen - 2 + idx) : (idx - 2);
-        if (this.type !== 'dom') {
-            this._startLoadingImg(loadIndex, 'right');
-        }
+    if (dataIndex === 0) {
+        idx = 0;
     }
 
+    // get right item of data
     if (data[idx]) {
         this.sliderIndex = idx;
     } else {
@@ -436,6 +329,7 @@ iSlider.prototype._slide = function (n) {
 
     this.log('pic idx:' + this.sliderIndex);
 
+    // keep the right order of items
     var sEle;
     if (this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
         if (n > 0) {
@@ -455,8 +349,10 @@ iSlider.prototype._slide = function (n) {
         }
     }
 
+    // slidechange should render new item
+    // and change new item style to fit animation
     if (n !== 0) {
-        sEle.innerHTML = this._renderItem(idx + n);
+        this._renderItem(sEle, idx + n);
         sEle.style.webkitTransition = 'none';
         sEle.style.visibility = 'hidden';
 
@@ -467,6 +363,7 @@ iSlider.prototype._slide = function (n) {
         this.onslidechange && this.onslidechange(this.sliderIndex);
     }
 
+    // do the trick animation
     for (var i = 0; i < 3; i++) {
         if (els[i] !== sEle) {
             els[i].style.webkitTransition = 'all .3s ease';
@@ -474,31 +371,27 @@ iSlider.prototype._slide = function (n) {
         this._animateFunc(els[i], this.axis, this.scale, i, 0);
     }
 
-    if (this.isAutoplay) {
-        if (this.sliderIndex === data.length - 1 && !this.isLooping) {
-            this.pause();
-        }
+    // stop playing when meet the end of data
+    if (this.isAutoplay && !this.isLooping && this.sliderIndex === data.length - 1) {
+        this.pause();
     }
 };
 
 // bind all event handler
 iSlider.prototype._bindHandler = function() {
     var self = this;
-    var outer = self.outer;
     // judge mousemove start or end
     var isMoving = false;
-
-    var hasTouch = (function() {
-        return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
-    })();
-
+    var outer = self.outer;
+    // desktop event support
+    var hasTouch = !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
     var startEvt = hasTouch ? 'touchstart' : 'mousedown';
     var moveEvt = hasTouch ? 'touchmove' : 'mousemove';
     var endEvt = hasTouch ? 'touchend' : 'mouseup';
 
     var startHandler = function(evt) {
-        evt.preventDefault();
         isMoving = true;
+
         self.pause();
         self.onslidestart && self.onslidestart();
         self.log('Event: beforeslide');
@@ -506,7 +399,6 @@ iSlider.prototype._bindHandler = function() {
         self.startTime = new Date().getTime();
         self.startX = hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
         self.startY = hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
-
     };
 
     var moveHandler = function (evt) {
@@ -537,17 +429,15 @@ iSlider.prototype._bindHandler = function() {
     };
 
     var endHandler = function (evt) {
-        evt.preventDefault();
-
         isMoving = false;
-        var boundary = self.scale / 2;
+
         var metric = self.offset;
+        var boundary = self.scale / 2;
         var endTime = new Date().getTime();
 
         // a quick slide time must under 300ms
         // a quick slide should also slide at least 14 px
         boundary = endTime - self.startTime > 300 ? boundary : 14;
-
         if (metric >= boundary) {
             self._slide(-1);
         } else if (metric < -boundary) {
@@ -556,8 +446,8 @@ iSlider.prototype._bindHandler = function() {
             self._slide(0);
         }
 
-        self.isAutoplay && self.play();
         self.offset = 0;
+        self.isAutoplay && self.play();
         self.onslideend && self.onslideend();
         self.log('Event: afterslide');
     };
@@ -605,4 +495,38 @@ iSlider.prototype.extend = function(plugin, main) {
     Object.keys(plugin).forEach(function(property) {
         Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
     });
+};
+
+// goto
+iSlider.prototype.goto = function(idx, callback) {
+    var self = this;
+
+    var afterSlide = function() {
+        self._renderItem(self.els[0], (idx - 1));
+        self._renderItem(self.els[2], (idx + 1));
+    };
+
+    if (self.data[idx]) {
+        if (idx < self.sliderIndex - 1) {
+            self._renderItem(self.els[0], idx);
+            self._slide(-1, idx);
+            afterSlide();
+        }
+        else if (idx === self.sliderIndex - 1) {
+            self._slide(-1);
+        }
+        else if (idx > self.sliderIndex + 1) {
+            self._renderItem(self.els[2], idx);
+            self._slide(1, idx);
+            afterSlide();
+        }
+        else if (idx === self.sliderIndex + 1) {
+            self._slide(1);
+        }
+        else {
+            self._slide(0);
+        }
+
+        callback && callback();
+    }
 };
