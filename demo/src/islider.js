@@ -136,7 +136,7 @@ iSlider.prototype._animateFuncs = {
             dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
         }
 
-        dom.style.cssText += 'webkitBackfaceVisibility:hidden; webkitTransformStyle:preserve-3d; '
+        dom.style.cssText += '-webkit-backface-visibility:hidden; webkitTransformStyle:preserve-3d; '
             + 'backgroundColor:' + bdColor + '; position:absolute;';
         dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ('
                                     + (0.888 * scale / 2) + 'px) scale(0.888)';
@@ -156,7 +156,7 @@ iSlider.prototype._animateFuncs = {
             dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
         }
 
-        dom.style.cssText = 'position:absolute; webkitBackfaceVisibility:hidden; backgroundColor:' + bdColor + ';';
+        dom.style.cssText = 'position:absolute; -webkit-backface-visibility:hidden; backgroundColor:' + bdColor + ';';
         dom.style.webkitTransform = 'translateZ(' + (scale / 2) + 'px) rotate' + rotateDirect
                                     + '(' + 180 * (offset / scale + i - 1) + 'deg) scale(0.875)';
     },

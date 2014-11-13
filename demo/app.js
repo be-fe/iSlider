@@ -416,6 +416,7 @@ function changeData() {
 		}
 		else if(this.value === 'pic') {
 			changeData();
+			show.style.width = '254px';
 			tabWrapper.style.display = 'none';
 			canvas.style.backgroundColor = '#333';
 		}
