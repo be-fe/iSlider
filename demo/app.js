@@ -150,19 +150,19 @@ var domList = [
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div class="dom-demo dom-demo2"><h1>Domestic</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo dom-demo2"><h1>Mail</h1><h2>This is Mail box</h2><p>A lot of junk mail</p><div>'
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div class="dom-demo dom-demo3"><h1>International</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo dom-demo3"><h1>News</h1><h2>This is News update</h2><p>Domestic and International News are included</p><div>'
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div class="dom-demo dom-demo4"><h1>Sports</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo dom-demo4"><h1>TV</h1><h2>This is TV show</h2><p>Fantastic Shows</p><div>'
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div class="dom-demo dom-demo5"><h1>Entertainment</h1><h2>This is page4</h2><p>page4 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo dom-demo5"><h1>Game</h1><h2>This is Game center</h2><p>Let\'s rock it!</p><div>'
 }
 ];
 
