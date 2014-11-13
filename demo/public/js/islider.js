@@ -82,7 +82,7 @@ iSlider.prototype._setting = function () {
 
     // little trick set, when you chooce tear & vertical same time
     // iSlider overspread mode will be set true autometicly
-    if (opts.animateType === 'tear' && this.isVertical) {
+    if (opts.animateType === 'card' && this.isVertical) {
         this.isOverspread = true;
     }
 
@@ -254,11 +254,12 @@ iSlider.prototype._setUpDamping = function () {
 };
 
 // render single item html by idx
-iSlider.prototype._renderItem = function (i) {
+iSlider.prototype._renderItem = function (el, i) {
     var item;
     var html;
     var len = this.data.length;
 
+    // get the right item of data
     if (!this.isLooping) {
         item = this.data[i] || {empty: true};
     } else {
@@ -272,51 +273,42 @@ iSlider.prototype._renderItem = function (i) {
     }
 
     if (item.empty) {
-        return '';
+        el.innerHTML = '';
+        el.style.background = '';
+        return ;
     }
 
-    if (this.type === 'pic' && !this.isOverspread) {
-        html = item.height / item.width > this.ratio
-        ? '<img height="' + this.height + '" src="' + item.content + '">'
-        : '<img width="' + this.width + '" src="' + item.content + '">';
+    if (this.type === 'pic') {
+        if (!this.isOverspread) {
+            html = item.height / item.width > this.ratio
+            ? '<img height="' + this.height + '" src="' + item.content + '">'
+            : '<img width="' + this.width + '" src="' + item.content + '">';    
+        } else {
+            el.style.background = 'url(' + item.content + ') 50% 50% / cover no-repeat';
+            // el.style.background = this.ratio < 1
+            // ? 'url(' + item.content + ') 50% 50% / cover no-repeat ' + this.width + 'px auto;'
+            // : 'url(' + item.content + ') center no-repeat auto ' + this.height + 'px;'
+        }
     } else if (this.type === 'dom') {
         html = '<div style="height:' + item.height + ';width:' + item.width + ';">' + item.content + '</div>';
-    } else if (this.type === 'pic' && this.isOverspread) {
-        html = this.ratio < 1
-        ? '<div style="height: 100%; width:100%; background:url(' + item.content
-            + ') center no-repeat; background-size:' + this.width + 'px auto;"></div>'
-        : '<div style="height: 100%; width:100%; background:url(' + item.content
-            + ') center no-repeat; background-size: auto ' + this.height + 'px;"></div>';
     }
 
-    return html;
+    html && (el.innerHTML = html);
 };
 
 // render list html
 iSlider.prototype._renderHTML = function () {
-    var outer;
+    this.outer && (this.outer.innerHTML = '');
 
-    this.wrap.style.height = this.height + 'px';
-
-    if (this.outer) {
-        // used for reset
-        this.outer.innerHTML = '';
-        outer = this.outer;
-    } else {
-        // used for initialization
-        outer = document.createElement('ul');
-    }
-
-    // ul width equels to div#canvas width
-    outer.style.width = this.width + 'px';
-    outer.style.height = this.height + 'px';
+    // initail ul element
+    var outer = this.outer || document.createElement('ul');
+    outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
 
     // storage li elements, only store 3 elements to reduce memory usage
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
-        li.style.width = this.width + 'px';
-        li.style.height = this.height + 'px';
+        li.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
 
         // prepare style animation
         this._animateFunc(li, this.axis, this.scale, i, 0);
@@ -325,21 +317,22 @@ iSlider.prototype._renderHTML = function () {
         outer.appendChild(li);
 
         if (this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
-            li.innerHTML = this._renderItem(1 - i + this.sliderIndex);
+            this._renderItem(li, 1 - i + this.sliderIndex);
         } else {
-            li.innerHTML = this._renderItem(i - 1 + this.sliderIndex);
+            this._renderItem(li, i - 1 + this.sliderIndex);
         }
-        if (li.children[0] && this.type !== 'dom') {
-            var img = new Image();
-            // to support overspread pre load
-            if (this.isOverspread) {
-                img.src = li.children[0].style.backgroundImage
-                          .substring(4, li.children[0].style.backgroundImage.length - 1);
-            } else {
-                img.src = li.children[0].src;
-            }
-            this.cachedImage.push(img);
-        }
+
+        // if (li.children[0] && this.type !== 'dom') {
+        //     var img = new Image();
+        //     // to support overspread pre load
+        //     if (this.isOverspread) {
+        //         img.src = li.children[0].style.backgroundImage
+        //                   .substring(4, li.children[0].style.backgroundImage.length - 1);
+        //     } else {
+        //         img.src = li.children[0].src;
+        //     }
+        //     this.cachedImage.push(img);
+        // }
     }
     if (this.type !== 'dom') {
         this._preLoadImg();
@@ -410,7 +403,7 @@ iSlider.prototype._slide = function (n) {
     var dataLen = this.data.length;
     var els = this.els;
     var idx = this.sliderIndex + n;
-    var loadIndex = false;
+    var loadIndex = 0;
 
     if (n > 0) {
         loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
@@ -456,7 +449,7 @@ iSlider.prototype._slide = function (n) {
     }
 
     if (n !== 0) {
-        sEle.innerHTML = this._renderItem(idx + n);
+        this._renderItem(sEle, idx + n);
         sEle.style.webkitTransition = 'none';
         sEle.style.visibility = 'hidden';
 
