@@ -63,6 +63,13 @@ body {
     cursor: pointer;
 }
 
+.iSlider-rotate-dom-nav {
+    margin-top: 90px;
+    margin-left: -63px;
+    -webkit-transform: rotate(-90deg);
+    -webkit-transform-origin: 50% 50%%;
+}
+
 #iSlider-dom-nav a {
     display: inline-block;
 }
@@ -112,6 +119,35 @@ body {
     pointer-events: auto;
      z-index: 9999;
 }
+
+.dom-demo {
+    margin-top: 10px;
+    margin-left: -5px;
+    width: 1000px;
+    width: 100%;
+    height: 100%;
+}
+
+.dom-demo1 {
+    background-color: #2ecc71;
+}
+
+.dom-demo2 {
+    background-color: #3498db;
+}
+
+.dom-demo3 {
+    background-color: #1abc9c;
+}
+
+.dom-demo4 {
+    background-color: #9b59b6;
+}
+
+.dom-demo5 {
+    background-color: #f1c40f;
+}
+
 
 .iSlider-rotated-show {
     -webkit-transform: rotate(-90deg);

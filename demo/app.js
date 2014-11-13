@@ -146,23 +146,23 @@ var domList = [
 {
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div class="dom-demo"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo dom-demo1"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div class="dom-demo"><h1>Domestic</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo dom-demo2"><h1>Domestic</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div class="dom-demo"><h1>International</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo dom-demo3"><h1>International</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div class="dom-demo"><h1>Sports</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo dom-demo4"><h1>Sports</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
 },{
 	'height' : '100%',
 	'width' : '100%',
-	'content' : '<div class="dom-demo"><h1>Entertainment</h1><h2>This is page4</h2><p>page4 is pretty awsome</p><div>'
+	'content' : '<div class="dom-demo dom-demo5"><h1>Entertainment</h1><h2>This is page4</h2><p>page4 is pretty awsome</p><div>'
 }
 ];
 
@@ -226,6 +226,18 @@ var islider = new iSlider({
    		target.innerText = idx;
    	}
 });
+
+function changeData() {
+	if (this.value === 'default') {
+		islider._opts.data = randomList;
+	}
+	else if (this.value === 'flow' || this.value === 'depth' || this.value === 'flip') {
+		islider._opts.data = longList;
+	}
+	else {
+		islider._opts.data = highList;
+	}
+}
 
 (function(){
 
@@ -291,12 +303,13 @@ var islider = new iSlider({
 		if (target.className === 'on') {
 			show.style.width = '';
 			show.style.height = '';
-			show.style.top = '';
-	    	show.style.left = '';
+			show.style.top = '30px';
+	    	show.style.left = '0';
 			target.className = '';
 			outer.className = 'iSlider-outer-pc';
 			show.className = 'iSlider-show-pc';
 			nav.className = 'iSlider-nav-pc';
+			tabWrapper.className = '';
 			optionSubMenuWrap.children[0].className = '';
 			optionSubMenuWrap.children[0].style.marginTop = '';
 			target.innerText = 'changeOrientation: 0';
@@ -311,10 +324,19 @@ var islider = new iSlider({
 			}, 200);
 		} else {
 			target.className = 'on';
-			show.style.width = '240px';
+			if (islider._opts.type === 'dom') {
+				show.style.width = '450px';
+				show.style.top = '115px';
+	    		show.style.left = '-80px';
+			}
+			else {
+				show.style.width = '240px';
+				show.style.top = '110px';
+	    		show.style.left = '22px';
+			}
+			
 			show.style.height = '224px';
-			show.style.top = '110px';
-	    	show.style.left = '22px';
+			
 	    	hiddenDiv.style.height = '522px';
 	    	hiddenDiv.style.marginTop = '70px';
 	    	optionSubMenuWrap.style.marginTop = '2px';
@@ -323,6 +345,7 @@ var islider = new iSlider({
 			outer.className = 'iSlider-outer-pc iSlider-rotated-outer';
 			show.className = 'iSlider-show-pc iSlider-rotated-show';
 			nav.className = 'iSlider-nav-pc iSlider-rotated-nav';
+			tabWrapper.className = 'iSlider-rotate-dom-nav';
 			optionSubMenuWrap.children[0].className = 'iSlider-rotated-option';
 			optionSubMenuWrap.children[0].style.marginTop = '210px';
 			target.innerText = 'changeOrientation: 90';
@@ -336,15 +359,18 @@ var islider = new iSlider({
 	optionSubMenu[5].childNodes[1].onchange = function() {
 		islider._opts.animateType = this.value;
 
-		if (this.value === 'default') {
-			islider._opts.data = randomList;
+		if (islider._opts.type === 'pic') {
+			changeData();
 		}
-		else if (this.value === 'flow' || this.value === 'depth' || this.value === 'flip') {
-			islider._opts.data = longList;
+		if (optionSubMenu[4].className === 'on') {
+			show.style.top = '115px';
+    		show.style.left = '-80px';
 		}
 		else {
-			islider._opts.data = highList;
+			show.style.top = '20px';
+	    	show.style.left = '0';
 		}
+		
 		islider.reset();
 
 	};
@@ -354,6 +380,12 @@ var islider = new iSlider({
 		var canvas = document.getElementById('iSlider-canvas');
 
 		if (this.value === 'dom') {
+			show.style.width = '450px';
+			if (optionSubMenu[4].className === 'on') {
+				show.style.top = '115px';
+	    		show.style.left = '-80px';
+			}
+			
 			islider.sliderIndex = 0;
 			islider._opts.data = domList;
 			tabWrapper.style.display = 'block';
@@ -383,7 +415,7 @@ var islider = new iSlider({
 			canvas.style.backgroundColor = '#ffffff';
 		}
 		else if(this.value === 'pic') {
-			islider._opts.data = picList;
+			changeData();
 			tabWrapper.style.display = 'none';
 			canvas.style.backgroundColor = '#333';
 		}
