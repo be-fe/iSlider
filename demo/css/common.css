@@ -269,7 +269,10 @@ body {
         margin-left: auto;
         margin-right: auto;
     }
-
+    #iSlider-dom-nav {
+        height: 20px;
+        z-index: 100001;
+    }
     #iSlider-dom-nav a {
         margin-right: 10px;
     }

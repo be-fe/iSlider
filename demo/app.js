@@ -390,6 +390,9 @@ function changeData() {
 		if (this.value === 'dom') {
 			if (winW <= 1024) {
 				show.style.width = winW + 'px';
+				window.addEventListener('orientationchange', function() {
+					show.style.width = window.innerWidth + 'px';
+				}, false);
 			}
 			else {
 				show.style.width = '450px';
@@ -415,13 +418,15 @@ function changeData() {
 		   				tabs[i].style.color = '#000000';
 		   			}
 		   		}
+		   		var target = document.getElementById('iSlider-nav').children[1].innerText = 'Index: ' + idx;
+		   		target.innerText = idx;
 		   	}
 
 		   	for(i = 0; i < tabs.length; i++){
 				tabs[i].id = i;
 				tabs[i].addEventListener('click', function(e){
 					var idx = parseInt(e.target.id);
-					islider.goto(idx);
+					islider.slideTo(idx);
 				}, false);
 			}
 
@@ -435,7 +440,10 @@ function changeData() {
 			else {
 				show.style.width = '';
 			}
-			
+			islider._opts.onslidechange = function(idx){
+		   		var target = document.getElementById('iSlider-nav').children[1].innerText = 'Index: ' + idx;
+		   		target.innerText = idx;
+		   	}
 			tabWrapper.style.display = 'none';
 			canvas.style.backgroundColor = '#333';
 		}
