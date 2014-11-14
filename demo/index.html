@@ -8,55 +8,60 @@
 
 </head>
 <body>
-	<div id="iSlider-tip" >
-		<p>Please use webkit browser to watch this example.</p>
-		<p>If you want to try touch Event please make sure you already turn on developer tool "Emulate touch screen".</p>
-		<p>Feel free to submit issue or bug to this project, address is <a href="https://github.com/BE-FE/iSlider">https://github.com/BE-FE/iSlider</a></div>
 	<div id="iSlider-content">
 
 		<!-- Wrapper -->
 		<div id="iSlider-outer" class="iSlider-outer-pc">
-			<div id="iSlider-canvas" class="iSlider-canvas-pc">
-				<div id="iSlider-nav">
-					<a>Index: 0</a>
-				</div>
-				<div id="iSlider-show" class="iSlider-show-pc"> 
-					
+			<div id="iSlider-hidden">
+				<div id="iSlider-option" class="iSlider-option-pc">
+				<ul>
+					<li>isLooping: false</li>
+					<li>isVertical: false</li>
+					<li>isAutoplay: false</span>
+					<li>isOverspread: false</span>
+					<li>changeOrientation: 90</li>
+				<li>
+					animationType:
+					<select>
+						<option value="default">default</option>
+						<option value="rotate">rotate</option>
+						<option value="depth">depth</option>
+						<option value="flow">flow</option>
+						<option value="flip">flip</option>
+						<option value="card">card</option>
+					</select>
+				</li>
+				<li>
+					Type: 
+					<select>
+						<option value="pic">Picture</option>
+						<option value="dom">Dom</option>
+					</select>
+				</li>
+				</ul>
+			</div>
+				<div id="iSlider-canvas" class="iSlider-canvas-pc">
+					<div id="iSlider-nav" class="iSlider-nav-pc">
+						<div id="option-menu" class="icon-menu"></div>
+						<a>Index: 0</a>
+					</div>
+					<div id="iSlider-dom-nav">
+						<a>Home</a>
+						<a>Mail</a>
+						<a>News</a>
+						<a>TV</a>
+						<a>Game</a>
+					</div>
+					<div id="iSlider-show" class="iSlider-show-pc"> 
+					</div>
 				</div>
 			</div>
 		</div>
-
-		<!-- Menu -->
-		<div id="iSlider-menu" class="iSlider-menu-animation">
-			<span>isLooping: false</span>
-			<span>isVertical: false</span>
-			<span>isAutoplay: false</span>
-			<span>changeOrientation: 90</span>
-			<span>
-				animationType:
-				<select>
-					<option value="default">Default</option>
-					<option value="rotate">Rotate</option>
-					<option value="depth">Depth</option>
-					<option value="flip">Flip</option>
-				</select>
-			</span>
-			<span>
-				Type: 
-				<select>
-					<option value="pic">Picture</option>
-					<option value="dom">Dom</option>
-				</select>
-			</span>
-			<div style="clear:both"></div>
-		</div>
-		<div id="iSlider-menu-tag" class="iSlider-menu-tag-animation">Menu</div>
 
 	</div>
 	
 
 	<script type="text/javascript" src="src/islider.js"></script>
-	<script type="text/javascript" src="src/plugins/islider_desktop.js"></script>
 	<script type="text/javascript" src="app.js"></script>
 
 </body>

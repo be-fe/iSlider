@@ -40,9 +40,12 @@
 </h4>
 
 <ul>
-    <li>Animation can be customized with user defined functions (rotate, 3d, default).</li>
-    <li>You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange)</li>
+    <li>Performance is extremely great with hardware acceleration and little memory consumption.</li>
+    <li>Animation can be customized with user defined functions (default, rotate, depth, flow, flip, card).</li>
+    <li>You can easily hook to a plethora of custom events (onslidestart, onslide, onslideend, onslidechange).</li>
     <li>Damping effect, Infinite Looping, Autometic sliding and Vertical/Horizontal Sliding can be configured.</li>
+    <li>Support desktop gesture which is convenient for testing.</li>
+    <li>Support image preloader to improve user experience.</li>
 </ul>
 
 <h2 id="demo">
@@ -63,6 +66,8 @@
     <span>rotate</span>
     <span>flip</span>
     <span>depth</span>
+    <span>flow</span>
+    <span>card</span>
 </div>
 
 <h4 style="text-align: center">Verical Slide</h4>
@@ -82,16 +87,16 @@
 <p>Before you start, you need to prepare some data for iSlider:</p>
 
 <div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[{</span>
-    <span class="nx">height</span><span class="o">:</span> <span class="mi">475</span><span class="p">,</span>
-    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">414</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
     <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/1.jpg"</span><span class="p">,</span>
 <span class="p">},{</span>
-    <span class="nx">height</span><span class="o">:</span> <span class="mi">527</span><span class="p">,</span>
-    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">414</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
     <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/2.jpg"</span><span class="p">,</span>
 <span class="p">},{</span>
-    <span class="nx">height</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
-    <span class="nx">width</span><span class="o">:</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">414</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
     <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/3.jpg"</span><span class="p">,</span>
 <span class="p">}];</span>
 </pre></div>
@@ -207,7 +212,7 @@
     <tr>
         <td>animateType</td>
         <td>String</td>
-        <td>Currently, default, rotate, flip and depth are supported animations</td>
+        <td>Currently, default, rotate, flip, depth, flow and card are supported animations</td>
     </tr>
     <tr>
         <td>onslide</td>
@@ -248,6 +253,11 @@
         <td>isVertical</td>
         <td>Boolean (true | fasle)</td>
         <td>Slide verically or horizontally</td>
+    </tr>
+    <tr>
+        <td>isOverspread</td>
+        <td>Boolean (true | fasle)</td>
+        <td>Decide whether to cover the whole browser screen or not</td>
     </tr>
 </tbody>
 </table>
@@ -407,6 +417,20 @@
         };
 
         menu[3].onclick = function() {
+
+            clickMenuActive(this);
+            islider1._opts.animateType = this.innerHTML;
+            islider1.reset();
+        };
+
+        menu[4].onclick = function() {
+
+            clickMenuActive(this);
+            islider1._opts.animateType = this.innerHTML;
+            islider1.reset();
+        };
+
+        menu[5].onclick = function() {
 
             clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;

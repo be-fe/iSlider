@@ -41,10 +41,13 @@
 
 <p>iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：</p>
 
-<ul>
-<li>能够自定义动画，自带的动画包括default, rotate, flip 和 depth</li>
-<li>你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)</li>
-<li>我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动</li>
+<ul class="task-list">
+    <li>性能极好，硬件加速，极小占用内存</li>
+    <li>能够自定义动画，自带的动画包括 default, rotate, depth, flow, flip, card</li>
+    <li>你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)</li>
+    <li>我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动</li>
+    <li>支持桌面鼠标动作，方便测试</li>
+    <li>支持图片预加载，改善用户体验</li>
 </ul>
 
 <h2 id="demo">
@@ -65,6 +68,8 @@
     <span>rotate</span>
     <span>flip</span>
     <span>depth</span>
+    <span>flow</span>
+    <span>card</span>
 </div>
 
 <h4 style="text-align: center">垂直轮播</h4>
@@ -85,16 +90,16 @@
 <p>在你开始之前，你需要为iSlider先新建好数据:</p>
 
 <div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[{</span>
-    <span class="nx">height</span><span class="o">:</span> <span class="mi">475</span><span class="p">,</span>
-    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">414</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
     <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/1.jpg"</span><span class="p">,</span>
 <span class="p">},{</span>
-    <span class="nx">height</span><span class="o">:</span> <span class="mi">527</span><span class="p">,</span>
-    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">414</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
     <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/2.jpg"</span><span class="p">,</span>
 <span class="p">},{</span>
-    <span class="nx">height</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
-    <span class="nx">width</span><span class="o">:</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">414</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
     <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/3.jpg"</span><span class="p">,</span>
 <span class="p">}];</span>
 </pre></div>
@@ -211,7 +216,7 @@
     <tr>
         <td>animateType</td>
         <td>String</td>
-        <td>目前支持default, rotate, flip 和 depth</td>
+        <td>目前支持default, rotate, flip, depth, flow 和 card</td>
     </tr>
     <tr>
         <td>onslide</td>
@@ -252,6 +257,11 @@
         <td>isVertical</td>
         <td>Boolean (true | fasle)</td>
         <td>开启水平/垂直滑动模式</td>
+    </tr>
+    <tr>
+        <td>isOverspread</td>
+        <td>Boolean (true | fasle)</td>
+        <td>是否平铺整个浏览器屏幕</td>
     </tr>
 </tbody>
 </table>
@@ -411,6 +421,20 @@
         };
 
         menu[3].onclick = function() {
+
+            clickMenuActive(this);
+            islider1._opts.animateType = this.innerHTML;
+            islider1.reset();
+        };
+
+        menu[4].onclick = function() {
+
+            clickMenuActive(this);
+            islider1._opts.animateType = this.innerHTML;
+            islider1.reset();
+        };
+
+        menu[5].onclick = function() {
 
             clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
