@@ -228,10 +228,10 @@ var islider = new iSlider({
 });
 
 function changeData() {
-	if (this.value === 'default') {
+	if (islider._opts.animateType === 'default') {
 		islider._opts.data = randomList;
 	}
-	else if (this.value === 'flow' || this.value === 'depth' || this.value === 'flip') {
+	else if (islider._opts.animateType === 'flow' || islider._opts.animateType === 'depth' || islider._opts.animateType === 'flip') {
 		islider._opts.data = longList;
 	}
 	else {
@@ -362,12 +362,20 @@ function changeData() {
 		if (islider._opts.type === 'pic') {
 			changeData();
 		}
+
+		if (islider._opts.type === 'dom') {
+
+			if (this.value === 'depth' || this.value === 'flow') {
+				show.style.width = '';
+			}
+		}
+
 		if (optionSubMenu[4].className === 'on') {
 			show.style.top = '115px';
     		show.style.left = '-80px';
 		}
 		else {
-			show.style.top = '20px';
+			show.style.top = '40px';
 	    	show.style.left = '0';
 		}
 		
@@ -380,7 +388,12 @@ function changeData() {
 		var canvas = document.getElementById('iSlider-canvas');
 
 		if (this.value === 'dom') {
-			show.style.width = '450px';
+			if (winW <= 1024) {
+				show.style.width = winW + 'px';
+			}
+			else {
+				show.style.width = '450px';
+			}
 			if (optionSubMenu[4].className === 'on') {
 				show.style.top = '115px';
 	    		show.style.left = '-80px';
@@ -416,7 +429,13 @@ function changeData() {
 		}
 		else if(this.value === 'pic') {
 			changeData();
-			show.style.width = '254px';
+			if (winW > 1024) {
+				show.style.width = '254px';
+			}
+			else {
+				show.style.width = '';
+			}
+			
 			tabWrapper.style.display = 'none';
 			canvas.style.backgroundColor = '#333';
 		}
