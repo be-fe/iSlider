@@ -90,7 +90,7 @@ var highList = [
 {
 	width: 300,
 	height: 414,
-	content:"pics/high/8.jpg"
+	content:"pics/high/9.jpg"
 }
 ];
 
@@ -359,11 +359,11 @@ function changeData() {
 	optionSubMenu[5].childNodes[1].onchange = function() {
 		islider._opts.animateType = this.value;
 
-		if (islider._opts.type === 'pic') {
+		if (islider.type === 'pic') {
 			changeData();
 		}
 
-		if (islider._opts.type === 'dom') {
+		if (islider.type === 'dom') {
 
 			if (this.value === 'depth' || this.value === 'flow') {
 				show.style.width = '';
