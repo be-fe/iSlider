@@ -15,7 +15,7 @@ It features:
 * Support desktop gesture which is convenient for testing.
 * Support image preloader to improve user experience.
 
-<h2 id="demo">Demo of iSlider</h2>
+<h2 id="demo">iSlider Mobile Demo</h2>
 
 <img width="150px" height="150px" src="qrcode.png"/>
 
