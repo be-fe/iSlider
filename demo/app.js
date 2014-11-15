@@ -187,6 +187,7 @@ var menuList = document.getElementById('option-menu');
 // dom tabs
 var tabWrapper = document.getElementById('iSlider-dom-nav');
 var tabs = document.getElementById('iSlider-dom-nav').children;
+tabWrapper.style.zIndex = '10000';
 
 var winH = window.innerHeight;
 var winW = window.innerWidth;
