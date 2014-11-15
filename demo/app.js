@@ -172,6 +172,7 @@ var content = document.getElementById('iSlider-content');
 var show = document.getElementById('iSlider-show');
 
 var nav = document.getElementById('iSlider-nav');
+nav.style.zIndex = '10000';
 
 //option list
 var optionSubMenuWrap = document.getElementById('iSlider-option');

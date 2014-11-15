@@ -26,7 +26,6 @@ body {
     text-align: left;
     pointer-events: auto;
     background-color: #ffffff;
-    z-index: 100;
     cursor: pointer;
 }
 
@@ -39,10 +38,9 @@ body {
 }
 
 #iSlider-nav {
-    /*position: absolute;*/
+    position: absolute;
     width: 100%;
     background-color: #2980b9;
-    z-index: 10000;
 }
 
 #iSlider-nav a{
@@ -115,7 +113,6 @@ body {
     padding: 0;
     height: 100%;
     overflow: hidden;
-    z-index: 99;
 }
 
 #iSlider-show li {
@@ -129,7 +126,6 @@ body {
     -webkit-box-pack: center;
     -webkit-box-align: center;
     list-style: none;
-    z-index: 99;
 }
 
 #iSlider-show ul li img {
@@ -179,65 +175,3 @@ body {
     color: #fff;
     background-color: #666;
 }
-/*
-@media screen and (max-width:1024px){
-
-    body {
-        background-color: #333;
-    }
-
-    #iSlider-outer {
-        position: absolute;
-        background: none;
-        height: 100%;
-        width: 100%;
-    }
-
-    #iSlider-hidden {
-        position: relative;
-        max-width: 100%;
-        height: 100%;
-        bottom: 0;
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        overflow: hidden;
-        background-color: #ffffff;
-        text-align: center;
-    }
-
-     #iSlider-canvas {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        margin-top: 0;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    #iSlider-dom-nav {
-        height: 20px;
-        z-index: 100001;
-    }
-    #iSlider-dom-nav a {
-        margin-right: 10px;
-    }
-
-    #iSlider-show ul li{
-        width: 100%;
-        display: -webkit-box;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
-    }
-
-    #iSlider-option {
-        width: 100%;
-        height: 100%;
-        margin-top: 0;
-        margin-left: 0;
-        text-align: left;
-    }
-
-    #iSlider-option ul li:nth-child(5) {
-        display: none;
-    }
-}*/
