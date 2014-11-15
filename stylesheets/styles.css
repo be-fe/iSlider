@@ -503,3 +503,57 @@ footer {
 #menu-select span.on {
   background-color: #e74c3c;
 }
+
+#iSlider-dom-nav {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    pointer-events: auto;
+    background-color: #ffffff;
+    z-index: 10000;
+    cursor: pointer;
+}
+
+#iSlider-dom-nav a {
+    margin-right: 10px;
+    color: #000000;
+}
+
+#iSlider-dom-nav a:hover {
+  text-decoration: none;
+};
+
+.dom-demo {
+    width: 100%;
+    height: 100%
+}
+
+#dom-demo1 {
+    background-color: #2ecc71;
+    width: 100%;
+    height: 100%
+}
+
+#dom-demo2 {
+    background-color: #3498db;
+    width: 100%;
+    height: 100%
+}
+
+#dom-demo3 {
+    background-color: #1abc9c;
+    width: 100%;
+    height: 100%
+}
+
+#dom-demo4 {
+    background-color: #9b59b6;
+    width: 100%;
+    height: 100%
+}
+
+#dom-demo5 {
+    background-color: #f1c40f;
+    width: 100%;
+    height: 100%
+}

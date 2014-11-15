@@ -79,7 +79,17 @@
 <div id="non-looping" class="iSlider-effect"></div>
 
 <h4 style="text-align: center">DOM</h4>
-<div id="dom-effect" class="iSlider-effect"></div>
+<div>
+    <div id="dom-effect" class="iSlider-effect">
+        <div id="iSlider-dom-nav">
+            <a>Home</a>
+            <a>Mail</a>
+            <a>News</a>
+            <a>TV</a>
+            <a>Game</a>
+        </div>
+    </div>
+</div>
 
 
 <h2 id="getting-started">
@@ -279,74 +289,169 @@
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
 	<script src="demo/src/islider.js"></script>
-    <script src="demo/src/plugins/islider_desktop.js"></script>
     <script>
-        var picList = [
+        var highList = [
         {
             width: 150,
             height: 207,
-            content: "demo/pics/1.jpg",
+            content: "demo/pics/high/1.jpg",
         },
         {
             width: 150,
             height: 207,
-            content: "demo/pics/2.jpg",
+            content: "demo/pics/high/2.jpg",
         },
         {
             width: 150,
             height: 207,
-            content: "demo/pics/3.jpg",
+            content: "demo/pics/high/3.jpg",
         },
         {
             width: 150,
             height: 207,
-            content:"demo/pics/5.jpg"
+            content:"demo/pics/high/4.jpg"
         },
         {
             width: 150,
             height: 207,
-            content:"demo/pics/6.jpg"
-        },
-        {
-            width: 300,
-            height: 414,
-            content:"demo/pics/7.jpg"
+            content:"demo/pics/high/5.jpg"
         },
         {
             width: 150,
             height: 207,
-            content:"demo/pics/8.jpg"
+            content:"demo/pics/high/6.jpg"
         },
         {
             width: 150,
             height: 207,
-            content:"demo/pics/9.jpg"
+            content:"demo/pics/high/7.jpg"
+        },
+        {
+            width: 150,
+            height: 207,
+            content:"demo/pics/high/8.jpg"
+        }
+        ];
+
+        var longList = [
+        {
+            width: 320,
+            height: 200,
+            content: "demo/pics/long/1.jpg",
+        },
+        {
+            width: 320,
+            height: 200,
+            content: "demo/pics/long/2.jpg",
+        },
+        {
+            width: 320,
+            height: 200,
+            content: "demo/pics/long/3.jpg",
+        },
+        {
+            width: 320,
+            height: 200,
+            content:"demo/pics/long/4.jpg"
+        },
+        {
+            width: 320,
+            height: 200,
+            content:"demo/pics/long/5.jpg"
+        },
+        {
+            width: 320,
+            height: 200,
+            content:"demo/pics/long/6.jpg"
+        },
+        {
+            width: 320,
+            height: 200,
+            content:"demo/pics/long/7.jpg"
+        },
+        {
+            width: 320,
+            height: 200,
+            content:"demo/pics/long/8.jpg"
+        }
+        ];
+
+        var randomList = [
+        {
+            width: 200,
+            height: 228.5,
+            content: "demo/pics/random/1.jpg",
+        },
+        {
+            width: 200,
+            height: 263.5,
+            content: "demo/pics/random/2.jpg",
+        },
+        {
+            width: 268,
+            height: 400,
+            content: "demo/pics/random/3.jpg",
+        },
+        {
+            width: 256,
+            height: 200,
+            content:"demo/pics/random/4.jpg"
+        },
+        {
+            width: 229,
+            height: 200,
+            content:"demo/pics/random/5.jpg"
+        },
+        {
+            width: 249,
+            height: 200,
+            content:"demo/pics/random/6.jpg"
+        },
+        {
+            width: 600,
+            height: 377,
+            content:"demo/pics/random/7.jpg"
+        },
+        {
+            width: 600,
+            height: 396,
+            content:"demo/pics/random/8.jpg"
+        },
+        {
+            width: 600,
+            height: 374,
+            content:"demo/pics/random/9.jpg"
         }
         ];
 
         var domList = [
         {
-            'height' : '100%',
-            'width' : '100%',
-            'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
+            'height' : '310px',
+            'width' : '225px',
+            'content' : '<div class="dom-demo" id="dom-demo1"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p></div>'
         },{
-            'height' : '100%',
-            'width' : '100%',
-            'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+            'height' : '310px',
+            'width' : '225px',
+            'content' : '<div class="dom-demo" id="dom-demo2"><h1>Mail</h1><h2>This is Mail box</h2><p>A lot of junk mail</p></div>'
         },{
-            'height' : '100%',
-            'width' : '100%',
-            'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+            'height' : '310px',
+            'width' : '225px',
+            'content' : '<div class="dom-demo" id="dom-demo3"><h1>News</h1><h2>This is News update</h2><p>Domestic and International News are included</p></div>'
         },{
-            'height' : '100%',
-            'width' : '100%',
-            'content' : '<div><h1>Page3</h1><h2>This is page3</h2><p>page3 is pretty awsome</p><div>'
+            'height' : '310px',
+            'width' : '225px',
+            'content' : '<div class="dom-demo" id="dom-demo4"><h1>TV</h1><h2>This is TV show</h2><p>Fantastic Shows</p></div>'
+        },{
+            'height' : '310px',
+            'width' : '225px',
+            'content' : '<div class="dom-demo" id="dom-demo5"><h1>Game</h1><h2>This is Game center</h2><p>Let\'s rock it!</p></div>'
         }
         ];
 
+
         //all animation effect
         var islider1 = new iSlider({
-            data: picList,
+            data: randomList,
             dom: document.getElementById("animation-effect"),
             duration: 2000,
             animateType: 'default',
@@ -354,38 +459,60 @@
             isLooping: true,
             // isVertical: true,
         });
-        islider1.bindMouse();
 
         //vertical slide
         var islider2 = new iSlider({
-            data: picList,
+            data: highList,
             dom: document.getElementById("vertical-slide"),
             duration: 2000,
-            animateType: 'default',
+            animateType: 'card',
             isVertical: true,
             isAutoplay: true,
             isLooping: true,
         });
-        islider2.bindMouse();
 
         //nonLooping nonAutoplay
         var islider3 = new iSlider({
-            data: picList,
+            data: longList,
             dom: document.getElementById("non-looping"),
             animateType: 'default',
         });
-        islider3.bindMouse();
 
         //dom
+        var tabs = document.getElementById('iSlider-dom-nav').children;
+
         var islider4 = new iSlider({
             data: domList,
             dom: document.getElementById("dom-effect"),
             type: 'dom',
             animateType: 'default',
-            isAutoplay: true,
             isLooping: true,
+            onslidechange : function(idx){
+                for(i = 0; i < tabs.length; i++){
+                    if (i === idx){
+                        tabs[i].style.background = '#666666';
+                        tabs[i].style.color = '#ffffff';
+                    }
+                    else{
+                        tabs[i].style.backgroundColor = '#fff';
+                        tabs[i].style.color = '#000000';
+                    }
+                }
+            }
         });
-        islider4.bindMouse();
+
+        islider4.sliderIndex = 0;
+        islider4._opts.data = domList;
+        tabs[0].style.background = '#666666';
+
+        for(i = 0; i < tabs.length; i++){
+            tabs[i].id = i;
+            tabs[i].addEventListener('click', function(e){
+                var idx = parseInt(e.target.id);
+                islider4.slideTo(idx);
+            }, false);
+        }
+
 
         var menu = document.getElementById('menu-select').children;
 
@@ -403,6 +530,7 @@
 
             clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
+            islider1._opts.data = randomList;
             islider1.reset();
         };
 
@@ -410,6 +538,7 @@
 
             clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
+            islider1._opts.data = longList;
             islider1.reset();
         };
 
@@ -417,6 +546,7 @@
 
             clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
+            islider1._opts.data = highList;
             islider1.reset();
         };
 
@@ -424,6 +554,7 @@
 
             clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
+            islider1._opts.data = longList;
             islider1.reset();
         };
 
@@ -431,6 +562,7 @@
 
             clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
+            islider1._opts.data = longList;
             islider1.reset();
         };
 
@@ -438,6 +570,7 @@
 
             clickMenuActive(this);
             islider1._opts.animateType = this.innerHTML;
+            islider1._opts.data = highList;
             islider1.reset();
         };
 
