@@ -213,6 +213,7 @@ var islider = new iSlider({
     data: randomList,
     dom: document.getElementById("iSlider-show"),
     duration: 2000,
+    animateType: 'default',
    	onslidechange: function(idx){
    		
    	}
@@ -300,7 +301,7 @@ function changeData() {
 		if (islider.type === 'pic') {
 			changeData();
 		}
-		
+
 		islider.reset();
 
 	};
@@ -311,6 +312,7 @@ function changeData() {
 		if (this.value === 'dom') {
 			
 			islider.sliderIndex = 0;
+			islider._opts.type = 'dom';
 			islider._opts.data = domList;
 			tabWrapper.style.display = 'block';
 			tabs[0].style.background = '#666666';
@@ -339,6 +341,7 @@ function changeData() {
 		else if(this.value === 'pic') {
 			changeData();
 			
+			islider._opts.type = 'pic';
 			islider._opts.onslidechange = function(idx){
 		   		
 		   	}
