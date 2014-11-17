@@ -303,6 +303,17 @@ function changeData() {
 		}
 
 		islider.reset();
+		
+		// var ch = show.children[2].children;
+		// for (var i = 0; i < ch.length; i++) {
+		// 	ch[i].style.zIndex = '-1';
+		// 	ch[i].style.webkitTransform = 'translateZ(0)';
+		// 	console.log(ch[i]);
+		// 	console.log(ch[i].style.zIndex);
+		// }
+		// nav.style.webkitTransform = 'translateZ(10px) scale(1)';
+		// nav.style.zIndex = '10000';
+
 
 	};
 
