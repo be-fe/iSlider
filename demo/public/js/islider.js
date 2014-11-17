@@ -313,6 +313,8 @@ iSlider.prototype._renderHTML = function () {
 
 /**
  *  slide logical, goto data index
+ *  @param dataIndex number
+ *  @example slide.slideTo(9)
  */
 iSlider.prototype.slideTo = function (dataIndex) {
     var data = this.data;
