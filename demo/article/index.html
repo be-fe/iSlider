@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+<style>
+	body {
+	    margin: 0;
+	    padding: 0;
+	    overflow: hidden;
+	}
+
+	#iSlider-wrapper {
+	    height: 1000px;
+	    width: 100%;
+	    background: #eee;
+	    background-size: 100%;
+	    overflow: hidden;
+	    position: relative;
+	    -webkit-transition: all .3s;
+	    border: 2px #eee solid;
+	}
+
+	#iSlider-wrapper ul {
+	    list-style: none;
+	    margin: 0;
+	    padding: 0;
+	    height: 100%;
+	    overflow: hidden;
+	}
+
+	#iSlider-wrapper li {
+	    position: absolute;
+	    margin: 0;
+	    padding: 0;
+	    height: 100%;
+	    overflow: hidden;
+	    display: -webkit-box;
+	    -webkit-box-orient: vertical;
+	    -webkit-box-pack: center;
+	    -webkit-box-align: center;
+	    list-style: none;
+	}
+
+	#iSlider-wrapper li img {
+	    max-width: 100%;
+	    max-height: 100%;
+	}
+
+	#iSlider-show {
+	    position: absolute;
+	    top: 30px;
+	    bottom: 0;
+	    margin-left: auto;
+	    margin-right: auto;
+	    width: 100%;
+	    overflow: hidden;
+	    background-color: #ffffff;
+	    text-align: center;
+	}
+
+	#iSlider-nav {
+	    display: -webkit-box;
+	    background-color: #eee;
+	}
+
+	#iSlider-nav a{
+	    -webkit-box-flex: 1;
+	    -webkit-transition: all 0.5 ease;
+	    display: block;
+	    font-size: 12px;
+	    text-align: center;
+	    height: 30px;
+	    line-height: 30px;
+	}
+
+	#wrapper {
+		position: relative;
+		width: 300px;
+		height: 300px;
+		overflow: hidden;
+		/* Prevent native touch events on Windows */
+		-ms-touch-action: none;
+		/* Prevent the callout on tap-hold and text selection */
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		/* Prevent text resize on orientation change, useful for web-apps */
+		-webkit-text-size-adjust: none;
+		-moz-text-size-adjust: none;
+		-ms-text-size-adjust: none;
+		-o-text-size-adjust: none;
+		text-size-adjust: none;
+		text-align: left;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	#scroller {
+		position: absolute;
+		/* Prevent elements to be highlighted on tap */
+		-webkit-tap-highlight-color: rgba(0,0,0,0);
+		/* Put the scroller into the HW Compositing layer right from the start */
+		-webkit-transform: translateZ(0);
+		-moz-transform: translateZ(0);
+		-ms-transform: translateZ(0);
+		-o-transform: translateZ(0);
+		transform: translateZ(0);
+	}
+
+</style>
+
+</head>
+<body>
+<div id="iSlider-wrapper">
+	<div id="iSlider-nav">
+		<a>Home</a>
+		<a>Page1</a>
+		<a>Page2</a>
+		<a>Page3</a>
+		<a>Page4</a>
+		<a>Page5</a>
+	</div>
+	<div id="iSlider-show"> 
+
+	</div>
+		
+</div>
+	<script type="text/javascript" src="../public/js/islider.js"></script>
+	<script type="text/javascript" src="./iscroll.js"></script>
+	<script>
+		var list = [
+		{
+			'content' : '<div><h1>Home</h1><h2>This is home page</h2>'
+				+ '<div id="wrapper">'
+					+ '<div id="scroller">'
+						+ '<p><strong>This demo shows the minimum CSS/HTML/JS configuration you need to run the iScroll. Look at the source code for details.</strong></p>'
+
+						+ '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>'
+
+						+ '<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>'
+
+						+ '<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>'
+					+ '</div>'
+				+ '</div>'
+			+ '<div>'
+		},
+		{
+			'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+		},
+		{
+			'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+		},
+		{
+			'content' : '<div><h1>Page3</h1><h2>This is Page3</h2><p>Page3 is pretty awsome</p><div>'
+		},
+		{
+			'content' : '<div><h1>Page4</h1><h2>This is Page4</h2><p>Page4 is pretty awsome</p><div>'
+		},
+		{
+			'content' : '<div><h1>Page5</h1><h2>This is page5</h2><p>page5 is pretty awsome</p><div>'
+		}];
+
+
+		var tabs = document.getElementById('iSlider-nav').children;
+		tabs[0].style.background = '#666666';
+		var islider = new iSlider({
+		    data: list,
+		    type: 'dom',
+		    dom: document.getElementById("iSlider-show"),
+		    duration: 2000,
+		    isVertical: false,
+		    isLooping: true,
+		    isDebug: true,
+		    isAutoplay: false,
+		   	onslidechange: function(idx){
+		   		for(i = 0; i < tabs.length; i++){
+		   			if (i == idx){
+		   				tabs[i].style.background = '#666666';
+		   			}
+		   			else{
+		   				tabs[i].style.backgroundColor = '#fff';
+		   			}
+		   		}
+		   	}
+		});
+
+		for(i = 0; i < tabs.length; i++){
+			tabs[i].id = i;
+			tabs[i].addEventListener('click', function(e){
+				var idx = parseInt(e.target.id);
+				islider.slideTo(idx);
+			}, false);
+		}
+
+		var myScroll = new IScroll('#wrapper');
+
+		document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+	</script>
+</body>
+</html>
