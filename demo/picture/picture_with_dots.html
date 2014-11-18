@@ -48,7 +48,7 @@
 	<!-- Outer Canvas 外层画布 -->
 	<div id="iSlider-wrapper"></div>
 	<script src="../public/js/islider.js"></script>
-
+	<script type="text/javascript" src="../public/js/islider_index.js"></script>
 	<script>
 		var list = [
 			{
@@ -90,15 +90,27 @@
 				content:"./imgs/high/9.jpg"
 			},
 			];
-				
-		var	islider = new iSlider({
+		
+		var opts = {
 			type: 'pic',
 		    data: list,
 		    dom: document.getElementById("iSlider-wrapper"),
 		    isLooping: true,
 		    isOverspread: true,
 		    animateType: 'rotate',
-		});
+		    onslidechange: function(idx) {
+		    	islider.changeIndex();
+		    }
+		};
+		var	islider = new iSlider(opts);
+
+		opts.pointMenu = {
+			top: ' ',
+			width: '60%',
+			borderColor: '#333',
+		};
+
+		islider.renderIndex(opts);
 
 	</script>
 </body>
