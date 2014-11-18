@@ -9,6 +9,7 @@
 			padding: 0;
 			background: #fff;
 			overflow: hidden;
+			font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
 		}
 		/*ul wrapper*/
 		#iSlider-wrapper {
@@ -55,16 +56,18 @@
 		  	position: fixed;
 		  	top: 2.9166666666667rem;
 		  	right: 1.375rem;
-		  	z-index: 1000;
-		  	width: 5em;
-		  	height: 5em;
+		  	z-index: 10000;
+		  	width: 6.5em;
+		  	height: 6.5em;
+		  	font-size: 16px;
 		}
 		.media-wrap span {
 			float: left;
 		  	height: 4em;
 		  	width: 4em;
-		  	line-height: 4rem;
+		  	line-height: 3rem;
 		  	color: #fff;
+		  	font-size: 1em;
 		}
 		.media-wrap i {
 			width: 2.5em;
@@ -85,11 +88,10 @@
 			left: 0;
 			right: 0;
 			bottom: 5%;
-			/*top: 0;*/
 			margin: 0 auto;
 			background: url('./imgs/card/arrow.png') no-repeat;
 			background-size: cover;
-			z-index: 1000;
+			z-index: 10000;
 			opacity: 0.8;
 			-webkit-animation: nextPage 1.2s linear infinite;
 			-webkit-transform: rotate(10deg);
@@ -115,7 +117,7 @@
 	<!-- Outer Canvas 外层画布 -->
 	<div id="iSlider-wrapper"></div>
 	<aside class="media-wrap">
-		<span style="display: none;">关闭</span>
+		<span id="musicBtnTxt" style="display: none;">关闭</span>
 		<i id="musicBtn" class="music-btn on"></i>
 	</aside>
 	<audio src="./imgs/card/YouGotMe.mp3" autoplay="autoplay" loop="loop" id="autoplay"></audio>
@@ -179,16 +181,27 @@
 		    }
 		});
 
+		var audio = document.getElementById('autoplay');
+		var controller = document.getElementById('musicBtn');
+		var controllerHint = document.getElementById('musicBtnTxt');
+
 		document.getElementById('musicBtn').addEventListener('touchstart', function() {
-			var audio = document.getElementById('autoplay');
-			var controller = document.getElementById('musicBtn');
+
+			controllerHint.style.display = '';
 			if (audio.paused) {
 				audio.play();
 				controller.className = 'music-btn on';
+				controllerHint.innerHTML = '开始';
 			} else {
 				audio.pause();
 				controller.className = 'music-btn';
+				controllerHint.innerHTML = '关闭';
 			}
+
+			setTimeout(function() {
+				controllerHint.style.display = 'none';
+			}, 1000);
+
 		}, false);
 
 	</script>
