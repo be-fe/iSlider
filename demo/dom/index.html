@@ -66,12 +66,36 @@
 
 	#iSlider-nav a{
 	    -webkit-box-flex: 1;
-	    -webkit-transition: all 0.5 ease;
+	    -webkit-transition: all 0.5s ease;
 	    display: block;
 	    font-size: 12px;
 	    text-align: center;
 	    height: 30px;
 	    line-height: 30px;
+	    z-index: 2;
+	    position: relative;
+	}
+
+	#iSlider-nav span{
+		display: block;
+		height: 30px;
+		z-index: 1;
+		position: absolute;
+		left: 0;
+		top: 0;
+		background-color: rgba(255, 200, 200, 0.73);
+	}
+
+	#iSlider-show h1{
+		margin-top: 20%;
+	}
+
+	#iSlider-show h2{
+		margin-top: 10%;
+	}
+	
+	#iSlider-show p{
+		margin-top: 10%;
 	}
 
 </style>
@@ -80,6 +104,7 @@
 <body>
 <div id="iSlider-wrapper">
 	<div id="iSlider-nav">
+		<span class="bg"></span>
 		<a>Home</a>
 		<a>Page1</a>
 		<a>Page2</a>
@@ -93,8 +118,7 @@
 </div>
 	<script type="text/javascript" src="../public/js/islider.js"></script>
 	<script>
-		var list = [
-		{
+		var list = [{
 			'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
 		},
 		{
@@ -114,32 +138,33 @@
 		}];
 
 
-		var tabs = document.getElementById('iSlider-nav').children;
-		tabs[0].style.background = '#666666';
+		var tabs = document.getElementById('iSlider-nav').querySelectorAll('a');
+		var bg = document.getElementById('iSlider-nav').querySelector('span');
+		var scale = tabs[0].clientWidth;
+		bg.style.width = tabs[0].clientWidth + 'px';
+
 		var islider = new iSlider({
 		    data: list,
 		    type: 'dom',
 		    dom: document.getElementById("iSlider-show"),
 		    duration: 2000,
-		    isVertical: false,
 		    isLooping: true,
 		    isDebug: true,
 		    isAutoplay: false,
 		   	onslidechange: function(idx){
-		   		for(i = 0; i < tabs.length; i++){
-		   			if (i == idx){
-		   				tabs[i].style.background = '#666666';
-		   			}
-		   			else{
-		   				tabs[i].style.backgroundColor = '#fff';
-		   			}
-		   		}
+		   		bg.style.webkitTransition = 'left .3s ease';
+				bg.style.width = tabs[idx].clientWidth + 'px';
+		   		bg.style.left = tabs[idx].offsetLeft + 'px';
+		   	},
+		   	onslide: function(offset){
+		   		bg.style.webkitTransition = 'none';
+		   		bg.style.left = tabs[this.slideIndex].offsetLeft - (offset/this.scale * scale) + 'px';
 		   	}
 		});
 
-		for(i = 0; i < tabs.length; i++){
+		for (i = 0; i < tabs.length; i++) {
 			tabs[i].id = i;
-			tabs[i].addEventListener('click', function(e){
+			tabs[i].addEventListener('click', function(e) {
 				var idx = parseInt(e.target.id);
 				islider.slideTo(idx);
 			}, false);
