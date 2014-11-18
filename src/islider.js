@@ -44,7 +44,7 @@ iSlider.prototype._setting = function () {
     // Play time gap
     this.duration = opts.duration || 2000;
     // start from 0
-    this.sliderIndex = this.sliderIndex || 0;
+    this.slideIndex = this.slideIndex || 0;
 
     this.axis = this.isVertical ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
@@ -297,9 +297,9 @@ iSlider.prototype._renderHTML = function () {
         // prepare style animation
         this._animateFunc(li, this.axis, this.scale, i, 0);
         if (this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
-            this._renderItem(li, 1 - i + this.sliderIndex);
+            this._renderItem(li, 1 - i + this.slideIndex);
         } else {
-            this._renderItem(li, i - 1 + this.sliderIndex);
+            this._renderItem(li, i - 1 + this.slideIndex);
         }
         outer.appendChild(li);
     }
@@ -318,7 +318,8 @@ iSlider.prototype.slideTo = function (dataIndex) {
     var data = this.data;
     var els = this.els;
     var idx = dataIndex;
-    var n = dataIndex - this.sliderIndex;
+    var n = dataIndex - this.slideIndex;
+    
 
     if (Math.abs(n) > 1) {
         var nextEls = n > 0 ? this.els[2] : this.els[0]
@@ -327,17 +328,17 @@ iSlider.prototype.slideTo = function (dataIndex) {
 
     // get right item of data
     if (data[idx]) {
-        this.sliderIndex = idx;
+        this.slideIndex = idx;
     } else {
         if (this.isLooping) {
-            this.sliderIndex = n > 0 ? 0 : data.length - 1;
+            this.slideIndex = n > 0 ? 0 : data.length - 1;
         } else {
-            this.sliderIndex = this.sliderIndex;
+            this.slideIndex = this.slideIndex;
             n = 0;
         }
     }
 
-    this.log('pic idx:' + this.sliderIndex);
+    this.log('pic idx:' + this.slideIndex);
 
     // keep the right order of items
     var sEle;
@@ -375,7 +376,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
             sEle.style.visibility = 'visible';
         }, 200);
 
-        this.onslidechange && this.onslidechange(this.sliderIndex);
+        this.onslidechange && this.onslidechange(this.slideIndex);
     } 
 
     // do the trick animation
@@ -387,7 +388,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
     }
 
     // stop playing when meet the end of data
-    if (this.isAutoplay && !this.isLooping && this.sliderIndex === data.length - 1) {
+    if (this.isAutoplay && !this.isLooping && this.slideIndex === data.length - 1) {
         this.pause();
     }
 };
@@ -421,16 +422,17 @@ iSlider.prototype._bindHandler = function() {
     var moveHandler = function (evt) {
         if (isMoving) {
             evt.preventDefault();
-            self.onslide && self.onslide();
-            self.log('Event: onslide');
 
             var len = self.data.length;
             var axis = self.axis;
             var currentPoint = hasTouch ? evt.targetTouches[0]['page' + axis] : evt['page' + axis];
             var offset = currentPoint - self['start' + axis];
 
+            self.onslide && self.onslide.call(self, offset);
+            self.log('Event: onslide');
+
             if (!self.isLooping) {
-                if (offset > 0 && self.sliderIndex === 0 || offset < 0 && self.sliderIndex === len - 1) {
+                if (offset > 0 && self.slideIndex === 0 || offset < 0 && self.slideIndex === len - 1) {
                     offset = self._damping(offset);
                 }
             }
@@ -456,11 +458,11 @@ iSlider.prototype._bindHandler = function() {
         // a quick slide should also slide at least 14 px
         boundary = endTime - self.startTime > 300 ? boundary : 14;
         if (metric >= boundary) {
-            self.slideTo(self.sliderIndex - 1);
+            self.slideTo(self.slideIndex - 1);
         } else if (metric < -boundary) {
-            self.slideTo(self.sliderIndex + 1);
+            self.slideTo(self.slideIndex + 1);
         } else {
-            self.slideTo(self.sliderIndex);
+            self.slideTo(self.slideIndex);
         }
 
         self.offset = 0;
@@ -497,7 +499,7 @@ iSlider.prototype.play = function() {
     var duration = this.duration;
     clearInterval(this.autoPlayTimer);
     this.autoPlayTimer = setInterval(function () {
-        self.slideTo(self.sliderIndex + 1);
+        self.slideTo(self.slideIndex + 1);
     }, duration);
 };
 
