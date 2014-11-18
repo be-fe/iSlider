@@ -169,10 +169,10 @@ var domList = [
 
 // adjust image size based on window screen width
 var content = document.getElementById('iSlider-content');
+var showWrappper = document.getElementById('iSlider-wrapper');
 var show = document.getElementById('iSlider-show');
 
 var nav = document.getElementById('iSlider-nav');
-nav.style.zIndex = '10000';
 
 //option list
 var optionSubMenuWrap = document.getElementById('iSlider-option');
@@ -187,7 +187,6 @@ var menuList = document.getElementById('option-menu');
 // dom tabs
 var tabWrapper = document.getElementById('iSlider-dom-nav');
 var tabs = document.getElementById('iSlider-dom-nav').children;
-tabWrapper.style.zIndex = '10000';
 
 var winH = window.innerHeight;
 var winW = window.innerWidth;
@@ -197,13 +196,14 @@ var optionMenuToggle = 0;
 // slide option
 menuList.addEventListener('click', function() {
 	if (optionMenuToggle === 0) {
-		show.style.marginLeft = '310px';
-		nav.style.marginLeft = '0';
+		showWrappper.style.left = '310px';
+		nav.style.left = '310px';
 		optionMenuToggle = 1;
+		showWrappper.style.backgroundColor = '';
 	}
 	else {
-		show.style.marginLeft = '0';
-		nav.style.marginLeft = '0';
+		showWrappper.style.left = '0';
+		nav.style.left = '0';
 		optionMenuToggle = 0;
 	}
 }, false);
@@ -303,18 +303,6 @@ function changeData() {
 		}
 
 		islider.reset();
-		
-		// var ch = show.children[2].children;
-		// for (var i = 0; i < ch.length; i++) {
-		// 	ch[i].style.zIndex = '-1';
-		// 	ch[i].style.webkitTransform = 'translateZ(0)';
-		// 	console.log(ch[i]);
-		// 	console.log(ch[i].style.zIndex);
-		// }
-		// nav.style.webkitTransform = 'translateZ(10px) scale(1)';
-		// nav.style.zIndex = '10000';
-
-
 	};
 
 	// change type dom | pic

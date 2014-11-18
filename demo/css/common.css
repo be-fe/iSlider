@@ -17,20 +17,18 @@ body {
     height: 100%;
     width: 100%;
     overflow: hidden;
-    z-index: -1;
 }
 
 #iSlider-dom-nav {
     display: none;
     position: absolute;
     width: 100%;
-    height: 20px;
+    height: 25px;
     margin-top: 30px;
     text-align: left;
-    pointer-events: auto;
     background-color: #ffffff;
     cursor: pointer;
-    z-index: 10000;
+    z-index: 100;
 }
 
 #iSlider-dom-nav a {
@@ -45,12 +43,11 @@ body {
     position: absolute;
     width: 100%;
     background-color: #2980b9;
-    z-index: 10000;
 }
 
 #iSlider-nav a{
     position: relative;
-    height: 30px;
+    height: 35px;
     -webkit-box-flex: 1;
     -webkit-transition: all 0.5 ease;
     display: inline-block;
@@ -104,14 +101,19 @@ body {
     background-color: #f1c40f;
 }
 
-.iSlider-show {
+#iSlider-wrapper {
     position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.iSlider-show {
     position: absolute;
     height: 100%;
     width: 100%;
     overflow: hidden;
     background-color: #333;
-    z-index: -1;
 }
 
 #iSlider-show ul {
@@ -120,7 +122,6 @@ body {
     padding: 0;
     height: 100%;
     overflow: hidden;
-    z-index: -1;
 }
 
 #iSlider-show li {
@@ -134,19 +135,16 @@ body {
     -webkit-box-pack: center;
     -webkit-box-align: center;
     list-style: none;
-    z-index: -1;
 }
 
 #iSlider-show ul li img {
     max-width: 100%;
     max-height: 100%;
-    z-index: -1;
 }
 
 #iSlider-show ul li div {
     max-width: 100%;
     max-height: 100%;
-    z-index: -1;
 }
 
 
@@ -156,12 +154,10 @@ body {
     width: 100%;
     overflow: hidden;
     background: #7a9dbb;
-    pointer-events: auto;
-    z-index: -1;
 }
 
 #iSlider-option ul {
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 #iSlider-option ul li {
