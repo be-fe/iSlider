@@ -271,7 +271,7 @@ iSlider.prototype._renderItem = function (el, i) {
         }
     } 
     else if (this.type === 'dom') {
-        html = '<div style="height: 100%; width: 100%;">' + item.content + '</div>';
+        html = item.content;
     }
 
     html && (el.innerHTML = html);
@@ -319,7 +319,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
     var els = this.els;
     var idx = dataIndex;
     var n = dataIndex - this.slideIndex;
-    
+
 
     if (Math.abs(n) > 1) {
         var nextEls = n > 0 ? this.els[2] : this.els[0]
@@ -428,7 +428,7 @@ iSlider.prototype._bindHandler = function() {
             var currentPoint = hasTouch ? evt.targetTouches[0]['page' + axis] : evt['page' + axis];
             var offset = currentPoint - self['start' + axis];
 
-            self.onslide && self.onslide.call(self, offset);
+            self.onslide && self.onslide(offset);
             self.log('Event: onslide');
 
             if (!self.isLooping) {
@@ -467,7 +467,7 @@ iSlider.prototype._bindHandler = function() {
 
         self.offset = 0;
         self.isAutoplay && self.play();
-        self.onslideend && self.onslideend();
+        self.onslideend && self.onslideend(self.slideIndex);
         self.log('Event: afterslide');
     };
 
