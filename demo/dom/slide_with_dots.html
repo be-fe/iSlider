@@ -81,6 +81,7 @@
 <body>
 	<div id="iSlider"></div>
 	<script type="text/javascript" src="../public/js/islider.js"></script>
+	<script type="text/javascript" src="../public/js/islider_index.js"></script>
 	<script>
 		var list = [{
 			'content' : '<div class="content home"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
@@ -100,13 +101,30 @@
 		{
 			'content' : '<div class="content page5"><h1>Page5</h1><h2>This is page5</h2><p>page5 is pretty awsome</p><div>'
 		}];
-		var islider = new iSlider({
+
+		var opts = {
 		    data: list,
 		    type: 'dom',
 		    dom: document.getElementById("iSlider"),
 		    duration: 1000,
-		    isVertical: true
-		});
+		    isVertical: true,
+		    onslidechange: function(idx) {
+		    	islider.changeIndex();
+		    }
+		};
+
+		var islider = new iSlider(opts);
+
+		var menuOpt = {
+			isVertical: true,
+			left: ' ',
+			right: '0',
+			height: '20%',
+			borderColor: '#777',
+			diameter: '0.5em'
+		};
+
+		islider.renderIndex(menuOpt);
 	</script>
 </body>
 </html>

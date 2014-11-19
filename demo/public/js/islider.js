@@ -321,7 +321,6 @@ iSlider.prototype.slideTo = function (dataIndex) {
     var idx = dataIndex;
     var n = dataIndex - this.slideIndex;
 
-
     if (Math.abs(n) > 1) {
         var nextEls = n > 0 ? this.els[2] : this.els[0]
         this._renderItem(nextEls, idx);
@@ -340,7 +339,6 @@ iSlider.prototype.slideTo = function (dataIndex) {
     }
 
     this.log('pic idx:' + this.slideIndex);
-
     // keep the right order of items
     var sEle;
     if (this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
@@ -422,7 +420,7 @@ iSlider.prototype._bindHandler = function() {
 
     var moveHandler = function (evt) {
         if (isMoving) {
-            evt.preventDefault();
+            // evt.preventDefault();
 
             var len = self.data.length;
             var axis = self.axis;

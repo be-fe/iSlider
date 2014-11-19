@@ -1,53 +1,95 @@
+/**
+ * iSlider Dots Plugin
+ * A simple, efficent mobile slider
+ * @Author BEFE
+ *
+ * @param {Object}      menuOpts                参数集         Options
+ * @param {Boolean}     menuOpts.isVertical     垂直/居中      Veritcal/Horizontal     
+ * @param {String}      menuOpts.width          宽度           width
+ * @param {String}      menuOpts.height         高度           height
+ * @param {String}      menuOpts.top            距高           top position
+ * @param {String}      menuOpts.bottom         距底           bottom position
+ * @param {String}      menuOpts.left           距左           left position
+ * @param {String}      menuOpts.right          距右           right position
+ * @param {String}      menuOpts.diameter       直径           diameter of points
+ * @param {String}      menuOpts.borderColor    边框颜色        color of border
+ * @class
+ */
 iSlider.prototype.extend({
-    renderIndex: function(indexOpts) {
-        if (this.type !== 'dom') {
-            indexOpts = indexOpts || {};
-            var data = this.data;
-            var len = data.length;
-            var wrap = this.wrap;
-            var pointList = [];
+    renderIndex: function(menuOpts) {
 
-            var indexLayer = document.createElement('ul');
-            indexLayer.style.margin = 0;
-            indexLayer.style.width = '60%';
-            indexLayer.style.left = '50%';
-            indexLayer.style.height = '10%';
+        this.menuOpts = menuOpts || {};
+        var pointMenuOpt = this.menuOpts || {};
+        var data = this.data;
+        var len = data.length;
+        var wrap = this.wrap;
+        var pointList = [];
+
+        var indexLayer = document.createElement('ul');
+        indexLayer.style.margin = 0;
+        if (pointMenuOpt.isVertical && pointMenuOpt.isVertical === true) {
+            indexLayer.style.width = pointMenuOpt.width || '10%';
+            indexLayer.style.height = pointMenuOpt.height || '50%';
+            indexLayer.style.marginTop = 'auto';
+            indexLayer.style.marginBottom = 'auto';
+        }
+        else {
+            indexLayer.style.width = pointMenuOpt.width || '50%';
+            indexLayer.style.height = pointMenuOpt.height || '10%';
+            indexLayer.style.marginLeft = 'auto';
+            indexLayer.style.marginRight = 'auto';
             indexLayer.style.textAlign = 'center';
-            indexLayer.style.position = 'absolute';
-            indexLayer.style.bottom = 0;
-            indexLayer.style.marginLeft = '-30%';
-            indexLayer.style.zIndex = '1000000';
+        }
 
-            wrap.appendChild(indexLayer);
+        indexLayer.style.padding = '0';
+        indexLayer.style.position = 'absolute';
+        indexLayer.style.left = pointMenuOpt.left || '0';
+        indexLayer.style.right = pointMenuOpt.right || '0';
+        indexLayer.style.top = pointMenuOpt.top || '0';
+        indexLayer.style.bottom = pointMenuOpt.bottom || '0';
 
-            var fragment = document.createDocumentFragment();
-            for (var i = 0; i < len; i++) {
-                var point = document.createElement('li');
+        indexLayer.style.zIndex = '10000';
 
-                point.style.height = '10px';
-                point.style.width = '10px';
-                point.style.borderRadius = '50%';
-                point.style.border = '1px solid #fff';
+        wrap.parentNode.insertBefore(indexLayer, wrap.nextSibling);
+        var fragment = document.createDocumentFragment();
+        for (var i = 0; i < len; i++) {
+            var point = document.createElement('li');
+            point.id = 'point' + i;
+            point.style.height = pointMenuOpt.diameter || '1em';
+            point.style.width = pointMenuOpt.diameter || '1em';
+            point.style.borderRadius = '50%';
+            point.style.border = '1px solid';
+            point.style.borderColor = pointMenuOpt.borderColor || '#fff';
+            point.style.listStyleType = 'none';
+            point.style.position = 'relative';
+            point.style.margin = '5px';
+
+            if (pointMenuOpt.isVertical && pointMenuOpt.isVertical === true) {
+                point.style.display = 'block';
+            }
+            else {
                 point.style.display = 'inline-block';
-                point.style.position = 'relative';
-                point.style.margin = '5px';
-
-                pointList.push(point);
-
-                if (i === 0) {
-                    point.style.backgroundColor = 'white';
-                }
-
-                fragment.appendChild(point);
             }
 
-            indexLayer.appendChild(fragment);
-            this.pointList = pointList;
+            pointList.push(point);
+
+            if (i === 0) {
+                point.style.backgroundColor = pointMenuOpt.borderColor || '#fff';
+            }
+            point.self = this;
+            point.addEventListener('touchstart', this.bindTouchEvent, false);
+            point.addEventListener('click', this.bindTouchEvent, false);
+            fragment.appendChild(point);
         }
+
+        indexLayer.appendChild(fragment);
+        this.pointList = pointList;
     },
 
     changeIndex: function() {
-        var idx = this.sliderIndex;
+
+        var pointMenuOpt = this.menuOpts || {};
+        var idx = this.slideIndex;
         var data = this.data;
         var len = data.length;
         var pointList = this.pointList;
@@ -55,9 +97,14 @@ iSlider.prototype.extend({
         for (var i = 0; i < len; i++) {
             pointList[i].style.backgroundColor = '';
             if (i === idx) {
-                pointList[i].style.backgroundColor = 'white';
+                pointList[i].style.backgroundColor = pointMenuOpt.borderColor || '#fff';
             }
         }
-    }
+    },
 
+    bindTouchEvent: function(evt) {
+        var self = this.self;
+        var idx = parseInt(evt.target.id.substring(5));
+        self.slideTo(idx);
+    }
 });
