@@ -467,6 +467,7 @@ iSlider.prototype._bindHandler = function() {
             self.slideTo(self.slideIndex);
         }
 
+        // create tap event if metric < 10
         if (metric < 10) {
             self.tapEvt = document.createEvent('Event');
             self.tapEvt.initEvent('isliderTap', true, true);
