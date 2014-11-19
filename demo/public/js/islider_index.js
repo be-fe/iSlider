@@ -13,6 +13,7 @@
  * @param {String}      menuOpts.right          距右           right position
  * @param {String}      menuOpts.diameter       直径           diameter of points
  * @param {String}      menuOpts.borderColor    边框颜色        color of border
+ * @param {String}      menuOpts.className      CSS类          css class
  * @class
  */
 iSlider.prototype.extend({
@@ -27,6 +28,7 @@ iSlider.prototype.extend({
 
         var indexLayer = document.createElement('ul');
         indexLayer.style.margin = 0;
+        indexLayer.className = pointMenuOpt.className || '';
         if (pointMenuOpt.isVertical && pointMenuOpt.isVertical === true) {
             indexLayer.style.width = pointMenuOpt.width || '10%';
             indexLayer.style.height = pointMenuOpt.height || '50%';
