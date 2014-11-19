@@ -60,6 +60,8 @@ iSlider.prototype._setting = function () {
     this.onslideend = opts.onslideend;
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
+    // Callback function when the tap outer
+    this.tapHandler = opts.tapHandler;
 
     // looping logic adjust
     if (this.data.length < 2) {
@@ -465,6 +467,15 @@ iSlider.prototype._bindHandler = function() {
             self.slideTo(self.slideIndex);
         }
 
+        if (metric < 10) {
+            self.tapEvt = document.createEvent('Event');
+            self.tapEvt.initEvent('isliderTap', true, true);
+
+            if (!evt.target.dispatchEvent(self.tapEvt)) {
+                evt.preventDefault();
+            }
+        }
+
         self.offset = 0;
         self.isAutoplay && self.play();
         self.onslideend && self.onslideend(self.slideIndex);
@@ -481,6 +492,7 @@ iSlider.prototype._bindHandler = function() {
     outer.addEventListener(startEvt, startHandler);
     outer.addEventListener(moveEvt, moveHandler);
     outer.addEventListener(endEvt, endHandler);
+    outer.addEventListener('isliderTap', self.tapHandler);
     window.addEventListener('orientationchange', orientationchangeHandler);
 };
 
