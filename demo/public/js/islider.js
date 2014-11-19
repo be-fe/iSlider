@@ -63,6 +63,9 @@ iSlider.prototype._setting = function () {
     // Callback function when the tap outer
     this.tapHandler = opts.tapHandler;
 
+    this.offset = this.offset || 0;
+    this.otherOffset = this.otherOffset || 0;
+
     // looping logic adjust
     if (this.data.length < 2) {
         this.isLooping = false;
@@ -430,6 +433,10 @@ iSlider.prototype._bindHandler = function() {
             var currentPoint = hasTouch ? evt.targetTouches[0]['page' + axis] : evt['page' + axis];
             var offset = currentPoint - self['start' + axis];
 
+            var otherAxis = (self.axis === 'X') ? 'Y' : 'X';
+            var otherPoint = hasTouch ? evt.targetTouches[0]['page' + otherAxis] : evt['page' + otherAxis];
+            var otherOffset = otherPoint - self['start' + otherAxis];
+
             self.onslide && self.onslide(offset);
             self.log('Event: onslide');
 
@@ -446,6 +453,7 @@ iSlider.prototype._bindHandler = function() {
             }
 
             self.offset = offset;
+            self.otherOffset = otherOffset;
         }
     };
 
@@ -468,7 +476,7 @@ iSlider.prototype._bindHandler = function() {
         }
 
         // create tap event if metric < 10
-        if (metric < 10) {
+        if (Math.abs(metric) < 10 && Math.abs(self.otherOffset) < 10) {
             self.tapEvt = document.createEvent('Event');
             self.tapEvt.initEvent('isliderTap', true, true);
 
@@ -478,6 +486,7 @@ iSlider.prototype._bindHandler = function() {
         }
 
         self.offset = 0;
+        self.otherOffset = 0;
         self.isAutoplay && self.play();
         self.onslideend && self.onslideend(self.slideIndex);
         self.log('Event: afterslide');
