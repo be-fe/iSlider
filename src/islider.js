@@ -339,7 +339,6 @@ iSlider.prototype.slideTo = function (dataIndex) {
     }
 
     this.log('pic idx:' + this.slideIndex);
-    console.log("!!");
 
     // keep the right order of items
     var sEle;
