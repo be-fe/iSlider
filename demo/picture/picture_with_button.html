@@ -40,6 +40,30 @@
 			max-width: 100%;
 			max-height: 100%;
 		}
+		.iSlider-btn {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			margin-top: auto;
+			margin-bottom: auto;
+			width: 2em;
+			height: 2em;
+			cursor: pointer;
+		}
+
+		#iSlider-btn-left {
+			left: 5%;
+			border-top: 2px solid #fff;
+			border-left: 2px solid #fff;
+			-webkit-transform: rotate(-45deg);
+		}
+
+		#iSlider-btn-right {
+			right: 5%;
+			border-top: 2px solid #fff;
+			border-right: 2px solid #fff;
+			-webkit-transform: rotate(45deg);
+		}
 
 	</style>
 </head>
@@ -47,8 +71,10 @@
 <body>
 	<!-- Outer Canvas 外层画布 -->
 	<div id="iSlider-wrapper"></div>
+	<div id="iSlider-btn-left" class="iSlider-btn"></div>
+	<div id="iSlider-btn-right" class="iSlider-btn"></div>
 	<script src="../public/js/islider.js"></script>
-	<script type="text/javascript" src="../public/js/islider_index.js"></script>
+
 	<script>
 		var list = [
 			{
@@ -90,28 +116,25 @@
 				content:"./imgs/high/9.jpg"
 			},
 			];
-		
-		var opts = {
+				
+		var	islider = new iSlider({
 			type: 'pic',
 		    data: list,
 		    dom: document.getElementById("iSlider-wrapper"),
 		    isLooping: true,
-		    isOverspread: true,
-		    animateType: 'rotate',
-		    onslidechange: function(idx) {
-		    	islider.changeIndex();
-		    }
-		};
-		var	islider = new iSlider(opts);
+		    animateType: 'default',
+		});
 
-		var menuOpt = {
-			top: ' ',
-			width: '60%',
-			diameter: '0.5em',
-			borderColor: '#333',
-		};
+		var leftBtn = document.getElementById('iSlider-btn-left');
+		var rightBtn = document.getElementById('iSlider-btn-right');
 
-		islider.renderIndex(menuOpt);
+		leftBtn.addEventListener('touchstart', function() {
+			islider.slideTo(islider.slideIndex - 1);
+		}, false);
+
+		rightBtn.addEventListener('touchstart', function() {
+			islider.slideTo(islider.slideIndex + 1);
+		}, false);
 
 	</script>
 </body>

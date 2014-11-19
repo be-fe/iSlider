@@ -81,32 +81,32 @@
 		    	-webkit-transform: rotateZ(-360deg);
 		  	}
 		}
+		/* Arrow */
 		#iSlider-arrow {
 			position: absolute;
-			width: 102px;
-			height: 53px;
+			width: 3em;
+			height: 3em;
 			left: 0;
 			right: 0;
 			bottom: 5%;
 			margin: 0 auto;
-			background: url('./imgs/card/arrow.png') no-repeat;
-			background-size: cover;
+			border-top: 2px solid #fff;
+			border-right: 2px solid #fff;
 			z-index: 10000;
 			opacity: 0.8;
 			-webkit-animation: nextPage 1.2s linear infinite;
-			-webkit-transform: rotate(10deg);
 		}
 		@-webkit-keyframes nextPage {
 		  	0% {
-		    	-webkit-transform: translateY(40px);
+		    	-webkit-transform: translateY(40px) rotate(-45deg);
 		    	opacity: 0.8;
 		  	}
 		  	50% {
-		  		-webkit-transform: translateY(20px);
+		  		-webkit-transform: translateY(20px) rotate(-45deg);
 		  		opacity: 0.4;
 		  	}
 		  	100% {
-		    	-webkit-transform: translateY(10px);
+		    	-webkit-transform: translateY(10px) rotate(-45deg);
 		    	opacity: 0;
 		  	}
 		}
