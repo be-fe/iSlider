@@ -10,7 +10,6 @@
  * @class
  */
 
-
 'use strict';
 
 var iSlider = function (opts) {
