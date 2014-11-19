@@ -14,7 +14,7 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 * 支持桌面鼠标动作，方便测试
 * 支持图片预加载，改善用户体验
 
-<h2 id="demo">iSlider展示</h2>
+<h2 id="demo">iSlider移动端展示</h2>
 
 <img width="150px" height="150px" src="qrcode.png"/>
 
