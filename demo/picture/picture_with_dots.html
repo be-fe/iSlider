@@ -48,7 +48,7 @@
 	<!-- Outer Canvas 外层画布 -->
 	<div id="iSlider-wrapper"></div>
 	<script src="../public/js/islider.js"></script>
-	<script type="text/javascript" src="../public/js/islider_index.js"></script>
+	<script type="text/javascript" src="../public/js/islider_plugin.js"></script>
 	<script>
 		var list = [
 			{
@@ -97,21 +97,21 @@
 		    dom: document.getElementById("iSlider-wrapper"),
 		    isLooping: true,
 		    isOverspread: true,
-		    animateType: 'rotate',
+		    animateType: 'default',
 		    onslidechange: function(idx) {
-		    	islider.changeIndex();
+		    	islider.changeIndexDot();
 		    }
 		};
 		var	islider = new iSlider(opts);
 
-		var menuOpt = {
+		var dotOpt = {
 			top: ' ',
 			width: '60%',
-			diameter: '0.5em',
-			borderColor: '#333',
+			diameter: '1em',
+			borderColor: '#fff',
 		};
 
-		islider.renderIndex(menuOpt);
+		islider.renderDot(dotOpt);
 
 	</script>
 </body>

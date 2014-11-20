@@ -71,9 +71,10 @@
 <body>
 	<!-- Outer Canvas 外层画布 -->
 	<div id="iSlider-wrapper"></div>
-	<div id="iSlider-btn-left" class="iSlider-btn"></div>
-	<div id="iSlider-btn-right" class="iSlider-btn"></div>
+	<!-- <div id="iSlider-btn-left" class="iSlider-btn"></div>
+	<div id="iSlider-btn-right" class="iSlider-btn"></div> -->
 	<script src="../public/js/islider.js"></script>
+	<script src="../public/js/islider_plugin.js"></script>
 
 	<script>
 		var list = [
@@ -121,20 +122,24 @@
 			type: 'pic',
 		    data: list,
 		    dom: document.getElementById("iSlider-wrapper"),
-		    isLooping: true,
+		    isLooping: false,
+		    isVertical: false,
 		    animateType: 'default',
+		    onslidechange: function(idx) {
+		    	islider.changeIndexBtn();
+		    }
 		});
 
-		var leftBtn = document.getElementById('iSlider-btn-left');
-		var rightBtn = document.getElementById('iSlider-btn-right');
+		var btnOpt = {
+			isLooping: false,
+			isVertical: false,
+			width: '3em',
+			height: '3em',
+			backgroundColor: '#777',
+			border: '2px solid #fff'
+		};
 
-		leftBtn.addEventListener('touchstart', function() {
-			islider.slideTo(islider.slideIndex - 1);
-		}, false);
-
-		rightBtn.addEventListener('touchstart', function() {
-			islider.slideTo(islider.slideIndex + 1);
-		}, false);
+		islider.renderBtn(btnOpt);
 
 	</script>
 </body>
