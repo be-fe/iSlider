@@ -3,24 +3,23 @@
  * A simple, efficent mobile slider
  * @Author BEFE
  *
- * @param {Object}      menuOpts                参数集         Options
- * @param {Boolean}     menuOpts.isVertical     垂直/居中      Veritcal/Horizontal     
- * @param {String}      menuOpts.width          宽度           width
- * @param {String}      menuOpts.height         高度           height
- * @param {String}      menuOpts.top            距高           top position
- * @param {String}      menuOpts.bottom         距底           bottom position
- * @param {String}      menuOpts.left           距左           left position
- * @param {String}      menuOpts.right          距右           right position
- * @param {String}      menuOpts.diameter       直径           diameter of points
- * @param {String}      menuOpts.borderColor    边框颜色        color of border
- * @param {String}      menuOpts.className      CSS类          css class
+ * @param {Object}      dotMenuOpts                参数集         Options
+ * @param {Boolean}     dotMenuOpts.isVertical     垂直/居中      Veritcal/Horizontal     
+ * @param {String}      dotMenuOpts.width          宽度           width
+ * @param {String}      dotMenuOpts.height         高度           height
+ * @param {String}      dotMenuOpts.top            距高           top position
+ * @param {String}      dotMenuOpts.bottom         距底           bottom position
+ * @param {String}      dotMenuOpts.left           距左           left position
+ * @param {String}      dotMenuOpts.right          距右           right position
+ * @param {String}      dotMenuOpts.diameter       直径           diameter of points
+ * @param {String}      dotMenuOpts.borderColor    边框颜色        color of border
+ * @param {String}      dotMenuOpts.className      CSS类          css class
  * @class
  */
 iSlider.prototype.extend({
-    renderIndex: function(menuOpts) {
+    renderIndex: function(dotMenuOpts) {
 
-        this.menuOpts = menuOpts || {};
-        var pointMenuOpt = this.menuOpts || {};
+        this.dotMenuOpts = dotMenuOpts || {};
         var data = this.data;
         var len = data.length;
         var wrap = this.wrap;
@@ -28,16 +27,16 @@ iSlider.prototype.extend({
 
         var indexLayer = document.createElement('ul');
         indexLayer.style.margin = 0;
-        indexLayer.className = pointMenuOpt.className || '';
-        if (pointMenuOpt.isVertical && pointMenuOpt.isVertical === true) {
-            indexLayer.style.width = pointMenuOpt.width || '10%';
-            indexLayer.style.height = pointMenuOpt.height || '50%';
+        indexLayer.className = this.dotMenuOpts.className || '';
+        if (this.dotMenuOpts.isVertical && this.dotMenuOpts.isVertical === true) {
+            indexLayer.style.width = this.dotMenuOpts.width || '10%';
+            indexLayer.style.height = this.dotMenuOpts.height || '50%';
             indexLayer.style.marginTop = 'auto';
             indexLayer.style.marginBottom = 'auto';
         }
         else {
-            indexLayer.style.width = pointMenuOpt.width || '50%';
-            indexLayer.style.height = pointMenuOpt.height || '10%';
+            indexLayer.style.width = this.dotMenuOpts.width || '50%';
+            indexLayer.style.height = this.dotMenuOpts.height || '10%';
             indexLayer.style.marginLeft = 'auto';
             indexLayer.style.marginRight = 'auto';
             indexLayer.style.textAlign = 'center';
@@ -45,10 +44,10 @@ iSlider.prototype.extend({
 
         indexLayer.style.padding = '0';
         indexLayer.style.position = 'absolute';
-        indexLayer.style.left = pointMenuOpt.left || '0';
-        indexLayer.style.right = pointMenuOpt.right || '0';
-        indexLayer.style.top = pointMenuOpt.top || '0';
-        indexLayer.style.bottom = pointMenuOpt.bottom || '0';
+        indexLayer.style.left = this.dotMenuOpts.left || '0';
+        indexLayer.style.right = this.dotMenuOpts.right || '0';
+        indexLayer.style.top = this.dotMenuOpts.top || '0';
+        indexLayer.style.bottom = this.dotMenuOpts.bottom || '0';
 
         indexLayer.style.zIndex = '10000';
 
@@ -57,16 +56,16 @@ iSlider.prototype.extend({
         for (var i = 0; i < len; i++) {
             var point = document.createElement('li');
             point.id = 'point' + i;
-            point.style.height = pointMenuOpt.diameter || '1em';
-            point.style.width = pointMenuOpt.diameter || '1em';
+            point.style.height = this.dotMenuOpts.diameter || '1em';
+            point.style.width = this.dotMenuOpts.diameter || '1em';
             point.style.borderRadius = '50%';
             point.style.border = '1px solid';
-            point.style.borderColor = pointMenuOpt.borderColor || '#fff';
+            point.style.borderColor = this.dotMenuOpts.borderColor || '#fff';
             point.style.listStyleType = 'none';
             point.style.position = 'relative';
             point.style.margin = '5px';
 
-            if (pointMenuOpt.isVertical && pointMenuOpt.isVertical === true) {
+            if (this.dotMenuOpts.isVertical && this.dotMenuOpts.isVertical === true) {
                 point.style.display = 'block';
             }
             else {
@@ -76,7 +75,7 @@ iSlider.prototype.extend({
             pointList.push(point);
 
             if (i === 0) {
-                point.style.backgroundColor = pointMenuOpt.borderColor || '#fff';
+                point.style.backgroundColor = this.dotMenuOpts.borderColor || '#fff';
             }
             point.self = this;
             point.addEventListener('touchstart', this.bindTouchEvent, false);
@@ -90,7 +89,6 @@ iSlider.prototype.extend({
 
     changeIndex: function() {
 
-        var pointMenuOpt = this.menuOpts || {};
         var idx = this.slideIndex;
         var data = this.data;
         var len = data.length;
@@ -99,7 +97,7 @@ iSlider.prototype.extend({
         for (var i = 0; i < len; i++) {
             pointList[i].style.backgroundColor = '';
             if (i === idx) {
-                pointList[i].style.backgroundColor = pointMenuOpt.borderColor || '#fff';
+                pointList[i].style.backgroundColor = this.dotMenuOpts.borderColor || '#fff';
             }
         }
     },
