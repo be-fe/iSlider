@@ -277,7 +277,7 @@ iSlider.prototype._renderItem = function (el, i) {
         }
     } 
     else if (this.type === 'dom') {
-        html = item.content;
+        html = '<div style="height:100%; width:100%">'+ item.content + '</div>';
     }
 
     html && (el.innerHTML = html);
@@ -427,32 +427,34 @@ iSlider.prototype._bindHandler = function() {
 
     var moveHandler = function (evt) {
         if (isMoving) {
-            evt.preventDefault();
-
             var len = self.data.length;
             var axis = self.axis;
             var offsetX = hasTouch ? (evt.targetTouches[0]['pageX'] - self.startX) : (evt['pageX'] - self.startX);
             var offsetY = hasTouch ? (evt.targetTouches[0]['pageY'] - self.startY) : (evt['pageY'] - self.startY);
             var offset = (axis === 'X') ? offsetX : offsetY;
+            var otherOffset = (axis === 'X') ? offsetY : offsetX;
 
-            self.onslide && self.onslide(offset);
-            self.log('Event: onslide');
+            if (Math.abs(offset) - Math.abs(otherOffset) > 10) {
+                evt.preventDefault();
+                self.onslide && self.onslide(offset);
+                self.log('Event: onslide');
 
-            if (!self.isLooping) {
-                if (offset > 0 && self.slideIndex === 0 || offset < 0 && self.slideIndex === len - 1) {
-                    offset = self._damping(offset);
+                if (!self.isLooping) {
+                    if (offset > 0 && self.slideIndex === 0 || offset < 0 && self.slideIndex === len - 1) {
+                        offset = self._damping(offset);
+                    }
                 }
-            }
 
-            for (var i = 0; i < 3; i++) {
-                var item = self.els[i];
-                item.style.webkitTransition = 'all 0s';
-                self._animateFunc(item, axis, self.scale, i, offset);
-            }
+                for (var i = 0; i < 3; i++) {
+                    var item = self.els[i];
+                    item.style.webkitTransition = 'all 0s';
+                    self._animateFunc(item, axis, self.scale, i, offset);
+                }
 
-            self.offset = offset;
-            self.offsetX = offsetX;
-            self.offsetY = offsetY;
+                self.offset = offset;
+                self.offsetX = offsetX;
+                self.offsetY = offsetY;
+            }
         }
     };
 
