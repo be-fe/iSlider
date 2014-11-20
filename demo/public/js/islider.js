@@ -450,11 +450,11 @@ iSlider.prototype._bindHandler = function() {
                     item.style.webkitTransition = 'all 0s';
                     self._animateFunc(item, axis, self.scale, i, offset);
                 }
-
-                self.offset = offset;
-                self.offsetX = offsetX;
-                self.offsetY = offsetY;
             }
+
+            self.offset = offset;
+            self.offsetX = offsetX;
+            self.offsetY = offsetY;
         }
     };
 
