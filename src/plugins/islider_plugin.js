@@ -45,30 +45,31 @@ iSlider.prototype.extend({
         var len = data.length;
         var wrap = this.wrap;
         var pointList = [];
+        // this.setDotAttr();
 
         var indexLayer = document.createElement('ul');
         indexLayer.style.margin = 0;
         indexLayer.className = dotMenuOpts.className || '';
-        if (dotMenuOpts.isVertical && dotMenuOpts.isVertical === true) {
-            indexLayer.style.width = dotMenuOpts.width || '10%';
-            indexLayer.style.height = dotMenuOpts.height || '50%';
-            indexLayer.style.margin = 'auto 0';
-        }
-        else {
-            indexLayer.style.width = dotMenuOpts.width || '50%';
-            indexLayer.style.height = dotMenuOpts.height || '10%';
-            indexLayer.style.margin = '0 auto';
-            indexLayer.style.textAlign = 'center';
-        }
+        // if (dotMenuOpts.isVertical && dotMenuOpts.isVertical === true) {
+        //     indexLayer.style.width = dotMenuOpts.width || '10%';
+        //     indexLayer.style.height = dotMenuOpts.height || '50%';
+        //     indexLayer.style.margin = 'auto 0';
+        // } else {
+        //     indexLayer.style.width = dotMenuOpts.width || '50%';
+        //     indexLayer.style.height = dotMenuOpts.height || '10%';
+        //     indexLayer.style.margin = '0 auto';
+        // }
 
-        indexLayer.style.padding = '0';
-        indexLayer.style.position = 'absolute';
-        indexLayer.style.left = dotMenuOpts.left || '0';
-        indexLayer.style.right = dotMenuOpts.right || '0';
-        indexLayer.style.top = dotMenuOpts.top || '0';
-        indexLayer.style.bottom = dotMenuOpts.bottom || '0';
+        indexLayer.style.cssText = this.dotWidth + ' ' + this.dotHeight + ' ' + this.dotMargin + ' '
 
-        indexLayer.style.zIndex = '10000';
+        // indexLayer.style.padding = '0';
+        // indexLayer.style.position = 'absolute';
+        // indexLayer.style.left = dotMenuOpts.left || '0';
+        // indexLayer.style.right = dotMenuOpts.right || '0';
+        // indexLayer.style.top = dotMenuOpts.top || '0';
+        // indexLayer.style.bottom = dotMenuOpts.bottom || '0';
+
+        // indexLayer.style.zIndex = '10000';
 
         wrap.parentNode.insertBefore(indexLayer, wrap.nextSibling);
         var fragment = document.createDocumentFragment();
@@ -86,8 +87,7 @@ iSlider.prototype.extend({
 
             if (dotMenuOpts.isVertical && dotMenuOpts.isVertical === true) {
                 point.style.display = 'block';
-            }
-            else {
+            } else {
                 point.style.display = 'inline-block';
             }
 
@@ -103,6 +103,29 @@ iSlider.prototype.extend({
 
         indexLayer.appendChild(fragment);
         this.pointList = pointList;
+    },
+
+    setDotAttr: function() {
+
+        var dotMenuOpts = this.dotMenuOpts;
+
+        this.dotPadding = '0';
+        this.dotPosition = 'absolute';
+        this.dotLeft = dotMenuOpts.left || '0';
+        this.dotRight = dotMenuOpts.right || '0';
+        this.dotTop = dotMenuOpts.top || '0';
+        this.dotBottom = dotMenuOpts.bottom || '0';
+        this.dotZindex = '10000';
+
+        if (dotMenuOpts.isVertical && dotMenuOpts.isVertical === true) {
+            this.dotWidth = dotMenuOpts.width || '10%';
+            this.dotHeight = dotMenuOpts.height || '50%';
+            this.dotMargin = 'auto 0';
+        } else {
+            this.dotWidth = dotMenuOpts.width || '50%';
+            this.dotHeight = dotMenuOpts.height || '10%';
+            this.dotMargin = '0 auto';
+        }
     },
 
     changeIndexDot: function() {
@@ -179,13 +202,11 @@ iSlider.prototype.extend({
                 if (i === 0) {
                     btnLayer[i].style.top = btnMenuOpts.top || '2%';
                     btnLayerChild[i].style.webkitTransform = 'rotate(45deg)';
-                }
-                else {
+                } else {
                     btnLayer[i].style.bottom = btnMenuOpts.bottom || '2%';
                     btnLayerChild[i].style.webkitTransform = 'rotate(225deg)';
                 }
-            }
-            else {
+            } else {
                 btnLayer[i].style.top = '0';
                 btnLayer[i].style.bottom = '0';
                 btnLayer[i].style.margin = 'auto 0';
@@ -193,8 +214,7 @@ iSlider.prototype.extend({
                 if (i === 0) {
                     btnLayer[i].style.left = btnMenuOpts.left || '5%';
                     btnLayerChild[i].style.webkitTransform = 'rotate(-45deg)';
-                }
-                else {
+                } else {
                     btnLayer[i].style.right = btnMenuOpts.right || '5%';
                     btnLayerChild[i].style.webkitTransform = 'rotate(135deg)';
                 }
@@ -202,7 +222,7 @@ iSlider.prototype.extend({
             btnLayer[i].direction = i;
             this._bindTouchEvent(btnLayer[i], this._bindTouchEventBtn);
 
-            if (this.btnMenuOpts.isLooping === false) {
+            if (this.btnMenuOpts.isLooping) {
                 if (this.slideIndex === 0) {
                     btnLayer[0].style.display = 'none';
                 }
@@ -221,11 +241,10 @@ iSlider.prototype.extend({
         var len = this.data.length;
         this.buttonLayer[0].style.display = 'block';
         this.buttonLayer[1].style.display = 'block';
-        if (btnMenuOpts.isLooping === false) {
+        if (btnMenuOpts.isLooping) {
             if (this.slideIndex === len - 1) {
                 this.buttonLayer[1].style.display = 'none';
-            }
-            else if (this.slideIndex === 0) {
+            } else if (this.slideIndex === 0) {
                 this.buttonLayer[0].style.display = 'none';
             }
         }
@@ -238,8 +257,7 @@ iSlider.prototype.extend({
 
         if (self.direction === 0) {
             self.direction = -1;
-        }
-        else {
+        } else {
             self.direction = 1;
         }
 
@@ -250,8 +268,7 @@ iSlider.prototype.extend({
         target.self = this;
         if (this._checkDevice() === true) {
             target.addEventListener('touchstart', func, false);
-        }
-        else {
+        } else {
             target.addEventListener('click', func, false);
         }
     }
