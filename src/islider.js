@@ -65,7 +65,7 @@ iSlider.prototype._setting = function () {
 
     this.offset = this.offset || 0;
     this.offsetX = this.offsetX || 0;
-    this.offsetY= this.offsetY || 0;
+    this.offsetY = this.offsetY || 0;
 
     // looping logic adjust
     if (this.data.length < 2) {
@@ -275,8 +275,7 @@ iSlider.prototype._renderItem = function (el, i) {
         } else {
             el.style.background = 'url(' + item.content + ') 50% 50% / cover no-repeat';
         }
-    } 
-    else if (this.type === 'dom') {
+    } else if (this.type === 'dom') {
         html = item.content;
     }
 
