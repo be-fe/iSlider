@@ -130,6 +130,7 @@ iSlider.prototype.extend({
     // Button Navigation Menu
     // * @param {Object}      menuOpts                    参数集         Options
     // * @param {Boolean}     menuOpts.isVertical         垂直/居中      Veritcal/Horizontal
+    // * @param {Boolean}     menuOpts.isLooping          内容循环       Looping content or not
     // * @param {String}      menuOpts.width              宽度           width
     // * @param {String}      menuOpts.height             高度           height
     // * @param {String}      menuOpts.top                距高           top position
