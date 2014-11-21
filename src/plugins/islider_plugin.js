@@ -45,59 +45,41 @@ iSlider.prototype.extend({
         var len = data.length;
         var wrap = this.wrap;
         var pointList = [];
-        // this.setDotAttr();
+        this._setDotAttr();
 
         var indexLayer = document.createElement('ul');
-        indexLayer.style.margin = 0;
-        indexLayer.className = dotMenuOpts.className || '';
-        // if (dotMenuOpts.isVertical && dotMenuOpts.isVertical === true) {
-        //     indexLayer.style.width = dotMenuOpts.width || '10%';
-        //     indexLayer.style.height = dotMenuOpts.height || '50%';
-        //     indexLayer.style.margin = 'auto 0';
-        // } else {
-        //     indexLayer.style.width = dotMenuOpts.width || '50%';
-        //     indexLayer.style.height = dotMenuOpts.height || '10%';
-        //     indexLayer.style.margin = '0 auto';
-        // }
-
-        indexLayer.style.cssText = this.dotWidth + ' ' + this.dotHeight + ' ' + this.dotMargin + ' '
-
-        // indexLayer.style.padding = '0';
-        // indexLayer.style.position = 'absolute';
-        // indexLayer.style.left = dotMenuOpts.left || '0';
-        // indexLayer.style.right = dotMenuOpts.right || '0';
-        // indexLayer.style.top = dotMenuOpts.top || '0';
-        // indexLayer.style.bottom = dotMenuOpts.bottom || '0';
-
-        // indexLayer.style.zIndex = '10000';
+        indexLayer.className = dotMenuOpts.className || ' ';
+        indexLayer.style.cssText += 'width: ' + this.dotWidth + ';'
+                                   + 'height: '+ this.dotHeight + ';'
+                                   + 'margin: ' + this.dotMargin + ';'
+                                   + 'position: ' + this.dotPosition + ';'
+                                   + 'padding: ' + this.dotPadding + ';'
+                                   + 'left: ' + this.dotLeft + ';'
+                                   + 'right: ' + this.dotRight + ';'
+                                   + 'bottom: ' + this.dotBottom + ';'
+                                   + 'top: ' + this.dotTop + ';'
+                                   + 'z-index: ' + this.dotZindex + ';'
+                                   + 'text-align: ' + this.dotAlignment + ';';
 
         wrap.parentNode.insertBefore(indexLayer, wrap.nextSibling);
         var fragment = document.createDocumentFragment();
         for (var i = 0; i < len; i++) {
             var point = document.createElement('li');
             point.id = 'point' + i;
-            point.style.height = dotMenuOpts.diameter || '1em';
-            point.style.width = dotMenuOpts.diameter || '1em';
-            point.style.borderRadius = '50%';
-            point.style.border = '1px solid';
-            point.style.borderColor = dotMenuOpts.borderColor || '#fff';
-            point.style.listStyleType = 'none';
-            point.style.position = 'relative';
-            point.style.margin = '5px';
-
-            if (dotMenuOpts.isVertical && dotMenuOpts.isVertical === true) {
-                point.style.display = 'block';
-            } else {
-                point.style.display = 'inline-block';
+            point.style.cssText += 'position: ' + this.dotPtPosition + ';'
+                                   + 'display: ' + this.dotPtDisplay + ';'
+                                   + 'width: ' + this.dotPtWidth + ';'
+                                   + 'height: ' + this.dotPtHeight + ';'
+                                   + 'border-radius: ' + this.dotPtBorderRadius + ';'
+                                   + 'border: ' + this.dotPtBorder + ' ' + this.dotPtBorderColor + ';'
+                                   + 'list-style-type: ' + this.dotPtListStyleType + ';'
+                                   + 'margin: ' + this.dotPtMargin + ';'
+            if (i === 0) {
+                point.style.cssText += 'background-color: ' + this.dotPtBGColor + ';';
             }
 
             pointList.push(point);
-
-            if (i === 0) {
-                point.style.backgroundColor = dotMenuOpts.borderColor || '#fff';
-            }
             this._bindTouchEvent(point, this._bindTouchEventDot);
-
             fragment.appendChild(point);
         }
 
@@ -105,7 +87,7 @@ iSlider.prototype.extend({
         this.pointList = pointList;
     },
 
-    setDotAttr: function() {
+    _setDotAttr: function() {
 
         var dotMenuOpts = this.dotMenuOpts;
 
@@ -116,6 +98,7 @@ iSlider.prototype.extend({
         this.dotTop = dotMenuOpts.top || '0';
         this.dotBottom = dotMenuOpts.bottom || '0';
         this.dotZindex = '10000';
+        this.dotAlignment = 'center';
 
         if (dotMenuOpts.isVertical && dotMenuOpts.isVertical === true) {
             this.dotWidth = dotMenuOpts.width || '10%';
@@ -125,6 +108,22 @@ iSlider.prototype.extend({
             this.dotWidth = dotMenuOpts.width || '50%';
             this.dotHeight = dotMenuOpts.height || '10%';
             this.dotMargin = '0 auto';
+        }
+
+        this.dotPtPosition = 'relative';
+        this.dotPtWidth = dotMenuOpts.diameter || '1em';
+        this.dotPtHeight = dotMenuOpts.diameter || '1em';
+        this.dotPtBorderRadius = '50%';
+        this.dotPtBorder = '1px solid';
+        this.dotPtBorderColor = dotMenuOpts.borderColor || '#fff';
+        this.dotPtListStyleType = 'none';
+        this.dotPtMargin = '5px';
+        this.dotPtBGColor = dotMenuOpts.borderColor || '#fff';
+
+        if (dotMenuOpts.isVertical && dotMenuOpts.isVertical === true) {
+            this.dotPtDisplay = 'block';
+        } else {
+            this.dotPtDisplay = 'inline-block';
         }
     },
 
@@ -168,31 +167,30 @@ iSlider.prototype.extend({
 
         this.btnMenuOpts = btnMenuOpts || {};
         var wrap = this.wrap;
+        this._setBtnAttr();
         var btnLayer = [];
         var btnLayerChild = [];
-        var size = btnMenuOpts.width || '3em';
-        var borderStyle = btnMenuOpts.border || '2px solid #fff';
 
         for (var i = 0; i < 2; i++) {
             btnLayer[i] = document.createElement('div');
-            btnLayer[i].className = btnMenuOpts.className || '';
-            btnLayer[i].style.position = 'absolute';
-            btnLayer[i].style.width = size;
-            btnLayer[i].style.height = size;
-            btnLayer[i].style.cursor = 'pointer';
-            btnLayer[i].style.backgroundColor = btnMenuOpts.backgroundColor || '#777';
+            btnLayer[i].className = btnMenuOpts.className || ' ';
+            btnLayer[i].style.cssText += 'position: ' + this.btnLayerPosition + ';'
+                                         + 'width: ' + this.btnLayerWidth + ';'
+                                         + 'height: ' + this.btnLayerHeight + ';'
+                                         + 'cursor: ' + this.btnLayerCursor + ';'
+                                         + 'background-color: ' + this.btnLayerBGColor + ';' 
 
             btnLayerChild[i] = document.createElement('div');
-            btnLayerChild[i].style.position = 'absolute';
-            btnLayerChild[i].style.width = '50%';
-            btnLayerChild[i].style.height = '50%';
-            btnLayerChild[i].style.borderTop = borderStyle;
-            btnLayerChild[i].style.borderLeft = borderStyle;
-            btnLayerChild[i].style.top = '0';
-            btnLayerChild[i].style.bottom = '0';
-            btnLayerChild[i].style.left = '0';
-            btnLayerChild[i].style.right = '0';
-            btnLayerChild[i].style.margin = 'auto';
+            btnLayerChild[i].style.cssText += 'position: ' + this.btnLayerChildPosition + ';'
+                                              + 'width: ' + this.btnLayerChildWidth + ';'
+                                              + 'height: ' + this.btnLayerChildHeight + ';'
+                                              + 'border-top: ' + this.btnLayerChildBorderTop + ';'
+                                              + 'border-left: ' + this.btnLayerChildBorderLeft + ';'
+                                              + 'margin: ' + this.btnLayerChildMargin + ';'
+                                              + 'top: ' + this.btnLayerChildTop + ';'
+                                              + 'bottom: ' + this.btnLayerChildBottom + ';'
+                                              + 'left: ' + this.btnLayerChildLeft + ';'
+                                              + 'right: ' + this.btnLayerChildRight + ';';
 
             if (btnMenuOpts.isVertical) {
                 btnLayer[i].style.left = '0';
@@ -222,7 +220,7 @@ iSlider.prototype.extend({
             btnLayer[i].direction = i;
             this._bindTouchEvent(btnLayer[i], this._bindTouchEventBtn);
 
-            if (this.btnMenuOpts.isLooping) {
+            if (!this.btnMenuOpts.isLooping) {
                 if (this.slideIndex === 0) {
                     btnLayer[0].style.display = 'none';
                 }
@@ -235,13 +233,37 @@ iSlider.prototype.extend({
         this.buttonLayer = btnLayer;
     },
 
+    _setBtnAttr: function() {
+        var btnMenuOpts = this.btnMenuOpts;
+
+        var size = btnMenuOpts.width || '3em';
+        var borderStyle = btnMenuOpts.border || '2px solid #fff';
+
+        this.btnLayerPosition = 'absolute';
+        this.btnLayerWidth = size;
+        this.btnLayerHeight = size;
+        this.btnLayerCursor = 'pointer';
+        this.btnLayerBGColor = btnMenuOpts.backgroundColor || '#777';
+
+        this.btnLayerChildPosition = 'absolute';
+        this.btnLayerChildWidth = '50%';
+        this.btnLayerChildHeight = '50%';
+        this.btnLayerChildBorderTop = borderStyle;
+        this.btnLayerChildBorderLeft = borderStyle;
+        this.btnLayerChildTop = '0';
+        this.btnLayerChildBottom = '0';
+        this.btnLayerChildLeft = '0';
+        this.btnLayerChildRight = '0';
+        this.btnLayerChildMargin = 'auto';
+    },
+
     changeIndexBtn: function() {
 
         var btnMenuOpts = this.btnMenuOpts;
         var len = this.data.length;
         this.buttonLayer[0].style.display = 'block';
         this.buttonLayer[1].style.display = 'block';
-        if (btnMenuOpts.isLooping) {
+        if (!btnMenuOpts.isLooping) {
             if (this.slideIndex === len - 1) {
                 this.buttonLayer[1].style.display = 'none';
             } else if (this.slideIndex === 0) {
