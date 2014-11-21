@@ -277,7 +277,7 @@ iSlider.prototype._renderItem = function (el, i) {
         }
     } 
     else if (this.type === 'dom') {
-        html = '<div style="height:100%; width:100%">'+ item.content + '</div>';
+        html = item.content;
     }
 
     html && (el.innerHTML = html);
@@ -291,12 +291,13 @@ iSlider.prototype._renderHTML = function () {
 
     // initail ul element
     var outer = this.outer || document.createElement('ul');
-    outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
+    outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;margin:0;padding:0;list-style:none;';
 
     // storage li elements, only store 3 elements to reduce memory usage
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
+        li.className = this.type == 'dom' ? 'islider-dom' : 'islider-pic';
         li.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
         this.els.push(li);
 
@@ -450,11 +451,11 @@ iSlider.prototype._bindHandler = function() {
                     item.style.webkitTransition = 'all 0s';
                     self._animateFunc(item, axis, self.scale, i, offset);
                 }
-
-                self.offset = offset;
-                self.offsetX = offsetX;
-                self.offsetY = offsetY;
             }
+
+            self.offset = offset;
+            self.offsetX = offsetX;
+            self.offsetY = offsetY;
         }
     };
 
