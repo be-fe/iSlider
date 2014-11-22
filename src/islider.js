@@ -296,7 +296,7 @@ iSlider.prototype._renderHTML = function () {
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
-        li.className = this.type == 'dom' ? 'islider-dom' : 'islider-pic';
+        li.className = this.type === 'dom' ? 'islider-dom' : 'islider-pic';
         li.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
         this.els.push(li);
 
@@ -328,7 +328,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
 
 
     if (Math.abs(n) > 1) {
-        var nextEls = n > 0 ? this.els[2] : this.els[0]
+        var nextEls = n > 0 ? this.els[2] : this.els[0];
         this._renderItem(nextEls, idx);
     }
 
@@ -369,7 +369,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
     // slidechange should render new item
     // and change new item style to fit animation
     if (n !== 0) {
-        if ( Math.abs(n) > 1) {
+        if (Math.abs(n) > 1) {
             this._renderItem(els[0], idx - 1);
             this._renderItem(els[2], idx + 1);
         } else if (Math.abs(n) === 1) {
@@ -383,7 +383,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
         }, 200);
 
         this.onslidechange && this.onslidechange(this.slideIndex);
-    } 
+    }
 
     // do the trick animation
     for (var i = 0; i < 3; i++) {
@@ -429,8 +429,8 @@ iSlider.prototype._bindHandler = function() {
         if (isMoving) {
             var len = self.data.length;
             var axis = self.axis;
-            var offsetX = hasTouch ? (evt.targetTouches[0]['pageX'] - self.startX) : (evt['pageX'] - self.startX);
-            var offsetY = hasTouch ? (evt.targetTouches[0]['pageY'] - self.startY) : (evt['pageY'] - self.startY);
+            var offsetX = hasTouch ? (evt.targetTouches[0].pageX - self.startX) : (evt.pageX - self.startX);
+            var offsetY = hasTouch ? (evt.targetTouches[0].pageY - self.startY) : (evt.pageY - self.startY);
             var offset = (axis === 'X') ? offsetX : offsetY;
             var otherOffset = (axis === 'X') ? offsetY : offsetX;
 
