@@ -64,7 +64,8 @@ iSlider.prototype._setting = function () {
     this.tapHandler = opts.tapHandler;
 
     this.offset = this.offset || 0;
-    this.otherOffset = this.otherOffset || 0;
+    this.offsetX = this.offsetX || 0;
+    this.offsetY = this.offsetY || 0;
 
     // looping logic adjust
     if (this.data.length < 2) {
@@ -274,8 +275,7 @@ iSlider.prototype._renderItem = function (el, i) {
         } else {
             el.style.background = 'url(' + item.content + ') 50% 50% / cover no-repeat';
         }
-    } 
-    else if (this.type === 'dom') {
+    } else if (this.type === 'dom') {
         html = item.content;
     }
 
@@ -290,12 +290,13 @@ iSlider.prototype._renderHTML = function () {
 
     // initail ul element
     var outer = this.outer || document.createElement('ul');
-    outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
+    outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;margin:0;padding:0;list-style:none;';
 
     // storage li elements, only store 3 elements to reduce memory usage
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
+        li.className = this.type == 'dom' ? 'islider-dom' : 'islider-pic';
         li.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
         this.els.push(li);
 
@@ -426,57 +427,57 @@ iSlider.prototype._bindHandler = function() {
 
     var moveHandler = function (evt) {
         if (isMoving) {
-            evt.preventDefault();
-
             var len = self.data.length;
             var axis = self.axis;
-            var currentPoint = hasTouch ? evt.targetTouches[0]['page' + axis] : evt['page' + axis];
-            var offset = currentPoint - self['start' + axis];
+            var offsetX = hasTouch ? (evt.targetTouches[0]['pageX'] - self.startX) : (evt['pageX'] - self.startX);
+            var offsetY = hasTouch ? (evt.targetTouches[0]['pageY'] - self.startY) : (evt['pageY'] - self.startY);
+            var offset = (axis === 'X') ? offsetX : offsetY;
+            var otherOffset = (axis === 'X') ? offsetY : offsetX;
 
-            var otherAxis = (self.axis === 'X') ? 'Y' : 'X';
-            var otherPoint = hasTouch ? evt.targetTouches[0]['page' + otherAxis] : evt['page' + otherAxis];
-            var otherOffset = otherPoint - self['start' + otherAxis];
+            if (Math.abs(offset) - Math.abs(otherOffset) > 10) {
+                evt.preventDefault();
+                self.onslide && self.onslide(offset);
+                self.log('Event: onslide');
 
-            self.onslide && self.onslide(offset);
-            self.log('Event: onslide');
+                if (!self.isLooping) {
+                    if (offset > 0 && self.slideIndex === 0 || offset < 0 && self.slideIndex === len - 1) {
+                        offset = self._damping(offset);
+                    }
+                }
 
-            if (!self.isLooping) {
-                if (offset > 0 && self.slideIndex === 0 || offset < 0 && self.slideIndex === len - 1) {
-                    offset = self._damping(offset);
+                for (var i = 0; i < 3; i++) {
+                    var item = self.els[i];
+                    item.style.webkitTransition = 'all 0s';
+                    self._animateFunc(item, axis, self.scale, i, offset);
                 }
             }
 
-            for (var i = 0; i < 3; i++) {
-                var item = self.els[i];
-                item.style.webkitTransition = 'all 0s';
-                self._animateFunc(item, axis, self.scale, i, offset);
-            }
-
             self.offset = offset;
-            self.otherOffset = otherOffset;
+            self.offsetX = offsetX;
+            self.offsetY = offsetY;
         }
     };
 
     var endHandler = function (evt) {
         isMoving = false;
 
-        var metric = self.offset;
+        var offset = self.offset;
         var boundary = self.scale / 2;
         var endTime = new Date().getTime();
 
         // a quick slide time must under 300ms
         // a quick slide should also slide at least 14 px
         boundary = endTime - self.startTime > 300 ? boundary : 14;
-        if (metric >= boundary) {
+        if (offset >= boundary) {
             self.slideTo(self.slideIndex - 1);
-        } else if (metric < -boundary) {
+        } else if (offset < -boundary) {
             self.slideTo(self.slideIndex + 1);
         } else {
             self.slideTo(self.slideIndex);
         }
 
-        // create tap event if metric < 10
-        if (Math.abs(metric) < 10 && Math.abs(self.otherOffset) < 10) {
+        // create tap event if offset < 10
+        if (Math.abs(self.offsetX) < 10 && Math.abs(self.offsetY) < 10) {
             self.tapEvt = document.createEvent('Event');
             self.tapEvt.initEvent('isliderTap', true, true);
 
@@ -485,8 +486,7 @@ iSlider.prototype._bindHandler = function() {
             }
         }
 
-        self.offset = 0;
-        self.otherOffset = 0;
+        self.offset = self.offsetX = self.offsetY = 0;
         self.isAutoplay && self.play();
         self.onslideend && self.onslideend(self.slideIndex);
         self.log('Event: afterslide');
