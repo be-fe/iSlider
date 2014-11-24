@@ -240,9 +240,6 @@ iSlider.prototype._setUpDamping = function () {
     };
 };
 
-/**
- *  render single item html by idx
- */
 iSlider.prototype._renderItem = function (el, i) {
     var item;
     var html;
@@ -318,7 +315,8 @@ iSlider.prototype._renderHTML = function () {
 };
 
 /**
- *  slide logical, goto data index
+ * slide logical, goto data index
+ * @param {number} dataIndex the goto index
  */
 iSlider.prototype.slideTo = function (dataIndex) {
     var data = this.data;
@@ -532,10 +530,11 @@ iSlider.prototype.pause = function() {
     clearInterval(this.autoPlayTimer);
 };
 
-
 /**
-* plugin extend
-*/
+ * plugin extend
+ * @param {Object} plugin need to be set up
+ * @param {Object} main iSlider prototype
+ */
 iSlider.prototype.extend = function(plugin, main) {
     if (!main) {
         main = iSlider.prototype;
