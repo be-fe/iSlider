@@ -240,6 +240,11 @@ iSlider.prototype._setUpDamping = function () {
     };
 };
 
+/**
+ * render single item for html
+ * @param {element} el ..
+ * @param {number}  i  ..
+ */
 iSlider.prototype._renderItem = function (el, i) {
     var item;
     var html;
