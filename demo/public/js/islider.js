@@ -35,6 +35,12 @@ iSlider.prototype._setting = function () {
     this.wrap = opts.dom;
     // your data
     this.data = opts.data;
+
+     // loaded image
+    this.loadedImage = [];
+    // cached first three images of li
+    this.cachedImage = [];
+
     // default type
     this.type = opts.type || 'pic';
     // default slide direction
@@ -241,7 +247,7 @@ iSlider.prototype._setUpDamping = function () {
 };
 
 /**
- *  render single item html by idx
+ * render single item html by idx
  */
 iSlider.prototype._renderItem = function (el, i) {
     var item;
@@ -296,7 +302,7 @@ iSlider.prototype._renderHTML = function () {
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
-        li.className = this.type == 'dom' ? 'islider-dom' : 'islider-pic';
+        li.className = this.type === 'dom' ? 'islider-dom' : 'islider-pic';
         li.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
         this.els.push(li);
 
@@ -308,6 +314,23 @@ iSlider.prototype._renderHTML = function () {
             this._renderItem(li, i - 1 + this.slideIndex);
         }
         outer.appendChild(li);
+
+        // cached first three pics
+        if (li.children[0] && this.type !== 'dom') {
+            var img = new Image();
+            // to support overspread preload
+            if (this.isOverspread) {
+                img.src = li.children[0].style.backgroundImage
+                          .substring(4, li.children[0].style.backgroundImage.length - 1);
+            } else {
+                img.src = li.children[0].src;
+            }
+            this.cachedImage.push(img);
+        }
+    }
+
+    if (this.type !== 'dom') {
+        this._preLoadImg();
     }
 
     // append ul to div#canvas
@@ -317,19 +340,85 @@ iSlider.prototype._renderHTML = function () {
     }
 };
 
+// get image size when the image is ready
+iSlider.prototype._getImgSize = function(img, index) {
+
+    var self = this;
+
+    if (this.data[index].width === undefined
+        || this.data[index].height === undefined) {
+
+        img.onload = function() {
+            self.data[index].height = img.height;
+            self.data[index].width = img.width;
+        };
+    }
+};
+
+// start loading image
+iSlider.prototype._startLoadingImg = function(index, direction) {
+    var dirIndex = (direction === 'right') ? 1 : 0;
+    this.loadedImage[dirIndex] = new Image();
+    this.loadedImage[dirIndex].src = this.data[index].content;
+    this._getImgSize(this.loadedImage[dirIndex], index);
+};
+
+// pre load image
+iSlider.prototype._preLoadImg = function() {
+
+    var self = this;
+    var dataLen = this.data.length;
+    var elsLen = this.els.length;
+    var imgCompleteNum = 0;
+    var sliderIndex = [dataLen - 1, 0, 1];
+
+    var isImgComplete = setTimeout(function() {
+        // wait for first three images of li to complete, won't cause duplicate loading
+        for (var i = 0; i < elsLen; i++) {
+            if (self.cachedImage[i] && self.cachedImage[i].complete) {
+                self._getImgSize(self.cachedImage[i], sliderIndex[i]);
+                imgCompleteNum++;
+            }
+        }
+        if (imgCompleteNum >= 2) {
+            clearTimeout(isImgComplete);
+            self._startLoadingImg(2, 'right');
+            // check whether to load image from right to left
+            if (dataLen - 2 !== 3 && self.isLooping) {
+                self._startLoadingImg(dataLen - 2, 'left');
+            }
+        } else {
+            self._preLoadImg();
+        }
+    }, 200);
+};
+
 /**
  *  slide logical, goto data index
  */
 iSlider.prototype.slideTo = function (dataIndex) {
     var data = this.data;
+    var dataLen = this.data.length;
     var els = this.els;
     var idx = dataIndex;
     var n = dataIndex - this.slideIndex;
-
+    var loadIndex = 0;
 
     if (Math.abs(n) > 1) {
         var nextEls = n > 0 ? this.els[2] : this.els[0]
         this._renderItem(nextEls, idx);
+    }
+
+    if (n > 0) {
+        loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
+        if (this.type !== 'dom') {
+            this._startLoadingImg(loadIndex, 'right');
+        }
+    } else if (this.isLooping) {
+        loadIndex = (idx - 2 < 0) ? (dataLen - 2 + idx) : (idx - 2);
+        if (this.type !== 'dom') {
+            this._startLoadingImg(loadIndex, 'right');
+        }
     }
 
     // get right item of data
