@@ -25,21 +25,18 @@ iSlider.prototype.extend({
         return false;
     },
 
-    /**
-     *
-     * Dots Navgitation Menu
-     * @param {Object}      dotMenuOpts                参数集         Options
-     * @param {Boolean}     dotMenuOpts.isVertical     垂直/居中      Veritcal/Horizontal
-     * @param {String}      dotMenuOpts.width          宽度           width
-     * @param {String}      dotMenuOpts.height         高度           height
-     * @param {String}      dotMenuOpts.top            距高           top position
-     * @param {String}      dotMenuOpts.bottom         距底           bottom position
-     * @param {String}      dotMenuOpts.left           距左           left position
-     * @param {String}      dotMenuOpts.right          距右           right position
-     * @param {String}      dotMenuOpts.diameter       直径           diameter of points
-     * @param {String}      dotMenuOpts.borderColor    边框颜色        color of border
-     * @param {String}      dotMenuOpts.className      CSS类          css class
-     */
+    // * Dots Navgitation Menu
+    // * @param {Object}      dotMenuOpts                参数集         Options
+    // * @param {Boolean}     dotMenuOpts.isVertical     垂直/居中      Veritcal/Horizontal
+    // * @param {String}      dotMenuOpts.width          宽度           width
+    // * @param {String}      dotMenuOpts.height         高度           height
+    // * @param {String}      dotMenuOpts.top            距高           top position
+    // * @param {String}      dotMenuOpts.bottom         距底           bottom position
+    // * @param {String}      dotMenuOpts.left           距左           left position
+    // * @param {String}      dotMenuOpts.right          距右           right position
+    // * @param {String}      dotMenuOpts.diameter       直径           diameter of points
+    // * @param {String}      dotMenuOpts.borderColor    边框颜色        color of border
+    // * @param {String}      dotMenuOpts.className      CSS类          css class
 
     renderDot: function(dotMenuOpts) {
 
@@ -53,7 +50,7 @@ iSlider.prototype.extend({
         var indexLayer = document.createElement('ul');
         indexLayer.className = dotMenuOpts.className || ' ';
         indexLayer.style.cssText += 'width: ' + this.dotWidth + ';'
-                                   + 'height: ' + this.dotHeight + ';'
+                                   + 'height: '+ this.dotHeight + ';'
                                    + 'margin: ' + this.dotMargin + ';'
                                    + 'position: ' + this.dotPosition + ';'
                                    + 'padding: ' + this.dotPadding + ';'
@@ -76,7 +73,7 @@ iSlider.prototype.extend({
                                    + 'border-radius: ' + this.dotPtBorderRadius + ';'
                                    + 'border: ' + this.dotPtBorder + ' ' + this.dotPtBorderColor + ';'
                                    + 'list-style-type: ' + this.dotPtListStyleType + ';'
-                                   + 'margin: ' + this.dotPtMargin + ';';
+                                   + 'margin: ' + this.dotPtMargin + ';'
             if (i === 0) {
                 point.style.cssText += 'background-color: ' + this.dotPtBGColor + ';';
             }
@@ -152,22 +149,19 @@ iSlider.prototype.extend({
         self.slideTo(idx);
     },
 
-    /**
-     *
-     * Button Navigation Menu
-     * @param {Object}      menuOpts                    参数集         Options
-     * @param {Boolean}     menuOpts.isVertical         垂直/居中      Veritcal/Horizontal
-     * @param {Boolean}     menuOpts.isLooping          内容循环       Looping content or not
-     * @param {String}      menuOpts.width              宽度           width
-     * @param {String}      menuOpts.height             高度           height
-     * @param {String}      menuOpts.top                距高           top position
-     * @param {String}      menuOpts.bottom             距底           bottom position
-     * @param {String}      menuOpts.left               距左           left position
-     * @param {String}      menuOpts.right              距右           right position
-     * @param {String}      menuOpts.border             边框样式        style of border
-     * @param {String}      menuOpts.backgroundColor    背景颜色        background color
-     * @param {String}      menuOpts.className          CSS类          css class
-     */
+    // Button Navigation Menu
+    // * @param {Object}      menuOpts                    参数集         Options
+    // * @param {Boolean}     menuOpts.isVertical         垂直/居中      Veritcal/Horizontal
+    // * @param {Boolean}     menuOpts.isLooping          内容循环       Looping content or not
+    // * @param {String}      menuOpts.width              宽度           width
+    // * @param {String}      menuOpts.height             高度           height
+    // * @param {String}      menuOpts.top                距高           top position
+    // * @param {String}      menuOpts.bottom             距底           bottom position
+    // * @param {String}      menuOpts.left               距左           left position
+    // * @param {String}      menuOpts.right              距右           right position
+    // * @param {String}      menuOpts.border             边框样式        style of border
+    // * @param {String}      menuOpts.backgroundColor    背景颜色        background color
+    // * @param {String}      menuOpts.className          CSS类          css class
 
     renderBtn: function(btnMenuOpts) {
 
@@ -184,7 +178,7 @@ iSlider.prototype.extend({
                                          + 'width: ' + this.btnLayerWidth + ';'
                                          + 'height: ' + this.btnLayerHeight + ';'
                                          + 'cursor: ' + this.btnLayerCursor + ';'
-                                         + 'background-color: ' + this.btnLayerBGColor + ';'; 
+                                         + 'background-color: ' + this.btnLayerBGColor + ';' 
 
             btnLayerChild[i] = document.createElement('div');
             btnLayerChild[i].style.cssText += 'position: ' + this.btnLayerChildPosition + ';'

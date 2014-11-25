@@ -63,9 +63,7 @@ iSlider.prototype._setting = function () {
     // Callback function when the tap outer
     this.ontap = opts.ontap;
 
-    this.offset = this.offset || 0;
-    this.offsetX = this.offsetX || 0;
-    this.offsetY = this.offsetY || 0;
+    this.offset = this.offset || {};
 
     // looping logic adjust
     if (this.data.length < 2) {
@@ -411,6 +409,7 @@ iSlider.prototype._bindHandler = function() {
     var startEvt = hasTouch ? 'touchstart' : 'mousedown';
     var moveEvt = hasTouch ? 'touchmove' : 'mousemove';
     var endEvt = hasTouch ? 'touchend' : 'mouseup';
+
     var self = this;
     // judge mousemove start or end
     var isMoving = false;
@@ -432,31 +431,31 @@ iSlider.prototype._bindHandler = function() {
         if (isMoving) {
             var len = self.data.length;
             var axis = self.axis;
-            var offsetX = hasTouch ? (evt.targetTouches[0].pageX - self.startX) : (evt.pageX - self.startX);
-            var offsetY = hasTouch ? (evt.targetTouches[0].pageY - self.startY) : (evt.pageY - self.startY);
-            var offset = (axis === 'X') ? offsetX : offsetY;
+            var otherAxis = (axis === 'X') ? 'Y' : 'X';
+            var offset = {
+                X: hasTouch ? (evt.targetTouches[0].pageX - self.startX) : (evt.pageX - self.startX),
+                Y: hasTouch ? (evt.targetTouches[0].pageY - self.startY) : (evt.pageY - self.startY)
+            };
 
-            if (Math.abs(offset) - Math.abs(axis === 'X') ? offsetY : offsetX) > 10) {
+            if (Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
                 evt.preventDefault();
-                self.onslide && self.onslide(offset);
+                self.onslide && self.onslide(offset[axis]);
                 self.log('Event: onslide');
 
                 if (!self.isLooping) {
-                    if (offset > 0 && self.slideIndex === 0 || offset < 0 && self.slideIndex === len - 1) {
-                        offset = self._damping(offset);
+                    if (offset[axis] > 0 && self.slideIndex === 0 || offset[axis] < 0 && self.slideIndex === len - 1) {
+                        offset[axis] = self._damping(offset[axis]);
                     }
                 }
 
                 for (var i = 0; i < 3; i++) {
                     var item = self.els[i];
                     item.style.webkitTransition = 'all 0s';
-                    self._animateFunc(item, axis, self.scale, i, offset);
+                    self._animateFunc(item, axis, self.scale, i, offset[axis]);
                 }
             }
 
             self.offset = offset;
-            self.offsetX = offsetX;
-            self.offsetY = offsetY;
         }
     };
 
@@ -464,22 +463,23 @@ iSlider.prototype._bindHandler = function() {
         isMoving = false;
 
         var offset = self.offset;
+        var axis = self.axis;
         var boundary = self.scale / 2;
         var endTime = new Date().getTime();
 
         // a quick slide time must under 300ms
         // a quick slide should also slide at least 14 px
         boundary = endTime - self.startTime > 300 ? boundary : 14;
-        if (offset >= boundary) {
+        if (offset[axis] >= boundary) {
             self.slideTo(self.slideIndex - 1);
-        } else if (offset < -boundary) {
+        } else if (offset[axis] < -boundary) {
             self.slideTo(self.slideIndex + 1);
         } else {
             self.slideTo(self.slideIndex);
         }
 
         // create tap event if offset < 10
-        if (Math.abs(self.offsetX) < 10 && Math.abs(self.offsetY) < 10) {
+        if (Math.abs(self.offset.X) < 10 && Math.abs(self.offset.Y) < 10) {
             self.tapEvt = document.createEvent('Event');
             self.tapEvt.initEvent('tap', true, true);
 
@@ -488,7 +488,7 @@ iSlider.prototype._bindHandler = function() {
             }
         }
 
-        self.offset = self.offsetX = self.offsetY = 0;
+        self.offset.X = self.offset.Y = 0;
         self.isAutoplay && self.play();
         self.onslideend && self.onslideend(self.slideIndex);
         self.log('Event: afterslide');
