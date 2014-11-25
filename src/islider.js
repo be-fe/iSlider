@@ -61,7 +61,7 @@ iSlider.prototype._setting = function () {
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
     // Callback function when the tap outer
-    this.tapHandler = opts.tapHandler;
+    this.ontap = opts.ontap;
 
     this.offset = this.offset || 0;
     this.offsetX = this.offsetX || 0;
@@ -241,7 +241,9 @@ iSlider.prototype._setUpDamping = function () {
 };
 
 /**
- *  render single item html by idx
+ * render single item for html
+ * @param {element} el ..
+ * @param {number}  i  ..
  */
 iSlider.prototype._renderItem = function (el, i) {
     var item;
@@ -296,7 +298,7 @@ iSlider.prototype._renderHTML = function () {
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
-        li.className = this.type == 'dom' ? 'islider-dom' : 'islider-pic';
+        li.className = this.type === 'dom' ? 'islider-dom' : 'islider-pic';
         li.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
         this.els.push(li);
 
@@ -318,7 +320,8 @@ iSlider.prototype._renderHTML = function () {
 };
 
 /**
- *  slide logical, goto data index
+ * slide logical, goto data index
+ * @param {number} dataIndex the goto index
  */
 iSlider.prototype.slideTo = function (dataIndex) {
     var data = this.data;
@@ -328,7 +331,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
 
 
     if (Math.abs(n) > 1) {
-        var nextEls = n > 0 ? this.els[2] : this.els[0]
+        var nextEls = n > 0 ? this.els[2] : this.els[0];
         this._renderItem(nextEls, idx);
     }
 
@@ -369,7 +372,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
     // slidechange should render new item
     // and change new item style to fit animation
     if (n !== 0) {
-        if ( Math.abs(n) > 1) {
+        if (Math.abs(n) > 1) {
             this._renderItem(els[0], idx - 1);
             this._renderItem(els[2], idx + 1);
         } else if (Math.abs(n) === 1) {
@@ -383,7 +386,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
         }, 200);
 
         this.onslidechange && this.onslidechange(this.slideIndex);
-    } 
+    }
 
     // do the trick animation
     for (var i = 0; i < 3; i++) {
@@ -403,15 +406,15 @@ iSlider.prototype.slideTo = function (dataIndex) {
 * bind all event handler
 */
 iSlider.prototype._bindHandler = function() {
-    var self = this;
-    // judge mousemove start or end
-    var isMoving = false;
-    var outer = self.outer;
     // desktop event support
     var hasTouch = !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
     var startEvt = hasTouch ? 'touchstart' : 'mousedown';
     var moveEvt = hasTouch ? 'touchmove' : 'mousemove';
     var endEvt = hasTouch ? 'touchend' : 'mouseup';
+    var self = this;
+    // judge mousemove start or end
+    var isMoving = false;
+    var outer = self.outer;
 
     var startHandler = function(evt) {
         isMoving = true;
@@ -429,12 +432,11 @@ iSlider.prototype._bindHandler = function() {
         if (isMoving) {
             var len = self.data.length;
             var axis = self.axis;
-            var offsetX = hasTouch ? (evt.targetTouches[0]['pageX'] - self.startX) : (evt['pageX'] - self.startX);
-            var offsetY = hasTouch ? (evt.targetTouches[0]['pageY'] - self.startY) : (evt['pageY'] - self.startY);
+            var offsetX = hasTouch ? (evt.targetTouches[0].pageX - self.startX) : (evt.pageX - self.startX);
+            var offsetY = hasTouch ? (evt.targetTouches[0].pageY - self.startY) : (evt.pageY - self.startY);
             var offset = (axis === 'X') ? offsetX : offsetY;
-            var otherOffset = (axis === 'X') ? offsetY : offsetX;
 
-            if (Math.abs(offset) - Math.abs(otherOffset) > 10) {
+            if (Math.abs(offset) - Math.abs(axis === 'X') ? offsetY : offsetX) > 10) {
                 evt.preventDefault();
                 self.onslide && self.onslide(offset);
                 self.log('Event: onslide');
@@ -479,7 +481,7 @@ iSlider.prototype._bindHandler = function() {
         // create tap event if offset < 10
         if (Math.abs(self.offsetX) < 10 && Math.abs(self.offsetY) < 10) {
             self.tapEvt = document.createEvent('Event');
-            self.tapEvt.initEvent('isliderTap', true, true);
+            self.tapEvt.initEvent('tap', true, true);
 
             if (!evt.target.dispatchEvent(self.tapEvt)) {
                 evt.preventDefault();
@@ -492,6 +494,13 @@ iSlider.prototype._bindHandler = function() {
         self.log('Event: afterslide');
     };
 
+    //to-do:是否考虑事件队列？对于所有的事件
+    var tapHandler = function () {
+        if (self.ontap) {
+            self.ontap();
+        }
+    };
+
     var orientationchangeHandler = function (evt) {
         setTimeout(function() {
             self.reset();
@@ -502,7 +511,7 @@ iSlider.prototype._bindHandler = function() {
     outer.addEventListener(startEvt, startHandler);
     outer.addEventListener(moveEvt, moveHandler);
     outer.addEventListener(endEvt, endHandler);
-    outer.addEventListener('isliderTap', self.tapHandler);
+    outer.addEventListener('tap', tapHandler);
     window.addEventListener('orientationchange', orientationchangeHandler);
 };
 
@@ -532,10 +541,11 @@ iSlider.prototype.pause = function() {
     clearInterval(this.autoPlayTimer);
 };
 
-
 /**
-* plugin extend
-*/
+ * plugin extend
+ * @param {Object} plugin need to be set up
+ * @param {Object} main iSlider prototype
+ */
 iSlider.prototype.extend = function(plugin, main) {
     if (!main) {
         main = iSlider.prototype;
