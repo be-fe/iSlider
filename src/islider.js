@@ -317,8 +317,7 @@ iSlider.prototype._renderHTML = function () {
 };
 
 // start loading image
-iSlider.prototype._preloadImg = function(index, direction) {
-    var dirIndex = (direction === 'right') ? 1 : 0;
+iSlider.prototype._preloadImg = function(index) {
     if (!this.data[index].loaded) {
         var preloadImg = new Image();
         preloadImg.src = this.data[index].content;
@@ -370,15 +369,13 @@ iSlider.prototype.slideTo = function (dataIndex) {
     }
 
     // preload when slide
-    if (n > 0) {
-        loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
-        if (this.type !== 'dom') {
-            this._preloadImg(loadIndex, 'right');
-        }
-    } else if (this.isLooping) {
-        loadIndex = (idx - 2 < 0) ? (dataLen - 2 + idx) : (idx - 2);
-        if (this.type !== 'dom') {
-            this._preloadImg(loadIndex, 'right');
+    if (this.type !== 'dom') {
+        if (n > 0) {
+            loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
+            this._preloadImg(loadIndex);
+        } else if (this.isLooping) {
+            loadIndex = (idx - 2 < 0) ? (dataLen - 2 + idx) : (idx - 2);
+            this._preloadImg(loadIndex);
         }
     }
 
