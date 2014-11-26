@@ -35,12 +35,6 @@ iSlider.prototype._setting = function () {
     this.wrap = opts.dom;
     // your data
     this.data = opts.data;
-
-     // loaded image
-    //this.loadedImage = [];
-    // cached first three images of li
-    //this.cachedImage = [];
-
     // default type
     this.type = opts.type || 'pic';
     // default slide direction
@@ -67,7 +61,7 @@ iSlider.prototype._setting = function () {
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
     // Callback function when the tap outer
-    this.tapHandler = opts.tapHandler;
+    this.ontap = opts.ontap;
 
     this.offset = this.offset || {};
 
@@ -548,6 +542,12 @@ iSlider.prototype._bindHandler = function() {
         self.log('Event: afterslide');
     };
 
+    var tapHandler = function () {
+        if (self.ontap) {
+            self.ontap();
+        }
+    };
+
     var orientationchangeHandler = function (evt) {
         setTimeout(function() {
             self.reset();
@@ -558,7 +558,7 @@ iSlider.prototype._bindHandler = function() {
     outer.addEventListener(startEvt, startHandler);
     outer.addEventListener(moveEvt, moveHandler);
     outer.addEventListener(endEvt, endHandler);
-    outer.addEventListener('isliderTap', self.tapHandler);
+    outer.addEventListener('tap', tapHandler);
     window.addEventListener('orientationchange', orientationchangeHandler);
 };
 
