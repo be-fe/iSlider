@@ -539,6 +539,7 @@ iSlider.prototype._bindHandler = function() {
         self.log('Event: afterslide');
     };
 
+    // to-do:是否考虑事件队列？对于所有的事件
     var tapHandler = function () {
         if (self.ontap) {
             self.ontap();
