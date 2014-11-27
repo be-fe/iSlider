@@ -239,9 +239,7 @@ iSlider.prototype._setUpDamping = function () {
 };
 
 /**
- * render single item for html
- * @param {element} el ..
- * @param {number}  i  ..
+ * render single item html by idx
  */
 iSlider.prototype._renderItem = function (el, i) {
     var item;
@@ -310,6 +308,7 @@ iSlider.prototype._renderHTML = function () {
         outer.appendChild(li);
     }
 
+    this._initLoadImg();
     // append ul to div#canvas
     if (!this.outer) {
         this.outer = outer;
@@ -317,20 +316,67 @@ iSlider.prototype._renderHTML = function () {
     }
 };
 
+// start loading image
+iSlider.prototype._preloadImg = function(index) {
+    if (!this.data[index].loaded) {
+        var preloadImg = new Image();
+        preloadImg.src = this.data[index].content;
+        this.data[index].loaded = 1;
+    }
+};
+
+// pre load image
+iSlider.prototype._initLoadImg = function() {
+    var data = this.data;
+    var len = data.length;
+    var self = this;
+    if (this.type !== 'dom' && len > 3) {
+        data[0].loaded = 1;
+        data[1].loaded = 1;
+        if (self.isLooping) {
+            data[len - 1].loaded = 1;
+        }
+
+        setTimeout(function() {
+            if (!data[2].loaded) {
+                var preLeft = new Image();
+                preLeft.src = data[2].content;
+                data[2].loaded = 1
+            }
+            if (self.isLooping) {
+                var preRight = new Image();
+                preRight.src = data[len - 2].content;
+                data[len - 2].loaded = 1;
+            }
+        }, 200);
+    }
+};
+
 /**
- * slide logical, goto data index
- * @param {number} dataIndex the goto index
+ *  slide logical, goto data index
  */
 iSlider.prototype.slideTo = function (dataIndex) {
     var data = this.data;
+    var dataLen = this.data.length;
     var els = this.els;
     var idx = dataIndex;
     var n = dataIndex - this.slideIndex;
-
+    var loadIndex = 0;
 
     if (Math.abs(n) > 1) {
-        var nextEls = n > 0 ? this.els[2] : this.els[0];
+        var nextEls = n > 0 ? this.els[2] : this.els[0]
         this._renderItem(nextEls, idx);
+    }
+
+    // preload when slide
+    if (this.type !== 'dom') {
+        if (n > 0) {
+            loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
+            this._preloadImg(loadIndex);
+        } else if (this.isLooping) {
+            loadIndex = (idx - 2 < 0) ? (dataLen - 2 + idx) : (idx - 2);
+            this._preloadImg(loadIndex);
+        }
     }
 
     // get right item of data
@@ -370,7 +416,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
     // slidechange should render new item
     // and change new item style to fit animation
     if (n !== 0) {
-        if (Math.abs(n) > 1) {
+        if ( Math.abs(n) > 1) {
             this._renderItem(els[0], idx - 1);
             this._renderItem(els[2], idx + 1);
         } else if (Math.abs(n) === 1) {
@@ -384,7 +430,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
         }, 200);
 
         this.onslidechange && this.onslidechange(this.slideIndex);
-    }
+    } 
 
     // do the trick animation
     for (var i = 0; i < 3; i++) {
@@ -404,16 +450,15 @@ iSlider.prototype.slideTo = function (dataIndex) {
 * bind all event handler
 */
 iSlider.prototype._bindHandler = function() {
+    var self = this;
+    // judge mousemove start or end
+    var isMoving = false;
+    var outer = self.outer;
     // desktop event support
     var hasTouch = !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
     var startEvt = hasTouch ? 'touchstart' : 'mousedown';
     var moveEvt = hasTouch ? 'touchmove' : 'mousemove';
     var endEvt = hasTouch ? 'touchend' : 'mouseup';
-
-    var self = this;
-    // judge mousemove start or end
-    var isMoving = false;
-    var outer = self.outer;
 
     var startHandler = function(evt) {
         isMoving = true;
@@ -481,7 +526,7 @@ iSlider.prototype._bindHandler = function() {
         // create tap event if offset < 10
         if (Math.abs(self.offset.X) < 10 && Math.abs(self.offset.Y) < 10) {
             self.tapEvt = document.createEvent('Event');
-            self.tapEvt.initEvent('tap', true, true);
+            self.tapEvt.initEvent('isliderTap', true, true);
 
             if (!evt.target.dispatchEvent(self.tapEvt)) {
                 evt.preventDefault();
@@ -494,7 +539,7 @@ iSlider.prototype._bindHandler = function() {
         self.log('Event: afterslide');
     };
 
-    //to-do:是否考虑事件队列？对于所有的事件
+    // to-do:是否考虑事件队列？对于所有的事件
     var tapHandler = function () {
         if (self.ontap) {
             self.ontap();
@@ -541,11 +586,10 @@ iSlider.prototype.pause = function() {
     clearInterval(this.autoPlayTimer);
 };
 
+
 /**
- * plugin extend
- * @param {Object} plugin need to be set up
- * @param {Object} main iSlider prototype
- */
+* plugin extend
+*/
 iSlider.prototype.extend = function(plugin, main) {
     if (!main) {
         main = iSlider.prototype;
