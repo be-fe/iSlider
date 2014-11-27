@@ -240,6 +240,8 @@ iSlider.prototype._setUpDamping = function () {
 
 /**
  * render single item html by idx
+ * @param {element} el ..
+ * @param {number}  i  ..
  */
 iSlider.prototype._renderItem = function (el, i) {
     var item;
@@ -354,6 +356,7 @@ iSlider.prototype._initLoadImg = function() {
 
 /**
  *  slide logical, goto data index
+ *  @param {number} dataIndex the goto index
  */
 iSlider.prototype.slideTo = function (dataIndex) {
     var data = this.data;
@@ -416,7 +419,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
     // slidechange should render new item
     // and change new item style to fit animation
     if (n !== 0) {
-        if ( Math.abs(n) > 1) {
+        if (Math.abs(n) > 1) {
             this._renderItem(els[0], idx - 1);
             this._renderItem(els[2], idx + 1);
         } else if (Math.abs(n) === 1) {
@@ -526,7 +529,7 @@ iSlider.prototype._bindHandler = function() {
         // create tap event if offset < 10
         if (Math.abs(self.offset.X) < 10 && Math.abs(self.offset.Y) < 10) {
             self.tapEvt = document.createEvent('Event');
-            self.tapEvt.initEvent('isliderTap', true, true);
+            self.tapEvt.initEvent('tap', true, true);
 
             if (!evt.target.dispatchEvent(self.tapEvt)) {
                 evt.preventDefault();
@@ -589,6 +592,8 @@ iSlider.prototype.pause = function() {
 
 /**
 * plugin extend
+* @param {Object} plugin need to be set up
+* @param {Object} main iSlider prototype
 */
 iSlider.prototype.extend = function(plugin, main) {
     if (!main) {
