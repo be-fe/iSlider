@@ -557,12 +557,8 @@ iSlider.prototype.bind = function(evtType, selector, callback) {
     function handle(e){
         var evt = window.event ? window.event : e;
         var target = evt.target;
-        var currentTarget= e ? e.currentTarget : this;
-        console.log(target.tagName.toLowerCase)
-        if (typeof selector === 'string') {
-            if(('#' + target.id) === selector || target.className.indexOf(selector.match(/\w+/)[0]) != -1 || target.tagName.toLowerCase() === selector){
-                callback.call(target);
-            }
+        if(('#' + target.id) === selector || target.className.indexOf(selector.match(/\w+/)[0]) != -1 || target.tagName.toLowerCase() === selector){
+            callback.call(target);
         }
     }
     this.outer.addEventListener(evtType, handle, false);
