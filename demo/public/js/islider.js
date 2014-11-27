@@ -60,8 +60,6 @@ iSlider.prototype._setting = function () {
     this.onslideend = opts.onslideend;
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
-    // Callback function when the tap outer
-    this.ontap = opts.ontap;
 
     this.offset = this.offset || {};
 
@@ -542,13 +540,6 @@ iSlider.prototype._bindHandler = function() {
         self.log('Event: afterslide');
     };
 
-    // to-do:是否考虑事件队列？对于所有的事件
-    var tapHandler = function () {
-        if (self.ontap) {
-            self.ontap();
-        }
-    };
-
     var orientationchangeHandler = function (evt) {
         setTimeout(function() {
             self.reset();
@@ -559,9 +550,23 @@ iSlider.prototype._bindHandler = function() {
     outer.addEventListener(startEvt, startHandler);
     outer.addEventListener(moveEvt, moveHandler);
     outer.addEventListener(endEvt, endHandler);
-    outer.addEventListener('tap', tapHandler);
     window.addEventListener('orientationchange', orientationchangeHandler);
 };
+
+iSlider.prototype.bind = function(evtType, selector, callback) {
+    function handle(e){
+        var evt = window.event ? window.event : e;
+        var target = evt.target;
+        var currentTarget= e ? e.currentTarget : this;
+        console.log(target.tagName.toLowerCase)
+        if (typeof selector === 'string') {
+            if(('#' + target.id) === selector || target.className.indexOf(selector.match(/\w+/)[0]) != -1 || target.tagName.toLowerCase() === selector){
+                callback.call(target);
+            }
+        }
+    }
+    this.outer.addEventListener(evtType, handle, false);
+}
 
 iSlider.prototype.reset = function() {
     this.pause();
@@ -603,3 +608,4 @@ iSlider.prototype.extend = function(plugin, main) {
         Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
     });
 };
+
