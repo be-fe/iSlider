@@ -81,7 +81,7 @@
 <body>
 	<div id="iSlider"></div>
 	<script type="text/javascript" src="../public/js/islider.js"></script>
-	<script type="text/javascript" src="../public/js/islider_index.js"></script>
+	<script type="text/javascript" src="../public/js/islider_plugin.js"></script>
 	<script>
 		var list = [{
 			'content' : '<div class="content home"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
@@ -109,22 +109,22 @@
 		    duration: 1000,
 		    isVertical: true,
 		    onslidechange: function(idx) {
-		    	islider.changeIndex();
+		    	islider.changeIndexDot();
 		    }
 		};
 
 		var islider = new iSlider(opts);
 
-		var menuOpt = {
+		var dotOpt = {
 			isVertical: true,
 			left: ' ',
 			right: '0',
 			height: '20%',
 			borderColor: '#777',
-			diameter: '0.5em'
+			diameter: '1em',
 		};
 
-		islider.renderIndex(menuOpt);
+		islider.renderDot(dotOpt);
 	</script>
 </body>
 </html>

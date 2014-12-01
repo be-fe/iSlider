@@ -48,68 +48,69 @@
 	<!-- Outer Canvas 外层画布 -->
 	<div id="iSlider-wrapper"></div>
 	<script src="../public/js/islider.js"></script>
-	<script type="text/javascript" src="../public/js/islider_plugin.js"></script>
+	<script src="../public/js/islider_plugin.js"></script>
+
 	<script>
 		var list = [
 			{
 				height: 414,
 				width: 300,
-				content: "./imgs/long/1.jpg",
+				content: "./imgs/high/1.jpg",
 			},{
 				height: 414,
 				width: 300,
-				content: "./imgs/long/2.jpg",
+				content: "./imgs/high/2.jpg",
 			},{
 			 	height: 414,
 				width: 300,
-			 	content: "./imgs/long/3.jpg",
+			 	content: "./imgs/high/3.jpg",
 			},{
 				height: 414,
 				width: 300,
-				content:"./imgs/long/4.jpg"
+				content:"./imgs/high/4.jpg"
 			},{
 				height: 414,
 				width: 300,
-				content:"./imgs/long/5.jpg"
+				content:"./imgs/high/5.jpg"
 			},{
 				height: 414,
 				width: 300,
-				content:"./imgs/long/6.jpg"
+				content:"./imgs/high/6.jpg"
 			},{
 				height: 414,
 				width: 300,
-				content:"./imgs/long/7.jpg"
+				content:"./imgs/high/7.jpg"
 			},{
 				height: 414,
 				width: 300,
-				content:"./imgs/long/8.jpg"
+				content:"./imgs/high/8.jpg"
 			},
 			{
 				height: 414,
 				width: 300,
-				content:"./imgs/long/9.jpg"
+				content:"./imgs/high/9.jpg"
 			},
 			];
-		
-		var opts = {
+				
+		var	islider = new iSlider({
 			type: 'pic',
 		    data: list,
 		    dom: document.getElementById("iSlider-wrapper"),
-		    isLooping: true,
 		    onslidechange: function(idx) {
-		    	islider.changeIndexDot();
+		    	islider.changeIndexBtn();
 		    }
-		};
-		var	islider = new iSlider(opts);
+		});
 
-		var dotOpt = {
-			top: ' ',
-			width: '80%',
-			diameter: '0.8em',
-			borderColor: '#fff',
+		var btnOpt = {
+			isLooping: false,
+			isVertical: false,
+			width: '3em',
+			height: '3em',
+			backgroundColor: '#777',
+			border: '2px solid #fff'
 		};
 
-		islider.renderDot(dotOpt);
+		islider.renderBtn(btnOpt);
 
 	</script>
 </body>

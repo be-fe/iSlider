@@ -61,6 +61,8 @@ iSlider.prototype._setting = function () {
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
 
+    this.offset = this.offset || {};
+
     // looping logic adjust
     if (this.data.length < 2) {
         this.isLooping = false;
@@ -235,7 +237,9 @@ iSlider.prototype._setUpDamping = function () {
 };
 
 /**
- *  render single item html by idx
+ * render single item html by idx
+ * @param {element} el ..
+ * @param {number}  i  ..
  */
 iSlider.prototype._renderItem = function (el, i) {
     var item;
@@ -269,8 +273,7 @@ iSlider.prototype._renderItem = function (el, i) {
         } else {
             el.style.background = 'url(' + item.content + ') 50% 50% / cover no-repeat';
         }
-    } 
-    else if (this.type === 'dom') {
+    } else if (this.type === 'dom') {
         html = item.content;
     }
 
@@ -285,12 +288,13 @@ iSlider.prototype._renderHTML = function () {
 
     // initail ul element
     var outer = this.outer || document.createElement('ul');
-    outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
+    outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;margin:0;padding:0;list-style:none;';
 
     // storage li elements, only store 3 elements to reduce memory usage
     this.els = [];
     for (var i = 0; i < 3; i++) {
         var li = document.createElement('li');
+        li.className = this.type === 'dom' ? 'islider-dom' : 'islider-pic';
         li.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
         this.els.push(li);
 
@@ -304,6 +308,7 @@ iSlider.prototype._renderHTML = function () {
         outer.appendChild(li);
     }
 
+    this._initLoadImg();
     // append ul to div#canvas
     if (!this.outer) {
         this.outer = outer;
@@ -311,19 +316,68 @@ iSlider.prototype._renderHTML = function () {
     }
 };
 
+// start loading image
+iSlider.prototype._preloadImg = function(index) {
+    if (!this.data[index].loaded) {
+        var preloadImg = new Image();
+        preloadImg.src = this.data[index].content;
+        this.data[index].loaded = 1;
+    }
+};
+
+// pre load image
+iSlider.prototype._initLoadImg = function() {
+    var data = this.data;
+    var len = data.length;
+    var self = this;
+    if (this.type !== 'dom' && len > 3) {
+        data[0].loaded = 1;
+        data[1].loaded = 1;
+        if (self.isLooping) {
+            data[len - 1].loaded = 1;
+        }
+
+        setTimeout(function() {
+            if (!data[2].loaded) {
+                var preLeft = new Image();
+                preLeft.src = data[2].content;
+                data[2].loaded = 1
+            }
+            if (self.isLooping) {
+                var preRight = new Image();
+                preRight.src = data[len - 2].content;
+                data[len - 2].loaded = 1;
+            }
+        }, 200);
+    }
+};
+
 /**
  *  slide logical, goto data index
+ *  @param {number} dataIndex the goto index
  */
 iSlider.prototype.slideTo = function (dataIndex) {
     var data = this.data;
+    var dataLen = this.data.length;
     var els = this.els;
     var idx = dataIndex;
     var n = dataIndex - this.slideIndex;
-
+    var loadIndex = 0;
 
     if (Math.abs(n) > 1) {
         var nextEls = n > 0 ? this.els[2] : this.els[0]
         this._renderItem(nextEls, idx);
+    }
+
+    // preload when slide
+    if (this.type !== 'dom') {
+        if (n > 0) {
+            loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
+            this._preloadImg(loadIndex);
+        } else if (this.isLooping) {
+            loadIndex = (idx - 2 < 0) ? (dataLen - 2 + idx) : (idx - 2);
+            this._preloadImg(loadIndex);
+        }
     }
 
     // get right item of data
@@ -363,7 +417,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
     // slidechange should render new item
     // and change new item style to fit animation
     if (n !== 0) {
-        if ( Math.abs(n) > 1) {
+        if (Math.abs(n) > 1) {
             this._renderItem(els[0], idx - 1);
             this._renderItem(els[2], idx + 1);
         } else if (Math.abs(n) === 1) {
@@ -421,26 +475,30 @@ iSlider.prototype._bindHandler = function() {
 
     var moveHandler = function (evt) {
         if (isMoving) {
-            evt.preventDefault();
-
             var len = self.data.length;
             var axis = self.axis;
-            var currentPoint = hasTouch ? evt.targetTouches[0]['page' + axis] : evt['page' + axis];
-            var offset = currentPoint - self['start' + axis];
+            var otherAxis = (axis === 'X') ? 'Y' : 'X';
+            var offset = {
+                X: hasTouch ? (evt.targetTouches[0].pageX - self.startX) : (evt.pageX - self.startX),
+                Y: hasTouch ? (evt.targetTouches[0].pageY - self.startY) : (evt.pageY - self.startY)
+            };
 
-            self.onslide && self.onslide(offset);
-            self.log('Event: onslide');
+            if (Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
+                evt.preventDefault();
+                self.onslide && self.onslide(offset[axis]);
+                self.log('Event: onslide');
 
-            if (!self.isLooping) {
-                if (offset > 0 && self.slideIndex === 0 || offset < 0 && self.slideIndex === len - 1) {
-                    offset = self._damping(offset);
+                if (!self.isLooping) {
+                    if (offset[axis] > 0 && self.slideIndex === 0 || offset[axis] < 0 && self.slideIndex === len - 1) {
+                        offset[axis] = self._damping(offset[axis]);
+                    }
                 }
-            }
 
-            for (var i = 0; i < 3; i++) {
-                var item = self.els[i];
-                item.style.webkitTransition = 'all 0s';
-                self._animateFunc(item, axis, self.scale, i, offset);
+                for (var i = 0; i < 3; i++) {
+                    var item = self.els[i];
+                    item.style.webkitTransition = 'all 0s';
+                    self._animateFunc(item, axis, self.scale, i, offset[axis]);
+                }
             }
 
             self.offset = offset;
@@ -450,22 +508,33 @@ iSlider.prototype._bindHandler = function() {
     var endHandler = function (evt) {
         isMoving = false;
 
-        var metric = self.offset;
+        var offset = self.offset;
+        var axis = self.axis;
         var boundary = self.scale / 2;
         var endTime = new Date().getTime();
 
         // a quick slide time must under 300ms
         // a quick slide should also slide at least 14 px
         boundary = endTime - self.startTime > 300 ? boundary : 14;
-        if (metric >= boundary) {
+        if (offset[axis] >= boundary) {
             self.slideTo(self.slideIndex - 1);
-        } else if (metric < -boundary) {
+        } else if (offset[axis] < -boundary) {
             self.slideTo(self.slideIndex + 1);
         } else {
             self.slideTo(self.slideIndex);
         }
 
-        self.offset = 0;
+        // create tap event if offset < 10
+        if (Math.abs(self.offset.X) < 10 && Math.abs(self.offset.Y) < 10) {
+            self.tapEvt = document.createEvent('Event');
+            self.tapEvt.initEvent('tap', true, true);
+
+            if (!evt.target.dispatchEvent(self.tapEvt)) {
+                evt.preventDefault();
+            }
+        }
+
+        self.offset.X = self.offset.Y = 0;
         self.isAutoplay && self.play();
         self.onslideend && self.onslideend(self.slideIndex);
         self.log('Event: afterslide');
@@ -483,6 +552,17 @@ iSlider.prototype._bindHandler = function() {
     outer.addEventListener(endEvt, endHandler);
     window.addEventListener('orientationchange', orientationchangeHandler);
 };
+
+iSlider.prototype.bind = function(evtType, selector, callback) {
+    function handle(e){
+        var evt = window.event ? window.event : e;
+        var target = evt.target;
+        if(('#' + target.id) === selector || target.className.indexOf(selector.match(/\w+/)[0]) != -1 || target.tagName.toLowerCase() === selector){
+            callback.call(target);
+        }
+    }
+    this.outer.addEventListener(evtType, handle, false);
+}
 
 iSlider.prototype.reset = function() {
     this.pause();
@@ -513,6 +593,8 @@ iSlider.prototype.pause = function() {
 
 /**
 * plugin extend
+* @param {Object} plugin need to be set up
+* @param {Object} main iSlider prototype
 */
 iSlider.prototype.extend = function(plugin, main) {
     if (!main) {
@@ -522,3 +604,4 @@ iSlider.prototype.extend = function(plugin, main) {
         Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
     });
 };
+
