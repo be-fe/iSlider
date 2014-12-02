@@ -1,9 +1,8 @@
-<h1 id="intro">iSlider</h1>
-
-<h4><a href="http://be-fe.github.io/iSlider/index_en.html">iSlider English Official Page</a></h4>
-<h4><a href="https://github.com/BE-FE/iSlider/blob/master/README.md">iSlider English README</a></h4>
-<h4><a href="http://be-fe.github.io/iSlider/index.html">iSlider 中文官网</a></h4>
-<h4><a href="http://be-fe.github.io/iSlider/demo/">iSlider Example</a></h4>
+#iSlider
+####[iSlider English Official Page](http://be-fe.github.io/iSlider/index_en.html)
+####[iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
+####[iSlider 中文官网](http://be-fe.github.io/iSlider/index.html)
+####[iSlider Example](http://be-fe.github.io/iSlider/demo/)
 
 iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：
 
@@ -14,11 +13,11 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 * 支持桌面鼠标动作，方便测试
 * 支持图片预加载，改善用户体验
 
-<h2 id="demo">iSlider移动端展示</h2>
+##iSlider移动端展示
 
 <img width="150px" height="150px" src="qrcode.png"/>
 
-<h2 id="getting-started">开始部署iSlider</h2>
+##开始部署iSlider
 部署iSlider最容易的办法是查阅我们提供的简易例子。大部份代码存放在demo文件夹的文件里面。*iSlider* 是必要新建的一个类。
 
 在你开始之前，你需要为iSlider先新建好数据:
@@ -87,7 +86,7 @@ var data = [{
 	'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
 }];
 ```
-如果你想实现介绍部份提到的效果，你可以按以下格式设置: 
+如果想实现介绍部份提到的效果，可以按以下格式设置: 
 
 	<script type="text/javascript">
     	var islider = new iSlider({
@@ -101,7 +100,7 @@ var data = [{
     	});
     </script>
 
-<h2 id="understanding">深入了解iSlider</h2>
+##深入了解iSlider
 这里提供对iSlider类选项最清楚的描述: 
 <table>
 <thead>
@@ -194,7 +193,7 @@ var data = [{
 </tbody>
 </table>
 
-<h2 id="license">License (MIT)</h2>
+##License (MIT)
 
 Copyright (c) 2014 BE-FE
 

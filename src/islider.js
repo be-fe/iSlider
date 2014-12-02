@@ -316,7 +316,9 @@ iSlider.prototype._renderHTML = function () {
     }
 };
 
-// start loading image
+/**
+ *  preload img when slideChange
+ */
 iSlider.prototype._preloadImg = function(index) {
     if (!this.data[index].loaded) {
         var preloadImg = new Image();
@@ -325,7 +327,9 @@ iSlider.prototype._preloadImg = function(index) {
     }
 };
 
-// pre load image
+/**
+ *  load extra imgs when renderHTML
+ */
 iSlider.prototype._initLoadImg = function() {
     var data = this.data;
     var len = data.length;
@@ -553,6 +557,12 @@ iSlider.prototype._bindHandler = function() {
     window.addEventListener('orientationchange', orientationchangeHandler);
 };
 
+/**
+*  simple event delegate method
+*  @param {String}   evtType   event name
+*  @param {String}   selector  the simple css selector like jQuery
+*  @param {function} callback  event callback
+*/
 iSlider.prototype.bind = function(evtType, selector, callback) {
     function handle(e){
         var evt = window.event ? window.event : e;
@@ -564,6 +574,9 @@ iSlider.prototype.bind = function(evtType, selector, callback) {
     this.outer.addEventListener(evtType, handle, false);
 }
 
+/**
+* reset & rerender
+*/
 iSlider.prototype.reset = function() {
     this.pause();
     this._setting();
@@ -604,4 +617,3 @@ iSlider.prototype.extend = function(plugin, main) {
         Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
     });
 };
-
