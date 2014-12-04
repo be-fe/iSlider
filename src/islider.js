@@ -318,6 +318,7 @@ iSlider.prototype._renderHTML = function () {
 
 /**
  *  preload img when slideChange
+ *  @param {number} index means which image will be load
  */
 iSlider.prototype._preloadImg = function(index) {
     if (!this.data[index].loaded) {
@@ -345,7 +346,7 @@ iSlider.prototype._initLoadImg = function() {
             if (!data[2].loaded) {
                 var preLeft = new Image();
                 preLeft.src = data[2].content;
-                data[2].loaded = 1
+                data[2].loaded = 1;
             }
             if (self.isLooping) {
                 var preRight = new Image();
@@ -369,7 +370,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
     var loadIndex = 0;
 
     if (Math.abs(n) > 1) {
-        var nextEls = n > 0 ? this.els[2] : this.els[0]
+        var nextEls = n > 0 ? this.els[2] : this.els[0];
         this._renderItem(nextEls, idx);
     }
 
@@ -435,7 +436,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
         }, 200);
 
         this.onslidechange && this.onslidechange(this.slideIndex);
-    } 
+    }
 
     // do the trick animation
     for (var i = 0; i < 3; i++) {
@@ -559,20 +560,22 @@ iSlider.prototype._bindHandler = function() {
 
 /**
 *  simple event delegate method
-*  @param {String}   evtType   event name
-*  @param {String}   selector  the simple css selector like jQuery
-*  @param {function} callback  event callback
+*  @param {string}   evtType   event name
+*  @param {string}   selector  the simple css selector like jQuery
+*  @param {Function} callback  event callback
 */
 iSlider.prototype.bind = function(evtType, selector, callback) {
-    function handle(e){
+    function handle(e) {
         var evt = window.event ? window.event : e;
         var target = evt.target;
-        if(('#' + target.id) === selector || target.className.indexOf(selector.match(/\w+/)[0]) != -1 || target.tagName.toLowerCase() === selector){
+        if (('#' + target.id) === selector
+            || target.className.indexOf(selector.match(/\w+/)[0]) !== -1
+            || target.tagName.toLowerCase() === selector) {
             callback.call(target);
         }
     }
     this.outer.addEventListener(evtType, handle, false);
-}
+};
 
 /**
 * reset & rerender
