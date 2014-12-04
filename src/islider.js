@@ -61,7 +61,7 @@ iSlider.prototype._setting = function () {
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
 
-    this.offset = this.offset || {};
+    this.offset = this.offset || {X: 0, Y: 0};
 
     // looping logic adjust
     if (this.data.length < 2) {
@@ -319,7 +319,7 @@ iSlider.prototype._renderHTML = function () {
 
 /**
  *  preload img when slideChange
- *  @param {number}  index  dataIndex will be preloading
+ *  @param {number} index means which image will be load
  */
 iSlider.prototype._preloadImg = function(index) {
     if (!this.data[index].loaded) {
@@ -563,13 +563,15 @@ iSlider.prototype._bindHandler = function() {
 *  simple event delegate method
 *  @param {string}   evtType   event name
 *  @param {string}   selector  the simple css selector like jQuery
-*  @param {function} callback  event callback
+*  @param {Function} callback  event callback
 */
 iSlider.prototype.bind = function(evtType, selector, callback) {
     function handle(e) {
         var evt = window.event ? window.event : e;
         var target = evt.target;
-        if (('#' + target.id) === selector || target.className.indexOf(selector.match(/\w+/)[0]) !== -1 || target.tagName.toLowerCase() === selector) {
+        if (('#' + target.id) === selector
+            || target.className.indexOf(selector.match(/\w+/)[0]) !== -1
+            || target.tagName.toLowerCase() === selector) {
             callback.call(target);
         }
     }
