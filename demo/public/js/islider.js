@@ -319,7 +319,7 @@ iSlider.prototype._renderHTML = function () {
 
 /**
  *  preload img when slideChange
- *  @param {number}  index  dataIndex will be preloading
+ *  @param {number} index means which image will be load
  */
 iSlider.prototype._preloadImg = function(index) {
     if (!this.data[index].loaded) {
@@ -569,7 +569,9 @@ iSlider.prototype.bind = function(evtType, selector, callback) {
     function handle(e) {
         var evt = window.event ? window.event : e;
         var target = evt.target;
-        if (('#' + target.id) === selector || target.className.indexOf(selector.match(/\w+/)[0]) !== -1 || target.tagName.toLowerCase() === selector) {
+        if (('#' + target.id) === selector
+            || target.className.indexOf(selector.match(/\w+/)[0]) !== -1
+            || target.tagName.toLowerCase() === selector) {
             callback.call(target);
         }
     }
