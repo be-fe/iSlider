@@ -61,7 +61,7 @@ iSlider.prototype._setting = function () {
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
 
-    this.offset = this.offset || {};
+    this.offset = this.offset || {X: 0, Y: 0};
 
     // looping logic adjust
     if (this.data.length < 2) {
