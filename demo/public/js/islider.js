@@ -272,7 +272,7 @@ iSlider.prototype._renderItem = function (el, i) {
             : '<img width="' + this.width + '" src="' + item.content + '">';
         } else {
             el.style.background = 'url(' + item.content + ') 50% 50% no-repeat';
-            el.style.webkitBackgroundSize = 'cover';
+            el.style.backgroundSize = 'cover';
         }
     } else if (this.type === 'dom') {
         html = item.content;
