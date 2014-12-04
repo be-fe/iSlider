@@ -271,7 +271,8 @@ iSlider.prototype._renderItem = function (el, i) {
             ? '<img height="' + this.height + '" src="' + item.content + '">'
             : '<img width="' + this.width + '" src="' + item.content + '">';
         } else {
-            el.style.background = 'url(' + item.content + ') 50% 50% / cover no-repeat';
+            el.style.background = 'url(' + item.content + ') 50% 50% no-repeat';
+            el.style.backgroundSize = 'cover';
         }
     } else if (this.type === 'dom') {
         html = item.content;
@@ -562,7 +563,7 @@ iSlider.prototype._bindHandler = function() {
 *  simple event delegate method
 *  @param {string}   evtType   event name
 *  @param {string}   selector  the simple css selector like jQuery
-*  @param {Function} callback  event callback
+*  @param {function} callback  event callback
 */
 iSlider.prototype.bind = function(evtType, selector, callback) {
     function handle(e) {
