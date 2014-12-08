@@ -43,8 +43,12 @@ iSlider.prototype._setting = function () {
     this.isOverspread = opts.isOverspread || false;
     // Play time gap
     this.duration = opts.duration || 2000;
-    // start from 0
-    this.slideIndex = this.slideIndex || 0;
+    // start from initIndex or 0
+    this.initIndex = opts.initIndex || 0;
+    if  (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
+        this.initIndex = 0;
+    } 
+    this.slideIndex = this.slideIndex || this.initIndex;
 
     this.axis = this.isVertical ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
@@ -319,13 +323,25 @@ iSlider.prototype._renderHTML = function () {
 
 /**
  *  preload img when slideChange
- *  @param {number} index means which image will be load
+ *  @param {number} dataIndex means which image will be load
  */
-iSlider.prototype._preloadImg = function(index) {
-    if (!this.data[index].loaded) {
-        var preloadImg = new Image();
-        preloadImg.src = this.data[index].content;
-        this.data[index].loaded = 1;
+iSlider.prototype._preloadImg = function(dataIndex) {
+    var len = this.data.length;
+    var idx = dataIndex;
+    var n = dataIndex - this.slideIndex;
+    var self = this;
+    var loadImg = function(index) {
+        if (!self.data[index].loaded) {
+            var preloadImg = new Image();
+            preloadImg.src = self.data[index].content;
+            self.data[index].loaded = 1;
+        }
+    }
+    if (self.type !== 'dom') {
+        var nextIndex = (idx + 2 > len - 1) ? ((idx + 2) % len) : (idx + 2);
+        var prevIndex = (idx - 2 < 0) ? (len - 2 + idx) : (idx - 2);
+        loadImg(nextIndex);
+        loadImg(prevIndex);
     }
 };
 
@@ -335,25 +351,20 @@ iSlider.prototype._preloadImg = function(index) {
 iSlider.prototype._initLoadImg = function() {
     var data = this.data;
     var len = data.length;
+    var idx = this.initIndex;
     var self = this;
+
     if (this.type !== 'dom' && len > 3) {
-        data[0].loaded = 1;
-        data[1].loaded = 1;
-        if (self.isLooping) {
-            data[len - 1].loaded = 1;
+        var nextIndex = (idx + 1 > len) ? ((idx + 1) % len) : (idx + 1);
+        var prevIndex = (idx - 1 < 0) ? (len - 1 + idx) : (idx - 1);
+        data[idx].loaded = 1;
+        data[nextIndex].loaded = 1;
+        if (self.isLooping) { 
+            data[prevIndex].loaded = 1;
         }
 
         setTimeout(function() {
-            if (!data[2].loaded) {
-                var preLeft = new Image();
-                preLeft.src = data[2].content;
-                data[2].loaded = 1;
-            }
-            if (self.isLooping) {
-                var preRight = new Image();
-                preRight.src = data[len - 2].content;
-                data[len - 2].loaded = 1;
-            }
+            self._preloadImg(idx);
         }, 200);
     }
 };
@@ -364,11 +375,9 @@ iSlider.prototype._initLoadImg = function() {
  */
 iSlider.prototype.slideTo = function (dataIndex) {
     var data = this.data;
-    var dataLen = this.data.length;
     var els = this.els;
     var idx = dataIndex;
     var n = dataIndex - this.slideIndex;
-    var loadIndex = 0;
 
     if (Math.abs(n) > 1) {
         var nextEls = n > 0 ? this.els[2] : this.els[0];
@@ -376,15 +385,7 @@ iSlider.prototype.slideTo = function (dataIndex) {
     }
 
     // preload when slide
-    if (this.type !== 'dom') {
-        if (n > 0) {
-            loadIndex = (idx + 2 > dataLen - 1) ? ((idx + 2) % dataLen) : (idx + 2);
-            this._preloadImg(loadIndex);
-        } else if (this.isLooping) {
-            loadIndex = (idx - 2 < 0) ? (dataLen - 2 + idx) : (idx - 2);
-            this._preloadImg(loadIndex);
-        }
-    }
+    this._preloadImg(idx);
 
     // get right item of data
     if (data[idx]) {
