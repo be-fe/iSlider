@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "author": "qbatyqi",
   "devDependencies": {
-    "gulp": "~3.8.9"
+    "gulp": "~3.8.9",
+    "amdclean": "~2.4.0",
+    "gulp-uglify": "~1.0.1",
   }
 }
