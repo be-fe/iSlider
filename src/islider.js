@@ -582,9 +582,13 @@ iSlider.prototype.bind = function(evtType, selector, callback) {
 /**
 * reset & rerender
 */
-iSlider.prototype.reset = function() {
+iSlider.prototype.reset = function(data) {
     this.pause();
     this._setting();
+    this.slideIndex = this.initIndex;
+    if (data) {
+        this.data = data;
+    }
     this._renderHTML();
     this.isAutoplay && this.play();
 };
