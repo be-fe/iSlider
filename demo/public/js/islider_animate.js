@@ -1,4 +1,4 @@
-define('islider_animate', ['islider_core'], function(islider_core){
+define('islider_animate', ['iSlider'], function(iSlider){
     var extendAnimation = {
         'rotate': function (dom, axis, scale, i, offset) {
             var rotateDirect = (axis === 'X') ? 'Y' : 'X';
@@ -91,5 +91,6 @@ define('islider_animate', ['islider_core'], function(islider_core){
         }
     }
 
-    islider_core.extend(iSlider.prototype._animateFuncs, extendAnimation);
+    iSlider.prototype.extend(extendAnimation, iSlider.prototype._animateFuncs);
+
 })

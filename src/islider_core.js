@@ -9,7 +9,7 @@
  * Please refer to README                   请参考README
  * @class
  */
-define('islider_core', [], function(){ 
+define('iSlider', [], function(){ 
 
     'use strict';
 
@@ -533,6 +533,6 @@ define('islider_core', [], function(){
         });
     };
 
-    return this;
+    return iSlider;
 
 })
