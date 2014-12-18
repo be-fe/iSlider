@@ -541,4 +541,5 @@ islider_animate = function (iSlider) {
   };
   iSlider.prototype.extend(extendAnimation, iSlider.prototype._animateFuncs);
 }(iSlider);
+window.iSlider = iSlider;
 }());
