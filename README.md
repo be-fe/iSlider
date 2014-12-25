@@ -1,8 +1,9 @@
-<h1 id="intro">iSlider，Smooth slider for webapps</h1>
+#iSlider，Smooth slider for webapps
 
-<h3><a href="http://be-fe.github.io/iSlider/index_en.html">iSlider English Official Page</a></h3>
-<h3><a href="http://be-fe.github.io/iSlider/index.html">iSlider 中文官网</a></h3>
-<h3><a href="https://github.com/BE-FE/iSlider/blob/master/README_Chinese.md">iSlider 中文README</a></h3>
+####[iSlider English Official Page](http://be-fe.github.io/iSlider/index_en.html)
+####[iSlider 中文官网](http://be-fe.github.io/iSlider/index.html)
+####[iSlider 中文README](https://github.com/BE-FE/iSlider/blob/master/README_Chinese.md)
+####[iSlider Example](http://be-fe.github.io/iSlider/demo/)
 
 iSlider is a high performance，dependency free, mobile-platform javascript slider.
 It can handle any elements that need to be slide, like picture list or different dom elements. 
@@ -15,13 +16,13 @@ It features:
 * Support desktop gesture which is convenient for testing.
 * Support image preloader to improve user experience.
 
-<h2 id="demo">iSlider Mobile Demo</h2>
+##iSlider Mobile Demo
 
 <img width="150px" height="150px" src="qrcode.png"/>
 
 * <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
 
-<h2 id="getting-started">Getting Started</h2>
+##Getting Started
 The best way to learn the iSlider is by looking at the demos. In the archive you'll find a demo folder. Most of the script features are outlined there.
 *iSlider* is a class that needs to be initiated for each dom area. 
 
@@ -72,7 +73,7 @@ If you want to add more effects or options, you can follow the demo in demo/pict
 
 That's it. 
 
-<h2 id="configuration">Configure the iSlider</h2>
+##Configure the iSlider
 Besides the basic ways you can do with iSlider, you can customized the features we provide. For example, if you prefers to put dom elements on the list, you can change the data array like this:
 
 ``` javascript
@@ -104,7 +105,7 @@ If you hope to implement the effects mentioned in introduction part, you can:
     	});
     </script>
 
-<h2 id="understanding">Understand The iSlider</h2>
+##Understand The iSlider
 Here provides a clear description of what options you are able to manipulate:
 <table>
 <thead>
@@ -197,7 +198,7 @@ Here provides a clear description of what options you are able to manipulate:
 </tbody>
 </table>
 
-<h2 id="license">License (MIT)</h2>
+##License (MIT)
 
 Copyright (c) 2014 BE-FE
 

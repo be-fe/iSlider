@@ -3,12 +3,32 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
-<link href="../public/css/islider.css" rel="stylesheet">
 <style>
 	body {
 	    margin: 0;
 	    padding: 0;
 	    overflow: hidden;
+	}
+
+	#iSlider ul {
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    height: 100%;
+	    overflow: hidden;
+	}
+
+	#iSlider li {
+	    position: absolute;
+	    margin: 0;
+	    padding: 0;
+	    height: 100%;
+	    overflow: hidden;
+	    display: -webkit-box;
+	    -webkit-box-orient: vertical;
+	    -webkit-box-pack: center;
+	    -webkit-box-align: center;
+	    list-style: none;
 	}
 
 	#iSlider {
@@ -61,6 +81,7 @@
 <body>
 	<div id="iSlider"></div>
 	<script type="text/javascript" src="../public/js/islider.js"></script>
+	<script type="text/javascript" src="../public/js/islider_plugin.js"></script>
 	<script>
 		var list = [{
 			'content' : '<div class="content home"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
@@ -80,13 +101,30 @@
 		{
 			'content' : '<div class="content page5"><h1>Page5</h1><h2>This is page5</h2><p>page5 is pretty awsome</p><div>'
 		}];
-		var islider = new iSlider({
+
+		var opts = {
 		    data: list,
 		    type: 'dom',
 		    dom: document.getElementById("iSlider"),
 		    duration: 1000,
-		    isVertical: true
-		});
+		    isVertical: true,
+		    onslidechange: function(idx) {
+		    	islider.changeIndexDot();
+		    }
+		};
+
+		var islider = new iSlider(opts);
+
+		var dotOpt = {
+			isVertical: true,
+			left: ' ',
+			right: '0',
+			height: '20%',
+			borderColor: '#777',
+			diameter: '1em',
+		};
+
+		islider.renderDot(dotOpt);
 	</script>
 </body>
 </html>
