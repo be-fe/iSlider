@@ -338,9 +338,10 @@ iSlider = function () {
   */
   iSlider.prototype._bindHandler = function () {
     var outer = this.outer;
-    outer.addEventListener(this._device().startEvt, this);
-    outer.addEventListener(this._device().moveEvt, this);
-    outer.addEventListener(this._device().endEvt, this);
+    var device = this._device();
+    outer.addEventListener(device.startEvt, this);
+    outer.addEventListener(device.moveEvt, this);
+    outer.addEventListener(device.endEvt, this);
     window.addEventListener('orientationchange', this);
   };
   /**
@@ -360,17 +361,21 @@ iSlider = function () {
     this.outer.addEventListener(evtType, handle, false);
   };
   /**
-  *  removeEventListener to release the memary
+  *  removeEventListener to release the memory
   */
   iSlider.prototype.release = function () {
     var outer = this.outer;
-    outer.removeEventListener(this._device().startEvt, this);
-    outer.removeEventListener(this._device().moveEvt, this);
-    outer.removeEventListener(this._device().endEvt, this);
+    var device = this._device();
+    outer.removeEventListener(device.startEvt, this);
+    outer.removeEventListener(device.moveEvt, this);
+    outer.removeEventListener(device.endEvt, this);
     window.removeEventListener('orientationchange', this);
     window.removeEventListener('focus', this);
     window.removeEventListener('blur', this);
   };
+  /**
+  *  uniformity admin event
+  */
   iSlider.prototype.handleEvent = function (evt) {
     switch (evt.type) {
     case 'touchstart' || 'mousedown':
@@ -393,23 +398,31 @@ iSlider = function () {
       break;
     }
   };
+  /**
+  *  touchstart callback
+  */
   iSlider.prototype.startHandler = function (evt) {
+    var device = this._device();
     this.isMoving = true;
     this.pause();
     this.onslidestart && this.onslidestart();
     this.log('Event: beforeslide');
     this.startTime = new Date().getTime();
-    this.startX = this._device().hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
-    this.startY = this._device().hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
+    this.startX = device.hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
+    this.startY = device.hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
   };
+  /**
+  *  touchmove callback
+  */
   iSlider.prototype.moveHandler = function (evt) {
     if (this.isMoving) {
+      var device = this._device();
       var len = this.data.length;
       var axis = this.axis;
       var otherAxis = axis === 'X' ? 'Y' : 'X';
       var offset = {
-        X: this._device().hasTouch ? evt.targetTouches[0].pageX - this.startX : evt.pageX - this.startX,
-        Y: this._device().hasTouch ? evt.targetTouches[0].pageY - this.startY : evt.pageY - this.startY
+        X: device.hasTouch ? evt.targetTouches[0].pageX - this.startX : evt.pageX - this.startX,
+        Y: device.hasTouch ? evt.targetTouches[0].pageY - this.startY : evt.pageY - this.startY
       };
       if (Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
         evt.preventDefault();
@@ -429,6 +442,9 @@ iSlider = function () {
       this.offset = offset;
     }
   };
+  /**
+  *  touchend callback
+  */
   iSlider.prototype.endHandler = function (evt) {
     this.isMoving = false;
     var offset = this.offset;
@@ -458,6 +474,9 @@ iSlider = function () {
     this.onslideend && this.onslideend(this.slideIndex);
     this.log('Event: afterslide');
   };
+  /**
+  *  orientationchange callback
+  */
   iSlider.prototype.orientationchangeHandler = function () {
     setTimeout(function () {
       this.reset();
