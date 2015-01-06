@@ -409,7 +409,7 @@ define('iSlider', [], function(){
     /**
     *  removeEventListener to release the memory
     */
-    iSlider.prototype.release = function(){
+    iSlider.prototype.destroy = function(){
         var outer = this.outer;
         var device = this._device();
         outer.removeEventListener(device.startEvt, this);
@@ -418,6 +418,7 @@ define('iSlider', [], function(){
         window.removeEventListener('orientationchange', this);
         window.removeEventListener('focus', this);
         window.removeEventListener('blur', this);
+        this.wrap.innerHTML = '';
     };
 
     /**
@@ -451,6 +452,10 @@ define('iSlider', [], function(){
     */
     iSlider.prototype.startHandler = function(evt){
         var device = this._device();
+
+        if (this.isVertical) {
+            evt.preventDefault();
+        }
         this.isMoving = true;
         this.pause();
         this.onslidestart && this.onslidestart();
@@ -476,7 +481,6 @@ define('iSlider', [], function(){
             };
 
             if (Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
-                evt.preventDefault();
                 this.onslide && this.onslide(offset[axis]);
                 this.log('Event: onslide');
 
