@@ -404,9 +404,6 @@ iSlider = function () {
   */
   iSlider.prototype.startHandler = function (evt) {
     var device = this._device();
-    if (this.isVertical) {
-      evt.preventDefault();
-    }
     this.isMoving = true;
     this.pause();
     this.onslidestart && this.onslidestart();
