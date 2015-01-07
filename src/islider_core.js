@@ -102,13 +102,8 @@ define('iSlider', [], function(){
 
     // fixed bug for android device
     iSlider.prototype._setPlayWhenFocus = function() {
-        var self = this;
-        window.addEventListener('focus', function() {
-            self.isAutoplay && self.play();
-        }, false);
-        window.addEventListener('blur', function() {
-            self.pause();
-        }, false);
+        window.addEventListener('focus', this, false);
+        window.addEventListener('blur', this, false);
     };
 
     /**
@@ -365,109 +360,31 @@ define('iSlider', [], function(){
     };
 
     /**
-    * bind all event handler
+    * judge the device
     */
-    iSlider.prototype._bindHandler = function() {
-        var self = this;
-        // judge mousemove start or end
-        var isMoving = false;
-        var outer = self.outer;
-        // desktop event support
+    iSlider.prototype._device = function(){
         var hasTouch = !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
         var startEvt = hasTouch ? 'touchstart' : 'mousedown';
         var moveEvt = hasTouch ? 'touchmove' : 'mousemove';
         var endEvt = hasTouch ? 'touchend' : 'mouseup';
+        return {
+            hasTouch: hasTouch,
+            startEvt: startEvt,
+            moveEvt: moveEvt,
+            endEvt: endEvt
+        }
+    };
 
-        var startHandler = function(evt) {
-            isMoving = true;
-
-            self.pause();
-            self.onslidestart && self.onslidestart();
-            self.log('Event: beforeslide');
-
-            self.startTime = new Date().getTime();
-            self.startX = hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
-            self.startY = hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
-        };
-
-        var moveHandler = function (evt) {
-            if (isMoving) {
-                var len = self.data.length;
-                var axis = self.axis;
-                var otherAxis = (axis === 'X') ? 'Y' : 'X';
-                var offset = {
-                    X: hasTouch ? (evt.targetTouches[0].pageX - self.startX) : (evt.pageX - self.startX),
-                    Y: hasTouch ? (evt.targetTouches[0].pageY - self.startY) : (evt.pageY - self.startY)
-                };
-
-                if (Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
-                    evt.preventDefault();
-                    self.onslide && self.onslide(offset[axis]);
-                    self.log('Event: onslide');
-
-                    if (!self.isLooping) {
-                        if (offset[axis] > 0 && self.slideIndex === 0 || offset[axis] < 0 && self.slideIndex === len - 1) {
-                            offset[axis] = self._damping(offset[axis]);
-                        }
-                    }
-
-                    for (var i = 0; i < 3; i++) {
-                        var item = self.els[i];
-                        item.style.webkitTransition = 'all 0s';
-                        self._animateFunc(item, axis, self.scale, i, offset[axis]);
-                    }
-                }
-
-                self.offset = offset;
-            }
-        };
-
-        var endHandler = function (evt) {
-            isMoving = false;
-
-            var offset = self.offset;
-            var axis = self.axis;
-            var boundary = self.scale / 2;
-            var endTime = new Date().getTime();
-
-            // a quick slide time must under 300ms
-            // a quick slide should also slide at least 14 px
-            boundary = endTime - self.startTime > 300 ? boundary : 14;
-            if (offset[axis] >= boundary) {
-                self.slideTo(self.slideIndex - 1);
-            } else if (offset[axis] < -boundary) {
-                self.slideTo(self.slideIndex + 1);
-            } else {
-                self.slideTo(self.slideIndex);
-            }
-
-            // create tap event if offset < 10
-            if (Math.abs(self.offset.X) < 10 && Math.abs(self.offset.Y) < 10) {
-                self.tapEvt = document.createEvent('Event');
-                self.tapEvt.initEvent('tap', true, true);
-
-                if (!evt.target.dispatchEvent(self.tapEvt)) {
-                    evt.preventDefault();
-                }
-            }
-
-            self.offset.X = self.offset.Y = 0;
-            self.isAutoplay && self.play();
-            self.onslideend && self.onslideend(self.slideIndex);
-            self.log('Event: afterslide');
-        };
-
-        var orientationchangeHandler = function (evt) {
-            setTimeout(function() {
-                self.reset();
-                self.log('Event: orientationchange');
-            },100);
-        };
-
-        outer.addEventListener(startEvt, startHandler);
-        outer.addEventListener(moveEvt, moveHandler);
-        outer.addEventListener(endEvt, endHandler);
-        window.addEventListener('orientationchange', orientationchangeHandler);
+    /**
+    * bind all event handler
+    */
+    iSlider.prototype._bindHandler = function() {
+        var outer = this.outer;
+        var device = this._device();
+        outer.addEventListener(device.startEvt, this);
+        outer.addEventListener(device.moveEvt, this);
+        outer.addEventListener(device.endEvt, this);
+        window.addEventListener('orientationchange', this);
     };
 
     /**
@@ -488,6 +405,149 @@ define('iSlider', [], function(){
         }
         this.outer.addEventListener(evtType, handle, false);
     };
+
+    /**
+    *  removeEventListener to release the memory
+    */
+    iSlider.prototype.destroy = function(){
+        var outer = this.outer;
+        var device = this._device();
+        outer.removeEventListener(device.startEvt, this);
+        outer.removeEventListener(device.moveEvt, this);
+        outer.removeEventListener(device.endEvt, this);
+        window.removeEventListener('orientationchange', this);
+        window.removeEventListener('focus', this);
+        window.removeEventListener('blur', this);
+        this.wrap.innerHTML = '';
+    };
+
+    /**
+    *  uniformity admin event
+    */
+    iSlider.prototype.handleEvent = function(evt){
+        switch (evt.type) {
+            case 'touchstart' || 'mousedown':
+                this.startHandler(evt);
+                break;
+            case 'touchmove' || 'mousemove':
+                this.moveHandler(evt);
+                break;
+            case 'touchend' || 'mouseup':
+                this.endHandler(evt);
+                break;
+            case 'orientationchange':
+                this.orientationchangeHandler();
+                break;
+            case 'focus':
+                this.isAutoplay && this.play();
+                break;
+            case 'blur':
+                this.pause();
+                break;
+        }
+    };
+
+    /**
+    *  touchstart callback
+    */
+    iSlider.prototype.startHandler = function(evt){
+        var device = this._device();
+
+        if (this.isVertical) {
+            evt.preventDefault();
+        }
+        this.isMoving = true;
+        this.pause();
+        this.onslidestart && this.onslidestart();
+        this.log('Event: beforeslide');
+
+        this.startTime = new Date().getTime();
+        this.startX = device.hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
+        this.startY = device.hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
+    };
+
+    /**
+    *  touchmove callback
+    */
+    iSlider.prototype.moveHandler = function(evt){
+        if (this.isMoving) {
+            var device = this._device();
+            var len = this.data.length;
+            var axis = this.axis;
+            var otherAxis = (axis === 'X') ? 'Y' : 'X';
+            var offset = {
+                X: device.hasTouch ? (evt.targetTouches[0].pageX - this.startX) : (evt.pageX - this.startX),
+                Y: device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY)
+            };
+
+            if (Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
+                this.onslide && this.onslide(offset[axis]);
+                this.log('Event: onslide');
+
+                if (!this.isLooping) {
+                    if (offset[axis] > 0 && this.slideIndex === 0 || offset[axis] < 0 && this.slideIndex === len - 1) {
+                        offset[axis] = this._damping(offset[axis]);
+                    }
+                }
+
+                for (var i = 0; i < 3; i++) {
+                    var item = this.els[i];
+                    item.style.webkitTransition = 'all 0s';
+                    this._animateFunc(item, axis, this.scale, i, offset[axis]);
+                }
+            }
+
+            this.offset = offset;
+        }
+    };
+
+    /**
+    *  touchend callback
+    */
+    iSlider.prototype.endHandler = function(evt){
+        this.isMoving = false;
+        var offset = this.offset;
+        var axis = this.axis;
+        var boundary = this.scale / 2;
+        var endTime = new Date().getTime();
+
+        // a quick slide time must under 300ms
+        // a quick slide should also slide at least 14 px
+        boundary = endTime - this.startTime > 300 ? boundary : 14;
+        if (offset[axis] >= boundary) {
+            this.slideTo(this.slideIndex - 1);
+        } else if (offset[axis] < -boundary) {
+            this.slideTo(this.slideIndex + 1);
+        } else {
+            this.slideTo(this.slideIndex);
+        }
+
+        // create tap event if offset < 10
+        if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10) {
+            this.tapEvt = document.createEvent('Event');
+            this.tapEvt.initEvent('tap', true, true);
+
+            if (!evt.target.dispatchEvent(this.tapEvt)) {
+                evt.preventDefault();
+            }
+        }
+
+        this.offset.X = this.offset.Y = 0;
+        this.isAutoplay && this.play();
+        this.onslideend && this.onslideend(this.slideIndex);
+        this.log('Event: afterslide');
+    };
+
+    /**
+    *  orientationchange callback
+    */
+    iSlider.prototype.orientationchangeHandler = function(){
+        setTimeout(function() {
+            this.reset();
+            this.log('Event: orientationchange');
+        },100);
+    };
+
 
     /**
     * reset & rerender
