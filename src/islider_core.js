@@ -477,6 +477,7 @@ define('iSlider', [], function(){
             };
 
             if (Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
+                evt.preventDefault();
                 this.onslide && this.onslide(offset[axis]);
                 this.log('Event: onslide');
 

@@ -426,6 +426,7 @@ iSlider = function () {
         Y: device.hasTouch ? evt.targetTouches[0].pageY - this.startY : evt.pageY - this.startY
       };
       if (Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
+        evt.preventDefault();
         this.onslide && this.onslide(offset[axis]);
         this.log('Event: onslide');
         if (!this.isLooping) {
