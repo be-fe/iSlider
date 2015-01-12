@@ -192,7 +192,9 @@ var data = [{
 	</tr>
 </tbody>
 </table>
-
+##联系我们
+对iSlider的使用有任何问题,或者发现bug,欢迎给我们反馈：
+[提交反馈](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
 ##License (MIT)
 
 Copyright (c) 2014 BE-FE
