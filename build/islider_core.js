@@ -358,7 +358,11 @@ iSlider = function () {
         callback.call(target);
       }
     }
-    this.outer.addEventListener(evtType, handle, false);
+    if (this.outer['on' + evtType]) {
+      this.outer['on' + evtType] = handle;
+    } else {
+      this.outer.addEventListener(evtType, handle, false);
+    }
   };
   /**
   *  removeEventListener to release the memory
