@@ -5,7 +5,7 @@ var rename = require('gulp-rename');
 gulp.task('build', function() {
     
     amdClean({
-        'include': ['islider_core', 'islider_animate'],
+        'include': ['islider_core', 'islider_animate','islider_zoom'],
         'globalModules': ['iSlider'],
         'outputFile': './build/islider.js'
     });
@@ -28,7 +28,17 @@ gulp.task('move', function(){
         .pipe(gulp.dest('test/public/js'));
 })
 
+
+
+
+var connect = require('gulp-connect');
 gulp.task('default', ['build'],  function() {
+
+    connect.server({
+        root: '.',
+        port: 8888,
+        livereload: true
+    });
    gulp.watch(['src/*.js', 'src/plugins/*.js'], ['build', 'move']);
 
    gulp.watch(['src/*.css'], function(){
