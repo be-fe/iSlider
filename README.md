@@ -1,8 +1,8 @@
 #iSlider，Smooth slider for webapps
 
-####[iSlider English Official Page](http://be-fe.github.io/iSlider/index_en.html)
-####[iSlider 中文官网](http://be-fe.github.io/iSlider/index.html)
-####[iSlider 中文README](https://github.com/BE-FE/iSlider/blob/master/README_Chinese.md)
+####[iSlider Official Page](http://be-fe.github.io/iSlider/index_en.html)
+####[iSlider 官网](http://be-fe.github.io/iSlider/index.html)
+####[iSlider README](https://github.com/BE-FE/iSlider/blob/master/README_Chinese.md)
 ####[iSlider Example](http://be-fe.github.io/iSlider/demo/)
 
 iSlider is a high performance，dependency free, mobile-platform javascript slider.
