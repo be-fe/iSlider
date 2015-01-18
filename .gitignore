@@ -4,6 +4,7 @@ node_modules/
 *.sublime-*
 output/
 test/
+.idea/
 
 
 

@@ -63,6 +63,7 @@ iSlider = function () {
       X: 0,
       Y: 0
     };
+    this.useZoom = opts.useZoom || false;
     // looping logic adjust
     if (this.data.length < 2) {
       this.isLooping = false;
@@ -89,6 +90,8 @@ iSlider = function () {
     this._setUpDamping();
     // stop autoplay when window blur
     this._setPlayWhenFocus();
+    if (this.useZoom)
+      this._initZoom(opts);
     // set animate Function
     this._animateFunc = opts.animateType in this._animateFuncs ? this._animateFuncs[opts.animateType] : this._animateFuncs['default'];
   };
@@ -415,6 +418,7 @@ iSlider = function () {
     this.startTime = new Date().getTime();
     this.startX = device.hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
     this.startY = device.hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
+    this._startHandler(evt);
   };
   /**
   *  touchmove callback
@@ -429,7 +433,8 @@ iSlider = function () {
         X: device.hasTouch ? evt.targetTouches[0].pageX - this.startX : evt.pageX - this.startX,
         Y: device.hasTouch ? evt.targetTouches[0].pageY - this.startY : evt.pageY - this.startY
       };
-      if (Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
+      var res = this._moveHandler(evt);
+      if (!res && Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
         evt.preventDefault();
         this.onslide && this.onslide(offset[axis]);
         this.log('Event: onslide');
@@ -459,11 +464,12 @@ iSlider = function () {
     // a quick slide time must under 300ms
     // a quick slide should also slide at least 14 px
     boundary = endTime - this.startTime > 300 ? boundary : 14;
-    if (offset[axis] >= boundary) {
+    var res = this._endHandler(evt);
+    if (!res && offset[axis] >= boundary) {
       this.slideTo(this.slideIndex - 1);
-    } else if (offset[axis] < -boundary) {
+    } else if (!res && offset[axis] < -boundary) {
       this.slideTo(this.slideIndex + 1);
-    } else {
+    } else if (!res) {
       this.slideTo(this.slideIndex);
     }
     // create tap event if offset < 10
