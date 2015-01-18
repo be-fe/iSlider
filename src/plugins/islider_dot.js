@@ -33,6 +33,6 @@ define('islider_dot', ['iSlider'], function(iSlider){
                     }
                 }
             }
-        },
+        }
     })
 })

@@ -34,7 +34,6 @@ define('islider_button', ['iSlider'], function(iSlider){
                     this.wrap.appendChild(btnOuter[i], this.wrap.nextSibling);
                 }
             }
-        },
-
+        }
     })
 })

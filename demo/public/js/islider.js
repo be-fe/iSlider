@@ -10,7 +10,7 @@
  * Please refer to README                   请参考README
  * @class
  */
-var iSlider, islider_core, islider_animate, islider_button, islider_dot;
+var iSlider, islider_core, islider_animate, islider_button, plugins_islider_button, islider_dot, plugins_islider_dot;
 iSlider = function () {
   
   var iSlider = function (opts) {
@@ -641,6 +641,7 @@ islider_button = function (iSlider) {
     }
   });
 }(iSlider);
+plugins_islider_button = undefined;
 islider_dot = function (iSlider) {
   iSlider.prototype.extend({
     addDot: function () {
@@ -678,5 +679,6 @@ islider_dot = function (iSlider) {
     }
   });
 }(iSlider);
+plugins_islider_dot = undefined;
 window.iSlider = iSlider;
 }());
