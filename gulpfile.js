@@ -5,7 +5,7 @@ var rename = require('gulp-rename');
 gulp.task('build', function() {
     
     amdClean({
-        'include': ['islider_core', 'islider_animate'],
+        'include': ['islider_core', 'islider_animate', 'islider_button', 'islider_dot'],
         'globalModules': ['iSlider'],
         'outputFile': './build/islider.js'
     });

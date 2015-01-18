@@ -45,7 +45,7 @@ iSlider = function () {
     if (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
       this.initIndex = 0;
     }
-    this.slideIndex = this.slideIndex || this.initIndex;
+    this.slideIndex = this.slideIndex || this.initIndex || 0;
     this.axis = this.isVertical ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
     this.height = this.wrap.clientHeight;
@@ -305,6 +305,7 @@ iSlider = function () {
         sEle.style.visibility = 'visible';
       }, 200);
       this.onslidechange && this.onslidechange(this.slideIndex);
+      this.dotchange && this.dotchange();
     }
     // do the trick animation
     for (var i = 0; i < 3; i++) {
@@ -354,14 +355,18 @@ iSlider = function () {
     function handle(e) {
       var evt = window.event ? window.event : e;
       var target = evt.target;
-      if ('#' + target.id === selector || target.className.indexOf(selector.match(/\w+/)[0]) !== -1 || target.tagName.toLowerCase() === selector) {
-        callback.call(target);
+      var eleArr = document.querySelectorAll(selector);
+      for (i = 0; i < eleArr.length; i++) {
+        if (target === eleArr[i]) {
+          callback.call(target);
+          break;
+        }
       }
     }
-    if (this.outer['on' + evtType]) {
-      this.outer['on' + evtType] = handle;
+    if (this.wrap['on' + evtType] !== undefined) {
+      this.wrap['on' + evtType] = handle;
     } else {
-      this.outer.addEventListener(evtType, handle, false);
+      this.wrap.addEventListener(evtType, handle, false);
     }
   };
   /**
