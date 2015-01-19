@@ -5,25 +5,24 @@ var rename = require('gulp-rename');
 gulp.task('build', function() {
     
     amdClean({
-        'include': ['islider_core', 'islider_animate','islider_zoom'],
+        'include': ['islider_core', 'islider_animate', 'islider_zoom', 'plugins/islider_button', 'plugins/islider_dot'],
         'globalModules': ['iSlider'],
         'outputFile': './build/islider.js'
     });
-    amdClean({
-        'include': ['islider_core', 'islider_animate','islider_zoom'],
-        'globalModules': ['iSlider'],
-        'outputFile': './demo/public/js/islider.js'
-    });
+   
     amdClean({
         'include': ['islider_core'],
         'globalModules': ['iSlider'],
-        'outputFile': './demo/public/js/islider_core.js'
+        'outputFile': './build/islider_core.js'
     });
 
     // gulp.src(['build/islider.js'])
     //     .pipe(uglify())
     //     .pipe(rename('islider.min.js'))
     //     .pipe(gulp.dest('build'));
+    gulp.src(['build/islider.js', 'src/plugins/*.js'])
+        .pipe(gulp.dest('demo/public/js'))
+        .pipe(gulp.dest('test/public/js'));
 });
 
 gulp.task('move', function(){

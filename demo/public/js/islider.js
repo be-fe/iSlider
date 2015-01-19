@@ -10,7 +10,7 @@
  * Please refer to README                   请参考README
  * @class
  */
-var iSlider, islider_core, islider_animate, islider_zoom;
+var iSlider, islider_core, islider_animate, islider_zoom, plugins_islider_button, plugins_islider_dot;
 iSlider = function () {
   
   var iSlider = function (opts) {
@@ -45,7 +45,7 @@ iSlider = function () {
     if (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
       this.initIndex = 0;
     }
-    this.slideIndex = this.slideIndex || this.initIndex;
+    this.slideIndex = this.slideIndex || this.initIndex || 0;
     this.axis = this.isVertical ? 'Y' : 'X';
     this.width = this.wrap.clientWidth;
     this.height = this.wrap.clientHeight;
@@ -308,6 +308,7 @@ iSlider = function () {
         sEle.style.visibility = 'visible';
       }, 200);
       this.onslidechange && this.onslidechange(this.slideIndex);
+      this.dotchange && this.dotchange();
     }
     // do the trick animation
     for (var i = 0; i < 3; i++) {
@@ -357,11 +358,19 @@ iSlider = function () {
     function handle(e) {
       var evt = window.event ? window.event : e;
       var target = evt.target;
-      if ('#' + target.id === selector || target.className.indexOf(selector.match(/\w+/)[0]) !== -1 || target.tagName.toLowerCase() === selector) {
-        callback.call(target);
+      var eleArr = document.querySelectorAll(selector);
+      for (i = 0; i < eleArr.length; i++) {
+        if (target === eleArr[i]) {
+          callback.call(target);
+          break;
+        }
       }
     }
-    this.outer.addEventListener(evtType, handle, false);
+    if (this.wrap['on' + evtType] !== undefined) {
+      this.wrap['on' + evtType] = handle;
+    } else {
+      this.wrap.addEventListener(evtType, handle, false);
+    }
   };
   /**
   *  removeEventListener to release the memory
@@ -901,6 +910,78 @@ islider_zoom = function (iSlider) {
     _moveHandler: moveHandler,
     _endHandler: endHandler,
     _startHandler: startHandler
+  });
+}(iSlider);
+plugins_islider_button = function (iSlider) {
+  iSlider.prototype.extend({
+    addBtn: function () {
+      if (!this.isVertical) {
+        var btnOuter = [];
+        var btnInner = [];
+        var self = this;
+        for (var i = 0; i < 2; i++) {
+          btnOuter[i] = document.createElement('div');
+          btnOuter[i].className = 'islider-btn-outer';
+          btnInner[i] = document.createElement('div');
+          btnInner[i].className = 'islider-btn-inner';
+          if (i === 0) {
+            btnOuter[i].className += ' left';
+            btnOuter[i].dir = -1;
+          } else {
+            btnOuter[i].className += ' right';
+            btnOuter[i].dir = 1;
+          }
+          btnOuter[i].addEventListener('click', function () {
+            var dir = parseInt(this.getAttribute('dir'));
+            self.slideTo(self.slideIndex + dir);
+          });
+          if (!this.isLooping) {
+            if (this.slideIndex === 0) {
+              btnOuter[0].style.display = 'none';
+            }
+          }
+          btnOuter[i].appendChild(btnInner[i]);
+          this.wrap.appendChild(btnOuter[i], this.wrap.nextSibling);
+        }
+      }
+    }
+  });
+}(iSlider);
+plugins_islider_dot = function (iSlider) {
+  iSlider.prototype.extend({
+    addDot: function () {
+      if (!this.isVertical) {
+        var self = this;
+        var data = this.data;
+        var dots = [];
+        dotWrap = document.createElement('ul');
+        dotWrap.className = 'islider-dot-wrap';
+        var fregment = document.createDocumentFragment();
+        for (var i = 0; i < data.length; i++) {
+          dots[i] = document.createElement('li');
+          dots[i].className = 'islider-dot';
+          dots[i].setAttribute('index', i);
+          if (i === this.slideIndex) {
+            dots[i].className += ' active';
+          }
+          dots[i].addEventListener('click', function () {
+            var index = parseInt(this.getAttribute('index'));
+            self.slideTo(index);
+          });
+          fregment.appendChild(dots[i]);
+        }
+        dotWrap.appendChild(fregment);
+        this.wrap.parentNode.appendChild(dotWrap);
+        this.dotchange = function () {
+          for (var i = 0; i < data.length; i++) {
+            dots[i].className = 'islider-dot';
+            if (i === this.slideIndex) {
+              dots[i].className += ' active';
+            }
+          }
+        };
+      }
+    }
   });
 }(iSlider);
 window.iSlider = iSlider;

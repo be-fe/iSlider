@@ -1,7 +1,7 @@
 /**
  * Created by liuhui01 on 2015/1/7.
  */
-define("islider_zoom", ['iSlider'], function (iSlider) {
+define(['iSlider'], function (iSlider) {
     var has3d = ('WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix());
     var minScale=1/2;
     var viewScope = {};
