@@ -28,7 +28,7 @@ The best way to learn the iSlider is by looking at the demos. In the archive you
 
 Before you start, you need to prepare some data for iSlider:
 
-``` javascript
+````
 var data = [{
 	height: 414,
 	width: 300,
@@ -42,7 +42,7 @@ var data = [{
 	width: 300,
  	content: "imgs/3.jpg",
 }];
-```
+````
 
 HTML structure you only need to prepare is :
 	
@@ -76,7 +76,7 @@ That's it.
 ##Configure the iSlider
 Besides the basic ways you can do with iSlider, you can customized the features we provide. For example, if you prefers to put dom elements on the list, you can change the data array like this:
 
-``` javascript
+````
 var data = [{
 	'height' : '100%',
 	'width' : '100%',
@@ -90,7 +90,7 @@ var data = [{
 	'width' : '100%',
 	'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
 }];
-```
+````
 If you hope to implement the effects mentioned in introduction part, you can:
 
 	<script type="text/javascript">
