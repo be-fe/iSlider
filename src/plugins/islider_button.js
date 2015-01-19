@@ -1,4 +1,4 @@
-define('islider_button', ['iSlider'], function(iSlider){
+define( ['iSlider'], function(iSlider){
     iSlider.prototype.extend({
         addBtn: function() {
             if (!this.isVertical) {

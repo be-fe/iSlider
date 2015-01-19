@@ -1,4 +1,4 @@
-define('islider_dot', ['iSlider'], function(iSlider){
+define(['iSlider'], function(iSlider){
     iSlider.prototype.extend({
         addDot: function() {
             if (!this.isVertical) {

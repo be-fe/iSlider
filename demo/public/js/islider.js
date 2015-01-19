@@ -10,7 +10,7 @@
  * Please refer to README                   请参考README
  * @class
  */
-var iSlider, islider_core, islider_animate, islider_zoom, islider_button, plugins_islider_button, islider_dot, plugins_islider_dot;
+var iSlider, islider_core, islider_animate, islider_zoom, plugins_islider_button, plugins_islider_dot;
 iSlider = function () {
   
   var iSlider = function (opts) {
@@ -912,7 +912,7 @@ islider_zoom = function (iSlider) {
     _startHandler: startHandler
   });
 }(iSlider);
-islider_button = function (iSlider) {
+plugins_islider_button = function (iSlider) {
   iSlider.prototype.extend({
     addBtn: function () {
       if (!this.isVertical) {
@@ -947,8 +947,7 @@ islider_button = function (iSlider) {
     }
   });
 }(iSlider);
-plugins_islider_button = undefined;
-islider_dot = function (iSlider) {
+plugins_islider_dot = function (iSlider) {
   iSlider.prototype.extend({
     addDot: function () {
       if (!this.isVertical) {
@@ -985,6 +984,5 @@ islider_dot = function (iSlider) {
     }
   });
 }(iSlider);
-plugins_islider_dot = undefined;
 window.iSlider = iSlider;
 }());
