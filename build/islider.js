@@ -10,7 +10,7 @@
  * Please refer to README                   请参考README
  * @class
  */
-var iSlider, islider_core, islider_animate, islider_zoom, plugins_islider_button, plugins_islider_dot;
+var iSlider, islider_core, plugins_islider_animate, plugins_islider_zoom, plugins_islider_button, plugins_islider_dot;
 iSlider = function () {
   
   var iSlider = function (opts) {
@@ -541,7 +541,7 @@ iSlider = function () {
   return iSlider;
 }();
 islider_core = undefined;
-islider_animate = function (iSlider) {
+plugins_islider_animate = function (iSlider) {
   var extendAnimation = {
     'rotate': function (dom, axis, scale, i, offset) {
       var rotateDirect = axis === 'X' ? 'Y' : 'X';
@@ -612,7 +612,7 @@ islider_animate = function (iSlider) {
   };
   iSlider.prototype.extend(extendAnimation, iSlider.prototype._animateFuncs);
 }(iSlider);
-islider_zoom = function (iSlider) {
+plugins_islider_zoom = function (iSlider) {
   var has3d = 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix();
   var minScale = 1 / 2;
   var viewScope = {};
