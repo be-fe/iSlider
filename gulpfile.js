@@ -5,11 +5,11 @@ var rename = require('gulp-rename');
 gulp.task('build', function() {
     
     amdClean({
-        'include': ['islider_core', 'islider_animate'],
+        'include': ['islider_core', 'plugins/islider_animate', 'plugins/islider_zoom', 'plugins/islider_button', 'plugins/islider_dot'],
         'globalModules': ['iSlider'],
         'outputFile': './build/islider.js'
     });
-
+   
     amdClean({
         'include': ['islider_core'],
         'globalModules': ['iSlider'],
@@ -20,6 +20,9 @@ gulp.task('build', function() {
     //     .pipe(uglify())
     //     .pipe(rename('islider.min.js'))
     //     .pipe(gulp.dest('build'));
+    gulp.src(['build/islider.js', 'src/plugins/*.js'])
+        .pipe(gulp.dest('demo/public/js'))
+        .pipe(gulp.dest('test/public/js'));
 });
 
 gulp.task('move', function(){
@@ -28,7 +31,17 @@ gulp.task('move', function(){
         .pipe(gulp.dest('test/public/js'));
 })
 
+
+
+
+var connect = require('gulp-connect');
 gulp.task('default', ['build'],  function() {
+
+    connect.server({
+        root: '.',
+        port: 8888,
+        livereload: true
+    });
    gulp.watch(['src/*.js', 'src/plugins/*.js'], ['build', 'move']);
 
    gulp.watch(['src/*.css'], function(){

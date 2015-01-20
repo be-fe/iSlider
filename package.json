@@ -7,6 +7,7 @@
     "amdclean": "~2.4.0",
     "gulp-uglify": "~1.0.1",
     "gulp-rename": "x",
-    "requirejs": "x"
+    "requirejs": "x",
+    "gulp-connect": "~2.2.0"
   }
 }
