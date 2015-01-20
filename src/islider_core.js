@@ -49,7 +49,7 @@ define('iSlider', [], function(){
         if  (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
             this.initIndex = 0;
         } 
-        this.slideIndex = this.slideIndex || this.initIndex;
+        this.slideIndex = this.slideIndex || this.initIndex || 0;
 
         this.axis = this.isVertical ? 'Y' : 'X';
         this.width = this.wrap.clientWidth;
@@ -67,7 +67,7 @@ define('iSlider', [], function(){
         this.onslidechange = opts.onslidechange;
 
         this.offset = this.offset || {X: 0, Y: 0};
-
+        this.useZoom=opts.useZoom||false;
         // looping logic adjust
         if (this.data.length < 2) {
             this.isLooping = false;
@@ -94,6 +94,7 @@ define('iSlider', [], function(){
         this._setUpDamping();
         // stop autoplay when window blur
         this._setPlayWhenFocus();
+        if(this.useZoom) this._initZoom(opts);
         // set animate Function
         this._animateFunc = (opts.animateType in this._animateFuncs)
         ? this._animateFuncs[opts.animateType]
@@ -343,6 +344,7 @@ define('iSlider', [], function(){
             }, 200);
 
             this.onslidechange && this.onslidechange(this.slideIndex);
+            this.dotchange && this.dotchange();
         }
 
         // do the trick animation
@@ -397,13 +399,19 @@ define('iSlider', [], function(){
         function handle(e) {
             var evt = window.event ? window.event : e;
             var target = evt.target;
-            if (('#' + target.id) === selector
-                || target.className.indexOf(selector.match(/\w+/)[0]) !== -1
-                || target.tagName.toLowerCase() === selector) {
-                callback.call(target);
+            var eleArr = document.querySelectorAll(selector);
+            for (i = 0; i < eleArr.length; i++) {
+                if (target === eleArr[i]) {
+                    callback.call(target);
+                    break;
+                }
             }
         }
-        this.outer.addEventListener(evtType, handle, false);
+        if (this.wrap['on' + evtType] !== undefined) {
+            this.wrap['on' + evtType] = handle;
+        } else {
+            this.wrap.addEventListener(evtType, handle, false);
+        }
     };
 
     /**
@@ -460,6 +468,7 @@ define('iSlider', [], function(){
         this.startTime = new Date().getTime();
         this.startX = device.hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
         this.startY = device.hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
+        this._startHandler(evt);
     };
 
     /**
@@ -476,8 +485,11 @@ define('iSlider', [], function(){
                 Y: device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY)
             };
 
-            if (Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
+            var res=this._moveHandler(evt);
+            if(!res&&Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
                 evt.preventDefault();
+
+
                 this.onslide && this.onslide(offset[axis]);
                 this.log('Event: onslide');
 
@@ -511,11 +523,12 @@ define('iSlider', [], function(){
         // a quick slide time must under 300ms
         // a quick slide should also slide at least 14 px
         boundary = endTime - this.startTime > 300 ? boundary : 14;
-        if (offset[axis] >= boundary) {
+        var res=this._endHandler(evt);
+        if (!res&&offset[axis] >= boundary) {
             this.slideTo(this.slideIndex - 1);
-        } else if (offset[axis] < -boundary) {
+        } else if (!res&&offset[axis] < -boundary) {
             this.slideTo(this.slideIndex + 1);
-        } else {
+        } else if(!res){
             this.slideTo(this.slideIndex);
         }
 

@@ -1,4 +1,4 @@
-define('islider_animate', ['iSlider'], function(iSlider){
+define(['iSlider'], function(iSlider){
     var extendAnimation = {
         'rotate': function (dom, axis, scale, i, offset) {
             var rotateDirect = (axis === 'X') ? 'Y' : 'X';
