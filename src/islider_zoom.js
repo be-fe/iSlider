@@ -9,9 +9,27 @@ define("islider_zoom", ['iSlider'], function (iSlider) {
     function generateTranslate(x, y, z, scale) {
         return "translate" + (has3d ? "3d(" : "(") + x + "px," + y + (has3d ? "px," + z + "px)" : "px)") + "scale(" + scale + ")";
     }
-
+    function getDistance(a,b){
+        var x,y;
+        x= a.left- b.left;
+        y= a.top- b.top;
+        return Math.sqrt(x*x+y*y);
+    }
     function generateTransformOrigin(x, y) {
         return x + "px " + y + "px";
+    }
+    function getTouches(touches){
+        return Array.prototype.slice.call(touches).map(function(touch){
+            return {
+                left:touch.pageX,
+                top:touch.pageY
+            }
+        });
+    }
+    function calculateScale(start,end){
+        var startDistance=getDistance(start[0],start[1]);
+        var endDistance=getDistance(end[0],end[1]);
+        return endDistance/startDistance;
     }
 
     function getComputedTranslate(obj) {
@@ -80,12 +98,14 @@ define("islider_zoom", ['iSlider'], function (iSlider) {
         if (this.useZoom) {
             var node = this.els[1].querySelector('img');
             var transform = getComputedTranslate(node);
+            this.startTouches=getTouches(evt.targetTouches);
             this._startX = transform.translateX - 0;
             this._startY = transform.translateY - 0;
             this.currentScale = transform.scaleX;
             this.zoomNode = node;
             var pos = getPosition(node);
             if (evt.targetTouches.length == 2) {
+                console.log("gesture");
                 this.lastTouchStart = null;
                 var touches = evt.touches;
                 var touchCenter = getCenter({
@@ -102,7 +122,7 @@ define("islider_zoom", ['iSlider'], function (iSlider) {
                 if (time - this.lastTouchStart < 300) {
                     evt.preventDefault();
                     this.gesture = 3;
-                    this._handleDoubleTap(evt);
+
                 }
                 this.lastTouchStart = time;
             }
@@ -140,8 +160,11 @@ define("islider_zoom", ['iSlider'], function (iSlider) {
 
     //缩放图片
     function scaleImage(evt) {
+        var moveTouces=getTouches(evt.targetTouches);
+        var scale=calculateScale(this.startTouches,moveTouces);
+        evt.scale=evt.scale||scale;
         var node = this.zoomNode;
-        var scale=this.currentScale*evt.scale<minScale?minScale:this.currentScale*evt.scale;
+        scale=this.currentScale*evt.scale<minScale?minScale:this.currentScale*evt.scale;
         node.style.webkitTransform = generateTranslate(0, 0, 0, scale);
 
     }
@@ -155,6 +178,7 @@ define("islider_zoom", ['iSlider'], function (iSlider) {
             this._resetImage(evt);
             result = 1;
         } else if (this.gesture === 3) {//双击
+            this._handleDoubleTap(evt);
             this._resetImage(evt);
         }
 
