@@ -67,7 +67,7 @@ define('iSlider', [], function(){
         this.onslidechange = opts.onslidechange;
 
         this.offset = this.offset || {X: 0, Y: 0};
-        this.useZoom=opts.useZoom||false;
+        this.useZoom = opts.useZoom || false;
         // looping logic adjust
         if (this.data.length < 2) {
             this.isLooping = false;

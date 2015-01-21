@@ -20,6 +20,7 @@ gulp.task('build', function() {
     //     .pipe(uglify())
     //     .pipe(rename('islider.min.js'))
     //     .pipe(gulp.dest('build'));
+    
     gulp.src(['build/islider.js', 'src/plugins/*.js'])
         .pipe(gulp.dest('demo/public/js'))
         .pipe(gulp.dest('test/public/js'));
