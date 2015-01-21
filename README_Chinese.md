@@ -4,23 +4,24 @@
 ####[iSlider 中文官网](http://be-fe.github.io/iSlider/index.html)
 ####[iSlider Example](http://be-fe.github.io/iSlider/demo/)
 
-iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：
+iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理大多数的滑动场景，例如图片或者DOM元素。目前支持以下特性：
 
-* 性能极好，硬件加速，极小占用内存
-* 能够自定义动画，自带的动画包括 default, rotate, depth, flow, flip and card
-* 你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)
-* 我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动
-* 支持桌面鼠标动作，方便测试
-* 支持图片预加载，改善用户体验
+* 性能好，体积小，占用内存小，核心代码仅500行。
+* 可以按需加载需要的功能。
+* 丰富的动画效果。
+* 可以设置回调函数(onslidestart, onslide, onslideend, onslidechange)。
+* 支持滑动衰减效果，循环滑动，自动播放，水平/垂直切换。
+* 支持图片预加载，改善用户体验。
+* 支持图片的缩放。
 
 ##iSlider移动端展示
 
 <img width="150px" height="150px" src="qrcode.png"/>
 
-##开始部署iSlider
-部署iSlider最容易的办法是查阅我们提供的简易例子。大部份代码存放在demo文件夹的文件里面。*iSlider* 是必要新建的一个类。
+##开始使用iSlider
+使用iSlider最简单的办法是查阅我们提供的简易例子。大代码存放在demo文件夹的文件里面。
 
-在你开始之前，你需要为iSlider先新建好数据:
+使用iSlider只需要准备好数据即可，无论是本地数据还是从接口获取的数据，例如：
 
 ``` javascript
 var data = [{
@@ -42,7 +43,7 @@ HTML代码如下:
 	
 	<div id="iSlider-wrapper"></div>
 
-要使其运行，按下面例子新建ISlider类: 
+要使其运行，按下面例子新建iSlider类: 
 
  	<script type="text/javascript">
     	var islider = new iSlider({
@@ -100,8 +101,9 @@ var data = [{
     	});
     </script>
 
-##深入了解iSlider
-这里提供对iSlider类选项最清楚的描述: 
+## 深入了解iSlider
+上面的例子只是iSlider的基本用法，一些进阶功能可以参考[WIKI](https://github.com/BE-FE/iSlider/wiki/Notices)。
+下面是iSlider选项配置的列表:   
 <table>
 <thead>
 	<tr>
@@ -189,6 +191,18 @@ var data = [{
 		<td>isOverspread</td>
 		<td>Boolean (true | fasle)</td>
 		<td>是否平铺整个浏览器屏幕</td>
+	</tr>
+	</tr>
+		<tr>
+		<td>initIndex</td>
+		<td>Number</td>
+		<td>初始化内容在data中的索引值</td>
+	</tr>
+	</tr>
+		<tr>
+		<td>useZoom</td>
+		<td>Boolean (true | fasle)</td>
+		<td>是否开启图片缩放</td>
 	</tr>
 </tbody>
 </table>
