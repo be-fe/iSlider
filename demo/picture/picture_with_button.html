@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+	<link href="../public/css/islider.css" rel="stylesheet">
 	<style>
 		body {
 			margin: 0;
@@ -48,8 +49,6 @@
 	<!-- Outer Canvas 外层画布 -->
 	<div id="iSlider-wrapper"></div>
 	<script src="../public/js/islider.js"></script>
-	<script src="../public/js/islider_plugin.js"></script>
-
 	<script>
 		var list = [
 			{
@@ -96,21 +95,9 @@
 			type: 'pic',
 		    data: list,
 		    dom: document.getElementById("iSlider-wrapper"),
-		    onslidechange: function(idx) {
-		    	islider.changeIndexBtn();
-		    }
+		    isLooping: true
 		});
-
-		var btnOpt = {
-			isLooping: false,
-			isVertical: false,
-			width: '3em',
-			height: '3em',
-			backgroundColor: '#777',
-			border: '2px solid #fff'
-		};
-
-		islider.renderBtn(btnOpt);
+		islider.addBtn();
 
 	</script>
 </body>
