@@ -42,7 +42,7 @@ HTML代码如下:
 	
 	<div id="iSlider-wrapper"></div>
 
-要使其运行，按下面例子新建ISlider类: 
+要使其运行，按下面例子新建iSlider类: 
 
  	<script type="text/javascript">
     	var islider = new iSlider({

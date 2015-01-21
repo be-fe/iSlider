@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+<link href="../public/css/islider.css" rel="stylesheet">
 <style>
 	body {
 	    margin: 0;
@@ -81,7 +82,6 @@
 <body>
 	<div id="iSlider"></div>
 	<script type="text/javascript" src="../public/js/islider.js"></script>
-	<script type="text/javascript" src="../public/js/islider_plugin.js"></script>
 	<script>
 		var list = [{
 			'content' : '<div class="content home"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
@@ -107,24 +107,10 @@
 		    type: 'dom',
 		    dom: document.getElementById("iSlider"),
 		    duration: 1000,
-		    isVertical: true,
-		    onslidechange: function(idx) {
-		    	islider.changeIndexDot();
-		    }
 		};
 
 		var islider = new iSlider(opts);
-
-		var dotOpt = {
-			isVertical: true,
-			left: ' ',
-			right: '0',
-			height: '20%',
-			borderColor: '#777',
-			diameter: '1em',
-		};
-
-		islider.renderDot(dotOpt);
+		islider.addBtn();
 	</script>
 </body>
 </html>
