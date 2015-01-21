@@ -959,11 +959,6 @@ plugins_islider_button = function (iSlider) {
             var dir = parseInt(this.getAttribute('dir'));
             self.slideTo(self.slideIndex + dir);
           });
-          if (!this.isLooping) {
-            if (this.slideIndex === 0) {
-              btnOuter[0].style.display = 'none';
-            }
-          }
           btnOuter[i].appendChild(btnInner[i]);
           this.wrap.appendChild(btnOuter[i], this.wrap.nextSibling);
         }

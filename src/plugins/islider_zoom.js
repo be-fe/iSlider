@@ -3,7 +3,7 @@
  */
 define(['iSlider'], function (iSlider) {
     var has3d = ('WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix());
-    var minScale=1/2;
+    var minScale = 1/2;
     var viewScope = {};
 
     function generateTranslate(x, y, z, scale) {
@@ -11,9 +11,9 @@ define(['iSlider'], function (iSlider) {
     }
     function getDistance(a,b){
         var x,y;
-        x= a.left- b.left;
-        y= a.top- b.top;
-        return Math.sqrt(x*x+y*y);
+        x= a.left - b.left;
+        y= a.top - b.top;
+        return Math.sqrt(x * x + y * y);
     }
     function generateTransformOrigin(x, y) {
         return x + "px " + y + "px";
@@ -21,8 +21,8 @@ define(['iSlider'], function (iSlider) {
     function getTouches(touches){
         return Array.prototype.slice.call(touches).map(function(touch){
             return {
-                left:touch.pageX,
-                top:touch.pageY
+                left: touch.pageX,
+                top: touch.pageY
             }
         });
     }
@@ -160,11 +160,11 @@ define(['iSlider'], function (iSlider) {
 
     //缩放图片
     function scaleImage(evt) {
-        var moveTouces=getTouches(evt.targetTouches);
-        var scale=calculateScale(this.startTouches,moveTouces);
-        evt.scale=evt.scale||scale;
+        var moveTouces = getTouches(evt.targetTouches);
+        var scale = calculateScale(this.startTouches,moveTouces);
+        evt.scale = evt.scale || scale;
         var node = this.zoomNode;
-        scale=this.currentScale*evt.scale<minScale?minScale:this.currentScale*evt.scale;
+        scale = this.currentScale * evt.scale < minScale?minScale:this.currentScale * evt.scale;
         node.style.webkitTransform = generateTranslate(0, 0, 0, scale);
 
     }
