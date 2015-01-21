@@ -15,6 +15,7 @@ It features:
 * Damping effect, Infinite Looping, Autometic sliding and Vertical/Horizontal Sliding can be configured.
 * Support desktop gesture which is convenient for testing.
 * Support image preloader to improve user experience.
+* Support image zoomIn and zoomOut.
 
 ##iSlider Mobile Demo
 
@@ -106,6 +107,8 @@ If you hope to implement the effects mentioned in introduction part, you can:
     </script>
 
 ##Understand The iSlider
+the demo is only basic usage of iSlider，you can get more from [WIKI](https://github.com/BE-FE/iSlider/wiki/Notices).
+
 Here provides a clear description of what options you are able to manipulate:
 <table>
 <thead>
@@ -194,6 +197,18 @@ Here provides a clear description of what options you are able to manipulate:
 		<td>isOverspread</td>
 		<td>Boolean (true | fasle)</td>
 		<td>Decide whether to cover the whole browser screen or not</td>
+	</tr>
+	</tr>
+		<tr>
+		<td>initIndex</td>
+		<td>Number</td>
+		<td>init content index in data</td>
+	</tr>
+	</tr>
+		<tr>
+		<td>useZoom</td>
+		<td>Boolean (true | fasle)</td>
+		<td>Decide whether to open picture zoomIn and zoomOut</td>
 	</tr>
 </tbody>
 </table>
