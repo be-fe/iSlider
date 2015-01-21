@@ -485,8 +485,8 @@ define('iSlider', [], function(){
                 Y: device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY)
             };
 
-            var res=this._moveHandler(evt);
-            if(!res&&Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
+            var res = this._moveHandler(evt);
+            if(!res && Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
                 evt.preventDefault();
 
 
@@ -523,10 +523,10 @@ define('iSlider', [], function(){
         // a quick slide time must under 300ms
         // a quick slide should also slide at least 14 px
         boundary = endTime - this.startTime > 300 ? boundary : 14;
-        var res=this._endHandler(evt);
-        if (!res&&offset[axis] >= boundary) {
+        var res = this._endHandler(evt);
+        if (!res && offset[axis] >= boundary) {
             this.slideTo(this.slideIndex - 1);
-        } else if (!res&&offset[axis] < -boundary) {
+        } else if (!res && offset[axis] < -boundary) {
             this.slideTo(this.slideIndex + 1);
         } else if(!res){
             this.slideTo(this.slideIndex);
