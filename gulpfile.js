@@ -21,13 +21,13 @@ gulp.task('build', function() {
     //     .pipe(rename('islider.min.js'))
     //     .pipe(gulp.dest('build'));
 
-    gulp.src(['build/islider.js'])
+    gulp.src(['build/islider.js', 'build/islider_core.js'])
         .pipe(gulp.dest('demo/public/js'))
         .pipe(gulp.dest('test/public/js'));
 });
 
 gulp.task('move', function(){
-    gulp.src(['build/islider.js'])
+    gulp.src(['build/islider.js', 'build/islider_core.js'])
         .pipe(gulp.dest('demo/public/js'))
         .pipe(gulp.dest('test/public/js'));
 })
