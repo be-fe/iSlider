@@ -378,11 +378,20 @@ define('iSlider', [], function(){
     };
 
     /**
-    * bind all event handler
+    * bind all event handler, when on PC, disable drag event。
     */
     iSlider.prototype._bindHandler = function() {
         var outer = this.outer;
         var device = this._device();
+        if (!device.hasTouch) {
+            outer.style.cursor = 'pointer';
+            outer.ondragstart = function(evt){
+                if(evt) {
+                    return false;
+                }
+                return true;
+            }
+        }
         outer.addEventListener(device.startEvt, this);
         outer.addEventListener(device.moveEvt, this);
         outer.addEventListener(device.endEvt, this);
@@ -433,14 +442,15 @@ define('iSlider', [], function(){
     *  uniformity admin event
     */
     iSlider.prototype.handleEvent = function(evt){
+        var device = this._device();
         switch (evt.type) {
-            case 'touchstart' || 'mousedown':
+            case device.startEvt:
                 this.startHandler(evt);
                 break;
-            case 'touchmove' || 'mousemove':
+            case device.moveEvt:
                 this.moveHandler(evt);
                 break;
-            case 'touchend' || 'mouseup':
+            case device.endEvt:
                 this.endHandler(evt);
                 break;
             case 'orientationchange':

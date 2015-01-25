@@ -338,11 +338,20 @@ iSlider = function () {
     };
   };
   /**
-  * bind all event handler
+  * bind all event handler, when on PC, disable drag event。
   */
   iSlider.prototype._bindHandler = function () {
     var outer = this.outer;
     var device = this._device();
+    if (!device.hasTouch) {
+      outer.style.cursor = 'pointer';
+      outer.ondragstart = function (evt) {
+        if (evt) {
+          return false;
+        }
+        return true;
+      };
+    }
     outer.addEventListener(device.startEvt, this);
     outer.addEventListener(device.moveEvt, this);
     outer.addEventListener(device.endEvt, this);
@@ -390,14 +399,15 @@ iSlider = function () {
   *  uniformity admin event
   */
   iSlider.prototype.handleEvent = function (evt) {
+    var device = this._device();
     switch (evt.type) {
-    case 'touchstart' || 'mousedown':
+    case device.startEvt:
       this.startHandler(evt);
       break;
-    case 'touchmove' || 'mousemove':
+    case device.moveEvt:
       this.moveHandler(evt);
       break;
-    case 'touchend' || 'mouseup':
+    case device.endEvt:
       this.endHandler(evt);
       break;
     case 'orientationchange':
@@ -737,19 +747,22 @@ plugins_islider_zoom = function (iSlider) {
   }
   function moveHandler(evt) {
     var result = 0, node = this.zoomNode;
-    if (evt.targetTouches.length == 2 && this.useZoom) {
-      node.style.webkitTransitionDuration = '0';
-      evt.preventDefault();
-      this._scaleImage(evt);
-      result = 2;
-    } else if (evt.targetTouches.length == 1 && this.useZoom && this.currentScale > 1) {
-      node.style.webkitTransitionDuration = '0';
-      evt.preventDefault();
-      this._moveImage(evt);
-      result = 1;
+    var device = this._device();
+    if (device.hasTouch) {
+      if (evt.targetTouches.length === 2 && this.useZoom) {
+        node.style.webkitTransitionDuration = '0';
+        evt.preventDefault();
+        this._scaleImage(evt);
+        result = 2;
+      } else if (evt.targetTouches.length == 1 && this.useZoom && this.currentScale > 1) {
+        node.style.webkitTransitionDuration = '0';
+        evt.preventDefault();
+        this._moveImage(evt);
+        result = 1;
+      }
+      this.gesture = result;
+      return result;
     }
-    this.gesture = result;
-    return result;
   }
   function handleDoubleTap(evt) {
     var zoomFactor = this.zoomFactor || 2;

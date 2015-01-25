@@ -132,19 +132,22 @@ define(['iSlider'], function (iSlider) {
 
     function moveHandler(evt) {
         var result = 0, node = this.zoomNode;
-        if (evt.targetTouches.length == 2 && this.useZoom) {
-            node.style.webkitTransitionDuration = "0";
-            evt.preventDefault();
-            this._scaleImage(evt);
-            result = 2;
-        } else if (evt.targetTouches.length == 1 && this.useZoom && this.currentScale > 1) {
-            node.style.webkitTransitionDuration = "0";
-            evt.preventDefault();
-            this._moveImage(evt);
-            result = 1;
+        var device = this._device();
+        if (device.hasTouch) {
+            if (evt.targetTouches.length === 2 && this.useZoom) {
+                node.style.webkitTransitionDuration = "0";
+                evt.preventDefault();
+                this._scaleImage(evt);
+                result = 2;
+            } else if (evt.targetTouches.length == 1 && this.useZoom && this.currentScale > 1) {
+                node.style.webkitTransitionDuration = "0";
+                evt.preventDefault();
+                this._moveImage(evt);
+                result = 1;
+            }
+            this.gesture = result;
+            return result;
         }
-        this.gesture = result;
-        return result;
 
     }
 
