@@ -63,6 +63,7 @@ If you want to add more effects or options, you can follow the demo in demo/pict
     	var islider = new iSlider({
 			    data: list,
 			    dom: document.getElementById("iSlider-wrapper"),
+			    type:"dom",
 			    isVertical: true,
 			    isLooping: false,
 			    isDebug: true,
@@ -96,6 +97,7 @@ If you hope to implement the effects mentioned in introduction part, you can:
 	<script type="text/javascript">
     	var islider = new iSlider({
     		dom : document.getElementById('iSlider-wrapper'),
+    		type:"dom",
     		data : data,
     		duration: 2000,
 		    isVertical: true,
@@ -137,7 +139,7 @@ Here provides a clear description of what options you are able to manipulate:
 	<tr>
 		<td>type</td>
 		<td>String (pic | dom)</td>
-		<td>Default value is 'pic', 'dom' is also supported</td>
+		<td>Default value is 'pic', 'dom' is also supported 。Indispensable</td>
 	</tr>
 	<tr>
 		<td>duration</td>
