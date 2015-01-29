@@ -203,6 +203,8 @@ Here provides a clear description of what options you are able to manipulate:
 if you have any questions or find any bugs, please post issues to tell us.
 [Feedback](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
 
+
+
 ##License (MIT)
 
 Copyright (c) 2014 BE-FE
