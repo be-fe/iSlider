@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>iSlider by BE-FE</title>
@@ -12,94 +12,117 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
+</head>
+<body>
+<div class="wrapper">
+    <header>
         <h1 class="header">iSlider</h1>
-        <p class="header">Smooth mobile slider for webapps</p>
+
+        <p class="header">移动webapp滑动最优解决方案</p>
 
         <ul>
-          <li class="download"><a class="buttons" href="https://github.com/BE-FE/iSlider/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/BE-FE/iSlider/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/BE-FE/iSlider">View On GitHub</a></li>
+            <li class="start"><a href="#intro">开始使用</a></li>
+            <li class="api"><a href="#api">Api</a></li>
+            <li class="plugin"><a href="#plugin">插件</a></li>
+            <li class="demo"><a href="#demo">实例</a></li>
+            <li class="down">
+                <div id="head">下载</div>
+                <div class="download"><a class="buttons" href="https://github.com/BE-FE/iSlider/zipball/master">Download
+                    ZIP</a></div>
+                <div class="download"><a class="buttons" href="https://github.com/BE-FE/iSlider/tarball/master">Download
+                    TAR</a></div>
+            </li>
+            <li><a href="http://be-fe.github.io/iSlider/index_en.html">英文官方网站</a></li>
+            <li><a class="buttons github" href="https://github.com/BE-FE/iSlider">View On GitHub</a></li>
+
+
         </ul>
 
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/BE-FE">BE-FE</a></p>
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/BE-FE">BE-FE</a>
+        </p>
 
 
-      </header>
-      <section>
+    </header>
+    <section>
         <h1 id="intro">
-<a id="islider" class="anchor" href="#islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>iSlider</h1>
+            <a id="islider" class="anchor" href="#islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>iSlider
+        </h1>
 
-<h4>
-    <a href="http://be-fe.github.io/iSlider/index_en.html">iSlider English Official Page</a>
-    <br>
-    <a href="http://be-fe.github.io/iSlider/demo/">iSlider Example</a>
-</h4>
+        <h4>
+            <a href="http://be-fe.github.io/iSlider/index_en.html">iSlider English Official Page</a>
+            <br>
+            <a href="http://be-fe.github.io/iSlider/demo/">iSlider Example</a>
+        </h4>
 
-<p>iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：</p>
+        <p>iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：</p>
 
-<ul class="task-list">
-    <li>性能极好，硬件加速，极小占用内存</li>
-    <li>能够自定义动画，自带的动画包括 default, rotate, depth, flow, flip, card</li>
-    <li>你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)</li>
-    <li>我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动</li>
-    <li>支持桌面鼠标动作，方便测试</li>
-    <li>支持图片预加载，改善用户体验</li>
-</ul>
+        <ul class="task-list">
+            <li>性能极好，硬件加速，极小占用内存</li>
+            <li>能够自定义动画，自带的动画包括 default, rotate, depth, flow, flip, card</li>
+            <li>你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)</li>
+            <li>我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动</li>
+            <li>支持桌面鼠标动作，方便测试</li>
+            <li>支持图片预加载，改善用户体验</li>
+        </ul>
 
-<h2 id="demo">
-<a id="islider展示" class="anchor" href="#islider%E5%B1%95%E7%A4%BA" aria-hidden="true"><span class="octicon octicon-link"></span></a>iSlider展示</h2>
-<p>若是PC，请打开webkit浏览器进行测试</p>
+        <h2 id="demo">
+            <a id="islider展示" class="anchor" href="#islider%E5%B1%95%E7%A4%BA" aria-hidden="true"><span
+                    class="octicon octicon-link"></span></a>iSlider展示</h2>
 
-<div style="position:relative;text-align:center">
-    <h4>移动端展示</h4>
-    <img width="150px" height="150px" src="https://raw.githubusercontent.com/BE-FE/iSlider/master/qrcode.png">
-</div>
+        <p>若是PC，请打开webkit浏览器进行测试</p>
 
-<h4 style="text-align: center">动画效果</h4>
-<div id="iSlider-effect-wrapper">
-    <div id="animation-effect" class="iSlider-effect"></div>
-</div>
-<div id="menu-select">
-    <span class="on">default</span>
-    <span>rotate</span>
-    <span>flip</span>
-    <span>depth</span>
-    <span>flow</span>
-    <span>card</span>
-</div>
-
-<h4 style="text-align: center">垂直轮播</h4>
-<div id="vertical-slide" class="iSlider-effect"></div>
-
-<h4 style="text-align: center">不循环模式(最始及最末图片滑动会有衰减效果)</h4>
-<div id="non-looping" class="iSlider-effect"></div>
-
-<h4 style="text-align: center">DOM</h4>
-<div>
-    <div id="dom-effect" class="iSlider-effect">
-        <div id="iSlider-dom-nav">
-            <a>Home</a>
-            <a>Mail</a>
-            <a>News</a>
-            <a>TV</a>
-            <a>Game</a>
+        <div style="position:relative;text-align:center">
+            <h4>移动端展示</h4>
+            <img width="150px" height="150px" src="https://raw.githubusercontent.com/BE-FE/iSlider/master/qrcode.png">
         </div>
-    </div>
-</div>
+
+        <h4 style="text-align: center">动画效果</h4>
+
+        <div id="iSlider-effect-wrapper">
+            <div id="animation-effect" class="iSlider-effect"></div>
+        </div>
+        <div id="menu-select">
+            <span class="on">default</span>
+            <span>rotate</span>
+            <span>flip</span>
+            <span>depth</span>
+            <span>flow</span>
+            <span>card</span>
+        </div>
+
+        <h4 style="text-align: center">垂直轮播</h4>
+
+        <div id="vertical-slide" class="iSlider-effect"></div>
+
+        <h4 style="text-align: center">不循环模式(最始及最末图片滑动会有衰减效果)</h4>
+
+        <div id="non-looping" class="iSlider-effect"></div>
+
+        <h4 style="text-align: center">DOM</h4>
+
+        <div>
+            <div id="dom-effect" class="iSlider-effect">
+                <div id="iSlider-dom-nav">
+                    <a>Home</a>
+                    <a>Mail</a>
+                    <a>News</a>
+                    <a>TV</a>
+                    <a>Game</a>
+                </div>
+            </div>
+        </div>
 
 
-<h2 id="getting-started">
-<a id="开始部署islider" class="anchor" href="#%E5%BC%80%E5%A7%8B%E9%83%A8%E7%BD%B2islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>开始部署iSlider</h2>
+        <h2 id="getting-started">
+            <a id="开始部署islider" class="anchor" href="#%E5%BC%80%E5%A7%8B%E9%83%A8%E7%BD%B2islider"
+               aria-hidden="true"><span class="octicon octicon-link"></span></a>开始部署iSlider</h2>
 
-<p>部署iSlider最容易的办法是查阅我们提供的简易例子。大部份代码存放在demo文件夹的文件里面。<em>iSlider</em> 是必要新建的一个类。</p>
+        <p>部署iSlider最容易的办法是查阅我们提供的简易例子。大部份代码存放在demo文件夹的文件里面。<em>iSlider</em> 是必要新建的一个类。</p>
 
-<p>在你开始之前，你需要为iSlider先新建好数据:</p>
+        <p>在你开始之前，你需要为iSlider先新建好数据:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[{</span>
+        <div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span
+                class="o">=</span> <span class="p">[{</span>
     <span class="nx">height</span><span class="o">:</span> <span class="mi">414</span><span class="p">,</span>
     <span class="nx">width</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
     <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/1.jpg"</span><span class="p">,</span>
@@ -112,46 +135,49 @@
     <span class="nx">width</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
     <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/3.jpg"</span><span class="p">,</span>
 <span class="p">}];</span>
-</pre></div>
+</pre>
+        </div>
 
-<p>HTML代码如下:</p>
+        <p>HTML代码如下:</p>
 
 <pre><code>&lt;div id="iSlider-wrapper"&gt;&lt;/div&gt;
 </code></pre>
 
-<p>要使其运行，按下面例子新建ISlider类: </p>
+        <p>要使其运行，按下面例子新建ISlider类: </p>
 
 <pre><code>&lt;script type="text/javascript"&gt;
     var iSlider = new iSlider({
-        dom : document.getElementById('iSlider-wrapper'),
-        data : data
+    dom : document.getElementById('iSlider-wrapper'),
+    data : data
     });
-&lt;/script&gt;
+    &lt;/script&gt;
 </code></pre>
 
-<p>如果你想加其它效果，可以按照我们demo/picture示例添加:</p>
+        <p>如果你想加其它效果，可以按照我们demo/picture示例添加:</p>
 
 <pre><code>&lt;script type="text/javascript"&gt;
     var islider = new iSlider({
-            data: list,
-            dom: document.getElementById("iSlider-wrapper"),
-            isVertical: true,
-            isLooping: false,
-            isDebug: true,
-            isAutoplay: false,
-            animateType: 'rotate'
+    data: list,
+    dom: document.getElementById("iSlider-wrapper"),
+    isVertical: true,
+    isLooping: false,
+    isDebug: true,
+    isAutoplay: false,
+    animateType: 'rotate'
     });
-&lt;/script&gt;
+    &lt;/script&gt;
 </code></pre>
 
-<p>That's it. </p>
+        <p>That's it. </p>
 
-<h2 id="configuration">
-<a id="配置islider" class="anchor" href="#%E9%85%8D%E7%BD%AEislider" aria-hidden="true"><span class="octicon octicon-link"></span></a>配置iSlider</h2>
+        <h2 id="configuration">
+            <a id="配置islider" class="anchor" href="#%E9%85%8D%E7%BD%AEislider" aria-hidden="true"><span
+                    class="octicon octicon-link"></span></a>配置iSlider</h2>
 
-<p>除了上文提到的基本部署模式，你还可以自定义我们提供的特性。例如，如果你想滑动DOM元素而非图片，你可以按以下的格式新建DOM数据: </p>
+        <p>除了上文提到的基本部署模式，你还可以自定义我们提供的特性。例如，如果你想滑动DOM元素而非图片，你可以按以下的格式新建DOM数据: </p>
 
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[{</span>
+        <div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span
+                class="o">=</span> <span class="p">[{</span>
     <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
     <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
     <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Home&lt;/h1&gt;&lt;h2&gt;This is home page&lt;/h2&gt;&lt;p&gt;home is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
@@ -164,46 +190,48 @@
     <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
     <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Page2&lt;/h1&gt;&lt;h2&gt;This is Page2&lt;/h2&gt;&lt;p&gt;Page2 is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
 <span class="p">}];</span>
-</pre></div>
+</pre>
+        </div>
 
-<p>如果你想实现介绍部份提到的效果，你可以按以下格式设置: </p>
+        <p>如果你想实现介绍部份提到的效果，你可以按以下格式设置: </p>
 
 <pre><code>&lt;script type="text/javascript"&gt;
     var iSlider = new iSlider({
-        dom : document.getElementById('iSlider-wrapper'),
-        data : data,
-        duration: 2000,
-        isVertical: true,
-        isLooping: true,
-        isDebug: true,
-        isAutoplay: true
+    dom : document.getElementById('iSlider-wrapper'),
+    data : data,
+    duration: 2000,
+    isVertical: true,
+    isLooping: true,
+    isDebug: true,
+    isAutoplay: true
     });
-&lt;/script&gt;
+    &lt;/script&gt;
 </code></pre>
 
-<h2 id="understanding">
-<a id="深入了解islider" class="anchor" href="#%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3islider" aria-hidden="true"><span class="octicon octicon-link"></span></a>深入了解iSlider</h2>
+        <h2 id="understanding">
+            <a id="深入了解islider" class="anchor" href="#%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3islider"
+               aria-hidden="true"><span class="octicon octicon-link"></span></a>深入了解iSlider</h2>
 
-<p>这里提供对iSlider类选项最清楚的描述: </p>
+        <p   id="api">这里提供对iSlider类选项最清楚的描述: </p>
 
-<table>
-<thead>
-    <tr>
-        <td>选项</td>
-        <td>数值</td>
-        <td>解释</td>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td>dom</td>
-        <td>HTML Object</td>
-        <td>包含图片或者DOM元素的包裹DOM元素</td>
-    </tr>
-    <tr>
-        <td>data</td>
-        <td>Array of Content(picture | html)</td>
-        <td>若是图片数据，格式如下:
+        <table>
+            <thead>
+            <tr>
+                <th>选项</th>
+                <th>数值</th>
+                <th>解释</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>dom</td>
+                <td>HTML Object</td>
+                <td>包含图片或者DOM元素的包裹DOM元素</td>
+            </tr>
+            <tr>
+                <td>data</td>
+                <td>Array of Content(picture | html)</td>
+                <td>若是图片数据，格式如下:
         <pre>
 [{
     height: 377,
@@ -211,86 +239,86 @@
     content:"pics/1.jpg"
 }]
         </pre>
-        </td>
-    </tr>
-    <tr>
-        <td>type</td>
-        <td>String (pic | dom)</td>
-        <td>默认值是'pic', 也支持'dom'</td>
-    </tr>
-    <tr>
-        <td>duration</td>
-        <td>Integer (1000 == 1s)</td>
-        <td>每个图片滑动的间隔时间，仅限于自动滑动模式</td>
-    </tr>
-    <tr>
-        <td>animateType</td>
-        <td>String</td>
-        <td>目前支持default, rotate, flip, depth, flow 和 card</td>
-    </tr>
-    <tr>
-        <td>onslide</td>
-        <td>Function</td>
-        <td>手指滑动时的回调函数</td>
-    </tr>
-    <tr>
-        <td>onslidestart</td>
-        <td>Function</td>
-        <td>手指触屏时的回调函数</td>
-    </tr>
-    <tr>
-        <td>onslideend</td>
-        <td>Function</td>
-        <td>手指离开屏幕时的回调函数</td>
-    </tr>
-    <tr>
-        <td>onslidechange</td>
-        <td>Function</td>
-        <td>自动滑动模式下当图片滑动时的回调函数</td>
-    </tr>
-    <tr>
-        <td>isDebug</td>
-        <td>Boolean (true | false)</td>
-        <td>开启/关闭调度模式</td>
-    </tr>
-    <tr>
-        <td>isLooping</td>
-        <td>Boolean (true | false)</td>
-        <td>开启/关闭循环模式</td>
-    </tr>
-    <tr>
-        <td>isAutoplay</td>
-        <td>Boolean (true | false)</td>
-        <td>开启/关闭自动滑动模式</td>
-    </tr>
-        <tr>
-        <td>isVertical</td>
-        <td>Boolean (true | fasle)</td>
-        <td>开启水平/垂直滑动模式</td>
-    </tr>
-    <tr>
-        <td>isOverspread</td>
-        <td>Boolean (true | fasle)</td>
-        <td>是否平铺整个浏览器屏幕</td>
-    </tr>
-</tbody>
-</table>
+                </td>
+            </tr>
+            <tr>
+                <td>type</td>
+                <td>String (pic | dom)</td>
+                <td>默认值是'pic', 也支持'dom'</td>
+            </tr>
+            <tr>
+                <td>duration</td>
+                <td>Integer (1000 == 1s)</td>
+                <td>每个图片滑动的间隔时间，仅限于自动滑动模式</td>
+            </tr>
+            <tr>
+                <td>animateType</td>
+                <td>String</td>
+                <td>目前支持default, rotate, flip, depth, flow 和 card</td>
+            </tr>
+            <tr>
+                <td>onslide</td>
+                <td>Function</td>
+                <td>手指滑动时的回调函数</td>
+            </tr>
+            <tr>
+                <td>onslidestart</td>
+                <td>Function</td>
+                <td>手指触屏时的回调函数</td>
+            </tr>
+            <tr>
+                <td>onslideend</td>
+                <td>Function</td>
+                <td>手指离开屏幕时的回调函数</td>
+            </tr>
+            <tr>
+                <td>onslidechange</td>
+                <td>Function</td>
+                <td>自动滑动模式下当图片滑动时的回调函数</td>
+            </tr>
+            <tr>
+                <td>isDebug</td>
+                <td>Boolean (true | false)</td>
+                <td>开启/关闭调度模式</td>
+            </tr>
+            <tr>
+                <td>isLooping</td>
+                <td>Boolean (true | false)</td>
+                <td>开启/关闭循环模式</td>
+            </tr>
+            <tr>
+                <td>isAutoplay</td>
+                <td>Boolean (true | false)</td>
+                <td>开启/关闭自动滑动模式</td>
+            </tr>
+            <tr>
+                <td>isVertical</td>
+                <td>Boolean (true | fasle)</td>
+                <td>开启水平/垂直滑动模式</td>
+            </tr>
+            <tr>
+                <td>isOverspread</td>
+                <td>Boolean (true | fasle)</td>
+                <td>是否平铺整个浏览器屏幕</td>
+            </tr>
+            </tbody>
+        </table>
 
-<h2 id="license">
-<a id="license-mit" class="anchor" href="#license-mit" aria-hidden="true"><span class="octicon octicon-link"></span></a>License (MIT)</h2>
+        <h2 id="license">
+            <a id="license-mit" class="anchor" href="#license-mit" aria-hidden="true"><span
+                    class="octicon octicon-link"></span></a>License (MIT)</h2>
 
-<p>Copyright (c) 2014 BE-FE</p>
+        <p>Copyright (c) 2014 BE-FE</p>
 
-<p><a href="https://github.com/BE-FE/iSlider/blob/master/LICENSE">MIT</a></p>
-      </section>
-      <footer>
-        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-	<script src="demo/src/islider.js"></script>
-    <script>
-        var highList = [
+        <p><a href="https://github.com/BE-FE/iSlider/blob/master/LICENSE">MIT</a></p>
+    </section>
+
+</div>
+<!--[if !IE]>
+<script>fixScale(document);</script><![endif]-->
+<script src="demo/src/islider.js"></script>
+<script>
+    var highList = [
         {
             width: 150,
             height: 207,
@@ -309,31 +337,31 @@
         {
             width: 150,
             height: 207,
-            content:"demo/pics/high/4.jpg"
+            content: "demo/pics/high/4.jpg"
         },
         {
             width: 150,
             height: 207,
-            content:"demo/pics/high/5.jpg"
+            content: "demo/pics/high/5.jpg"
         },
         {
             width: 150,
             height: 207,
-            content:"demo/pics/high/6.jpg"
+            content: "demo/pics/high/6.jpg"
         },
         {
             width: 150,
             height: 207,
-            content:"demo/pics/high/7.jpg"
+            content: "demo/pics/high/7.jpg"
         },
         {
             width: 150,
             height: 207,
-            content:"demo/pics/high/8.jpg"
+            content: "demo/pics/high/8.jpg"
         }
-        ];
+    ];
 
-        var longList = [
+    var longList = [
         {
             width: 320,
             height: 200,
@@ -352,31 +380,31 @@
         {
             width: 320,
             height: 200,
-            content:"demo/pics/long/4.jpg"
+            content: "demo/pics/long/4.jpg"
         },
         {
             width: 320,
             height: 200,
-            content:"demo/pics/long/5.jpg"
+            content: "demo/pics/long/5.jpg"
         },
         {
             width: 320,
             height: 200,
-            content:"demo/pics/long/6.jpg"
+            content: "demo/pics/long/6.jpg"
         },
         {
             width: 320,
             height: 200,
-            content:"demo/pics/long/7.jpg"
+            content: "demo/pics/long/7.jpg"
         },
         {
             width: 320,
             height: 200,
-            content:"demo/pics/long/8.jpg"
+            content: "demo/pics/long/8.jpg"
         }
-        ];
+    ];
 
-        var randomList = [
+    var randomList = [
         {
             width: 200,
             height: 228.5,
@@ -395,185 +423,183 @@
         {
             width: 256,
             height: 200,
-            content:"demo/pics/random/4.jpg"
+            content: "demo/pics/random/4.jpg"
         },
         {
             width: 229,
             height: 200,
-            content:"demo/pics/random/5.jpg"
+            content: "demo/pics/random/5.jpg"
         },
         {
             width: 249,
             height: 200,
-            content:"demo/pics/random/6.jpg"
+            content: "demo/pics/random/6.jpg"
         },
         {
             width: 600,
             height: 377,
-            content:"demo/pics/random/7.jpg"
+            content: "demo/pics/random/7.jpg"
         },
         {
             width: 600,
             height: 396,
-            content:"demo/pics/random/8.jpg"
+            content: "demo/pics/random/8.jpg"
         },
         {
             width: 600,
             height: 374,
-            content:"demo/pics/random/9.jpg"
+            content: "demo/pics/random/9.jpg"
         }
-        ];
+    ];
 
-        var domList = [
+    var domList = [
         {
-            'height' : '310px',
-            'width' : '225px',
-            'content' : '<div class="dom-demo" id="dom-demo1"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p></div>'
-        },{
-            'height' : '310px',
-            'width' : '225px',
-            'content' : '<div class="dom-demo" id="dom-demo2"><h1>Mail</h1><h2>This is Mail box</h2><p>A lot of junk mail</p></div>'
-        },{
-            'height' : '310px',
-            'width' : '225px',
-            'content' : '<div class="dom-demo" id="dom-demo3"><h1>News</h1><h2>This is News update</h2><p>Domestic and International News are included</p></div>'
-        },{
-            'height' : '310px',
-            'width' : '225px',
-            'content' : '<div class="dom-demo" id="dom-demo4"><h1>TV</h1><h2>This is TV show</h2><p>Fantastic Shows</p></div>'
-        },{
-            'height' : '310px',
-            'width' : '225px',
-            'content' : '<div class="dom-demo" id="dom-demo5"><h1>Game</h1><h2>This is Game center</h2><p>Let\'s rock it!</p></div>'
+            'height': '310px',
+            'width': '225px',
+            'content': '<div class="dom-demo" id="dom-demo1"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p></div>'
+        }, {
+            'height': '310px',
+            'width': '225px',
+            'content': '<div class="dom-demo" id="dom-demo2"><h1>Mail</h1><h2>This is Mail box</h2><p>A lot of junk mail</p></div>'
+        }, {
+            'height': '310px',
+            'width': '225px',
+            'content': '<div class="dom-demo" id="dom-demo3"><h1>News</h1><h2>This is News update</h2><p>Domestic and International News are included</p></div>'
+        }, {
+            'height': '310px',
+            'width': '225px',
+            'content': '<div class="dom-demo" id="dom-demo4"><h1>TV</h1><h2>This is TV show</h2><p>Fantastic Shows</p></div>'
+        }, {
+            'height': '310px',
+            'width': '225px',
+            'content': '<div class="dom-demo" id="dom-demo5"><h1>Game</h1><h2>This is Game center</h2><p>Let\'s rock it!</p></div>'
         }
-        ];
+    ];
 
+    //all animation effect
+    var islider1 = new iSlider({
+        data: randomList,
+        dom: document.getElementById("animation-effect"),
+        duration: 2000,
+        animateType: 'default',
+        isAutoplay: true,
+        isLooping: true,
+        // isVertical: true,
+    });
 
-        //all animation effect
-        var islider1 = new iSlider({
-            data: randomList,
-            dom: document.getElementById("animation-effect"),
-            duration: 2000,
-            animateType: 'default',
-            isAutoplay: true,
-            isLooping: true,
-            // isVertical: true,
-        });
+    //vertical slide
+    var islider2 = new iSlider({
+        data: highList,
+        dom: document.getElementById("vertical-slide"),
+        duration: 2000,
+        animateType: 'card',
+        isVertical: true,
+        isAutoplay: true,
+        isLooping: true,
+    });
 
-        //vertical slide
-        var islider2 = new iSlider({
-            data: highList,
-            dom: document.getElementById("vertical-slide"),
-            duration: 2000,
-            animateType: 'card',
-            isVertical: true,
-            isAutoplay: true,
-            isLooping: true,
-        });
+    //nonLooping nonAutoplay
+    var islider3 = new iSlider({
+        data: longList,
+        dom: document.getElementById("non-looping"),
+        animateType: 'default',
+    });
 
-        //nonLooping nonAutoplay
-        var islider3 = new iSlider({
-            data: longList,
-            dom: document.getElementById("non-looping"),
-            animateType: 'default',
-        });
+    //dom
+    var tabs = document.getElementById('iSlider-dom-nav').children;
 
-        //dom
-        var tabs = document.getElementById('iSlider-dom-nav').children;
-
-        var islider4 = new iSlider({
-            data: domList,
-            dom: document.getElementById("dom-effect"),
-            type: 'dom',
-            animateType: 'default',
-            isLooping: true,
-            onslidechange : function(idx){
-                for(i = 0; i < tabs.length; i++){
-                    if (i === idx){
-                        tabs[i].style.background = '#666666';
-                        tabs[i].style.color = '#ffffff';
-                    }
-                    else{
-                        tabs[i].style.backgroundColor = '#fff';
-                        tabs[i].style.color = '#000000';
-                    }
+    var islider4 = new iSlider({
+        data: domList,
+        dom: document.getElementById("dom-effect"),
+        type: 'dom',
+        animateType: 'default',
+        isLooping: true,
+        onslidechange: function (idx) {
+            for (i = 0; i < tabs.length; i++) {
+                if (i === idx) {
+                    tabs[i].style.background = '#666666';
+                    tabs[i].style.color = '#ffffff';
+                }
+                else {
+                    tabs[i].style.backgroundColor = '#fff';
+                    tabs[i].style.color = '#000000';
                 }
             }
-        });
+        }
+    });
 
-        islider4.sliderIndex = 0;
-        islider4._opts.data = domList;
-        tabs[0].style.background = '#666666';
+    islider4.sliderIndex = 0;
+    islider4._opts.data = domList;
+    tabs[0].style.background = '#666666';
 
-        for(i = 0; i < tabs.length; i++){
-            tabs[i].id = i;
-            tabs[i].addEventListener('click', function(e){
-                var idx = parseInt(e.target.id);
-                islider4.slideTo(idx);
-            }, false);
+    for (i = 0; i < tabs.length; i++) {
+        tabs[i].id = i;
+        tabs[i].addEventListener('click', function (e) {
+            var idx = parseInt(e.target.id);
+            islider4.slideTo(idx);
+        }, false);
+    }
+
+    var menu = document.getElementById('menu-select').children;
+
+    function clickMenuActive(target) {
+
+        for (var i = 0; i < menu.length; i++) {
+            menu[i].className = '';
         }
 
+        target.className = 'on';
 
-        var menu = document.getElementById('menu-select').children;
+    }
 
-        function clickMenuActive(target) {
+    menu[0].onclick = function () {
 
-            for (var i = 0; i < menu.length; i++) {
-                menu[i].className = '';
-            }
+        clickMenuActive(this);
+        islider1._opts.animateType = this.innerHTML;
+        islider1._opts.data = randomList;
+        islider1.reset();
+    };
 
-            target.className = 'on';
-            
-        }
+    menu[1].onclick = function () {
 
-        menu[0].onclick = function() {
+        clickMenuActive(this);
+        islider1._opts.animateType = this.innerHTML;
+        islider1._opts.data = longList;
+        islider1.reset();
+    };
 
-            clickMenuActive(this);
-            islider1._opts.animateType = this.innerHTML;
-            islider1._opts.data = randomList;
-            islider1.reset();
-        };
+    menu[2].onclick = function () {
 
-        menu[1].onclick = function() {
+        clickMenuActive(this);
+        islider1._opts.animateType = this.innerHTML;
+        islider1._opts.data = highList;
+        islider1.reset();
+    };
 
-            clickMenuActive(this);
-            islider1._opts.animateType = this.innerHTML;
-            islider1._opts.data = longList;
-            islider1.reset();
-        };
+    menu[3].onclick = function () {
 
-        menu[2].onclick = function() {
+        clickMenuActive(this);
+        islider1._opts.animateType = this.innerHTML;
+        islider1._opts.data = longList;
+        islider1.reset();
+    };
 
-            clickMenuActive(this);
-            islider1._opts.animateType = this.innerHTML;
-            islider1._opts.data = highList;
-            islider1.reset();
-        };
+    menu[4].onclick = function () {
 
-        menu[3].onclick = function() {
+        clickMenuActive(this);
+        islider1._opts.animateType = this.innerHTML;
+        islider1._opts.data = longList;
+        islider1.reset();
+    };
 
-            clickMenuActive(this);
-            islider1._opts.animateType = this.innerHTML;
-            islider1._opts.data = longList;
-            islider1.reset();
-        };
+    menu[5].onclick = function () {
 
-        menu[4].onclick = function() {
+        clickMenuActive(this);
+        islider1._opts.animateType = this.innerHTML;
+        islider1._opts.data = highList;
+        islider1.reset();
+    };
 
-            clickMenuActive(this);
-            islider1._opts.animateType = this.innerHTML;
-            islider1._opts.data = longList;
-            islider1.reset();
-        };
-
-        menu[5].onclick = function() {
-
-            clickMenuActive(this);
-            islider1._opts.animateType = this.innerHTML;
-            islider1._opts.data = highList;
-            islider1.reset();
-        };
-
-    </script>
-  </body>
+</script>
+</body>
 </html>

@@ -176,29 +176,7 @@ pre {
 
 /* Tables */
 
-table {
-    width: 100%;
-}
 
-table {
-    border: 1px solid #ccc;
-    margin-bottom: 32px;
-    text-align: left;
-}
-
-th {
-    font-family: 'Arvo', Helvetica, Arial, sans-serif;
-    font-size: 18px;
-    font-weight: normal;
-    padding: 10px;
-    background: #232323;
-    color: #FDFEFB;
-}
-
-td {
-    padding: 10px;
-    background: #ccc;
-}
 
 /* Wrapper */
 .wrapper {
@@ -209,15 +187,16 @@ td {
 
 header {
     background-color: #222;
-    color: #FDFDFB;
+    color: #aaa;
     width: 170px;
     float: left;
     position: fixed;
     border: 1px solid #000;
 
-    padding: 34px 25px 22px 50px;
-    
-    margin: 30px 25px 0 0;
+    /* padding: 5px; */
+    padding: 10px 0;
+
+    margin: 5px 25px 0 0;
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
@@ -226,10 +205,13 @@ header {
     -moz-border-radius: 0 4px 4px 0;
     -ms-border-radius: 0 4px 4px 0;
     border-radius: 0 4px 4px 0;
+    overflow: hidden;
 }
 
 p.header {
     font-size: 16px;
+    padding-left: 5px;
+    color: #00d8ff;
 }
 
 h1.header {
@@ -239,10 +221,11 @@ h1.header {
     line-height: 1.3em;
     border-bottom: none;
     margin-top: 0;
+    padding-left: 5px;
 }
 
 h1.header, a.header, a.name, header a {
-    color: #fff;
+    color: #aaa;
 }
 
 a.header {
@@ -253,43 +236,48 @@ a.name {
     white-space: nowrap;
 }
 
+.down {
+    height: 106px;
+}
+
+.down > div.download {
+    margin-left: 15px;
+}
+
+head > p.header {
+    margin-top: 15px;
+}
+
+header > h1 {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
 header ul {
     list-style: none;
     padding: 0;
+    background-color: #222;
+    margin: 0;
 }
 
 header li {
     list-style-type: none;
-    width: 132px;
-    height: 15px;
-    margin-bottom: 12px;
-    line-height: 1em;
-    padding: 6px 6px 6px 7px;
-
-    background: #AF0011;
-    background: -moz-linear-gradient(top, #AF0011 0%, #820011 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f8f8f8), color-stop(100%, #dddddd));
-    background: -webkit-linear-gradient(top, #AF0011 0%, #820011 100%);
-    background: -o-linear-gradient(top, #AF0011 0%, #820011 100%);
-    background: -ms-linear-gradient(top, #AF0011 0%, #820011 100%);
-    background: linear-gradient(top, #AF0011 0%, #820011 100%);
-
-    border-radius: 4px;
-    border: 1px solid #0D0D0D;
-
-    -webkit-box-shadow: inset 0px 1px 1px 0 rgba(233, 2, 38, 1);
-    box-shadow: inset 0px 1px 1px 0 rgba(233, 2, 38, 1);
+    width: 100%;
+    padding: 0px;
+    line-height: 34px;
+    border-bottom: 2px solid #ccc;
+    height: 34px;
+    padding-left: 10px;
+    font-weight: 400;
+    font-size: 16px;
 
 }
 
-header li:hover {
-    background: #C3001D;
-    background: -moz-linear-gradient(top, #C3001D 0%, #950119 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f8f8f8), color-stop(100%, #dddddd));
-    background: -webkit-linear-gradient(top, #C3001D 0%, #950119 100%);
-    background: -o-linear-gradient(top, #C3001D 0%, #950119 100%);
-    background: -ms-linear-gradient(top, #C3001D 0%, #950119 100%);
-    background: linear-gradient(top, #C3001D 0%, #950119 100%);
+header li:hover, header li:active {
+    color: #fafafa;
+    border-bottom: 2px solid #cc7a6f;
+    background: #333;
+
 }
 
 a.buttons {
@@ -520,8 +508,6 @@ footer {
     text-decoration: none;
 }
 
-
-
 .dom-demo {
     width: 100%;
     height: 100%
@@ -555,4 +541,99 @@ footer {
     background-color: #f1c40f;
     width: 100%;
     height: 100%
+}
+
+table {
+    background: #f5f5f5;
+    border-collapse: separate;
+    box-shadow: inset 0 1px 0 #fff;
+    font-size: 12px;
+    line-height: 24px;
+    margin: 30px auto;
+    text-align: left;
+    width: 100%;
+}
+
+th {
+    background: url(../images/noise-diagonal.png), linear-gradient(#777, #444);
+    border-left: 1px solid #555;
+    border-right: 1px solid #777;
+    border-top: 1px solid #555;
+    border-bottom: 1px solid #333;
+    box-shadow: inset 0 1px 0 #999;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 15px;
+    position: relative;
+    text-shadow: 0 1px 0 #000;
+}
+
+th:after {
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .08));
+    content: '';
+    display: block;
+    height: 25%;
+    left: 0;
+    margin: 1px 0 0 0;
+    position: absolute;
+    top: 25%;
+    width: 100%;
+}
+
+th:first-child {
+    border-left: 1px solid #777;
+    box-shadow: inset 1px 1px 0 #999;
+}
+
+th:last-child {
+    box-shadow: inset -1px 1px 0 #999;
+}
+
+td {
+    border-right: 1px solid #fff;
+    border-left: 1px solid #e8e8e8;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 0px 5px;
+    position: relative;
+    transition: all 300ms;
+}
+
+td:first-child {
+    box-shadow: inset 1px 0 0 #fff;
+}
+
+td:last-child {
+    border-right: 1px solid #e8e8e8;
+    box-shadow: inset -1px 0 0 #fff;
+}
+
+tr {
+    background: url(../images/noise-diagonal.png);
+}
+
+tr:nth-child(odd) td {
+    background: #f1f1f1 url(../images/noise-diagonal.png);
+}
+
+tr:last-of-type td {
+    box-shadow: inset 0 -1px 0 #fff;
+}
+
+tr:last-of-type td:first-child {
+    box-shadow: inset 1px -1px 0 #fff;
+}
+
+tr:last-of-type td:last-child {
+    box-shadow: inset -1px -1px 0 #fff;
+}
+
+tbody:hover td {
+    color: transparent;
+    text-shadow: 0 0 3px #aaa;
+}
+
+tbody:hover tr:hover td {
+    color: #444;
+    text-shadow: 0 1px 0 #fff;
 }
