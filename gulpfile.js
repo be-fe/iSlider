@@ -1,9 +1,10 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
+var fecs = require('fecs-files');
 
 gulp.task('build', function() {
-    
+    fecs.check(['src/*.js', 'src/plugins/*.js']);
     amdClean({
         'include': ['islider_core', 'plugins/islider_animate', 'plugins/islider_zoom', 'plugins/islider_button', 'plugins/islider_dot'],
         'globalModules': ['iSlider'],
@@ -35,17 +36,12 @@ gulp.task('move', function(){
 
 
 
-var connect = require('gulp-connect');
+
 gulp.task('default', ['build'],  function() {
+    //startServer(8888);   
+    gulp.watch(['src/*.js', 'src/plugins/*.js'], ['build', 'move']);
 
-    connect.server({
-        root: '.',
-        port: 8888,
-        livereload: true
-    });
-   gulp.watch(['src/*.js', 'src/plugins/*.js'], ['build', 'move']);
-
-   gulp.watch(['src/*.css'], function(){
+    gulp.watch(['src/*.css'], function(){
         return gulp.src(['src/*.css'])
                 .pipe(gulp.dest('build'))
                 .pipe(gulp.dest('demo/public/css'))
@@ -54,7 +50,21 @@ gulp.task('default', ['build'],  function() {
 
 });
 
+/*
+ *  start server
+ */
+function startServer(port) {
+    var connect = require('gulp-connect');
+    connect.server({
+        root: '.',
+        port: port,
+        livereload: true
+    });
+}
 
+/*
+ * remove AMD code form source code
+ */
 function amdClean(opts) {
     var requirejs = require('requirejs');
     requirejs.optimize({
