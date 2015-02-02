@@ -63,6 +63,7 @@
             <li>我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动</li>
             <li>支持桌面鼠标动作，方便测试</li>
             <li>支持图片预加载，改善用户体验</li>
+            <li>支持手势缩放，解决图片太大无法看清问题</li>
         </ul>
 
         <h2 id="demo">
@@ -143,16 +144,14 @@
 <pre><code>&lt;div id="iSlider-wrapper"&gt;&lt;/div&gt;
 </code></pre>
 
-        <p>要使其运行，按下面例子新建ISlider类: </p>
-
+    <p>要使其运行，按下面例子新建ISlider类: </p>
 <pre><code>&lt;script type="text/javascript"&gt;
     var iSlider = new iSlider({
     dom : document.getElementById('iSlider-wrapper'),
     data : data
     });
-    &lt;/script&gt;
+&lt;/script&gt;
 </code></pre>
-
         <p>如果你想加其它效果，可以按照我们demo/picture示例添加:</p>
 
 <pre><code>&lt;script type="text/javascript"&gt;
@@ -165,7 +164,7 @@
     isAutoplay: false,
     animateType: 'rotate'
     });
-    &lt;/script&gt;
+&lt;/script&gt;
 </code></pre>
 
         <p>That's it. </p>
@@ -205,14 +204,14 @@
     isDebug: true,
     isAutoplay: true
     });
-    &lt;/script&gt;
+&lt;/script&gt;
 </code></pre>
 
         <h2 id="understanding">
             <a id="深入了解islider" class="anchor" href="#%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3islider"
                aria-hidden="true"><span class="octicon octicon-link"></span></a>深入了解iSlider</h2>
 
-        <p   id="api">这里提供对iSlider类选项最清楚的描述: </p>
+        <p id="api">这里提供对iSlider类选项最清楚的描述: </p>
 
         <table>
             <thead>
@@ -300,6 +299,11 @@
                 <td>isOverspread</td>
                 <td>Boolean (true | fasle)</td>
                 <td>是否平铺整个浏览器屏幕</td>
+            </tr>
+            <tr>
+                <td>useZoom</td>
+                <td>Boolean (true | fasle)</td>
+                <td>是否使用缩放</td>
             </tr>
             </tbody>
         </table>
