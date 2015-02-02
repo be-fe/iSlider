@@ -1,0 +1,96 @@
+.islider-dom {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.islider-pic {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    list-style: none;
+}
+
+.islider-img > img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.islider-btn-outer {
+    position: absolute;
+    width: 3em;
+    height: 3em;
+    cursor: pointer;
+    top: 0px;
+    bottom: 0px;
+    margin: auto 0px;
+    display: block;
+    background-color: rgb(119, 119, 119);
+}
+
+.islider-btn-outer.left {
+    left: 5%;
+}
+
+.islider-btn-outer.right {
+    right: 5%;
+}
+
+.islider-btn-inner {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    border-top-width: 2px;
+    border-top-style: solid;
+    border-top-color: rgb(255, 255, 255);
+    border-left-width: 2px;
+    border-left-style: solid;
+    border-left-color: rgb(255, 255, 255);
+    margin: auto;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.islider-btn-outer.left > .islider-btn-inner {
+    -webkit-transform: rotate(-45deg);
+}
+
+.islider-btn-outer.right > .islider-btn-inner {
+    -webkit-transform: rotate(135deg);
+}
+
+.islider-dot-wrap {
+    width: 80%;
+    height: 10%;
+    margin: 0px auto;
+    position: absolute;
+    padding: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 10000;
+    text-align: center;
+}
+.islider-dot {
+    position: relative;
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+    border-radius: 50%;
+    border: 1px solid rgb(255, 255, 255);
+    list-style-type: none;
+    margin: 5px;
+}
+
+.islider-dot.active {
+    background-color: #fff;
+}

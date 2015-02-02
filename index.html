@@ -63,6 +63,7 @@
             <li>我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动</li>
             <li>支持桌面鼠标动作，方便测试</li>
             <li>支持图片预加载，改善用户体验</li>
+            <li>支持手势缩放，解决图片太大无法看清问题</li>
         </ul>
 
         <h2 id="demo">
@@ -143,16 +144,14 @@
 <pre><code>&lt;div id="iSlider-wrapper"&gt;&lt;/div&gt;
 </code></pre>
 
-        <p>要使其运行，按下面例子新建ISlider类: </p>
-
+    <p>要使其运行，按下面例子新建ISlider类: </p>
 <pre><code>&lt;script type="text/javascript"&gt;
     var iSlider = new iSlider({
     dom : document.getElementById('iSlider-wrapper'),
     data : data
     });
-    &lt;/script&gt;
+&lt;/script&gt;
 </code></pre>
-
         <p>如果你想加其它效果，可以按照我们demo/picture示例添加:</p>
 
 <pre><code>&lt;script type="text/javascript"&gt;
@@ -165,7 +164,7 @@
     isAutoplay: false,
     animateType: 'rotate'
     });
-    &lt;/script&gt;
+&lt;/script&gt;
 </code></pre>
 
         <p>That's it. </p>
@@ -205,14 +204,14 @@
     isDebug: true,
     isAutoplay: true
     });
-    &lt;/script&gt;
+&lt;/script&gt;
 </code></pre>
 
         <h2 id="understanding">
             <a id="深入了解islider" class="anchor" href="#%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3islider"
                aria-hidden="true"><span class="octicon octicon-link"></span></a>深入了解iSlider</h2>
 
-        <p   id="api">这里提供对iSlider类选项最清楚的描述: </p>
+        <p id="api">这里提供对iSlider类选项最清楚的描述: </p>
 
         <table>
             <thead>
@@ -301,6 +300,11 @@
                 <td>Boolean (true | fasle)</td>
                 <td>是否平铺整个浏览器屏幕</td>
             </tr>
+            <tr>
+                <td>useZoom</td>
+                <td>Boolean (true | fasle)</td>
+                <td>是否使用缩放</td>
+            </tr>
             </tbody>
         </table>
 
@@ -316,48 +320,48 @@
 </div>
 <!--[if !IE]>
 <script>fixScale(document);</script><![endif]-->
-<script src="demo/src/islider.js"></script>
+<script src="demo/public/js/islider.js"></script>
 <script>
     var highList = [
         {
             width: 150,
             height: 207,
-            content: "demo/pics/high/1.jpg",
+            content: "demo/picture/imgs/high/1.jpg",
         },
         {
             width: 150,
             height: 207,
-            content: "demo/pics/high/2.jpg",
+            content: "demo/picture/imgs/high/2.jpg",
         },
         {
             width: 150,
             height: 207,
-            content: "demo/pics/high/3.jpg",
+            content: "demo/picture/imgs/high/3.jpg",
         },
         {
             width: 150,
             height: 207,
-            content: "demo/pics/high/4.jpg"
+            content: "demo/picture/imgs/high/4.jpg"
         },
         {
             width: 150,
             height: 207,
-            content: "demo/pics/high/5.jpg"
+            content: "demo/picture/imgs/high/5.jpg"
         },
         {
             width: 150,
             height: 207,
-            content: "demo/pics/high/6.jpg"
+            content: "demo/picture/imgs/high/6.jpg"
         },
         {
             width: 150,
             height: 207,
-            content: "demo/pics/high/7.jpg"
+            content: "demo/picture/imgs/high/7.jpg"
         },
         {
             width: 150,
             height: 207,
-            content: "demo/pics/high/8.jpg"
+            content: "demo/picture/imgs/high/8.jpg"
         }
     ];
 
@@ -365,42 +369,42 @@
         {
             width: 320,
             height: 200,
-            content: "demo/pics/long/1.jpg",
+            content: "demo/picture/imgs/long/1.jpg",
         },
         {
             width: 320,
             height: 200,
-            content: "demo/pics/long/2.jpg",
+            content: "demo/picture/imgs/long/2.jpg",
         },
         {
             width: 320,
             height: 200,
-            content: "demo/pics/long/3.jpg",
+            content: "demo/picture/imgs/long/3.jpg",
         },
         {
             width: 320,
             height: 200,
-            content: "demo/pics/long/4.jpg"
+            content: "demo/picture/imgs/long/4.jpg"
         },
         {
             width: 320,
             height: 200,
-            content: "demo/pics/long/5.jpg"
+            content: "demo/picture/imgs/long/5.jpg"
         },
         {
             width: 320,
             height: 200,
-            content: "demo/pics/long/6.jpg"
+            content: "demo/picture/imgs/long/6.jpg"
         },
         {
             width: 320,
             height: 200,
-            content: "demo/pics/long/7.jpg"
+            content: "demo/picture/imgs/long/7.jpg"
         },
         {
             width: 320,
             height: 200,
-            content: "demo/pics/long/8.jpg"
+            content: "demo/picture/imgs/long/8.jpg"
         }
     ];
 
@@ -408,47 +412,47 @@
         {
             width: 200,
             height: 228.5,
-            content: "demo/pics/random/1.jpg",
+            content: "demo/picture/imgs/random/1.jpg",
         },
         {
             width: 200,
             height: 263.5,
-            content: "demo/pics/random/2.jpg",
+            content: "demo/picture/imgs/random/2.jpg",
         },
         {
             width: 268,
             height: 400,
-            content: "demo/pics/random/3.jpg",
+            content: "demo/picture/imgs/random/3.jpg",
         },
         {
             width: 256,
             height: 200,
-            content: "demo/pics/random/4.jpg"
+            content: "demo/picture/imgs/random/4.jpg"
         },
         {
             width: 229,
             height: 200,
-            content: "demo/pics/random/5.jpg"
+            content: "demo/picture/imgs/random/5.jpg"
         },
         {
             width: 249,
             height: 200,
-            content: "demo/pics/random/6.jpg"
+            content: "demo/picture/imgs/random/6.jpg"
         },
         {
             width: 600,
             height: 377,
-            content: "demo/pics/random/7.jpg"
+            content: "demo/picture/imgs/random/7.jpg"
         },
         {
             width: 600,
             height: 396,
-            content: "demo/pics/random/8.jpg"
+            content: "demo/picture/imgs/random/8.jpg"
         },
         {
             width: 600,
             height: 374,
-            content: "demo/pics/random/9.jpg"
+            content: "demo/picture/imgs/random/9.jpg"
         }
     ];
 
