@@ -405,7 +405,7 @@ footer {
 
 #iSlider-effect-wrapper {
     height: 517.5px;
-    width: 375px;
+    width：auto;
     margin: 0 auto;
     background: url('../demo/imgs/bg_1.png') no-repeat top center;
     background-size: 100%;
