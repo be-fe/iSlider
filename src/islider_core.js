@@ -119,7 +119,7 @@ define('iSlider', [], function(){
     iSlider.prototype._animateFuncs = {
         'default': function (dom, axis, scale, i, offset) {
             dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
-        },
+        }
     };
 
     /**
@@ -409,7 +409,7 @@ define('iSlider', [], function(){
             var evt = window.event ? window.event : e;
             var target = evt.target;
             var eleArr = document.querySelectorAll(selector);
-            for (i = 0; i < eleArr.length; i++) {
+            for (var i = 0; i < eleArr.length; i++) {
                 if (target === eleArr[i]) {
                     callback.call(target);
                     break;
