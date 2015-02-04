@@ -16,7 +16,7 @@
 <body>
 <div class="wrapper">
     <header>
-<!-- test-->
+        <!-- test-->
         <h1 class="header">iSlider</h1>
 
         <p class="header">移动webapp滑动最优解决方案</p>
@@ -68,33 +68,28 @@
             <li>支持手势缩放，解决图片太大无法看清问题</li>
         </ul>
         <h2>iSlider结构说明</h2>
-            <h4>
-                <ul>
-                    <li>islider_core.js:iSlider核心代码库,定义iSlider类，绑定touch事件，图片预加载逻辑，以及图片翻页逻辑</li>
-                    <li>islider_dot.js:支持在图片上添加页码标示，支持点击翻页，以...展示，<a target="_blank"
-                            href="http://be-fe.github.io/iSlider/demo/picture/picture_with_dots.html">demo地址</a></li>
-                    <li>islider_button.js：支持在图片上添加页码标示，支持点击翻页. 以左右图标展示<a target="_blank"
-                            href="http://be-fe.github.io/iSlider/dom/slide_with_btn.html">demo地址</a></li>
-                    <li>islider_animate.js：islider滑动效果库，目前支持flip、depth、flow等翻页效果. <a href="http://be-fe.github.io/iSlider/demo/picture/picture_with_animate.html">demo地址</a> </li>
-                    <li>islider_zoom.js：针对type为pic类型的滑动元素提供的手势缩放功能，支持android和ios中手势缩放功能，同时支持边缘检测<a href="http://be-fe.github.io/iSlider/demo/picture/zoom.html" target="_blank">demo地址</a></li>
-                </ul>
-            </h4>
+        <ul>
+            <li>islider_core.js： iSlider核心代码库,定义iSlider类，绑定touch事件，图片预加载逻辑，以及图片翻页逻辑</li>
+            <li>islider_dot.js： 支持在图片上添加页码标示，支持点击翻页，以...展示，<a target="_blank"
+                                                              href="http://be-fe.github.io/iSlider/demo/picture/picture_with_dots.html">demo地址</a>
+            </li>
+            <li>islider_button.js： 支持在图片上添加页码标示，支持点击翻页. 以左右图标展示<a target="_blank"
+                                                                  href="http://be-fe.github.io/iSlider/demo/picture/picture_with_button.html">demo地址</a>
+            </li>
+            <li>islider_animate.js： islider滑动效果库，目前支持flip、depth、flow等翻页效果. <a target="_blank"
+                                                                              href="http://be-fe.github.io/iSlider/demo/picture/picture_with_animate.html">demo地址</a>
+            </li>
+            <li>islider_zoom.js： 针对type为pic类型的滑动元素提供的手势缩放功能，支持android和ios中手势缩放功能，同时支持边缘检测<a
+                    href="http://be-fe.github.io/iSlider/demo/picture/zoom.html" target="_blank">demo地址</a></li>
+        </ul>
         <h2 id="demo">
             <a id="islider展示" class="anchor" href="#islider%E5%B1%95%E7%A4%BA" aria-hidden="true"><span
                     class="octicon octicon-link"></span></a>iSlider展示</h2>
 
         <p>若是PC，请打开webkit浏览器进行测试</p>
 
-        <div style="position:relative;text-align:center">
-            <h4>移动端展示</h4>
-            <img width="150px" height="150px" src="https://raw.githubusercontent.com/BE-FE/iSlider/master/qrcode.png">
-        </div>
-        <div style="position:relative;text-align:center">
-            <h4>移动端手势缩放展示</h4>
-            <img width="150px" height="150px" src="demo/picture/imgs/qrcode2.png">
-        </div>
 
-        <h4 style="text-align: center">动画效果</h4>
+        <h4 style="text-align: center;clear:left">动画效果</h4>
 
         <div id="iSlider-effect-wrapper">
             <div id="animation-effect" class="iSlider-effect"></div>
@@ -161,13 +156,13 @@
 <pre><code>&lt;div id="iSlider-wrapper"&gt;&lt;/div&gt;
 </code></pre>
 
-    <p>要使其运行，按下面例子新建ISlider类: </p>
+        <p>要使其运行，按下面例子新建ISlider类: </p>
 <pre><code>&lt;script type="text/javascript"&gt;
     var iSlider = new iSlider({
     dom : document.getElementById('iSlider-wrapper'),
     data : data
     });
-&lt;/script&gt;
+    &lt;/script&gt;
 </code></pre>
         <p>如果你想加其它效果，可以按照我们demo/picture示例添加:</p>
 
@@ -181,7 +176,7 @@
     isAutoplay: false,
     animateType: 'rotate'
     });
-&lt;/script&gt;
+    &lt;/script&gt;
 </code></pre>
 
         <p>That's it. </p>
@@ -221,7 +216,7 @@
     isDebug: true,
     isAutoplay: true
     });
-&lt;/script&gt;
+    &lt;/script&gt;
 </code></pre>
 
         <h2 id="understanding">
@@ -324,7 +319,27 @@
             </tr>
             </tbody>
         </table>
-
+        <h2>更多demo请扫二维码</h2>
+        <ul class="qrcode-1">
+            <li>
+                <h4>默认</h4>
+                <img src="https://raw.githubusercontent.com/BE-FE/iSlider/master/qrcode.png" alt="移动端展示"/></li>
+            <li>
+                <h4>手势缩放</h4>
+                <img src="images/qrcode2.png" alt="手势缩放展示"/></li>
+            <li>
+                <h4>小点翻页</h4>
+                <img src="images/dot.png" alt="翻页小点展示"/></li>
+            <li>
+                <h4>箭头翻页</h4>
+                <img src="images/button.png" alt="箭头翻页展示"/></li>
+            <li>
+                <h4>导航滑动</h4>
+                <img src="images/navigator.png" alt="箭头翻页展示"/></li>
+            <li>
+                <h4>垂直滑动</h4>
+                <img src="images/vertical.png" alt="箭头翻页展示"/></li>
+        </ul>
         <h2 id="license">
             <a id="license-mit" class="anchor" href="#license-mit" aria-hidden="true"><span
                     class="octicon octicon-link"></span></a>License (MIT)</h2>
