@@ -1,8 +1,8 @@
 ;(function() {
 /**
- * iSlider, a simple, efficent mobile slider solution
+ * @file   iSlider, a simple, efficent mobile slider solution
  *
- * Author BEFE
+ * @author BEFE
  * Contact qbaty.qi@gmail.com
  *
  * LICENSE
@@ -402,6 +402,7 @@ iSlider = function () {
   };
   /**
    *  uniformity admin event
+   *  @param {Object}   evt   event obj
    */
   iSlider.prototype.handleEvent = function (evt) {
     var device = this._device();
@@ -428,6 +429,7 @@ iSlider = function () {
   };
   /**
   *  touchstart callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.startHandler = function (evt) {
     var device = this._device();
@@ -442,6 +444,7 @@ iSlider = function () {
   };
   /**
   *  touchmove callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.moveHandler = function (evt) {
     if (this.isMoving) {
@@ -474,6 +477,7 @@ iSlider = function () {
   };
   /**
   *  touchend callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.endHandler = function (evt) {
     this.isMoving = false;

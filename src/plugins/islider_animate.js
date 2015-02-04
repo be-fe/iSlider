@@ -1,4 +1,9 @@
-define(['iSlider'], function(iSlider){
+/*
+ * @file   Animation Library
+ * @author xieyu33333
+ */
+
+define(['iSlider'], function (iSlider) {
     var extendAnimation = {
         'rotate': function (dom, axis, scale, i, offset) {
             var rotateDirect = (axis === 'X') ? 'Y' : 'X';
@@ -80,7 +85,7 @@ define(['iSlider'], function(iSlider){
             }
 
             if (dom.cur && dom.cur !== i) {
-                setTimeout(function() {
+                setTimeout(function () {
                     dom.cur = null;
                 }, 300);
             }
@@ -89,8 +94,8 @@ define(['iSlider'], function(iSlider){
             dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate' + axis
                 + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
         }
-    }
+    };
 
     iSlider.prototype.extend(extendAnimation, iSlider.prototype._animateFuncs);
 
-})
+});

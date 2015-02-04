@@ -1,8 +1,8 @@
 ;(function() {
 /**
- * iSlider, a simple, efficent mobile slider solution
+ * @file   iSlider, a simple, efficent mobile slider solution
  *
- * Author BEFE
+ * @author BEFE
  * Contact qbaty.qi@gmail.com
  *
  * LICENSE
@@ -402,6 +402,7 @@ iSlider = function () {
   };
   /**
    *  uniformity admin event
+   *  @param {Object}   evt   event obj
    */
   iSlider.prototype.handleEvent = function (evt) {
     var device = this._device();
@@ -428,6 +429,7 @@ iSlider = function () {
   };
   /**
   *  touchstart callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.startHandler = function (evt) {
     var device = this._device();
@@ -442,6 +444,7 @@ iSlider = function () {
   };
   /**
   *  touchmove callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.moveHandler = function (evt) {
     if (this.isMoving) {
@@ -474,6 +477,7 @@ iSlider = function () {
   };
   /**
   *  touchend callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.endHandler = function (evt) {
     this.isMoving = false;
@@ -974,7 +978,7 @@ plugins_islider_button = function (iSlider) {
             btnOuter[i].dir = 1;
           }
           btnOuter[i].addEventListener('click', function () {
-            var dir = parseInt(this.getAttribute('dir'));
+            var dir = parseInt(this.getAttribute('dir'), 10);
             self.slideTo(self.slideIndex + dir);
           });
           btnOuter[i].appendChild(btnInner[i]);
@@ -991,7 +995,7 @@ plugins_islider_dot = function (iSlider) {
         var self = this;
         var data = this.data;
         var dots = [];
-        dotWrap = document.createElement('ul');
+        var dotWrap = document.createElement('ul');
         dotWrap.className = 'islider-dot-wrap';
         var fregment = document.createDocumentFragment();
         for (var i = 0; i < data.length; i++) {
@@ -1002,7 +1006,7 @@ plugins_islider_dot = function (iSlider) {
             dots[i].className += ' active';
           }
           dots[i].addEventListener('click', function () {
-            var index = parseInt(this.getAttribute('index'));
+            var index = parseInt(this.getAttribute('index'), 10);
             self.slideTo(index);
           });
           fregment.appendChild(dots[i]);
