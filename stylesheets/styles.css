@@ -407,8 +407,8 @@ footer {
     height: 517.5px;
     width：auto;
     margin: 0 auto;
-    background: url('../demo/imgs/bg_1.png') no-repeat top center;
-    background-size: 100%;
+    background: url('../images/bg_1.png') no-repeat top center;
+    background-size: 376px auto;
     overflow: hidden;
     position: relative;
 }
