@@ -12,7 +12,7 @@ dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
+figure, figcaption, footer, header,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
     margin: 0;
@@ -405,7 +405,7 @@ footer {
 
 #iSlider-effect-wrapper {
     height: 517.5px;
-    width：auto;
+    width:auto;
     margin: 0 auto;
     background: url('../images/bg_1.png') no-repeat top center;
     background-size: 376px auto;
@@ -636,4 +636,16 @@ tbody:hover td {
 tbody:hover tr:hover td {
     color: #444;
     text-shadow: 0 1px 0 #fff;
+}
+.qrcode-1{
+    position: relative;
+}
+.qrcode-1 li{
+    float:left;
+    margin-right:50px;
+    list-style:none;
+}
+.qrcode-1 img{
+    width:150px;
+    height:150px;
 }
