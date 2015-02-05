@@ -25,9 +25,9 @@ time, mark, audio, video {
 /* Base text styles */
 
 body {
-    padding: 10px 50px 0 0;
+    padding: 0px 50px 0 0;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     color: #232323;
     background-color: #FBFAF7;
     margin: 0;
@@ -62,7 +62,7 @@ h1 {
 }
 
 h2 {
-    font-size: 24px;
+    font-size: 26px;
 }
 
 h3 {
@@ -176,8 +176,6 @@ pre {
 
 /* Tables */
 
-
-
 /* Wrapper */
 .wrapper {
     width: 960px;
@@ -205,7 +203,6 @@ header {
     -moz-border-radius: 0 4px 4px 0;
     -ms-border-radius: 0 4px 4px 0;
     border-radius: 0 4px 4px 0;
-    overflow: hidden;
 }
 
 p.header {
@@ -222,6 +219,7 @@ h1.header {
     border-bottom: none;
     margin-top: 0;
     padding-left: 5px;
+    border-bottom: 2px solid #567;
 }
 
 h1.header, a.header, a.name, header a {
@@ -234,10 +232,6 @@ a.header {
 
 a.name {
     white-space: nowrap;
-}
-
-.down {
-    height: 106px;
 }
 
 .down > div.download {
@@ -258,39 +252,36 @@ header ul {
     padding: 0;
     background-color: #222;
     margin: 0;
+
 }
 
 header li {
     list-style-type: none;
-    width: 100%;
     padding: 0px;
     line-height: 34px;
     border-bottom: 2px solid #ccc;
-    height: 34px;
-    padding-left: 10px;
     font-weight: 400;
     font-size: 16px;
+    color:#fff;
 
 }
 
 header li:hover, header li:active {
     color: #fafafa;
     border-bottom: 2px solid #cc7a6f;
-    background: #333;
+    background-color: #333;
 
 }
 
 a.buttons {
     -webkit-font-smoothing: antialiased;
-    background: url(../images/arrow-down.png) no-repeat;
+    background: url(../images/arrow-down.png) no-repeat 7px 7px;
     font-weight: normal;
     text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0;
-    padding: 2px 2px 2px 22px;
-    height: 30px;
 }
 
 a.github {
-    background: url(../images/octocat-small.png) no-repeat 1px;
+    background: url(../images/octocat-small.png) no-repeat 7px;
 }
 
 a.buttons:hover {
@@ -405,7 +396,7 @@ footer {
 
 #iSlider-effect-wrapper {
     height: 517.5px;
-    width:auto;
+    width: auto;
     margin: 0 auto;
     background: url('../images/bg_1.png') no-repeat top center;
     background-size: 376px auto;
@@ -637,15 +628,125 @@ tbody:hover tr:hover td {
     color: #444;
     text-shadow: 0 1px 0 #fff;
 }
-.qrcode-1{
+
+.qrcode-1 {
     position: relative;
 }
-.qrcode-1 li{
-    float:left;
-    margin-right:50px;
-    list-style:none;
+
+.qrcode-1 li {
+    float: left;
+    margin-right: 50px;
+    list-style: none;
 }
-.qrcode-1 img{
+
+.qrcode-1 img {
+    width: 150px;
+    height: 150px;
+}
+
+.qrcode-1 h4 {
+    text-align: center;
+}
+#nav{
+    border-top:2px solid #ccc;
+}
+
+#nav li a {
+    padding-left:35px;
+    display: block;
+    text-decoration: none;
+    color:#fff;
+    text-shadow:rgba(0, 0, 0, 0.4) 0 -1px 0;
+    font-weight: 400;
+}
+#nav li:hover a{
+    color:#aaa;
+}
+
+
+
+#nav li:hover ul {
     width:150px;
-    height:150px;
+
 }
+#nav li ul li{
+    height:34px;
+    overflow: hidden;
+}
+#nav li ul {
+    position: absolute;
+    width: 0;
+    height:auto;
+    overflow: hidden;
+    -webkit-transition: 0.25s;
+    -moz-transition: 0.25s;
+    -ms-transition: 0.25s;
+    -o-transition: 0.25s;
+    transition: 0.25s;
+    padding: 0;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+
+    -webkit-border-radius: 0 4px 4px 0;
+    -moz-border-radius: 0 4px 4px 0;
+    -ms-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+    margin-left: 170px;
+    margin-top: -34px;
+    background-color: #555;
+
+}
+.start{
+    background:url("../images/1.png") no-repeat 4px 7px transparent;
+    background-size: 20px auto;
+}
+.api{
+    background:url("../images/2.png") no-repeat 4px 7px transparent;
+    background-size: 20px auto;
+}
+.demo{
+    background:url("../images/3.png") no-repeat 4px 7px transparent;
+    background-size: 20px auto;
+}
+.down{
+    background:url("../images/4.png") no-repeat 4px 7px transparent;
+    background-size: 20px auto;
+}
+.lang{
+     background:url("../images/5.png") no-repeat 4px 7px transparent;
+    background-size: 20px auto;
+}
+iframe{
+    margin-left:5px;
+}
+.demo ul>li:nth-child(1){
+    background:url("../images/7.png") no-repeat 6px 7px transparent;
+    background-size: 20px auto;
+}
+.demo ul>li:nth-child(2){
+    background:url("../images/8.png") no-repeat 6px 7px transparent;
+    background-size: 20px auto;
+}
+.demo ul>li:nth-child(3){
+    background:url("../images/9.png") no-repeat 6px 7px transparent;
+    background-size: 20px auto;
+}
+.demo ul>li:nth-child(4){
+    background:url("../images/10.png") no-repeat 6px 7px transparent;
+    background-size: 20px auto;
+}
+.demo ul>li:nth-child(5){
+    background:url("../images/11.png") no-repeat 6px 7px transparent;
+    background-size: 20px auto;
+}
+.demo ul>li:nth-child(6){
+    background:url("../images/14.png") no-repeat 6px 7px transparent;
+    background-size: 20px auto;
+}
+.demo ul>li:nth-child(7){
+    background:url("../images/13.png") no-repeat 6px 7px transparent;
+    background-size: 20px auto;
+}
+
+
