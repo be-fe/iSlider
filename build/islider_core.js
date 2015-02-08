@@ -1,14 +1,18 @@
 ;(function() {
 /**
- * iSlider
- * A simple, efficent mobile slider
- * @Author BEFE
+ * @file   iSlider, a simple, efficent mobile slider solution
  *
+ * @author BEFE
+ * Contact qbaty.qi@gmail.com
+ *
+ * LICENSE
+ * https://github.com/BE-FE/iSlider/blob/master/LICENSE
+ */
+/**
+ * @constructor
  * @param {Object}      opts                参数集
  * @param {Element}     opts.dom            外层元素        Outer wrapper
  * @param {Object}      opts.data           数据列表        Content data
- * Please refer to README                   请参考README
- * @class
  */
 var iSlider, islider_core;
 iSlider = function () {
@@ -47,6 +51,7 @@ iSlider = function () {
     }
     this.slideIndex = this.slideIndex || this.initIndex || 0;
     this.axis = this.isVertical ? 'Y' : 'X';
+    this.reverseAxis = this.axis === 'Y' ? 'X' : 'Y';
     this.width = this.wrap.clientWidth;
     this.height = this.wrap.clientHeight;
     this.ratio = this.height / this.width;
@@ -81,6 +86,9 @@ iSlider = function () {
     if (this.isAutoplay) {
       this.play();
     }
+    if (this.useZoom) {
+      this._initZoom(opts);
+    }
     // debug mode
     this.log = opts.isDebug ? function (str) {
       window.console.log(str);
@@ -90,8 +98,6 @@ iSlider = function () {
     this._setUpDamping();
     // stop autoplay when window blur
     this._setPlayWhenFocus();
-    if (this.useZoom)
-      this._initZoom(opts);
     // set animate Function
     this._animateFunc = opts.animateType in this._animateFuncs ? this._animateFuncs[opts.animateType] : this._animateFuncs['default'];
   };
@@ -173,7 +179,7 @@ iSlider = function () {
     html && (el.innerHTML = html);
   };
   /**
-   *  render list html
+   * render list html
    */
   iSlider.prototype._renderHTML = function () {
     this.outer && (this.outer.innerHTML = '');
@@ -210,7 +216,6 @@ iSlider = function () {
   iSlider.prototype._preloadImg = function (dataIndex) {
     var len = this.data.length;
     var idx = dataIndex;
-    var n = dataIndex - this.slideIndex;
     var self = this;
     var loadImg = function (index) {
       if (!self.data[index].loaded) {
@@ -323,8 +328,9 @@ iSlider = function () {
     }
   };
   /**
-  * judge the device
-  */
+   *  judge the device
+   *  @return {Object} {}
+   */
   iSlider.prototype._device = function () {
     var hasTouch = !!('ontouchstart' in window || window.DocumentTouch && document instanceof window.DocumentTouch);
     var startEvt = hasTouch ? 'touchstart' : 'mousedown';
@@ -368,7 +374,7 @@ iSlider = function () {
       var evt = window.event ? window.event : e;
       var target = evt.target;
       var eleArr = document.querySelectorAll(selector);
-      for (i = 0; i < eleArr.length; i++) {
+      for (var i = 0; i < eleArr.length; i++) {
         if (target === eleArr[i]) {
           callback.call(target);
           break;
@@ -382,8 +388,8 @@ iSlider = function () {
     }
   };
   /**
-  *  removeEventListener to release the memory
-  */
+   *  removeEventListener to release the memory
+   */
   iSlider.prototype.destroy = function () {
     var outer = this.outer;
     var device = this._device();
@@ -396,8 +402,9 @@ iSlider = function () {
     this.wrap.innerHTML = '';
   };
   /**
-  *  uniformity admin event
-  */
+   *  uniformity admin event
+   *  @param {Object}   evt   event obj
+   */
   iSlider.prototype.handleEvent = function (evt) {
     var device = this._device();
     switch (evt.type) {
@@ -423,8 +430,12 @@ iSlider = function () {
   };
   /**
   *  touchstart callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.startHandler = function (evt) {
+    if (this._opts.fixPage) {
+      evt.preventDefault();
+    }
     var device = this._device();
     this.isMoving = true;
     this.pause();
@@ -437,19 +448,20 @@ iSlider = function () {
   };
   /**
   *  touchmove callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.moveHandler = function (evt) {
     if (this.isMoving) {
       var device = this._device();
       var len = this.data.length;
       var axis = this.axis;
-      var otherAxis = axis === 'X' ? 'Y' : 'X';
+      var reverseAxis = this.reverseAxis;
       var offset = {
         X: device.hasTouch ? evt.targetTouches[0].pageX - this.startX : evt.pageX - this.startX,
         Y: device.hasTouch ? evt.targetTouches[0].pageY - this.startY : evt.pageY - this.startY
       };
       var res = this._moveHandler ? this._moveHandler(evt) : false;
-      if (!res && Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
+      if (!res && Math.abs(offset[axis]) - Math.abs(offset[reverseAxis]) > 10) {
         evt.preventDefault();
         this.onslide && this.onslide(offset[axis]);
         this.log('Event: onslide');
@@ -469,6 +481,7 @@ iSlider = function () {
   };
   /**
   *  touchend callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.endHandler = function (evt) {
     this.isMoving = false;
@@ -480,9 +493,11 @@ iSlider = function () {
     // a quick slide should also slide at least 14 px
     boundary = endTime - this.startTime > 300 ? boundary : 14;
     var res = this._endHandler ? this._endHandler(evt) : false;
-    if (!res && offset[axis] >= boundary) {
+    var absOffset = Math.abs(offset[axis]);
+    var absReverseOffset = Math.abs(offset[this.reverseAxis]);
+    if (!res && offset[axis] >= boundary && absReverseOffset < absOffset) {
       this.slideTo(this.slideIndex - 1);
-    } else if (!res && offset[axis] < -boundary) {
+    } else if (!res && offset[axis] < -boundary && absReverseOffset < absOffset) {
       this.slideTo(this.slideIndex + 1);
     } else if (!res) {
       this.slideTo(this.slideIndex);

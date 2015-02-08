@@ -18,6 +18,8 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 
 <img width="150px" height="150px" src="qrcode.png"/>
 
+* <a href="http://be-fe.github.io/iSlider/index.html">Demo</a>
+
 ##开始使用iSlider
 使用iSlider最简单的办法是查阅我们提供的简易例子。大代码存放在demo文件夹的文件里面。
 
