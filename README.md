@@ -21,7 +21,7 @@ It features:
 
 <img width="150px" height="150px" src="qrcode.png"/>
 
-* <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
+* <a href="http://be-fe.github.io/iSlider/index.html">Demo</a>
 
 ##Getting Started
 The best way to learn the iSlider is by looking at the demos. In the archive you'll find a demo folder. Most of the script features are outlined there.
