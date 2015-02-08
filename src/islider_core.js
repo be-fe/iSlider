@@ -52,7 +52,6 @@ define('iSlider', [], function(){
         this.slideIndex = this.slideIndex || this.initIndex || 0;
 
         this.axis = this.isVertical ? 'Y' : 'X';
-        this.reverse_axis=this.axis=="Y"?"X":"Y";
         this.width = this.wrap.clientWidth;
         this.height = this.wrap.clientHeight;
         this.ratio = this.height / this.width;
@@ -470,7 +469,6 @@ define('iSlider', [], function(){
     *  touchstart callback
     */
     iSlider.prototype.startHandler = function(evt){
-        if(this._opts.fixPage) evt.preventDefault();
         var device = this._device();
         this.isMoving = true;
         this.pause();
@@ -536,10 +534,9 @@ define('iSlider', [], function(){
         // a quick slide should also slide at least 14 px
         boundary = endTime - this.startTime > 300 ? boundary : 14;
         var res = this._endHandler ? this._endHandler(evt) : false;
-        var offset1=Math.abs(offset[axis]),reverse_offset1=Math.abs(offset[this.reverse_axis]);
-        if (!res && offset[axis] >= boundary&&reverse_offset1<offset1) {
+        if (!res && offset[axis] >= boundary) {
             this.slideTo(this.slideIndex - 1);
-        } else if (!res && offset[axis] < -boundary&&reverse_offset1<offset1) {
+        } else if (!res && offset[axis] < -boundary) {
             this.slideTo(this.slideIndex + 1);
         } else if(!res){
             this.slideTo(this.slideIndex);
