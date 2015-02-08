@@ -2,7 +2,7 @@
 
 ####[iSlider Official Page](http://be-fe.github.io/iSlider/index_en.html)
 ####[iSlider 官网](http://be-fe.github.io/iSlider/index.html)
-####[iSlider README](https://github.com/BE-FE/iSlider/blob/master/README_Chinese.md)
+####[iSlider 说明](https://github.com/BE-FE/iSlider/blob/master/README_Chinese.md)
 ####[iSlider Example](http://be-fe.github.io/iSlider/demo/)
 
 iSlider is a high performance，dependency free, mobile-platform javascript slider.
@@ -21,7 +21,7 @@ It features:
 
 <img width="150px" height="150px" src="qrcode.png"/>
 
-* <a href="http://be-fe.github.io/iSlider/demo/">Demo</a>
+* <a href="http://be-fe.github.io/iSlider/index.html">Demo</a>
 
 ##Getting Started
 The best way to learn the iSlider is by looking at the demos. In the archive you'll find a demo folder. Most of the script features are outlined there.

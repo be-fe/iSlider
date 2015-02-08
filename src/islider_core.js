@@ -1,7 +1,7 @@
 /**
- * iSlider, a simple, efficent mobile slider solution
+ * @file   iSlider, a simple, efficent mobile slider solution
  *
- * Author BEFE
+ * @author BEFE
  * Contact qbaty.qi@gmail.com
  *
  * LICENSE
@@ -14,7 +14,7 @@
  * @param {Element}     opts.dom            外层元素        Outer wrapper
  * @param {Object}      opts.data           数据列表        Content data
  */
-define('iSlider', [], function() {
+define('iSlider', [], function () {
     'use strict';
 
     var iSlider = function (opts) {
@@ -56,6 +56,8 @@ define('iSlider', [], function() {
         this.slideIndex = this.slideIndex || this.initIndex || 0;
 
         this.axis = this.isVertical ? 'Y' : 'X';
+        this.reverseAxis = this.axis === 'Y' ? 'X' : 'Y';
+
         this.width = this.wrap.clientWidth;
         this.height = this.wrap.clientHeight;
         this.ratio = this.height / this.width;
@@ -97,7 +99,7 @@ define('iSlider', [], function() {
         }
 
         // debug mode
-        this.log = opts.isDebug ? function(str) {window.console.log(str);} : function() {};
+        this.log = opts.isDebug ? function (str) {window.console.log(str);} : function () {};
         // set Damping function
         this._setUpDamping();
         // stop autoplay when window blur
@@ -109,7 +111,7 @@ define('iSlider', [], function() {
     };
 
     // fixed bug for android device
-    iSlider.prototype._setPlayWhenFocus = function() {
+    iSlider.prototype._setPlayWhenFocus = function () {
         window.addEventListener('focus', this, false);
         window.addEventListener('blur', this, false);
     };
@@ -239,11 +241,11 @@ define('iSlider', [], function() {
      *  preload img when slideChange
      *  @param {number} dataIndex means which image will be load
      */
-    iSlider.prototype._preloadImg = function(dataIndex) {
+    iSlider.prototype._preloadImg = function (dataIndex) {
         var len = this.data.length;
         var idx = dataIndex;
         var self = this;
-        var loadImg = function(index) {
+        var loadImg = function (index) {
             if (!self.data[index].loaded) {
                 var preloadImg = new Image();
                 preloadImg.src = self.data[index].content;
@@ -261,7 +263,7 @@ define('iSlider', [], function() {
     /**
      *  load extra imgs when renderHTML
      */
-    iSlider.prototype._initLoadImg = function() {
+    iSlider.prototype._initLoadImg = function () {
         var data = this.data;
         var len = data.length;
         var idx = this.initIndex;
@@ -276,7 +278,7 @@ define('iSlider', [], function() {
                 data[prevIndex].loaded = 1;
             }
 
-            setTimeout(function() {
+            setTimeout(function () {
                 self._preloadImg(idx);
             }, 200);
         }
@@ -346,7 +348,7 @@ define('iSlider', [], function() {
             sEle.style.webkitTransition = 'none';
             sEle.style.visibility = 'hidden';
 
-            setTimeout(function() {
+            setTimeout(function () {
                 sEle.style.visibility = 'visible';
             }, 200);
 
@@ -372,7 +374,7 @@ define('iSlider', [], function() {
      *  judge the device
      *  @return {Object} {}
      */
-    iSlider.prototype._device = function() {
+    iSlider.prototype._device = function () {
         var hasTouch = !!(('ontouchstart' in window)
             || window.DocumentTouch && document instanceof window.DocumentTouch);
         var startEvt = hasTouch ? 'touchstart' : 'mousedown';
@@ -389,12 +391,12 @@ define('iSlider', [], function() {
     /**
     * bind all event handler, when on PC, disable drag event。
     */
-    iSlider.prototype._bindHandler = function() {
+    iSlider.prototype._bindHandler = function () {
         var outer = this.outer;
         var device = this._device();
         if (!device.hasTouch) {
             outer.style.cursor = 'pointer';
-            outer.ondragstart = function(evt) {
+            outer.ondragstart = function (evt) {
                 if (evt) {
                     return false;
                 }
@@ -413,7 +415,7 @@ define('iSlider', [], function() {
     *  @param {string}   selector  the simple css selector like jQuery
     *  @param {Function} callback  event callback
     */
-    iSlider.prototype.bind = function(evtType, selector, callback) {
+    iSlider.prototype.bind = function (evtType, selector, callback) {
         function handle(e) {
             var evt = window.event ? window.event : e;
             var target = evt.target;
@@ -435,7 +437,7 @@ define('iSlider', [], function() {
     /**
      *  removeEventListener to release the memory
      */
-    iSlider.prototype.destroy = function() {
+    iSlider.prototype.destroy = function () {
         var outer = this.outer;
         var device = this._device();
 
@@ -450,8 +452,9 @@ define('iSlider', [], function() {
 
     /**
      *  uniformity admin event
+     *  @param {Object}   evt   event obj
      */
-    iSlider.prototype.handleEvent = function(evt) {
+    iSlider.prototype.handleEvent = function (evt) {
         var device = this._device();
         switch (evt.type) {
             case device.startEvt:
@@ -477,8 +480,12 @@ define('iSlider', [], function() {
 
     /**
     *  touchstart callback
+    *  @param {Object}   evt   event obj
     */
-    iSlider.prototype.startHandler = function(evt) {
+    iSlider.prototype.startHandler = function (evt) {
+        if (this._opts.fixPage) {
+            evt.preventDefault();
+        }
         var device = this._device();
         this.isMoving = true;
         this.pause();
@@ -493,20 +500,21 @@ define('iSlider', [], function() {
 
     /**
     *  touchmove callback
+    *  @param {Object}   evt   event obj
     */
-    iSlider.prototype.moveHandler = function(evt) {
+    iSlider.prototype.moveHandler = function (evt) {
         if (this.isMoving) {
             var device = this._device();
             var len = this.data.length;
             var axis = this.axis;
-            var otherAxis = (axis === 'X') ? 'Y' : 'X';
+            var reverseAxis = this.reverseAxis;
             var offset = {
                 X: device.hasTouch ? (evt.targetTouches[0].pageX - this.startX) : (evt.pageX - this.startX),
                 Y: device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY)
             };
 
             var res = this._moveHandler ? this._moveHandler(evt) : false;
-            if (!res && Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
+            if (!res && Math.abs(offset[axis]) - Math.abs(offset[reverseAxis]) > 10) {
                 evt.preventDefault();
 
                 this.onslide && this.onslide(offset[axis]);
@@ -531,8 +539,9 @@ define('iSlider', [], function() {
 
     /**
     *  touchend callback
+    *  @param {Object}   evt   event obj
     */
-    iSlider.prototype.endHandler = function(evt) {
+    iSlider.prototype.endHandler = function (evt) {
         this.isMoving = false;
         var offset = this.offset;
         var axis = this.axis;
@@ -543,9 +552,12 @@ define('iSlider', [], function() {
         // a quick slide should also slide at least 14 px
         boundary = endTime - this.startTime > 300 ? boundary : 14;
         var res = this._endHandler ? this._endHandler(evt) : false;
-        if (!res && offset[axis] >= boundary) {
+        var absOffset = Math.abs(offset[axis]);
+        var absReverseOffset = Math.abs(offset[this.reverseAxis]);
+
+        if (!res && offset[axis] >= boundary && absReverseOffset < absOffset) {
             this.slideTo(this.slideIndex - 1);
-        } else if (!res && offset[axis] < -boundary) {
+        } else if (!res && offset[axis] < -boundary && absReverseOffset < absOffset) {
             this.slideTo(this.slideIndex + 1);
         } else if (!res) {
             this.slideTo(this.slideIndex);
@@ -570,18 +582,18 @@ define('iSlider', [], function() {
     /**
     *  orientationchange callback
     */
-    iSlider.prototype.orientationchangeHandler = function() {
-        setTimeout(function() {
+    iSlider.prototype.orientationchangeHandler = function () {
+        setTimeout(function () {
             this.reset();
             this.log('Event: orientationchange');
-        },100);
+        }, 100);
     };
 
 
     /**
     * reset & rerender
     */
-    iSlider.prototype.reset = function() {
+    iSlider.prototype.reset = function () {
         this.pause();
         this._setting();
         this._renderHTML();
@@ -591,7 +603,7 @@ define('iSlider', [], function() {
     /**
     * enable autoplay
     */
-    iSlider.prototype.play = function() {
+    iSlider.prototype.play = function () {
         var self = this;
         var duration = this.duration;
         clearInterval(this.autoPlayTimer);
@@ -603,7 +615,7 @@ define('iSlider', [], function() {
     /**
     * pause autoplay
     */
-    iSlider.prototype.pause = function() {
+    iSlider.prototype.pause = function () {
         clearInterval(this.autoPlayTimer);
     };
 
@@ -613,11 +625,11 @@ define('iSlider', [], function() {
     * @param {Object} plugin need to be set up
     * @param {Object} main iSlider prototype
     */
-    iSlider.prototype.extend = function(plugin, main) {
+    iSlider.prototype.extend = function (plugin, main) {
         if (!main) {
             main = iSlider.prototype;
         }
-        Object.keys(plugin).forEach(function(property) {
+        Object.keys(plugin).forEach(function (property) {
             Object.defineProperty(main, property, Object.getOwnPropertyDescriptor(plugin, property));
         });
     };
