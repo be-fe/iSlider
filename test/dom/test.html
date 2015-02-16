@@ -1,0 +1,154 @@
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<link href="../public/css/islider.css" rel="stylesheet">
+<style type="text/css">
+body {
+-webkit-backface-visibility: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#iSlider-content {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+
+#iSlider-hidden {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.dom-demo {
+    margin-top: 0px;
+    padding: 10px;
+    padding-top: 25px;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+
+    color:rgb(220,220,220); 
+    text-shadow: blue 0 1px 0;
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position:center;
+}
+
+.dom-demo1 {
+    
+    background-image: url(http://shiqichan.qiniudn.com/mob.slide.c/20130110075340989.jpg);
+}
+
+.dom-demo2 {
+    background-image: url(http://shiqichan.qiniudn.com/mob.slide.c/008.jpg);
+}
+
+.dom-demo3 {
+    background-image: url(http://shiqichan.qiniudn.com/mob.slide.c/003.jpg);
+}
+
+.dom-demo4 {
+    background-image: url(http://shiqichan.qiniudn.com/mob.slide.c/11690_1920x1440.jpg);
+}
+
+.dom-demo5 {
+    background-image: url(http://shiqichan.qiniudn.com/mob.slide.c/sy_63293829892.jpg);
+}
+
+#iSlider-wrapper {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.iSlider-show {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: #333;
+}
+
+#iSlider-show ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+#iSlider-show li {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    list-style: none;
+}
+
+#iSlider-show img{
+    max-width: 96%;
+}
+
+
+</style>
+</head>
+<body>
+<div id="iSlider-content">
+    <div id="iSlider-show" class="iSlider-show"></div>
+</div>
+
+<script type="text/javascript" src="../public/js/islider.js"></script>
+<script type="text/javascript">
+var domList = [
+{
+    'height' : '100%',
+    'width' : '100%',
+    'content' : '<div class="dom-demo dom-demo1"><h1>野兽凶猛</h1><h2>小心狮子</h2><p>你好像侵入了她的领地。这是警告，不要再靠近啦。</p><div><!--<img src="http://www.baidu.com/img/bd_logo1.png"></img>-->'
+},{
+    'height' : '100%',
+    'width' : '100%',
+    'content' : '<div class="dom-demo dom-demo2"><h1>猫</h1><h2>小型猫科动物也是杀手</h2><p>在美国，家猫每年导致高达37亿只本土鸟类死亡。</p><div>'
+},{
+    'height' : '100%',
+    'width' : '100%',
+    'content' : '<div class="dom-demo dom-demo3"><h1>虎</h1><h2>美丽的外表</h2><p>比狮子更强健。</p><div>'
+},{
+    'height' : '100%',
+    'width' : '100%',
+    'content' : '<div class="dom-demo dom-demo4"><h1>熊</h1><h2>现实中不会有这样的熊</h2><p>有时比虎还可怕。</p><div>'
+},{
+    'height' : '100%',
+    'width' : '100%',
+    'content' : '<div class="dom-demo dom-demo5"><h1>北极熊</h1><h2>体型最大的熊类</h2><p>在严寒的动物世界里，它是最强的。</p><div>'
+}
+];  
+
+// initialization
+var islider = new iSlider({
+    data: domList,
+    dom: document.getElementById("iSlider-show"),
+    type:'dom',
+    animateType: 'card',
+    isVertical:false,
+    onslideend:function(){
+        console.log('slider end.');
+    }
+});
+
+
+</script>
+
+
+</body></html>
