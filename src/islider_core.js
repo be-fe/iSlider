@@ -427,11 +427,8 @@ define('iSlider', [], function () {
                 }
             }
         }
-        if (this.wrap['on' + evtType] !== undefined) {
-            this.wrap['on' + evtType] = handle;
-        } else {
-            this.wrap.addEventListener(evtType, handle, false);
-        }
+
+        this.wrap.addEventListener(evtType, handle, false);
     };
 
     /**
