@@ -415,7 +415,7 @@ define('iSlider', [], function () {
     *  @param {string}   selector  the simple css selector like jQuery
     *  @param {Function} callback  event callback
     */
-    iSlider.prototype.bind = function (evtType, selector, callback) {
+    iSlider.prototype.bind  = iSlider.prototype.delegate = function (evtType, selector, callback) {
         function handle(e) {
             var evt = window.event ? window.event : e;
             var target = evt.target;
@@ -461,6 +461,9 @@ define('iSlider', [], function () {
                 this.moveHandler(evt);
                 break;
             case device.endEvt:
+                this.endHandler(evt);
+                break;
+            case 'touchcancel':
                 this.endHandler(evt);
                 break;
             case 'orientationchange':

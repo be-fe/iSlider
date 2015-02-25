@@ -63,7 +63,7 @@
 	<script type="text/javascript" src="../public/js/islider.js"></script>
 	<script>
 		var list = [{
-			'content' : '<div class="content home"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
+			'content' : '<a href="http://www.baidu.com"><div class="content home"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div></a>'
 		},
 		{
 			'content' : '<div class="content page1"><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
@@ -86,7 +86,8 @@
 		    dom: document.getElementById("iSlider"),
 		    duration: 1000,
 		    isLooping: true,
-		    isAutoPlay: true
+		    isAutoPlay: true,
+		    fixPage: true
 		});
 	</script>
 </body>
