@@ -50,6 +50,9 @@ define('iSlider', [], function () {
         this.duration = opts.duration || 2000;
         // start from initIndex or 0
         this.initIndex = opts.initIndex || 0;
+        // touchstart prevent default to fixPage
+        this.fixPage = opts.fixPage || true;
+
         if  (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
             this.initIndex = 0;
         }
@@ -483,7 +486,7 @@ define('iSlider', [], function () {
     *  @param {Object}   evt   event obj
     */
     iSlider.prototype.startHandler = function (evt) {
-        if (this._opts.fixPage) {
+        if (this.fixPage) {
             evt.preventDefault();
         }
         var device = this._device();
