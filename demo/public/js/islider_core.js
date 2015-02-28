@@ -51,7 +51,7 @@ iSlider = function () {
     }
     this.slideIndex = this.slideIndex || this.initIndex || 0;
     this.axis = this.isVertical ? 'Y' : 'X';
-    this.reverse_axis=this.axis=="Y"?"X":"Y";
+    this.rev_axis=this.axis=="Y"?"X":"Y";
     this.width = this.wrap.clientWidth;
     this.height = this.wrap.clientHeight;
     this.ratio = this.height / this.width;
@@ -486,11 +486,11 @@ iSlider = function () {
     // a quick slide time must under 300ms
     // a quick slide should also slide at least 14 px
     boundary = endTime - this.startTime > 300 ? boundary : 14;
-    var offset1=Math.abs(offset[axis]),reverse_offset1=Math.abs(offset[this.reverse_axis]);
+    var diff=Math.abs(offset[axis]),rev_diff=Math.abs(offset[this.rev_axis]);
     var res = this._endHandler ? this._endHandler(evt) : false;
-    if (!res && offset[axis] >= boundary&&reverse_offset1<offset1) {
+    if (!res && offset[axis] >= boundary&&rev_diff<diff) {
       this.slideTo(this.slideIndex - 1);
-    } else if (!res && offset[axis] < -boundary&&reverse_offset1<offset1) {
+    } else if (!res && offset[axis] < -boundary&&rev_diff<diff) {
       this.slideTo(this.slideIndex + 1);
     } else if (!res) {
       this.slideTo(this.slideIndex);
