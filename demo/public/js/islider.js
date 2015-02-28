@@ -44,8 +44,10 @@ iSlider = function () {
     this.isOverspread = opts.isOverspread || false;
     // Play time gap
     this.duration = opts.duration || 2000;
-    // start from initIndex or 0
+    // start from initIndex or 0 
     this.initIndex = opts.initIndex || 0;
+    // touchstart prevent default to fixPage 
+    this.fixPage = opts.fixPage || true;
     if (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
       this.initIndex = 0;
     }
@@ -369,7 +371,7 @@ iSlider = function () {
   *  @param {string}   selector  the simple css selector like jQuery
   *  @param {Function} callback  event callback
   */
-  iSlider.prototype.bind = function (evtType, selector, callback) {
+  iSlider.prototype.bind = iSlider.prototype.delegate = function (evtType, selector, callback) {
     function handle(e) {
       var evt = window.event ? window.event : e;
       var target = evt.target;
@@ -381,11 +383,7 @@ iSlider = function () {
         }
       }
     }
-    if (this.wrap['on' + evtType] !== undefined) {
-      this.wrap['on' + evtType] = handle;
-    } else {
-      this.wrap.addEventListener(evtType, handle, false);
-    }
+    this.wrap.addEventListener(evtType, handle, false);
   };
   /**
    *  removeEventListener to release the memory
@@ -417,6 +415,9 @@ iSlider = function () {
     case device.endEvt:
       this.endHandler(evt);
       break;
+    case 'touchcancel':
+      this.endHandler(evt);
+      break;
     case 'orientationchange':
       this.orientationchangeHandler();
       break;
@@ -433,7 +434,7 @@ iSlider = function () {
   *  @param {Object}   evt   event obj
   */
   iSlider.prototype.startHandler = function (evt) {
-    if (this._opts.fixPage) {
+    if (this.fixPage) {
       evt.preventDefault();
     }
     var device = this._device();
