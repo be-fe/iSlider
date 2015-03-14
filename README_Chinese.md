@@ -26,19 +26,11 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 使用iSlider只需要准备好数据即可，无论是本地数据还是从接口获取的数据，例如：
 
 ``` javascript
-var data = [{
-	height: 414,
-	width: 300,
-	content: "imgs/1.jpg",
-},{
-	height: 414,
-	width: 300,
-	content: "imgs/2.jpg",
-},{
- 	height: 414,
-	width: 300,
- 	content: "imgs/3.jpg",
-}];
+var data = [
+{content: "imgs/1.jpg"},
+{content: "imgs/2.jpg"},
+{content: "imgs/3.jpg"}
+];
 ```
 
 HTML代码如下:
@@ -76,16 +68,10 @@ That's it.
 
 ``` javascript
 var data = [{
-	'height' : '100%',
-	'width' : '100%',
 	'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
 },{
-	'height' : '100%',
-	'width' : '100%',
 	'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
 },{
-	'height' : '100%',
-	'width' : '100%',
 	'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
 }];
 ```
@@ -126,8 +112,6 @@ var data = [{
 		<td>若是图片数据，格式如下:
 		<pre>
 [{
-	height: 377,
-	width: 600,
 	content:"pics/1.jpg"
 }]
 		</pre>

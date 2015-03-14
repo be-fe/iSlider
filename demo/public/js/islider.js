@@ -44,9 +44,9 @@ iSlider = function () {
     this.isOverspread = opts.isOverspread || false;
     // Play time gap
     this.duration = opts.duration || 2000;
-    // start from initIndex or 0 
+    // start from initIndex or 0
     this.initIndex = opts.initIndex || 0;
-    // touchstart prevent default to fixPage 
+    // touchstart prevent default to fixPage
     this.fixPage = opts.fixPage || true;
     if (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
       this.initIndex = 0;
@@ -151,6 +151,11 @@ iSlider = function () {
     var item;
     var html;
     var len = this.data.length;
+    var self = this;
+    var insertImg = function () {
+      html = item.height / item.width > self.ratio ? '<img height="' + self.height + '" src="' + item.content + '">' : '<img width="' + self.width + '" src="' + item.content + '">';
+      el.innerHTML = html;
+    };
     // get the right item of data
     if (!this.isLooping) {
       item = this.data[i] || { empty: true };
@@ -170,15 +175,24 @@ iSlider = function () {
     }
     if (this.type === 'pic') {
       if (!this.isOverspread) {
-        html = item.height / item.width > this.ratio ? '<img height="' + this.height + '" src="' + item.content + '">' : '<img width="' + this.width + '" src="' + item.content + '">';
+        if (item.height & item.width) {
+          insertImg();
+        } else {
+          var currentImg = new Image();
+          currentImg.src = item.content;
+          currentImg.onload = function () {
+            item.height = currentImg.height;
+            item.width = currentImg.width;
+            insertImg();
+          };
+        }
       } else {
         el.style.background = 'url(' + item.content + ') 50% 50% no-repeat';
         el.style.backgroundSize = 'cover';
       }
     } else if (this.type === 'dom') {
-      html = item.content;
+      el.innerHTML = item.content;
     }
-    html && (el.innerHTML = html);
   };
   /**
    * render list html
@@ -223,6 +237,10 @@ iSlider = function () {
       if (!self.data[index].loaded) {
         var preloadImg = new Image();
         preloadImg.src = self.data[index].content;
+        preloadImg.onload = function () {
+          self.data[index].width = preloadImg.width;
+          self.data[index].height = preloadImg.height;
+        };
         self.data[index].loaded = 1;
       }
     };
