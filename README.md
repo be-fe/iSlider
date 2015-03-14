@@ -30,19 +30,11 @@ The best way to learn the iSlider is by looking at the demos. In the archive you
 Before you start, you need to prepare some data for iSlider:
 
 ````
-var data = [{
-	height: 414,
-	width: 300,
-	content: "imgs/1.jpg",
-},{
-	height: 414,
-	width: 300,
-	content: "imgs/2.jpg",
-},{
- 	height: 414,
-	width: 300,
- 	content: "imgs/3.jpg",
-}];
+var data = [
+{content: "imgs/1.jpg"},
+{content: "imgs/2.jpg"},
+{content: "imgs/3.jpg"}
+];
 ````
 
 HTML structure you only need to prepare is :
@@ -80,16 +72,10 @@ Besides the basic ways you can do with iSlider, you can customized the features 
 
 ````
 var data = [{
-	'height' : '100%',
-	'width' : '100%',
 	'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
 },{
-	'height' : '100%',
-	'width' : '100%',
 	'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
 },{
-	'height' : '100%',
-	'width' : '100%',
 	'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
 }];
 ````
@@ -132,8 +118,6 @@ Here provides a clear description of what options you are able to manipulate:
 		<td>Picture data, for example:
 		<pre>
 [{
-	height: 377,
-	width: 600,
 	content:"pics/1.jpg"
 }]
 		</pre>
