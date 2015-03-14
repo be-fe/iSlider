@@ -167,6 +167,14 @@ define('iSlider', [], function () {
         var item;
         var html;
         var len = this.data.length;
+        var self = this;
+
+        var insertImg = function () {
+            html = item.height / item.width > self.ratio
+            ? '<img height="' + self.height + '" src="' + item.content + '">'
+            : '<img width="' + self.width + '" src="' + item.content + '">';
+            el.innerHTML = html;
+        };
 
         // get the right item of data
         if (!this.isLooping) {
@@ -189,18 +197,24 @@ define('iSlider', [], function () {
 
         if (this.type === 'pic') {
             if (!this.isOverspread) {
-                html = item.height / item.width > this.ratio
-                ? '<img height="' + this.height + '" src="' + item.content + '">'
-                : '<img width="' + this.width + '" src="' + item.content + '">';
+                if (item.height & item.width) {
+                    insertImg();
+                } else {
+                    var currentImg = new Image();
+                    currentImg.src = item.content;
+                    currentImg.onload = function () {
+                        item.height = currentImg.height;
+                        item.width = currentImg.width;
+                        insertImg();
+                    };
+                }
             } else {
                 el.style.background = 'url(' + item.content + ') 50% 50% no-repeat';
                 el.style.backgroundSize = 'cover';
             }
         } else if (this.type === 'dom') {
-            html = item.content;
+            el.innerHTML = item.content;
         }
-
-        html && (el.innerHTML = html);
     };
 
     /**
@@ -252,9 +266,14 @@ define('iSlider', [], function () {
             if (!self.data[index].loaded) {
                 var preloadImg = new Image();
                 preloadImg.src = self.data[index].content;
+                preloadImg.onload = function () {
+                    self.data[index].width = preloadImg.width;
+                    self.data[index].height = preloadImg.height;
+                };
                 self.data[index].loaded = 1;
             }
         };
+
         if (self.type !== 'dom') {
             var nextIndex = (idx + 2 > len - 1) ? ((idx + 2) % len) : (idx + 2);
             var prevIndex = (idx - 2 < 0) ? (len - 2 + idx) : (idx - 2);
