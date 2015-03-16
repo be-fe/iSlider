@@ -577,6 +577,22 @@ define('iSlider', [], function () {
         var absOffset = Math.abs(offset[axis]);
         var absReverseOffset = Math.abs(offset[this.reverseAxis]);
 
+        var getLink = function(el) {
+            console.log(el);
+            if (el.tagName === 'A') {
+                if (el.href) {
+                    window.location.href = el.href
+                    return false;
+                }
+            }
+            else if (el.className === 'islider-dom') {
+                return false;
+            }
+            else {
+                getLink(el.parentNode);
+            }
+        }
+
         if (!res && offset[axis] >= boundary && absReverseOffset < absOffset) {
             this.slideTo(this.slideIndex - 1);
         } else if (!res && offset[axis] < -boundary && absReverseOffset < absOffset) {
@@ -589,7 +605,7 @@ define('iSlider', [], function () {
         if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10) {
             this.tapEvt = document.createEvent('Event');
             this.tapEvt.initEvent('tap', true, true);
-
+            getLink(evt.target);
             if (!evt.target.dispatchEvent(this.tapEvt)) {
                 evt.preventDefault();
             }
