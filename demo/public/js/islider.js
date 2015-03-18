@@ -1,8 +1,8 @@
 ;(function() {
 /**
- * iSlider, a simple, efficent mobile slider solution
+ * @file   iSlider, a simple, efficent mobile slider solution
  *
- * Author BEFE
+ * @author BEFE
  * Contact qbaty.qi@gmail.com
  *
  * LICENSE
@@ -46,11 +46,14 @@ iSlider = function () {
     this.duration = opts.duration || 2000;
     // start from initIndex or 0
     this.initIndex = opts.initIndex || 0;
+    // touchstart prevent default to fixPage
+    this.fixPage = opts.fixPage || true;
     if (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
       this.initIndex = 0;
     }
     this.slideIndex = this.slideIndex || this.initIndex || 0;
     this.axis = this.isVertical ? 'Y' : 'X';
+    this.reverseAxis = this.axis === 'Y' ? 'X' : 'Y';
     this.width = this.wrap.clientWidth;
     this.height = this.wrap.clientHeight;
     this.ratio = this.height / this.width;
@@ -148,6 +151,11 @@ iSlider = function () {
     var item;
     var html;
     var len = this.data.length;
+    var self = this;
+    var insertImg = function () {
+      html = item.height / item.width > self.ratio ? '<img height="' + self.height + '" src="' + item.content + '">' : '<img width="' + self.width + '" src="' + item.content + '">';
+      el.innerHTML = html;
+    };
     // get the right item of data
     if (!this.isLooping) {
       item = this.data[i] || { empty: true };
@@ -167,15 +175,24 @@ iSlider = function () {
     }
     if (this.type === 'pic') {
       if (!this.isOverspread) {
-        html = item.height / item.width > this.ratio ? '<img height="' + this.height + '" src="' + item.content + '">' : '<img width="' + this.width + '" src="' + item.content + '">';
+        if (item.height & item.width) {
+          insertImg();
+        } else {
+          var currentImg = new Image();
+          currentImg.src = item.content;
+          currentImg.onload = function () {
+            item.height = currentImg.height;
+            item.width = currentImg.width;
+            insertImg();
+          };
+        }
       } else {
         el.style.background = 'url(' + item.content + ') 50% 50% no-repeat';
         el.style.backgroundSize = 'cover';
       }
     } else if (this.type === 'dom') {
-      html = item.content;
+      el.innerHTML = item.content;
     }
-    html && (el.innerHTML = html);
   };
   /**
    * render list html
@@ -220,6 +237,10 @@ iSlider = function () {
       if (!self.data[index].loaded) {
         var preloadImg = new Image();
         preloadImg.src = self.data[index].content;
+        preloadImg.onload = function () {
+          self.data[index].width = preloadImg.width;
+          self.data[index].height = preloadImg.height;
+        };
         self.data[index].loaded = 1;
       }
     };
@@ -368,7 +389,7 @@ iSlider = function () {
   *  @param {string}   selector  the simple css selector like jQuery
   *  @param {Function} callback  event callback
   */
-  iSlider.prototype.bind = function (evtType, selector, callback) {
+  iSlider.prototype.bind = iSlider.prototype.delegate = function (evtType, selector, callback) {
     function handle(e) {
       var evt = window.event ? window.event : e;
       var target = evt.target;
@@ -380,11 +401,7 @@ iSlider = function () {
         }
       }
     }
-    if (this.wrap['on' + evtType] !== undefined) {
-      this.wrap['on' + evtType] = handle;
-    } else {
-      this.wrap.addEventListener(evtType, handle, false);
-    }
+    this.wrap.addEventListener(evtType, handle, false);
   };
   /**
    *  removeEventListener to release the memory
@@ -402,6 +419,7 @@ iSlider = function () {
   };
   /**
    *  uniformity admin event
+   *  @param {Object}   evt   event obj
    */
   iSlider.prototype.handleEvent = function (evt) {
     var device = this._device();
@@ -413,6 +431,9 @@ iSlider = function () {
       this.moveHandler(evt);
       break;
     case device.endEvt:
+      this.endHandler(evt);
+      break;
+    case 'touchcancel':
       this.endHandler(evt);
       break;
     case 'orientationchange':
@@ -428,8 +449,12 @@ iSlider = function () {
   };
   /**
   *  touchstart callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.startHandler = function (evt) {
+    if (this.fixPage) {
+      evt.preventDefault();
+    }
     var device = this._device();
     this.isMoving = true;
     this.pause();
@@ -442,19 +467,20 @@ iSlider = function () {
   };
   /**
   *  touchmove callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.moveHandler = function (evt) {
     if (this.isMoving) {
       var device = this._device();
       var len = this.data.length;
       var axis = this.axis;
-      var otherAxis = axis === 'X' ? 'Y' : 'X';
+      var reverseAxis = this.reverseAxis;
       var offset = {
         X: device.hasTouch ? evt.targetTouches[0].pageX - this.startX : evt.pageX - this.startX,
         Y: device.hasTouch ? evt.targetTouches[0].pageY - this.startY : evt.pageY - this.startY
       };
       var res = this._moveHandler ? this._moveHandler(evt) : false;
-      if (!res && Math.abs(offset[axis]) - Math.abs(offset[otherAxis]) > 10) {
+      if (!res && Math.abs(offset[axis]) - Math.abs(offset[reverseAxis]) > 10) {
         evt.preventDefault();
         this.onslide && this.onslide(offset[axis]);
         this.log('Event: onslide');
@@ -474,6 +500,7 @@ iSlider = function () {
   };
   /**
   *  touchend callback
+  *  @param {Object}   evt   event obj
   */
   iSlider.prototype.endHandler = function (evt) {
     this.isMoving = false;
@@ -485,9 +512,24 @@ iSlider = function () {
     // a quick slide should also slide at least 14 px
     boundary = endTime - this.startTime > 300 ? boundary : 14;
     var res = this._endHandler ? this._endHandler(evt) : false;
-    if (!res && offset[axis] >= boundary) {
+    var absOffset = Math.abs(offset[axis]);
+    var absReverseOffset = Math.abs(offset[this.reverseAxis]);
+    var getLink = function (el) {
+      console.log(el);
+      if (el.tagName === 'A') {
+        if (el.href) {
+          window.location.href = el.href;
+          return false;
+        }
+      } else if (el.className === 'islider-dom') {
+        return false;
+      } else {
+        getLink(el.parentNode);
+      }
+    };
+    if (!res && offset[axis] >= boundary && absReverseOffset < absOffset) {
       this.slideTo(this.slideIndex - 1);
-    } else if (!res && offset[axis] < -boundary) {
+    } else if (!res && offset[axis] < -boundary && absReverseOffset < absOffset) {
       this.slideTo(this.slideIndex + 1);
     } else if (!res) {
       this.slideTo(this.slideIndex);
@@ -496,6 +538,7 @@ iSlider = function () {
     if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10) {
       this.tapEvt = document.createEvent('Event');
       this.tapEvt.initEvent('tap', true, true);
+      getLink(evt.target);
       if (!evt.target.dispatchEvent(this.tapEvt)) {
         evt.preventDefault();
       }
@@ -974,7 +1017,7 @@ plugins_islider_button = function (iSlider) {
             btnOuter[i].dir = 1;
           }
           btnOuter[i].addEventListener('click', function () {
-            var dir = parseInt(this.getAttribute('dir'));
+            var dir = parseInt(this.getAttribute('dir'), 10);
             self.slideTo(self.slideIndex + dir);
           });
           btnOuter[i].appendChild(btnInner[i]);
@@ -991,7 +1034,7 @@ plugins_islider_dot = function (iSlider) {
         var self = this;
         var data = this.data;
         var dots = [];
-        dotWrap = document.createElement('ul');
+        var dotWrap = document.createElement('ul');
         dotWrap.className = 'islider-dot-wrap';
         var fregment = document.createDocumentFragment();
         for (var i = 0; i < data.length; i++) {
@@ -1002,7 +1045,7 @@ plugins_islider_dot = function (iSlider) {
             dots[i].className += ' active';
           }
           dots[i].addEventListener('click', function () {
-            var index = parseInt(this.getAttribute('index'));
+            var index = parseInt(this.getAttribute('index'), 10);
             self.slideTo(index);
           });
           fregment.appendChild(dots[i]);

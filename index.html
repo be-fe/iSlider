@@ -128,7 +128,6 @@
             <span>flip</span>
             <span>depth</span>
             <span>flow</span>
-            <span>card</span>
         </div>
 
         <h4 style="text-align: center">垂直轮播</h4>
@@ -148,7 +147,6 @@
                     <a>Mail</a>
                     <a>News</a>
                     <a>TV</a>
-                    <a>Game</a>
                 </div>
             </div>
         </div>
@@ -160,20 +158,14 @@
 
         <p>部署iSlider最容易的办法是查阅我们提供的简易例子。大部份代码存放在demo文件夹的文件里面。<em>iSlider</em> 是必要新建的一个类。</p>
 
-        <p>在你开始之前，你需要为iSlider先新建好数据:</p>
+        <p>在你开始之前，你需要为iSlider准备好数据:</p>
 
         <div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span
                 class="o">=</span> <span class="p">[{</span>
-    <span class="nx">height</span><span class="o">:</span> <span class="mi">414</span><span class="p">,</span>
-    <span class="nx">width</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
     <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/1.jpg"</span><span class="p">,</span>
 <span class="p">},{</span>
-    <span class="nx">height</span><span class="o">:</span> <span class="mi">414</span><span class="p">,</span>
-    <span class="nx">width</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
     <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/2.jpg"</span><span class="p">,</span>
 <span class="p">},{</span>
-    <span class="nx">height</span><span class="o">:</span> <span class="mi">414</span><span class="p">,</span>
-    <span class="nx">width</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
     <span class="nx">content</span><span class="o">:</span> <span class="s2">"imgs/3.jpg"</span><span class="p">,</span>
 <span class="p">}];</span>
 </pre>
@@ -217,16 +209,10 @@
 
         <div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">data</span> <span
                 class="o">=</span> <span class="p">[{</span>
-    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
-    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
     <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Home&lt;/h1&gt;&lt;h2&gt;This is home page&lt;/h2&gt;&lt;p&gt;home is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
 <span class="p">},{</span>
-    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
-    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
     <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Page1&lt;/h1&gt;&lt;h2&gt;This is page1&lt;/h2&gt;&lt;p&gt;page1 is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
 <span class="p">},{</span>
-    <span class="s1">'height'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
-    <span class="s1">'width'</span> <span class="o">:</span> <span class="s1">'100%'</span><span class="p">,</span>
     <span class="s1">'content'</span> <span class="o">:</span> <span class="s1">'&lt;div&gt;&lt;h1&gt;Page2&lt;/h1&gt;&lt;h2&gt;This is Page2&lt;/h2&gt;&lt;p&gt;Page2 is pretty awsome&lt;/p&gt;&lt;div&gt;'</span>
 <span class="p">}];</span>
 </pre>
@@ -533,10 +519,6 @@
             'height': '310px',
             'width': '225px',
             'content': '<div class="dom-demo" id="dom-demo4"><h1>TV</h1><h2>This is TV show</h2><p>Fantastic Shows</p></div>'
-        }, {
-            'height': '310px',
-            'width': '225px',
-            'content': '<div class="dom-demo" id="dom-demo5"><h1>Game</h1><h2>This is Game center</h2><p>Let\'s rock it!</p></div>'
         }
     ];
 
@@ -656,13 +638,6 @@
         islider1.reset();
     };
 
-    menu[5].onclick = function () {
-
-        clickMenuActive(this);
-        islider1._opts.animateType = this.innerHTML;
-        islider1._opts.data = highList;
-        islider1.reset();
-    };
 
 </script>
 </body>
