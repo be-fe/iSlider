@@ -506,7 +506,10 @@ define('iSlider', [], function () {
     */
     iSlider.prototype.startHandler = function (evt) {
         if (this.fixPage) {
-            evt.preventDefault();
+            var target = evt.target;
+            if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && target.tagName !== 'A') {
+                e.preventDefault();
+            }
         }
         var device = this._device();
         this.isMoving = true;
@@ -578,7 +581,6 @@ define('iSlider', [], function () {
         var absReverseOffset = Math.abs(offset[this.reverseAxis]);
 
         var getLink = function(el) {
-            console.log(el);
             if (el.tagName === 'A') {
                 if (el.href) {
                     window.location.href = el.href
@@ -605,7 +607,9 @@ define('iSlider', [], function () {
         if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10) {
             this.tapEvt = document.createEvent('Event');
             this.tapEvt.initEvent('tap', true, true);
-            getLink(evt.target);
+            if (this.fixPage) {
+                getLink(evt.target);
+            }
             if (!evt.target.dispatchEvent(this.tapEvt)) {
                 evt.preventDefault();
             }
