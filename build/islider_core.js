@@ -454,8 +454,8 @@ iSlider = function () {
   iSlider.prototype.startHandler = function (evt) {
     if (this.fixPage) {
       var target = evt.target;
-      if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && target.tagName !== 'A') {
-        e.preventDefault();
+      if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+        evt.preventDefault();
       }
     }
     var device = this._device();
