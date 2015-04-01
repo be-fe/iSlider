@@ -222,11 +222,19 @@ define('iSlider', [], function () {
      */
     iSlider.prototype._renderHTML = function () {
         this.outer && (this.outer.innerHTML = '');
-
         // initail ul element
         var outer = this.outer || document.createElement('ul');
+        outer.className = 'islider-outer';
         outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width
         + 'px;margin:0;padding:0;list-style:none;';
+
+        //loading
+        if (this.type === 'pic' && !this.loader) {
+            var loader = document.createElement('div');
+            loader.className = 'islider-loader';
+            this.loader = loader;
+            this.wrap.appendChild(loader);
+        }
 
         // storage li elements, only store 3 elements to reduce memory usage
         this.els = [];
