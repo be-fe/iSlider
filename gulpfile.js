@@ -4,7 +4,7 @@ var rename = require('gulp-rename');
 var fecs = require('fecs-files');
 
 gulp.task('build', function() {
-    fecs.check(['src/*.js', 'src/plugins/*.js']);
+    //fecs.check(['src/*.js', 'src/plugins/*.js']);
     amdClean({
         'include': ['islider_core', 'plugins/islider_animate', 'plugins/islider_zoom', 'plugins/islider_button', 'plugins/islider_dot'],
         'globalModules': ['iSlider'],
