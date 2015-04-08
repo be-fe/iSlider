@@ -242,7 +242,7 @@ iSlider = function () {
     var idx = dataIndex;
     var self = this;
     var loadImg = function (index) {
-      if (!self.data[index].loaded) {
+      if (index > -1 && !self.data[index].loaded) {
         var preloadImg = new Image();
         preloadImg.src = self.data[index].content;
         preloadImg.onload = function () {
