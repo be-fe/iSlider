@@ -66,6 +66,7 @@ iSlider = function () {
     this.onslideend = opts.onslideend;
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
+    this.isLoading = opts.isLoading;
     this.offset = this.offset || {
       X: 0,
       Y: 0
@@ -204,7 +205,7 @@ iSlider = function () {
     outer.className = 'islider-outer';
     outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;margin:0;padding:0;list-style:none;';
     //loading
-    if (this.type === 'pic' && !this.loader) {
+    if (this.type === 'pic' && !this.loader && this.isLoading) {
       var loader = document.createElement('div');
       loader.className = 'islider-loader';
       this.loader = loader;
@@ -268,7 +269,7 @@ iSlider = function () {
     var idx = this.initIndex;
     var self = this;
     if (this.type !== 'dom' && len > 3) {
-      var nextIndex = idx + 1 > len ? (idx + 1) % len : idx + 1;
+      var nextIndex = idx + 2 > len ? (idx + 1) % len : idx + 1;
       var prevIndex = idx - 1 < 0 ? len - 1 + idx : idx - 1;
       data[idx].loaded = 1;
       data[nextIndex].loaded = 1;
