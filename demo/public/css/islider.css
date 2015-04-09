@@ -96,6 +96,7 @@
 }
 
 .islider-loader {
+  display: none;
   font-size: 5px;
   margin: auto;
   width: 1em;
