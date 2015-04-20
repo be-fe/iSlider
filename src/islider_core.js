@@ -617,7 +617,7 @@ define('iSlider', [], function () {
         if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10) {
             this.tapEvt = document.createEvent('Event');
             this.tapEvt.initEvent('tap', true, true);
-            if (this.fixPage) {
+            if (this.fixPage && this.type === 'dom') {
                 getLink(evt.target);
             }
             if (!evt.target.dispatchEvent(this.tapEvt)) {
