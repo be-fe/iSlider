@@ -66,6 +66,7 @@ iSlider = function () {
     this.onslideend = opts.onslideend;
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
+    this.isLoading = opts.isLoading;
     this.offset = this.offset || {
       X: 0,
       Y: 0
@@ -201,7 +202,15 @@ iSlider = function () {
     this.outer && (this.outer.innerHTML = '');
     // initail ul element
     var outer = this.outer || document.createElement('ul');
+    outer.className = 'islider-outer';
     outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;margin:0;padding:0;list-style:none;';
+    //loading
+    if (this.type === 'pic' && !this.loader && this.isLoading) {
+      var loader = document.createElement('div');
+      loader.className = 'islider-loader';
+      this.loader = loader;
+      this.wrap.appendChild(loader);
+    }
     // storage li elements, only store 3 elements to reduce memory usage
     this.els = [];
     for (var i = 0; i < 3; i++) {
@@ -234,7 +243,7 @@ iSlider = function () {
     var idx = dataIndex;
     var self = this;
     var loadImg = function (index) {
-      if (!self.data[index].loaded) {
+      if (index > -1 && !self.data[index].loaded) {
         var preloadImg = new Image();
         preloadImg.src = self.data[index].content;
         preloadImg.onload = function () {
@@ -260,7 +269,7 @@ iSlider = function () {
     var idx = this.initIndex;
     var self = this;
     if (this.type !== 'dom' && len > 3) {
-      var nextIndex = idx + 1 > len ? (idx + 1) % len : idx + 1;
+      var nextIndex = idx + 2 > len ? (idx + 1) % len : idx + 1;
       var prevIndex = idx - 1 < 0 ? len - 1 + idx : idx - 1;
       data[idx].loaded = 1;
       data[nextIndex].loaded = 1;
@@ -454,8 +463,8 @@ iSlider = function () {
   iSlider.prototype.startHandler = function (evt) {
     if (this.fixPage) {
       var target = evt.target;
-      if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && target.tagName !== 'A') {
-        e.preventDefault();
+      if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+        evt.preventDefault();
       }
     }
     var device = this._device();
@@ -540,7 +549,7 @@ iSlider = function () {
     if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10) {
       this.tapEvt = document.createEvent('Event');
       this.tapEvt.initEvent('tap', true, true);
-      if (this.fixPage) {
+      if (this.fixPage && this.type === 'dom') {
         getLink(evt.target);
       }
       if (!evt.target.dispatchEvent(this.tapEvt)) {
