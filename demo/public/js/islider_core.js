@@ -16,7 +16,7 @@
  */
 var iSlider, islider_core;
 iSlider = function () {
-  'use strict';
+  
   var iSlider = function (opts) {
     if (!opts.dom) {
       throw new Error('dom element can not be empty!');

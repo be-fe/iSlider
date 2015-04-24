@@ -16,7 +16,7 @@
  */
 var iSlider, islider_core, plugins_islider_animate, plugins_islider_zoom, plugins_islider_button, plugins_islider_dot;
 iSlider = function () {
-  'use strict';
+  
   var iSlider = function (opts) {
     if (!opts.dom) {
       throw new Error('dom element can not be empty!');
