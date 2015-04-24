@@ -16,7 +16,7 @@
  */
 var iSlider, islider_core;
 iSlider = function () {
-  
+  'use strict';
   var iSlider = function (opts) {
     if (!opts.dom) {
       throw new Error('dom element can not be empty!');
@@ -46,6 +46,8 @@ iSlider = function () {
     this.duration = opts.duration || 2000;
     // start from initIndex or 0
     this.initIndex = opts.initIndex || 0;
+    // touchstart prevent default to fixPage
+    this.fixPage = opts.fixPage || true;
     if (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
       this.initIndex = 0;
     }
@@ -64,6 +66,7 @@ iSlider = function () {
     this.onslideend = opts.onslideend;
     // Callback function when the finger move out of the screen
     this.onslidechange = opts.onslidechange;
+    this.isLoading = opts.isLoading;
     this.offset = this.offset || {
       X: 0,
       Y: 0
@@ -149,6 +152,11 @@ iSlider = function () {
     var item;
     var html;
     var len = this.data.length;
+    var self = this;
+    var insertImg = function () {
+      html = item.height / item.width > self.ratio ? '<img height="' + self.height + '" src="' + item.content + '">' : '<img width="' + self.width + '" src="' + item.content + '">';
+      el.innerHTML = html;
+    };
     // get the right item of data
     if (!this.isLooping) {
       item = this.data[i] || { empty: true };
@@ -168,15 +176,24 @@ iSlider = function () {
     }
     if (this.type === 'pic') {
       if (!this.isOverspread) {
-        html = item.height / item.width > this.ratio ? '<img height="' + this.height + '" src="' + item.content + '">' : '<img width="' + this.width + '" src="' + item.content + '">';
+        if (item.height & item.width) {
+          insertImg();
+        } else {
+          var currentImg = new Image();
+          currentImg.src = item.content;
+          currentImg.onload = function () {
+            item.height = currentImg.height;
+            item.width = currentImg.width;
+            insertImg();
+          };
+        }
       } else {
         el.style.background = 'url(' + item.content + ') 50% 50% no-repeat';
         el.style.backgroundSize = 'cover';
       }
     } else if (this.type === 'dom') {
-      html = item.content;
+      el.innerHTML = item.content;
     }
-    html && (el.innerHTML = html);
   };
   /**
    * render list html
@@ -185,7 +202,15 @@ iSlider = function () {
     this.outer && (this.outer.innerHTML = '');
     // initail ul element
     var outer = this.outer || document.createElement('ul');
+    outer.className = 'islider-outer';
     outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;margin:0;padding:0;list-style:none;';
+    //loading
+    if (this.type === 'pic' && !this.loader && this.isLoading) {
+      var loader = document.createElement('div');
+      loader.className = 'islider-loader';
+      this.loader = loader;
+      this.wrap.appendChild(loader);
+    }
     // storage li elements, only store 3 elements to reduce memory usage
     this.els = [];
     for (var i = 0; i < 3; i++) {
@@ -218,9 +243,13 @@ iSlider = function () {
     var idx = dataIndex;
     var self = this;
     var loadImg = function (index) {
-      if (!self.data[index].loaded) {
+      if (index > -1 && !self.data[index].loaded) {
         var preloadImg = new Image();
         preloadImg.src = self.data[index].content;
+        preloadImg.onload = function () {
+          self.data[index].width = preloadImg.width;
+          self.data[index].height = preloadImg.height;
+        };
         self.data[index].loaded = 1;
       }
     };
@@ -240,7 +269,7 @@ iSlider = function () {
     var idx = this.initIndex;
     var self = this;
     if (this.type !== 'dom' && len > 3) {
-      var nextIndex = idx + 1 > len ? (idx + 1) % len : idx + 1;
+      var nextIndex = idx + 2 > len ? (idx + 1) % len : idx + 1;
       var prevIndex = idx - 1 < 0 ? len - 1 + idx : idx - 1;
       data[idx].loaded = 1;
       data[nextIndex].loaded = 1;
@@ -369,7 +398,7 @@ iSlider = function () {
   *  @param {string}   selector  the simple css selector like jQuery
   *  @param {Function} callback  event callback
   */
-  iSlider.prototype.bind = function (evtType, selector, callback) {
+  iSlider.prototype.bind = iSlider.prototype.delegate = function (evtType, selector, callback) {
     function handle(e) {
       var evt = window.event ? window.event : e;
       var target = evt.target;
@@ -381,11 +410,7 @@ iSlider = function () {
         }
       }
     }
-    if (this.wrap['on' + evtType] !== undefined) {
-      this.wrap['on' + evtType] = handle;
-    } else {
-      this.wrap.addEventListener(evtType, handle, false);
-    }
+    this.wrap.addEventListener(evtType, handle, false);
   };
   /**
    *  removeEventListener to release the memory
@@ -417,6 +442,9 @@ iSlider = function () {
     case device.endEvt:
       this.endHandler(evt);
       break;
+    case 'touchcancel':
+      this.endHandler(evt);
+      break;
     case 'orientationchange':
       this.orientationchangeHandler();
       break;
@@ -433,8 +461,11 @@ iSlider = function () {
   *  @param {Object}   evt   event obj
   */
   iSlider.prototype.startHandler = function (evt) {
-    if (this._opts.fixPage) {
-      evt.preventDefault();
+    if (this.fixPage) {
+      var target = evt.target;
+      if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+        evt.preventDefault();
+      }
     }
     var device = this._device();
     this.isMoving = true;
@@ -495,6 +526,18 @@ iSlider = function () {
     var res = this._endHandler ? this._endHandler(evt) : false;
     var absOffset = Math.abs(offset[axis]);
     var absReverseOffset = Math.abs(offset[this.reverseAxis]);
+    var getLink = function (el) {
+      if (el.tagName === 'A') {
+        if (el.href) {
+          window.location.href = el.href;
+          return false;
+        }
+      } else if (el.className === 'islider-dom') {
+        return false;
+      } else {
+        getLink(el.parentNode);
+      }
+    };
     if (!res && offset[axis] >= boundary && absReverseOffset < absOffset) {
       this.slideTo(this.slideIndex - 1);
     } else if (!res && offset[axis] < -boundary && absReverseOffset < absOffset) {
@@ -506,6 +549,9 @@ iSlider = function () {
     if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10) {
       this.tapEvt = document.createEvent('Event');
       this.tapEvt.initEvent('tap', true, true);
+      if (this.fixPage && this.type === 'dom') {
+        getLink(evt.target);
+      }
       if (!evt.target.dispatchEvent(this.tapEvt)) {
         evt.preventDefault();
       }
