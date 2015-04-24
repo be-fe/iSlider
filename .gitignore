@@ -1,2 +1,8 @@
-node_modules
-.idea
+.DS_Store
+node_modules/
+*.exe
+*.sublime-*
+output/
+test/
+.idea/
+npm-debug.log
