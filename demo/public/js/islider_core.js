@@ -266,7 +266,7 @@ iSlider = function () {
   iSlider.prototype._initLoadImg = function () {
     var data = this.data;
     var len = data.length;
-    var idx = this.initIndex;
+    var idx = this.slideIndex;
     var self = this;
     if (this.type !== 'dom' && len > 3) {
       var nextIndex = idx + 2 > len ? (idx + 1) % len : idx + 1;
@@ -576,6 +576,16 @@ iSlider = function () {
   iSlider.prototype.reset = function () {
     this.pause();
     this._setting();
+    this._renderHTML();
+    this.isAutoplay && this.play();
+  };
+  /**
+  * reload Data & render
+  */
+  iSlider.prototype.loadData = function (data, initIndex) {
+    this.pause();
+    this.slideIndex = initIndex || 0;
+    this.data = data;
     this._renderHTML();
     this.isAutoplay && this.play();
   };
