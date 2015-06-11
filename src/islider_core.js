@@ -50,6 +50,8 @@ define('iSlider', [], function () {
         this.duration = opts.duration || 2000;
         // start from initIndex or 0
         this.initIndex = opts.initIndex || 0;
+        // there are 3 dom in islider, domIndex is the value of current 
+        this.domIndex =  this.domIndex || 1;
         // touchstart prevent default to fixPage
         this.fixPage = opts.fixPage || true;
 
@@ -132,6 +134,9 @@ define('iSlider', [], function () {
      */
     iSlider.prototype._animateFuncs = {
         'default': function (dom, axis, scale, i, offset) {
+            if(i === 1){
+                this.domIndex = dom.getAttribute('data');
+            }
             dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
         }
     };
@@ -244,6 +249,7 @@ define('iSlider', [], function () {
             var li = document.createElement('li');
             li.className = this.type === 'dom' ? 'islider-dom' : 'islider-pic';
             li.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
+            li.setAttribute('data',i);
             this.els.push(li);
 
             // prepare style animation
@@ -384,8 +390,6 @@ define('iSlider', [], function () {
                 sEle.style.visibility = 'visible';
             }, 200);
 
-            this.onslidechange && this.onslidechange(this.slideIndex);
-            this.dotchange && this.dotchange();
         }
 
         // do the trick animation
@@ -395,7 +399,14 @@ define('iSlider', [], function () {
             }
             this._animateFunc(els[i], this.axis, this.scale, i, 0);
         }
-
+        
+        //动画执行完成后,才执行onslidechange
+        if(n !== 0){
+            this.domchange && this.domchange();
+            this.dotchange && this.dotchange();
+            this.onslidechange && this.onslidechange(this.slideIndex);
+        }
+        
         // stop playing when meet the end of data
         if (this.isAutoplay && !this.isLooping && this.slideIndex === data.length - 1) {
             this.pause();
@@ -680,6 +691,18 @@ define('iSlider', [], function () {
     */
     iSlider.prototype.pause = function () {
         clearInterval(this.autoPlayTimer);
+    };
+    /**
+    * update domIndex after slided 
+    */
+    iSlider.prototype.domchange = function(){
+        var doms = document.getElementsByClassName('islider-'+this.type);
+        for (var i = 0; i < 3; i++) {
+            doms[i].className = 'islider-'+this.type;
+            if(i == this.domIndex){
+                doms[i].className = 'islider-'+this.type+' current';
+            }
+        };
     };
 
 
