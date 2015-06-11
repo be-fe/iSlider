@@ -635,10 +635,10 @@ define('iSlider', [], function () {
     *  orientationchange callback
     */
     iSlider.prototype.orientationchangeHandler = function () {
-        var _this = this;
+        var self = this;
         setTimeout(function () {
-            _this.reset();
-            _this.log('Event: orientationchange');
+            self.reset();
+            self.log('Event: orientationchange');
         }, 100);
     };
 
