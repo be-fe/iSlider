@@ -195,6 +195,13 @@ var data = [{
 ##联系我们
 对iSlider的使用有任何问题,或者发现bug,欢迎给我们反馈：
 [提交反馈](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
+
+##如何获取
+
+- 直接在Github网站进行下载
+- 如果使用bower进行包管理，可以使用 `bower install iSlider`进行安装.
+- 可以使用 `npm install islider.js`
+
 ##License (MIT)
 
 Copyright (c) 2014 BE-FE

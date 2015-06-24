@@ -1,0 +1,27 @@
+{
+  "name": "iSlider",
+  "homepage": "https://github.com/BE-FE/iSlider",
+  "description": "light smooth mobile slide plugin",
+  "main": [
+    "build/islider.js",
+    "build/islider.css",
+    "build/islider_core.js"
+  ],
+  "keywords": [
+    "slide",
+    "mobile"
+  ],
+  "authors": [
+    "qbaty",
+    "xieyu33333"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "version": "1.1.1"
+}

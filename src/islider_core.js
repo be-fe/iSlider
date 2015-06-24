@@ -284,7 +284,7 @@ define('iSlider', [], function () {
             }
         };
 
-        if (self.type !== 'dom') {
+        if (self.type !== 'dom' && len > 3) {
             var nextIndex = (idx + 2 > len - 1) ? ((idx + 2) % len) : (idx + 2);
             var prevIndex = (idx - 2 < 0) ? (len - 2 + idx) : (idx - 2);
             loadImg(nextIndex);
@@ -635,9 +635,10 @@ define('iSlider', [], function () {
     *  orientationchange callback
     */
     iSlider.prototype.orientationchangeHandler = function () {
+        var self = this;
         setTimeout(function () {
-            this.reset();
-            this.log('Event: orientationchange');
+            self.reset();
+            self.log('Event: orientationchange');
         }, 100);
     };
 
