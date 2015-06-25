@@ -20,6 +20,11 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 
 * <a href="http://be-fe.github.io/iSlider/index.html">Demo</a>
 
+##如何获取
+- 直接在Github网站进行下载
+- 如果使用bower进行包管理，可以使用 `bower install iSlider`进行安装.
+- 可以使用 `npm install islider.js`
+
 ##开始使用iSlider
 使用iSlider最简单的办法是查阅我们提供的简易例子。大代码存放在demo文件夹的文件里面。
 
@@ -27,9 +32,9 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 
 ``` javascript
 var data = [
-{content: "imgs/1.jpg"},
-{content: "imgs/2.jpg"},
-{content: "imgs/3.jpg"}
+	{content: "imgs/1.jpg"},
+	{content: "imgs/2.jpg"},
+	{content: "imgs/3.jpg"}
 ];
 ```
 
@@ -195,12 +200,6 @@ var data = [{
 ##联系我们
 对iSlider的使用有任何问题,或者发现bug,欢迎给我们反馈：
 [提交反馈](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
-
-##如何获取
-
-- 直接在Github网站进行下载
-- 如果使用bower进行包管理，可以使用 `bower install iSlider`进行安装.
-- 可以使用 `npm install islider.js`
 
 ##License (MIT)
 

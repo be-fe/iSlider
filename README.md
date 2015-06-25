@@ -17,6 +17,11 @@ It features:
 * Support image preloader to improve user experience.
 * Support image zoomIn and zoomOut.
 
+##Get iSlider
+- You could download the sourcecode form github here.
+- Using `bower install iSlider`.
+- Using `npm install islider.js`
+
 ##iSlider Mobile Demo
 
 <img width="150px" height="150px" src="qrcode.png"/>
@@ -31,9 +36,9 @@ Before you start, you need to prepare some data for iSlider:
 
 ````
 var data = [
-{content: "imgs/1.jpg"},
-{content: "imgs/2.jpg"},
-{content: "imgs/3.jpg"}
+	{content: "imgs/1.jpg"},
+	{content: "imgs/2.jpg"},
+	{content: "imgs/3.jpg"}
 ];
 ````
 
@@ -43,27 +48,27 @@ HTML structure you only need to prepare is :
 
 To make it runnable, all you need to do is to initiate:
 
- 	<script type="text/javascript">
-    	var islider = new iSlider({
-    		dom : document.getElementById('iSlider-wrapper'),
-    		data : data
-    	});
-    </script>
+	<script type="text/javascript">
+		var islider = new iSlider({
+			dom : document.getElementById('iSlider-wrapper'),
+			data : data
+		});
+	</script>
 
 If you want to add more effects or options, you can follow the demo in demo/picture
 
 	<script type="text/javascript">
-    	var islider = new iSlider({
-			    data: list,
-			    dom: document.getElementById("iSlider-wrapper"),
-			    type:"dom",
-			    isVertical: true,
-			    isLooping: false,
-			    isDebug: true,
-			    isAutoplay: false,
-			    animateType: 'rotate'
+		var islider = new iSlider({
+			data: list,
+			dom: document.getElementById("iSlider-wrapper"),
+			type:"dom",
+			isVertical: true,
+			isLooping: false,
+			isDebug: true,
+			isAutoplay: false,
+			animateType: 'rotate'
 		});
-    </script>
+	</script>
 
 That's it. 
 
@@ -201,13 +206,6 @@ Here provides a clear description of what options you are able to manipulate:
 ##Contact us
 if you have any questions or find any bugs, please post issues to tell us.
 [Feedback](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
-
-##Get iSlider
-
-- You could download the sourcecode form github here.
-- Using `bower install iSlider`.
-- Using `npm install islider.js`
-
 
 ##License (MIT)
 
