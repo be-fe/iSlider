@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <title>iSlider by BE-FE</title>
+        <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="col col-xs-3">
+                <h2>Demo列表</h2>
+                <h3>图片模式：</h3>
+                <ul>
+                    <li><a href="picture/default.html" onclick="goto(this)">默认形式</a></li>
+                    <li><a href="picture/card.html" onclick="goto(this)">卡片动画</a></li>
+                    <li><a href="picture/picture_with_button.html" onclick="goto(this)">有左右按钮</a></li>
+                    <li><a href="picture/picture_with_dots.html" onclick="goto(this)">有索引点</a></li>
+                </ul>
+                <h3>DOM模式：</h3>
+                <ul>
+                    <li><a href="dom/default.html" onclick="goto(this)">默认形式</a></li>
+                    <li><a href="dom/demo_with_navigator.html" onclick="goto(this)">有顶栏</a></li>
+                    <li><a href="dom/slide_with_btn.html" onclick="goto(this)">有左右按钮</a></li>
+                    <li><a href="dom/vertical_slide.html" onclick="goto(this)">纵向滑动</a></li>
+                </ul>
+            </div>
+            <div class="col col-xs-8">
+                <iframe id="iframe" src="picture/default.html" width="320" height="500px"></iframe>
+            </div>
+        </div>
+
+        <script>
+            function goto(obj) {
+                var e = window.event;
+                e.preventDefault();
+                var iframe = document.getElementById('iframe');
+                iframe.src = obj.href;
+            }
+        </script>
+    </body>
+</html>
