@@ -47,7 +47,11 @@ iSlider = function () {
     // start from initIndex or 0
     this.initIndex = opts.initIndex || 0;
     // touchstart prevent default to fixPage
-    this.fixPage = opts.fixPage || true;
+    if (opts.fixPage === undefined) {
+      this.fixPage = true;
+    } else {
+      this.fixPage = opts.fixPage;
+    }
     if (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
       this.initIndex = 0;
     }
