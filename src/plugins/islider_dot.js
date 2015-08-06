@@ -4,7 +4,7 @@
  */
 
 define(['iSlider'], function (iSlider) {
-    iSlider.prototype.extend({
+    iSlider.extend(iSider.plugins, {
         addDot: function () {
             if (!this.isVertical) {
                 var self = this;

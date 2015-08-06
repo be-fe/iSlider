@@ -4,7 +4,7 @@
  */
 
 define(['iSlider'], function (iSlider) {
-    iSlider.prototype.extend({
+    iSlider.extend(iSider.plugins, {
         addBtn: function () {
             if (!this.isVertical) {
                 var btnOuter = [];
@@ -19,7 +19,8 @@ define(['iSlider'], function (iSlider) {
                     if (i === 0) {
                         btnOuter[i].className += ' left';
                         btnOuter[i].dir = -1;
-                    } else {
+                    }
+                    else {
                         btnOuter[i].className += ' right';
                         btnOuter[i].dir = 1;
                     }

@@ -1,10 +1,10 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
-var fecs = require('fecs-files');
+// var fecs = require('fecs-files');
 
 gulp.task('build', function() {
-    //fecs.check(['src/*.js', 'src/plugins/*.js']);
+    // fecs.check(['src/*.js', 'src/plugins/*.js']);
     amdClean({
         'include': ['islider_core', 'plugins/islider_animate', 'plugins/islider_zoom', 'plugins/islider_button', 'plugins/islider_dot'],
         'globalModules': ['iSlider'],
@@ -31,11 +31,7 @@ gulp.task('move', function(){
     gulp.src(['build/islider.js', 'build/islider_core.js'])
         .pipe(gulp.dest('demo/public/js'))
         .pipe(gulp.dest('test/public/js'));
-})
-
-
-
-
+});
 
 gulp.task('default', ['build'],  function() {
     //startServer(8888);   
@@ -47,10 +43,9 @@ gulp.task('default', ['build'],  function() {
                 .pipe(gulp.dest('demo/public/css'))
                 .pipe(gulp.dest('test/public/css'));
    });
-
 });
 
-/*
+/**
  *  start server
  */
 function startServer(port) {
@@ -62,7 +57,7 @@ function startServer(port) {
     });
 }
 
-/*
+/**
  * remove AMD code form source code
  */
 function amdClean(opts) {
@@ -85,5 +80,4 @@ function amdClean(opts) {
 
         }
     });
-
 }

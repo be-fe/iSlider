@@ -8,3 +8,5 @@ test/
 npm-debug.log
 
 
+/.project
+/*.iml
