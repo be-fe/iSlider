@@ -1,35 +1,40 @@
 /**
  * Created by liuhui01 on 2015/1/7.
  */
-define(['iSlider'], function (iSlider) {
+
+(function (global) {
     var has3d = ('WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix());
-    var minScale = 1/2;
+    var minScale = 1 / 2;
     var viewScope = {};
 
     function generateTranslate(x, y, z, scale) {
         return "translate" + (has3d ? "3d(" : "(") + x + "px," + y + (has3d ? "px," + z + "px)" : "px)") + "scale(" + scale + ")";
     }
-    function getDistance(a,b){
-        var x,y;
-        x= a.left - b.left;
-        y= a.top - b.top;
+
+    function getDistance(a, b) {
+        var x, y;
+        x = a.left - b.left;
+        y = a.top - b.top;
         return Math.sqrt(x * x + y * y);
     }
+
     function generateTransformOrigin(x, y) {
         return x + "px " + y + "px";
     }
-    function getTouches(touches){
-        return Array.prototype.slice.call(touches).map(function(touch){
+
+    function getTouches(touches) {
+        return Array.prototype.slice.call(touches).map(function (touch) {
             return {
                 left: touch.pageX,
                 top: touch.pageY
             }
         });
     }
-    function calculateScale(start,end){
-        var startDistance=getDistance(start[0],start[1]);
-        var endDistance=getDistance(end[0],end[1]);
-        return endDistance/startDistance;
+
+    function calculateScale(start, end) {
+        var startDistance = getDistance(start[0], start[1]);
+        var endDistance = getDistance(end[0], end[1]);
+        return endDistance / startDistance;
     }
 
     function getComputedTranslate(obj) {
@@ -61,21 +66,21 @@ define(['iSlider'], function (iSlider) {
                 translateX: str[12] - 0,
                 translateY: str[13] - 0,
                 translateZ: str[14] - 0,
-                offsetX:    offsetX - 0,
-                offsetY:    offsetY - 0,
-                scaleX:     str[0] - 0,
-                scaleY:     str[5] - 0,
-                scaleZ:     str[10] - 0
+                offsetX: offsetX - 0,
+                offsetY: offsetY - 0,
+                scaleX: str[0] - 0,
+                scaleY: str[5] - 0,
+                scaleZ: str[10] - 0
             };
         } else if (mat2d) {
             var str = mat2d[1].split(', ');
             result = {
                 translateX: str[4] - 0,
                 translateY: str[5] - 0,
-                offsetX:    offsetX - 0,
-                offsetY:    offsetY - 0,
-                scaleX:     str[0] - 0,
-                scaleY:     str[3] - 0
+                offsetX: offsetX - 0,
+                offsetY: offsetY - 0,
+                scaleX: str[0] - 0,
+                scaleY: str[3] - 0
             };
         }
         return result;
@@ -98,7 +103,7 @@ define(['iSlider'], function (iSlider) {
         if (this.useZoom) {
             var node = this.els[1].querySelector('img');
             var transform = getComputedTranslate(node);
-            this.startTouches=getTouches(evt.targetTouches);
+            this.startTouches = getTouches(evt.targetTouches);
             this._startX = transform.translateX - 0;
             this._startY = transform.translateY - 0;
             this.currentScale = transform.scaleX;
@@ -164,10 +169,10 @@ define(['iSlider'], function (iSlider) {
     //缩放图片
     function scaleImage(evt) {
         var moveTouces = getTouches(evt.targetTouches);
-        var scale = calculateScale(this.startTouches,moveTouces);
+        var scale = calculateScale(this.startTouches, moveTouces);
         evt.scale = evt.scale || scale;
         var node = this.zoomNode;
-        scale = this.currentScale * evt.scale < minScale?minScale:this.currentScale * evt.scale;
+        scale = this.currentScale * evt.scale < minScale ? minScale : this.currentScale * evt.scale;
         node.style.webkitTransform = generateTranslate(0, 0, 0, scale);
 
     }
@@ -272,11 +277,11 @@ define(['iSlider'], function (iSlider) {
         pos = getPosition(node);
         start = {
             left: (1 - trans.scaleX) * trans.offsetX + pos.left + trans.translateX,
-            top:  (1 - trans.scaleX) * trans.offsetY + pos.top + trans.translateY
+            top: (1 - trans.scaleX) * trans.offsetY + pos.top + trans.translateY
         };
         end = {
             left: start.left + w,
-            top:  start.top + h
+            top: start.top + h
         };
         left = start.left;
         top = start.top;
@@ -323,7 +328,7 @@ define(['iSlider'], function (iSlider) {
 
     }
 
-    iSlider.prototype.extend({
+    global.iSlider.extend({
         _initZoom: initZoom,
         _scaleImage: scaleImage,
         _moveImage: moveImage,
@@ -333,4 +338,4 @@ define(['iSlider'], function (iSlider) {
         _endHandler: endHandler,
         _startHandler: startHandler
     });
-});
+})(this);

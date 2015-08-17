@@ -3,9 +3,11 @@
  * @author xieyu33333
  */
 
-define(['iSlider'], function (iSlider) {
-    iSlider.extend(iSlider.prototype._animateFuncs, {
-    	// rotate
+(function (global) {
+    'use strict';
+
+    global.iSlider && global.iSlider.extend(iSlider._animateFuncs, {
+        // rotate
         'rotate': function (dom, axis, scale, i, offset) {
             var rotateDirect = (axis === 'X') ? 'Y' : 'X';
             var absoluteOffset = Math.abs(offset);
@@ -27,7 +29,7 @@ define(['iSlider'], function (iSlider) {
             dom.style.cssText += '-webkit-backface-visibility:hidden; -webkit-transform-style:preserve-3d; ' + 'background-color:' + bdColor + '; position:absolute;';
             dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ(' + (0.888 * scale / 2) + 'px) scale(0.888)';
         },
-    	// flip
+        // flip
         'flip': function (dom, axis, scale, i, offset) {
             var rotateDirect = (axis === 'X') ? 'Y' : 'X';
             var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
@@ -89,4 +91,4 @@ define(['iSlider'], function (iSlider) {
             dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate' + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
         }
     });
-});
+})(this);
