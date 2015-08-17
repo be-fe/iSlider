@@ -24,7 +24,7 @@ It features:
 
 ## iSlider Mobile Demo
 
-![](qrcode.png =240x)
+![](qrcode.png)
 
 Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/index.html)
 

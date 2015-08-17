@@ -16,7 +16,7 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 
 ## iSlider移动端展示
 
-![](qrcode.png =240x)
+![](qrcode.png)
 
 Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/index.html)
 
