@@ -1,8 +1,8 @@
 #iSlider
-####[iSlider English Official Page](http://be-fe.github.io/iSlider/index_en.html)
-####[iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
-####[iSlider 中文官网](http://be-fe.github.io/iSlider/index.html)
-####[iSlider Example](http://be-fe.github.io/iSlider/demo/)
+#### [iSlider English Official Page](http://be-fe.github.io/iSlider/index_en.html)
+#### [iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
+#### [iSlider 中文官网](http://be-fe.github.io/iSlider/index.html)
+#### [iSlider Example](http://be-fe.github.io/iSlider/demo/)
 
 iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理大多数的滑动场景，例如图片或者DOM元素。目前支持以下特性：
 
@@ -14,18 +14,18 @@ iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑
 * 支持图片预加载，改善用户体验。
 * 支持图片的缩放。
 
-##iSlider移动端展示
+## iSlider移动端展示
 
-<img width="150px" height="150px" src="qrcode.png"/>
+![](qrcode.png =240x)
 
-* <a href="http://be-fe.github.io/iSlider/index.html">Demo</a>
+Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/index.html)
 
-##如何获取
+## 如何获取
 - 直接在Github网站进行下载
 - 如果使用bower进行包管理，可以使用 `bower install iSlider`进行安装.
 - 可以使用 `npm install islider.js`
 
-##开始使用iSlider
+## 开始使用iSlider
 使用iSlider最简单的办法是查阅我们提供的简易例子。大代码存放在demo文件夹的文件里面。
 
 使用iSlider只需要准备好数据即可，无论是本地数据还是从接口获取的数据，例如：
@@ -94,7 +94,7 @@ var data = [{
     	});
     </script>
 
-## 深入了解iSlider
+##  深入了解iSlider
 上面的例子只是iSlider的基本用法，一些进阶功能可以参考[WIKI](https://github.com/BE-FE/iSlider/wiki/Notices)。
 下面是iSlider选项配置的列表:   
 <table>
@@ -197,11 +197,11 @@ var data = [{
 	</tr>
 </tbody>
 </table>
-##联系我们
+## 联系我们
 对iSlider的使用有任何问题,或者发现bug,欢迎给我们反馈：
 [提交反馈](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
 
-##License (MIT)
+## License (MIT)
 
 Copyright (c) 2014 BE-FE
 
