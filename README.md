@@ -1,9 +1,9 @@
-#iSlider，Smooth slider for webapps
+# iSlider，Smooth slider for webapps
 
-####[iSlider Official Page](http://be-fe.github.io/iSlider/index_en.html)
-####[iSlider 官网](http://be-fe.github.io/iSlider/index.html)
-####[iSlider 说明](https://github.com/BE-FE/iSlider/blob/master/README_Chinese.md)
-####[iSlider Example](http://be-fe.github.io/iSlider/demo/)
+#### [iSlider Official Page](http://be-fe.github.io/iSlider/index_en.html)
+#### [iSlider 官网](http://be-fe.github.io/iSlider/index.html)
+#### [iSlider 说明](https://github.com/BE-FE/iSlider/blob/master/README_Chinese.md)
+#### [iSlider Example](http://be-fe.github.io/iSlider/demo/)
 
 iSlider is a high performance，dependency free, mobile-platform javascript slider.
 It can handle any elements that need to be slide, like picture list or different dom elements. 
@@ -17,18 +17,18 @@ It features:
 * Support image preloader to improve user experience.
 * Support image zoomIn and zoomOut.
 
-##Get iSlider
+## Get iSlider
 - You could download the sourcecode form github here.
 - Using `bower install iSlider`.
 - Using `npm install islider.js`
 
-##iSlider Mobile Demo
+## iSlider Mobile Demo
 
-<img width="150px" height="150px" src="qrcode.png"/>
+![](qrcode.png)
 
-* <a href="http://be-fe.github.io/iSlider/index.html">Demo</a>
+Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/index.html)
 
-##Getting Started
+## Getting Started
 The best way to learn the iSlider is by looking at the demos. In the archive you'll find a demo folder. Most of the script features are outlined there.
 *iSlider* is a class that needs to be initiated for each dom area. 
 
@@ -72,7 +72,7 @@ If you want to add more effects or options, you can follow the demo in demo/pict
 
 That's it. 
 
-##Configure the iSlider
+## Configure the iSlider
 Besides the basic ways you can do with iSlider, you can customized the features we provide. For example, if you prefers to put dom elements on the list, you can change the data array like this:
 
 ````
@@ -99,7 +99,7 @@ If you hope to implement the effects mentioned in introduction part, you can:
     	});
     </script>
 
-##Understand The iSlider
+## Understand The iSlider
 the demo is only basic usage of iSlider，you can get more from [WIKI](https://github.com/BE-FE/iSlider/wiki/Notices).
 
 Here provides a clear description of what options you are able to manipulate:
@@ -203,11 +203,11 @@ Here provides a clear description of what options you are able to manipulate:
 	</tr>
 </tbody>
 </table>
-##Contact us
+## Contact us
 if you have any questions or find any bugs, please post issues to tell us.
 [Feedback](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
 
-##License (MIT)
+## License (MIT)
 
 Copyright (c) 2014 BE-FE
 
