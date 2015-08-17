@@ -56,39 +56,68 @@
 <script src="js/plugins/button.js"></script>
 <script>
     var list = [];
-    for (var i = 1; i <= 9; i++)
+    for (var i = 2; i <= 5; i++)
         list.push({content: './resource/imgs/random/' + i + '.jpg'});
 
-    list.push({content: '<div style="font-size:15em;color:white;">妹</div>'});
+    list.push({content: '<div style="font-size:2em;color:white;text-align: center">HTML</div>'});
 
     list.push({
         content: (function () {
             var dom = document.createElement('div');
-            dom.innerHTML = '夫';
-            dom.style.cssText = 'font-size:15em;color:blue;'
+            dom.innerHTML = 'Element';
+            dom.style.cssText = 'font-size:2em;color:rgb(230, 230, 63);';
             return dom;
         })()
     });
+
+    list.push({
+        content: (function () {
+            var frag = document.createDocumentFragment();
+            var dom = document.createElement('div');
+            dom.innerHTML = 'Fragment';
+            dom.style.cssText = 'font-size:2em;color:rgb(230, 63, 230);';
+            frag.appendChild(dom);
+            return frag;
+        })()
+    });
+
+    console.log(list)
 
     var islider = new iSlider({
         // type: 'pic',
         data: list,
         dom: document.getElementById("iSlider-wrapper"),
-        isLooping: true,
+        isLooping: 1,
+        isOverspread: 1,
         animateType: 'default',
         animateTime: 500,
         isDebug: 1,
+        // isDebug: 0,
         plugins: ['dot', 'button'],
         onslide: function () {
-            // console.log(this, arguments)
+            console.log(arguments)
         },
         onslidechange: function () {
-            // console.log(this, arguments, 'change INDEX!!!!!!!');
-            // this.off('slideChange', arguments.callee);
+            console.error(arguments, 'Change~ juse one time');
+            this.off('slideChange', arguments.callee);
         }
     });
 
-    console.log(islider);
+    islider.on('slideChange', function () {
+        console.debug('Change event from method "on"', this, arguments);
+    });
+
+    islider.on('slideChanged', function () {
+        console.debug('Change(d) event from method "on"', this, arguments);
+    });
+
+    islider.on('slideRestore', function () {
+        console.debug('Restore event from method "on"', this, arguments);
+    });
+
+    islider.on('slideRestored', function () {
+        console.debug('Restore(d) event from method "on"', this, arguments);
+    });
 </script>
 </body>
 </html>
