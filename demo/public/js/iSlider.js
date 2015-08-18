@@ -23,6 +23,15 @@
     };
 
     /**
+     * Check is array
+     * @param o
+     * @returns {boolean}
+     */
+    function isArray(o) {
+        return Object.prototype.toString.call(o) === '[object Array]';
+    };
+
+    /**
      * @constructor
      * @param {Object} opts 参数集
      * @param {Element} opts.dom 外层元素 Outer wrapper
@@ -247,8 +256,6 @@
                 Y: 0
             };
 
-        this.useZoom = opts.useZoom || false;
-
         // looping logic adjust
         if (this.data.length < 2) {
             this.isLooping = false;
@@ -263,11 +270,6 @@
         // iSlider overspread mode will be set true autometicly
         if (opts.animateType === 'card' && this.isVertical) {
             this.isOverspread = true;
-        }
-
-        // TODO will move to plugins
-        if (this.useZoom) {
-            this._initZoom(opts);
         }
 
         // debug mode
@@ -312,7 +314,7 @@
                 moveEvt: hasTouch ? 'touchmove' : 'mousemove',
                 endEvt: hasTouch ? 'touchend' : 'mouseup'
             };
-        })()
+        })();
 
         /**
          * Init events
@@ -346,6 +348,31 @@
         // Callback function when restore to the current scene, while animation has completed
         this.on('slideRestored', opts.onsliderestored);
 
+
+        // --------------------------------
+        // - Plugins
+        // --------------------------------
+
+        /**
+         * @type {object}
+         * @private
+         */
+        this.pluginConfig = (function () {
+            if (isArray(opts.plugins)) {
+                var config = {};
+                opts.plugins.forEach(function (plugin) {
+                    if (isArray(plugin)) {
+                        config[plugin[0]] = plugin[1] || {};
+                    } else if (typeof plugin === 'string') {
+                        config[plugin] = {};
+                    }
+                });
+                return config;
+            } else {
+                return {}
+            }
+        })();
+
         // Autoplay mode
         if (this.isAutoplay) {
             this.play();
@@ -370,15 +397,17 @@
      * @private
      */
     iSliderPrototype._initPlugins = function () {
-        this._opts.plugins && this._opts.plugins.length > 0 && this._opts.plugins.forEach(function (plugin) {
-            if (this._plugins.hasOwnProperty(plugin)) {
-                this.log('Init plugin:', plugin, this._plugins[plugin]);
-                this._plugins[plugin]
-                && typeof this._plugins[plugin] === 'function'
-                && typeof this._plugins[plugin].call
-                && this._plugins[plugin].call(this);
+        var config = this.pluginConfig;
+        var plugins = this._plugins;
+        for (var i in config) {
+            if (config.hasOwnProperty(i) && plugins.hasOwnProperty(i)) {
+                this.log('[INIT PLUGIN]:', i, plugins[i]);
+                plugins[i]
+                && typeof plugins[i] === 'function'
+                && typeof plugins[i].call
+                && plugins[i].call(this, config[i]);
             }
-        }.bind(this));
+        }
     };
 
     /**
@@ -829,7 +858,7 @@
     };
 
     /**
-     *
+     * Register event callback
      * @param {string} eventName
      * @param {function} func
      * @public
@@ -844,7 +873,7 @@
     };
 
     /**
-     *
+     * Remove event callback
      * @param {string} eventName
      * @param {function} func
      * @public
@@ -860,7 +889,7 @@
     };
 
     /**
-     *
+     * Trigger event callbacks
      * @param {string} eventName
      * @param {*} args
      * @public
@@ -881,7 +910,7 @@
 
     /**
      *  Uniformity admin event
-     *  Router
+     *  Event router
      *  @param {object} evt event object
      *  @private
      */
@@ -934,8 +963,6 @@
         this.startTime = new Date().getTime();
         this.startX = device.hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
         this.startY = device.hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
-        // XXX
-        this._startHandler && this._startHandler(evt);
     };
 
     /**
@@ -957,9 +984,7 @@
 
             this.offset = offset;
 
-            // TODO zoompic
-            var res = this._moveHandler ? this._moveHandler(evt) : false;
-            if (!res && Math.abs(offset[axis]) - Math.abs(offset[reverseAxis]) > 10) {
+            if (Math.abs(offset[axis]) - Math.abs(offset[reverseAxis]) > 10) {
                 evt.preventDefault();
 
                 this.fire('slide', evt, this);
@@ -996,8 +1021,6 @@
         // a quick slide should also slide at least 14 px
         boundary = endTime - this.startTime > 300 ? boundary : 14;
 
-        // XXX
-        var res = this._endHandler ? this._endHandler(evt) : false;
         var absOffset = Math.abs(offset[axis]);
         var absReverseOffset = Math.abs(offset[this.reverseAxis]);
 
@@ -1018,13 +1041,13 @@
 
         this.log(boundary, offset[axis], absOffset, absReverseOffset, this);
 
-        if (!res && offset[axis] >= boundary && absReverseOffset < absOffset) {
+        if (offset[axis] >= boundary && absReverseOffset < absOffset) {
             this.slideTo(this.slideIndex - 1);
         }
-        else if (!res && offset[axis] < -boundary && absReverseOffset < absOffset) {
+        else if (offset[axis] < -boundary && absReverseOffset < absOffset) {
             this.slideTo(this.slideIndex + 1);
         }
-        else if (!res) {
+        else {
             this.slideTo(this.slideIndex);
         }
 

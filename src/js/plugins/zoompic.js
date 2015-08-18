@@ -1,16 +1,70 @@
 /**
- * Created by liuhui01 on 2015/1/7.
+ * @file zoompic.js
+ * @author liuhui01 on 2015/1/7.
+ * @modify shinate shine.wangrs@gmail.com
  */
 
 (function (global) {
+    'use strict';
+
+    var startHandlerOriginal = iSlider.prototype.startHandler;
+    var endHandlerOriginal = iSlider.prototype.endHandler;
+    var moveHandlerOriginal = iSlider.prototype.moveHandler;
+
+    /**
+     * Support 3D matrix translate
+     * @type {boolean}
+     */
     var has3d = ('WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix());
+
+    /**
+     * Min scale
+     * @type {number}
+     */
     var minScale = 1 / 2;
+
+    /**
+     * Scene view range
+     * @type {{}}
+     */
     var viewScope = {};
 
+    var currentScale;
+
+    var zoomFactor;
+
+    var zoomNode;
+
+    var startTouches;
+
+    var startX;
+
+    var startY;
+
+    var lastTouchStart;
+
+    var gesture;
+
+    var IN_SCALE_MODE = false;
+
+    /**
+     * Generate translate
+     * @param x
+     * @param y
+     * @param z
+     * @param scale
+     * @returns {string}
+     */
     function generateTranslate(x, y, z, scale) {
         return "translate" + (has3d ? "3d(" : "(") + x + "px," + y + (has3d ? "px," + z + "px)" : "px)") + "scale(" + scale + ")";
     }
 
+    /**
+     * Get distance
+     * @param a
+     * @param b
+     * @returns {number}
+     */
     function getDistance(a, b) {
         var x, y;
         x = a.left - b.left;
@@ -18,10 +72,21 @@
         return Math.sqrt(x * x + y * y);
     }
 
+    /**
+     * Transform to string
+     * @param x
+     * @param y
+     * @returns {string}
+     */
     function generateTransformOrigin(x, y) {
         return x + "px " + y + "px";
     }
 
+    /**
+     * Get touch pointer
+     * @param touches
+     * @returns {Array}
+     */
     function getTouches(touches) {
         return Array.prototype.slice.call(touches).map(function (touch) {
             return {
@@ -31,12 +96,23 @@
         });
     }
 
+    /**
+     * Get scale
+     * @param start
+     * @param end
+     * @returns {number}
+     */
     function calculateScale(start, end) {
         var startDistance = getDistance(start[0], start[1]);
         var endDistance = getDistance(end[0], end[1]);
         return endDistance / startDistance;
     }
 
+    /**
+     * Get computed translate
+     * @param obj
+     * @returns {{translateX: number, translateY: number, translateZ: number, scaleX: number, scaleY: number, offsetX: number, offsetY: number}}
+     */
     function getComputedTranslate(obj) {
         var result = {
             translateX: 0,
@@ -86,6 +162,12 @@
         return result;
     }
 
+    /**
+     * Get center point
+     * @param a
+     * @param b
+     * @returns {{x: number, y: number}}
+     */
     function getCenter(a, b) {
         return {
             x: (a.x + b.x) / 2,
@@ -93,25 +175,35 @@
         }
     }
 
-    //初始化缩放参数等
+    /**
+     * init
+     * @param opts
+     */
     function initZoom(opts) {
-        this.currentScale = 1;
-        this.zoomFactor = opts.zoomFactor || 2;
+        currentScale = 1;
+        zoomFactor = opts.zoomFactor || 2;
     }
 
+    /**
+     * Start event handle
+     * @param {object} evt
+     */
     function startHandler(evt) {
-        if (this.useZoom) {
-            var node = this.els[1].querySelector('img');
+        startHandlerOriginal.call(this, evt);
+        // must be a picture, only one picture!!
+        var node = this.els[1].querySelector('img:first-child');
+        if (node !== null) {
+            IN_SCALE_MODE = true;
             var transform = getComputedTranslate(node);
-            this.startTouches = getTouches(evt.targetTouches);
-            this._startX = transform.translateX - 0;
-            this._startY = transform.translateY - 0;
-            this.currentScale = transform.scaleX;
-            this.zoomNode = node;
+            startTouches = getTouches(evt.targetTouches);
+            startX = transform.translateX - 0;
+            startY = transform.translateY - 0;
+            currentScale = transform.scaleX;
+            zoomNode = node;
             var pos = getPosition(node);
             if (evt.targetTouches.length == 2) {
-                console.log("gesture");
-                this.lastTouchStart = null;
+                this.log('PLUGIN:zoompic', 'gesture');
+                lastTouchStart = null;
                 var touches = evt.touches;
                 var touchCenter = getCenter({
                     x: touches[0].pageX,
@@ -123,91 +215,118 @@
                 node.style.webkitTransformOrigin = generateTransformOrigin(touchCenter.x - pos.left, touchCenter.y - pos.top);
             } else if (evt.targetTouches.length === 1) {
                 var time = (new Date()).getTime();
-                this.gesture = 0;
-                if (time - this.lastTouchStart < 300) {
+                gesture = 0;
+                if (time - lastTouchStart < 300) {
                     evt.preventDefault();
-                    this.gesture = 3;
-
+                    gesture = 3;
                 }
-                this.lastTouchStart = time;
+                lastTouchStart = time;
             }
         }
-
     }
 
+    /**
+     * Move event handle
+     * @param {object} evt
+     * @returns {number}
+     */
     function moveHandler(evt) {
-        var result = 0, node = this.zoomNode;
-        var device = this._device();
-        if (device.hasTouch) {
-            if (evt.targetTouches.length === 2 && this.useZoom) {
-                node.style.webkitTransitionDuration = "0";
-                evt.preventDefault();
-                this._scaleImage(evt);
-                result = 2;
-            } else if (evt.targetTouches.length == 1 && this.useZoom && this.currentScale > 1) {
-                node.style.webkitTransitionDuration = "0";
-                evt.preventDefault();
-                this._moveImage(evt);
-                result = 1;
+        if (IN_SCALE_MODE) {
+            var result = 0;
+            var node = zoomNode;
+            var device = this.deviceEvents;
+            if (device.hasTouch) {
+                if (evt.targetTouches.length === 2) {
+                    node.style.webkitTransitionDuration = "0";
+                    evt.preventDefault();
+                    scaleImage(evt);
+                    result = 2;
+                } else if (evt.targetTouches.length == 1 && currentScale > 1) {
+                    node.style.webkitTransitionDuration = "0";
+                    evt.preventDefault();
+                    moveImage(evt);
+                    result = 1;
+                }
+                gesture = result;
+                if (result > 0) {
+                    return;
+                }
             }
-            this.gesture = result;
-            return result;
         }
-
+        moveHandlerOriginal.call(this, evt);
     }
 
+    /**
+     * Double tao handle
+     * @param {object} evt
+     */
     function handleDoubleTap(evt) {
-        var zoomFactor = this.zoomFactor || 2;
-        var node = this.zoomNode;
+        var zoomFactor = zoomFactor || 2;
+        var node = zoomNode;
         var pos = getPosition(node);
-        this.currentScale = this.currentScale == 1 ? zoomFactor : 1;
-        node.style.webkitTransform = generateTranslate(0, 0, 0, this.currentScale);
-        if (this.currentScale != 1) node.style.webkitTransformOrigin = generateTransformOrigin(evt.touches[0].pageX - pos.left, evt.touches[0].pageY - pos.top);
+        currentScale = currentScale == 1 ? zoomFactor : 1;
+        node.style.webkitTransform = generateTranslate(0, 0, 0, currentScale);
+        if (currentScale != 1) node.style.webkitTransformOrigin = generateTransformOrigin(evt.touches[0].pageX - pos.left, evt.touches[0].pageY - pos.top);
 
     }
 
-    //缩放图片
+    /**
+     * scale image
+     * @param {object} evt
+     */
     function scaleImage(evt) {
         var moveTouces = getTouches(evt.targetTouches);
-        var scale = calculateScale(this.startTouches, moveTouces);
+        var scale = calculateScale(startTouches, moveTouces);
         evt.scale = evt.scale || scale;
-        var node = this.zoomNode;
-        scale = this.currentScale * evt.scale < minScale ? minScale : this.currentScale * evt.scale;
+        var node = zoomNode;
+        scale = currentScale * evt.scale < minScale ? minScale : currentScale * evt.scale;
         node.style.webkitTransform = generateTranslate(0, 0, 0, scale);
-
     }
 
     function endHandler(evt) {
-        var result = 0;
-        if (this.gesture === 2) {//双手指 todo
-            this._resetImage(evt);
-            result = 2;
-        } else if (this.gesture == 1) {//放大拖拽 todo
-            this._resetImage(evt);
-            result = 1;
-        } else if (this.gesture === 3) {//双击
-            this._handleDoubleTap(evt);
-            this._resetImage(evt);
+        if (IN_SCALE_MODE) {
+            var result = 0;
+            if (gesture === 2) {//双手指
+                resetImage(evt);
+                result = 2;
+            } else if (gesture == 1) {//放大拖拽
+                resetImage(evt);
+                result = 1;
+            } else if (gesture === 3) {//双击
+                handleDoubleTap(evt);
+                resetImage(evt);
+            }
+            if (result > 0) {
+                return;
+            }
         }
-
-        return result;
+        IN_SCALE_MODE = false;
+        endHandlerOriginal.call(this, evt);
     }
 
-    //拖拽图片
+    /**
+     * Dragmove image
+     * @param {opject} evt
+     */
     function moveImage(evt) {
-        var node = this.zoomNode;
-        var device = this._device();
+        var node = zoomNode;
+        var device = this.deviceEvents;
         var offset = {
             X: device.hasTouch ? (evt.targetTouches[0].pageX - this.startX) : (evt.pageX - this.startX),
             Y: device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY)
         };
-        this.moveOffset = {
-            x: this._startX + offset.X - 0,
-            y: this._startY + offset.Y - 0
+        var moveOffset = {
+            x: startX + offset.X - 0,
+            y: startY + offset.Y - 0
         };
-        node.style.webkitTransform = generateTranslate(this.moveOffset.x, this.moveOffset.y, 0, this.currentScale);
+        node.style.webkitTransform = generateTranslate(moveOffset.x, moveOffset.y, 0, currentScale);
     }
 
+    /**
+     * Get position
+     * @param element
+     * @returns {{left: number, top: number}}
+     */
     function getPosition(element) {
         var pos = {"left": 0, "top": 0};
         do {
@@ -219,6 +338,13 @@
         return pos;
     }
 
+    /**
+     * Check target is in range
+     * @param node
+     * @param value
+     * @param tag
+     * @returns {boolean}
+     */
     function valueInViewScope(node, value, tag) {
         var min, max;
         var pos = getPosition(node);
@@ -232,6 +358,12 @@
         return (value >= min && value <= max);
     }
 
+    /**
+     *
+     * @param node
+     * @param obj1
+     * @returns {number}
+     */
     function overFlow(node, obj1) {
         var result = 0;
         var isX1In = valueInViewScope(node, obj1.start.left, 1);
@@ -267,9 +399,13 @@
         return result;
     }
 
+    /**
+     * Reset image
+     * @param {object} evt
+     */
     function resetImage(evt) {
-        if (this.currentScale == 1) return;
-        var node = this.zoomNode, left, top, trans, w, h, pos, start, end, parent, flowTag;
+        if (currentScale == 1) return;
+        var node = zoomNode, left, top, trans, w, h, pos, start, end, parent, flowTag;
         trans = getComputedTranslate(node);
         parent = node.parentNode;
         w = node.clientWidth * trans.scaleX;
@@ -329,13 +465,11 @@
     }
 
     global.iSlider.extend({
-        _initZoom: initZoom,
-        _scaleImage: scaleImage,
-        _moveImage: moveImage,
-        _resetImage: resetImage,
-        _handleDoubleTap: handleDoubleTap,
-        _moveHandler: moveHandler,
-        _endHandler: endHandler,
-        _startHandler: startHandler
+        startHandler: startHandler,
+        moveHandler: moveHandler,
+        endHandler: endHandler
     });
+
+    global.iSlider && global.iSlider.regPlugin('zoompic', initZoom);
+
 })(this);

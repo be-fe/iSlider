@@ -54,6 +54,7 @@
 <script src="js/ext/animate.js"></script>
 <script src="js/plugins/dot.js"></script>
 <script src="js/plugins/button.js"></script>
+<script src="js/plugins/zoompic.js"></script>
 <script>
     var list = [];
     for (var i = 2; i <= 5; i++)
@@ -88,12 +89,12 @@
         data: list,
         dom: document.getElementById("iSlider-wrapper"),
         isLooping: 1,
-        isOverspread: 1,
+        // isOverspread: 1,
         animateType: 'default',
         animateTime: 500,
         isDebug: 1,
         // isDebug: 0,
-        plugins: ['dot', 'button'],
+        plugins: ['dot', 'button', ['zoompic', {zoomFactor: 2}]],
         onslide: function () {
             console.log(arguments)
         },
