@@ -124,8 +124,8 @@
             offsetY: 0
         };
         var offsetX = 0, offsetY = 0;
-        if (!window.getComputedStyle || !obj) return result;
-        var style = window.getComputedStyle(obj), transform, origin;
+        if (!global.getComputedStyle || !obj) return result;
+        var style = global.getComputedStyle(obj), transform, origin;
         transform = style.webkitTransform || style.mozTransform;
         origin = style.webkitTransformOrigin || style.mozTransformOrigin;
         var par = origin.match(/(.*)px\s+(.*)px/);
@@ -202,7 +202,6 @@
             zoomNode = node;
             var pos = getPosition(node);
             if (evt.targetTouches.length == 2) {
-                this.log('PLUGIN:zoompic', 'gesture');
                 lastTouchStart = null;
                 var touches = evt.touches;
                 var touchCenter = getCenter({
@@ -241,13 +240,14 @@
                     evt.preventDefault();
                     scaleImage(evt);
                     result = 2;
-                } else if (evt.targetTouches.length == 1 && currentScale > 1) {
+                } else if (evt.targetTouches.length === 1 && currentScale > 1) {
                     node.style.webkitTransitionDuration = "0";
                     evt.preventDefault();
-                    moveImage(evt);
+                    moveImage.call(this, evt);
                     result = 1;
                 }
                 gesture = result;
+
                 if (result > 0) {
                     return;
                 }
@@ -267,7 +267,6 @@
         currentScale = currentScale == 1 ? zoomFactor : 1;
         node.style.webkitTransform = generateTranslate(0, 0, 0, currentScale);
         if (currentScale != 1) node.style.webkitTransformOrigin = generateTransformOrigin(evt.touches[0].pageX - pos.left, evt.touches[0].pageY - pos.top);
-
     }
 
     /**
@@ -277,12 +276,15 @@
     function scaleImage(evt) {
         var moveTouces = getTouches(evt.targetTouches);
         var scale = calculateScale(startTouches, moveTouces);
-        evt.scale = evt.scale || scale;
         var node = zoomNode;
-        scale = currentScale * evt.scale < minScale ? minScale : currentScale * evt.scale;
+        scale = currentScale * scale < minScale ? minScale : currentScale * scale;
         node.style.webkitTransform = generateTranslate(0, 0, 0, scale);
     }
 
+    /**
+     * End event handle
+     * @param evt
+     */
     function endHandler(evt) {
         if (IN_SCALE_MODE) {
             var result = 0;
@@ -295,12 +297,13 @@
             } else if (gesture === 3) {//双击
                 handleDoubleTap(evt);
                 resetImage(evt);
+                IN_SCALE_MODE = false;
             }
+
             if (result > 0) {
                 return;
             }
         }
-        IN_SCALE_MODE = false;
         endHandlerOriginal.call(this, evt);
     }
 
