@@ -304,7 +304,7 @@
 
         // debug mode
         this.log = opts.isDebug ? function () {
-            global.console.log.apply(console, arguments);
+            global.console.log.apply(global.console, arguments);
         } : iSlider.EMPTY_FUNCTION;
 
         // set Damping function
@@ -466,7 +466,6 @@
      * @private
      */
     iSliderPrototype._itemType = function (dataIndex) {
-        console.log(dataIndex, this.data[dataIndex]);
         var content = this.data[dataIndex].content;
         if (content == null) {
             return 'empty';
