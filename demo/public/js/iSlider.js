@@ -3,7 +3,7 @@
  * @file iSlider.js
  * @author BE-FE Team
  *    qbaty qbaty.qi@gmail.com
- *    xieyu33333
+ *    xieyu33333 xieyu33333@gmail.com
  *    shinate shine.wangrs@gmail.com
  *
  * @LICENSE https://github.com/BE-FE/iSlider/blob/master/LICENSE
@@ -30,6 +30,35 @@
     function isArray(o) {
         return Object.prototype.toString.call(o) === '[object Array]';
     };
+
+    /**
+     * @param obj
+     * @param cls
+     * @returns {Array|{index: number, input: string}}
+     */
+    function hasClass(obj, cls) {
+        return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+    }
+
+    /**
+     * @param obj
+     * @param cls
+     */
+    function addClass(obj, cls) {
+        if (!hasClass(obj, cls)) {
+            obj.className += ' ' + cls;
+        }
+    }
+
+    /**
+     * @param obj
+     * @param cls
+     */
+    function removeClass(obj, cls) {
+        if (hasClass(obj, cls)) {
+            obj.className = obj.className.replace(RegExp('(\\s|^)' + cls + '(\\s|$)'), '');
+        }
+    }
 
     /**
      * @constructor
@@ -87,8 +116,9 @@
      * @public
      */
     iSlider.extend = function () {
-        if (!arguments.length)
+        if (!arguments.length) {
             return;
+        }
 
         var main, extend;
         switch (arguments.length) {
@@ -348,7 +378,6 @@
         // Callback function when restore to the current scene, while animation has completed
         this.on('slideRestored', opts.onsliderestored);
 
-
         // --------------------------------
         // - Plugins
         // --------------------------------
@@ -377,19 +406,6 @@
         if (this.isAutoplay) {
             this.play();
         }
-    };
-
-    /**
-     * Register plugin (run time mode)
-     * @param name
-     * @param plugin
-     * @public
-     */
-    iSliderPrototype.regPlugin = function (name, plugin) {
-        this._plugins[name] = this._plugins[name] || plugin;
-        // Auto enable and init plugin when at run time
-        !inArray(name, this._opts.plugins) && this._opts.plugins.push(name);
-        typeof this._plugins[name] === 'function' && this._plugins[name]();
     };
 
     /**
@@ -546,8 +562,19 @@
     };
 
     /**
+     * Apply styles on changed
+     * @private
+     */
+    iSliderPrototype._changedStyles = function () {
+        var slideStyles = ['islider-prev', 'islider-active', 'islider-next'];
+        this.els.forEach(function (el, index) {
+            removeClass(el, '(' + slideStyles.join('|') + ')');
+            addClass(el, slideStyles[index])
+        });
+    };
+
+    /**
      * render list html
-     *
      * @private
      */
     iSliderPrototype._renderHTML = function () {
@@ -583,6 +610,8 @@
             }
             outer.appendChild(li);
         }
+
+        this._changedStyles();
 
         this._initLoadImg();
         // append ul to div#canvas
@@ -644,117 +673,6 @@
     };
 
     /**
-     *  slide logical, goto data index
-     *  @param {number} dataIndex the goto index
-     *  @public
-     */
-    iSliderPrototype.slideTo = function (dataIndex) {
-        var data = this.data;
-        var els = this.els;
-        var idx = dataIndex;
-        var n = dataIndex - this.slideIndex;
-        var offset = this.offset;
-        var eventType;
-
-        //In the slide process, animate time is squeezed
-        var squeezeTime = Math.abs(offset[this.axis]) / this.scale * this.animateTime;
-
-        if (Math.abs(n) > 1) {
-            this._renderItem(n > 0 ? this.els[2] : this.els[0], idx);
-        }
-
-        // preload when slide
-        this._preloadImg(idx);
-
-        // get right item of data
-        if (data[idx]) {
-            this.slideIndex = idx;
-        }
-        else {
-            if (this.isLooping) {
-                this.slideIndex = n > 0 ? 0 : data.length - 1;
-            }
-            else {
-                this.slideIndex = this.slideIndex;
-                n = 0;
-            }
-        }
-
-        this.log('Index:' + this.slideIndex);
-
-        // keep the right order of items
-        var sEle;
-        // TODO
-        // Fix no animate ext
-        if (this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
-            if (n > 0) {
-                sEle = els.pop();
-                els.unshift(sEle);
-            }
-            else if (n < 0) {
-                sEle = els.shift();
-                els.push(sEle);
-            }
-        }
-        else {
-            if (n > 0) {
-                sEle = els.shift();
-                els.push(sEle);
-            }
-            else if (n < 0) {
-                sEle = els.pop();
-                els.unshift(sEle);
-            }
-        }
-
-        // slidechange should render new item
-        // and change new item style to fit animation
-        if (n !== 0) {
-            // slide to next/prev scenes
-            if (Math.abs(n) > 1) {
-                this._renderItem(els[0], idx - 1);
-                this._renderItem(els[2], idx + 1);
-            }
-            else if (Math.abs(n) === 1) {
-                this._renderItem(sEle, idx + n);
-            }
-            sEle.style.webkitTransition = 'none';
-            sEle.style.visibility = 'hidden';
-
-            // TODO
-            // ???
-            setTimeout(function () {
-                sEle.style.visibility = 'visible';
-            }, 200);
-
-            // Minus squeeze time
-            squeezeTime = this.animateTime - squeezeTime;
-
-            eventType = 'slideChange';
-
-        } else {
-            // Restore to current scene
-            eventType = 'slideRestore';
-        }
-
-        this.fire(eventType, this.slideIndex, els[1], this);
-        this._watchTransitionEnd(squeezeTime, eventType + 'd', this.slideIndex, els[1], this);
-
-        // do the trick animation
-        for (var i = 0; i < 3; i++) {
-            if (els[i] !== sEle) {
-                els[i].style.webkitTransition = 'all ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
-            }
-            this._animateFunc(els[i], this.axis, this.scale, i, 0);
-        }
-
-        // If not looping, stop playing when meet the end of data
-        if (this.isAutoplay && !this.isLooping && this.slideIndex === data.length - 1) {
-            this.pause();
-        }
-    };
-
-    /**
      * Watch event transitionEnd
      * @private
      */
@@ -769,6 +687,9 @@
             self.log('Event:', 'watchTransitionEnd::stuck::release', self.inAnimate);
             if (self.inAnimate === 0) {
                 self.inAnimate = 0;
+                if (eventType === 'slideChanged') {
+                    self._changedStyles();
+                }
                 self.fire.apply(self, args);
             }
             unWatch();
@@ -818,101 +739,10 @@
     };
 
     /**
-     *  simple event delegate method
-     *  @param {string} evtType event name
-     *  @param {string} selector the simple css selector like jQuery
-     *  @param {function} callback event callback
-     *  @public
-     */
-    iSliderPrototype.bind = iSliderPrototype.delegate = function (evtType, selector, callback) {
-        function handle(e) {
-            var evt = global.event ? global.event : e;
-            var target = evt.target;
-            var eleArr = document.querySelectorAll(selector);
-            for (var i = 0; i < eleArr.length; i++) {
-                if (target === eleArr[i]) {
-                    callback.call(target);
-                    break;
-                }
-            }
-        }
-
-        this.wrap.addEventListener(evtType, handle, false);
-    };
-
-    /**
-     * removeEventListener to release the memory
-     * @public
-     */
-    iSliderPrototype.destroy = function () {
-        var outer = this.outer;
-        var device = this.deviceEvents;
-
-        outer.removeEventListener(device.startEvt, this);
-        outer.removeEventListener(device.moveEvt, this);
-        outer.removeEventListener(device.endEvt, this);
-        global.removeEventListener('orientationchange', this);
-        global.removeEventListener('focus', this);
-        global.removeEventListener('blur', this);
-        this.wrap.innerHTML = '';
-    };
-
-    /**
-     * Register event callback
-     * @param {string} eventName
-     * @param {function} func
-     * @public
-     */
-    iSliderPrototype.on = function (eventName, func) {
-        if (inArray(eventName, iSlider.EVENTS) && typeof func === 'function') {
-            (eventName in this.events
-                    ? this.events[eventName]
-                    : this.events[eventName] = []
-            ).push(func);
-        }
-    };
-
-    /**
-     * Remove event callback
-     * @param {string} eventName
-     * @param {function} func
-     * @public
-     */
-    iSliderPrototype.off = function (eventName, func) {
-        if (eventName in this.events) {
-            var funcs = this.events[eventName];
-            var index = funcs.indexOf(func);
-            if (index > -1) {
-                delete funcs[index];
-            }
-        }
-    };
-
-    /**
-     * Trigger event callbacks
-     * @param {string} eventName
-     * @param {*} args
-     * @public
-     */
-    iSliderPrototype.fire = function (eventName) {
-        this.log('[EVENT FIRE]:', eventName, arguments);
-        if (eventName in this.events) {
-            var funcs = this.events[eventName];
-            for (var i = 0; i < funcs.length; i++) {
-                // TODO
-                // will support custom context, now context is instance of iSlider
-                typeof funcs[i] === 'function'
-                && funcs[i].apply
-                && funcs[i].apply(this, Array.prototype.slice.call(arguments, 1));
-            }
-        }
-    };
-
-    /**
      *  Uniformity admin event
      *  Event router
      *  @param {object} evt event object
-     *  @private
+     *  @protected
      */
     iSliderPrototype.handleEvent = function (evt) {
         var device = this.deviceEvents;
@@ -944,7 +774,7 @@
     /**
      *  touchstart callback
      *  @param {object} evt event object
-     *  @private
+     *  @protected
      */
     iSliderPrototype.startHandler = function (evt) {
         if (this.fixPage) {
@@ -968,7 +798,7 @@
     /**
      *  touchmove callback
      *  @param {object} evt event object
-     *  @private
+     *  @protected
      */
     iSliderPrototype.moveHandler = function (evt) {
         if (this.isMoving) {
@@ -1007,7 +837,7 @@
     /**
      *  touchend callback
      *  @param {Object} evt event object
-     *  @private
+     *  @protected
      */
     iSliderPrototype.endHandler = function (evt) {
         this.log('Event: end');
@@ -1072,13 +902,249 @@
 
     /**
      *  orientationchange callback
-     *  @private
+     *  @protected
      */
     iSliderPrototype.orientationchangeHandler = function () {
         setTimeout(function () {
             this.reset();
             this.log('Event: orientationchange');
         }.bind(this), 100);
+    };
+
+    /**
+     *  slide logical, goto data index
+     *  @param {number} dataIndex the goto index
+     *  @public
+     */
+    iSliderPrototype.slideTo = function (dataIndex) {
+        var data = this.data;
+        var els = this.els;
+        var idx = dataIndex;
+        var n = dataIndex - this.slideIndex;
+        var offset = this.offset;
+        var eventType;
+
+        //In the slide process, animate time is squeezed
+        var squeezeTime = Math.abs(offset[this.axis]) / this.scale * this.animateTime;
+
+        if (Math.abs(n) > 1) {
+            this._renderItem(n > 0 ? this.els[2] : this.els[0], idx);
+        }
+
+        // preload when slide
+        this._preloadImg(idx);
+
+        // get right item of data
+        if (data[idx]) {
+            this.slideIndex = idx;
+        }
+        else {
+            if (this.isLooping) {
+                this.slideIndex = n > 0 ? 0 : data.length - 1;
+            }
+            else {
+                this.slideIndex = this.slideIndex;
+                n = 0;
+            }
+        }
+
+        this.log('Index:' + this.slideIndex);
+
+        // keep the right order of items
+        var sEle;
+        // TODO
+        // Fix no animate ext
+        if (this.isVertical && (
+                this._opts.animateType === 'rotate' || this._opts.animateType === 'flip'
+            )) {
+            if (n > 0) {
+                sEle = els.pop();
+                els.unshift(sEle);
+            }
+            else if (n < 0) {
+                sEle = els.shift();
+                els.push(sEle);
+            }
+        }
+        else {
+            if (n > 0) {
+                sEle = els.shift();
+                els.push(sEle);
+            }
+            else if (n < 0) {
+                sEle = els.pop();
+                els.unshift(sEle);
+            }
+        }
+
+        // slidechange should render new item
+        // and change new item style to fit animation
+        if (n !== 0) {
+            // slide to next/prev scenes
+            if (Math.abs(n) > 1) {
+                this._renderItem(els[0], idx - 1);
+                this._renderItem(els[2], idx + 1);
+            }
+            else if (Math.abs(n) === 1) {
+                this._renderItem(sEle, idx + n);
+            }
+            sEle.style.webkitTransition = 'none';
+            sEle.style.visibility = 'hidden';
+
+            // TODO
+            // ???
+            setTimeout(function () {
+                sEle.style.visibility = 'visible';
+            }, 200);
+
+            // Minus squeeze time
+            squeezeTime = this.animateTime - squeezeTime;
+
+            eventType = 'slideChange';
+        }
+        else {
+            // Restore to current scene
+            eventType = 'slideRestore';
+        }
+
+        this.fire(eventType, this.slideIndex, els[1], this);
+        this._watchTransitionEnd(squeezeTime, eventType + 'd', this.slideIndex, els[1], this);
+
+        // do the trick animation
+        for (var i = 0; i < 3; i++) {
+            if (els[i] !== sEle) {
+                els[i].style.webkitTransition = 'all ' + (
+                        squeezeTime / 1000
+                    ) + 's ' + this.animateEasing;
+            }
+            this._animateFunc(els[i], this.axis, this.scale, i, 0);
+        }
+
+        // If not looping, stop playing when meet the end of data
+        if (this.isAutoplay && !this.isLooping && this.slideIndex === data.length - 1) {
+            this.pause();
+        }
+    };
+
+    /**
+     * Slide to next scene
+     * @public
+     */
+    iSliderPrototype.slideNext = function () {
+        this.slideTo(this.slideIndex + 1);
+    };
+
+    /**
+     * Slide to previous scene
+     * @public
+     */
+    iSliderPrototype.slidePrev = function () {
+        this.slideTo(this.slideIndex - 1);
+    };
+
+    /**
+     * Register plugin (run time mode)
+     * @param name
+     * @param plugin
+     * @public
+     */
+    iSliderPrototype.regPlugin = function (name, plugin) {
+        this._plugins[name] = this._plugins[name] || plugin;
+        // Auto enable and init plugin when at run time
+        !inArray(name, this._opts.plugins) && this._opts.plugins.push(name);
+        typeof this._plugins[name] === 'function' && this._plugins[name]();
+    };
+
+    /**
+     *  simple event delegate method
+     *  @param {string} evtType event name
+     *  @param {string} selector the simple css selector like jQuery
+     *  @param {function} callback event callback
+     *  @public
+     */
+    iSliderPrototype.bind = iSliderPrototype.delegate = function (evtType, selector, callback) {
+        function handle(e) {
+            var evt = global.event ? global.event : e;
+            var target = evt.target;
+            var eleArr = document.querySelectorAll(selector);
+            for (var i = 0; i < eleArr.length; i++) {
+                if (target === eleArr[i]) {
+                    callback.call(target);
+                    break;
+                }
+            }
+        }
+
+        this.wrap.addEventListener(evtType, handle, false);
+    };
+
+    /**
+     * removeEventListener to release the memory
+     * @public
+     */
+    iSliderPrototype.destroy = function () {
+        var outer = this.outer;
+        var device = this.deviceEvents;
+
+        outer.removeEventListener(device.startEvt, this);
+        outer.removeEventListener(device.moveEvt, this);
+        outer.removeEventListener(device.endEvt, this);
+        global.removeEventListener('orientationchange', this);
+        global.removeEventListener('focus', this);
+        global.removeEventListener('blur', this);
+        this.wrap.innerHTML = '';
+    };
+
+    /**
+     * Register event callback
+     * @param {string} eventName
+     * @param {function} func
+     * @public
+     */
+    iSliderPrototype.on = function (eventName, func) {
+        if (inArray(eventName, iSlider.EVENTS) && typeof func === 'function') {
+            (
+                eventName in this.events
+                    ? this.events[eventName]
+                    : this.events[eventName] = []
+            ).push(func);
+        }
+    };
+
+    /**
+     * Remove event callback
+     * @param {string} eventName
+     * @param {function} func
+     * @public
+     */
+    iSliderPrototype.off = function (eventName, func) {
+        if (eventName in this.events) {
+            var funcs = this.events[eventName];
+            var index = funcs.indexOf(func);
+            if (index > -1) {
+                delete funcs[index];
+            }
+        }
+    };
+
+    /**
+     * Trigger event callbacks
+     * @param {string} eventName
+     * @param {*} args
+     * @public
+     */
+    iSliderPrototype.fire = function (eventName) {
+        this.log('[EVENT FIRE]:', eventName, arguments);
+        if (eventName in this.events) {
+            var funcs = this.events[eventName];
+            for (var i = 0; i < funcs.length; i++) {
+                // TODO
+                // will support custom context, now context is instance of iSlider
+                typeof funcs[i] === 'function'
+                && funcs[i].apply
+                && funcs[i].apply(this, Array.prototype.slice.call(arguments, 1));
+            }
+        }
     };
 
     /**
