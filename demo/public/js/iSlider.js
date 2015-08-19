@@ -304,7 +304,7 @@
 
         // debug mode
         this.log = opts.isDebug ? function () {
-            global.console.log.apply(console, arguments);
+            global.console.log.apply(global.console, arguments);
         } : iSlider.EMPTY_FUNCTION;
 
         // set Damping function
@@ -466,7 +466,6 @@
      * @private
      */
     iSliderPrototype._itemType = function (dataIndex) {
-        console.log(dataIndex, this.data[dataIndex]);
         var content = this.data[dataIndex].content;
         if (content == null) {
             return 'empty';
@@ -490,6 +489,7 @@
      * @private
      */
     iSliderPrototype._renderItem = function (el, dataIndex) {
+
         var item;
         var html;
         var len = this.data.length;
@@ -502,6 +502,10 @@
             el.innerHTML = html;
         }.bind(this);
 
+        // clean scene
+        el.innerHTML = '';
+        el.style.background = '';
+
         // get the right item of data
         if (!this.isLooping && this.data[dataIndex] == null) {
             // Stop slide when item is empty
@@ -511,10 +515,6 @@
             dataIndex = (len /* * Math.ceil(Math.abs(dataIndex / len))*/ + dataIndex) % len;
             item = this.data[dataIndex];
         }
-
-        // clean scene
-        el.innerHTML = '';
-        el.style.background = '';
 
         var type = this.type != null ? this.type : item.type || (item.type = this._itemType(dataIndex));
 

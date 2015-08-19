@@ -192,7 +192,8 @@
         startHandlerOriginal.call(this, evt);
         // must be a picture, only one picture!!
         var node = this.els[1].querySelector('img:first-child');
-        if (node !== null) {
+        var device = this.deviceEvents;
+        if (device.hasTouch && node !== null) {
             IN_SCALE_MODE = true;
             var transform = getComputedTranslate(node);
             startTouches = getTouches(evt.targetTouches);
