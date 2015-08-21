@@ -1,23 +1,20 @@
 /**
  * @file iSlider.css
  */
-
+.islider-pic,
 .islider-dom,
 .islider-html
 .islider-element {
     position: absolute;
     margin: 0;
     padding: 0;
+    top: 0;
+    left: 0;
     height: 100%;
     overflow: hidden;
 }
 
 .islider-pic {
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
     display: -webkit-box;
     -webkit-box-pack: center;
     -webkit-box-align: center;

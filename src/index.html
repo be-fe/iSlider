@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta name="viewport"
-          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
-    <link rel="stylesheet" href="style/iSlider.css" />
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <link rel="stylesheet" href="style/iSlider.css"/>
     <style>
         body {
             margin: 0;
@@ -45,6 +45,10 @@
             max-height: 100%;
         }
 
+        .islider-btn-outer {
+            z-index: 10000;
+        }
+
     </style>
 </head>
 
@@ -60,7 +64,7 @@
     for (var i = 2; i <= 5; i++)
         list.push({content: './resource/imgs/random/' + i + '.jpg'});
 
-    list.push({content: '<div style="font-size:2em;color:white;text-align: center">HTML</div>'});
+    list.push({content: '<div style="font-size:2em;color:white;text-align: center">HTML<a href="http://baidu.com">Link</a></div>'});
 
     list.push({
         content: (function () {
@@ -82,16 +86,15 @@
         })()
     });
 
-    console.log(list)
-
     var islider = new iSlider({
         // type: 'pic',
         data: list,
         dom: document.getElementById("iSlider-wrapper"),
         isLooping: 1,
-        // isOverspread: 1,
-        animateType: 'default',
+        isOverspread: 1,
+        animateType: 'card',
         animateTime: 500,
+        fixPage: 1,
         isDebug: 1,
         // isDebug: 0,
         plugins: ['dot', 'button', ['zoompic', {zoomFactor: 2}]],
