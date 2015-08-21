@@ -24,9 +24,25 @@
     - slideRestore
     - slideRestored
 
+- Supported parameters methods
+
+    Now, slideTo, slideNext, slidePrev support the second parmater ({Object}) for custom temporary
+    - animateTime
+    - animateType
+
 - Configurable options
     - plugins: enable plugin
     - animateTime: animation process time
     - animateEasing: support linear, ease, ease-in, ease-out, ease-in-out and custom cubic-bezier()
 
 - Callback parameter specification
+
+- Hold and Lock. add 4 mothods "hold", "unhold", "lock", "unlock"
+    - hold - disable touch events, except for the native method.
+    - unhole - release current scene, and unlock at same time
+    - lock - lock native method calls, you can't do anything on this scene, and hold at same time
+    - unlock - unlock native method calls
+
+    priority
+    - hold << lock(hold)
+    - unhold(unlock) >> unlock

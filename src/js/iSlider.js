@@ -228,6 +228,18 @@
          */
         this._animateFuncs = iSlider._animateFuncs;
 
+        /**
+         * @type {boolean}
+         * @private
+         */
+        this.holding = false;
+
+        /**
+         * @type {boolean}
+         * @private
+         */
+        this.locking = false;
+
         // --------------------------------
         // - Set options
         // --------------------------------
@@ -281,10 +293,7 @@
 
         this.isLoading = opts.isLoading;
 
-        this.offset = this.offset || {
-                X: 0,
-                Y: 0
-            };
+        this.offset = this.offset || {X: 0, Y: 0};
 
         // looping logic adjust
         if (this.data.length < 2) {
@@ -316,12 +325,10 @@
         /**
          * @protected
          */
-        this._animateFunc = opts.animateType in this._animateFuncs
-            ? this._animateFuncs[opts.animateType]
-            : this._animateFuncs['default'];
+        this._animateFunc = this._animateFuncs[opts.animateType in this._animateFuncs ? opts.animateType : 'default'];
 
-        // set animate process time (ms), default: 300mx
-        this.animateTime = opts.animateTime || 300;
+        // set animate process time (ms), default: 300ms
+        this.animateTime = opts.animateTime != null && opts.animateTime > -1 ? opts.animateTime : 300;
 
         // set animate effects, default: ease
         this.animateEasing =
@@ -389,7 +396,7 @@
         this.pluginConfig = (function () {
             if (isArray(opts.plugins)) {
                 var config = {};
-                opts.plugins.forEach(function (plugin) {
+                opts.plugins.forEach(function pluginConfigEach(plugin) {
                     if (isArray(plugin)) {
                         config[plugin[0]] = plugin[1] || {};
                     } else if (typeof plugin === 'string') {
@@ -461,8 +468,8 @@
 
     /**
      *
-     * @param {*} content
-     * @returns {*}
+     * @param {number} index
+     * @returns {string}
      * @private
      */
     iSliderPrototype._itemType = function (dataIndex) {
@@ -567,7 +574,7 @@
      */
     iSliderPrototype._changedStyles = function () {
         var slideStyles = ['islider-prev', 'islider-active', 'islider-next'];
-        this.els.forEach(function (el, index) {
+        this.els.forEach(function changeStypeEach(el, index) {
             removeClass(el, '(' + slideStyles.join('|') + ')');
             addClass(el, slideStyles[index])
         });
@@ -680,9 +687,13 @@
 
         var self = this;
         var args = Array.prototype.slice.call(arguments, 1);
-        self.log('Event:', 'watchTransitionEnd::stuck::pile', self.inAnimate);
+        var lsn;
+        this.log('Event:', 'watchTransitionEnd::stuck::pile', this.inAnimate);
 
         function handle(evt) {
+            if (lsn) {
+                global.clearTimeout(lsn);
+            }
             self.inAnimate--;
             self.log('Event:', 'watchTransitionEnd::stuck::release', self.inAnimate);
             if (self.inAnimate === 0) {
@@ -696,18 +707,19 @@
         };
 
         function unWatch() {
-            self.els.forEach(function (el) {
+            self.els.forEach(function translationEndUnwatchEach(el) {
                 el.removeEventListener(iSlider._transitionEndEvent(), handle);
             });
             self.isAnimating = false;
         }
 
         if (time > 0) {
-            self.els.forEach(function (el) {
+            self.els.forEach(function translationEndElsEach(el) {
                 el.addEventListener(iSlider._transitionEndEvent(), handle);
             });
-            self.inAnimate++;
         }
+        lsn = global.setTimeout(handle, time);
+        self.inAnimate++;
     };
 
     /**
@@ -783,6 +795,9 @@
                 evt.preventDefault();
             }
         }
+        if (this.holding || this.locking) {
+            return;
+        }
         var device = this.deviceEvents;
         this.isMoving = true;
         this.pause();
@@ -801,35 +816,36 @@
      *  @protected
      */
     iSliderPrototype.moveHandler = function (evt) {
-        if (this.isMoving) {
-            this.log('Event: moving');
-            var device = this.deviceEvents;
-            var len = this.data.length;
-            var axis = this.axis;
-            var reverseAxis = this.reverseAxis;
-            var offset = {
-                X: device.hasTouch ? (evt.targetTouches[0].pageX - this.startX) : (evt.pageX - this.startX),
-                Y: device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY)
-            };
+        if (!this.isMoving) {
+            return;
+        }
+        this.log('Event: moving');
+        var device = this.deviceEvents;
+        var len = this.data.length;
+        var axis = this.axis;
+        var reverseAxis = this.reverseAxis;
+        var offset = {
+            X: device.hasTouch ? (evt.targetTouches[0].pageX - this.startX) : (evt.pageX - this.startX),
+            Y: device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY)
+        };
 
-            this.offset = offset;
+        this.offset = offset;
 
-            if (Math.abs(offset[axis]) - Math.abs(offset[reverseAxis]) > 10) {
-                evt.preventDefault();
+        if (Math.abs(offset[axis]) - Math.abs(offset[reverseAxis]) > 10) {
+            evt.preventDefault();
 
-                this.fire('slide', evt, this);
+            this.fire('slide', evt, this);
 
-                if (!this.isLooping) {
-                    if (offset[axis] > 0 && this.slideIndex === 0 || offset[axis] < 0 && this.slideIndex === len - 1) {
-                        offset[axis] = this._damping(offset[axis]);
-                    }
+            if (!this.isLooping) {
+                if (offset[axis] > 0 && this.slideIndex === 0 || offset[axis] < 0 && this.slideIndex === len - 1) {
+                    offset[axis] = this._damping(offset[axis]);
                 }
+            }
 
-                for (var i = 0; i < 3; i++) {
-                    var item = this.els[i];
-                    item.style.webkitTransition = 'all 0s';
-                    this._animateFunc(item, axis, this.scale, i, offset[axis]);
-                }
+            for (var i = 0; i < 3; i++) {
+                var item = this.els[i];
+                item.style.webkitTransition = 'all 0s';
+                this._animateFunc(item, axis, this.scale, i, offset[axis]);
             }
         }
     };
@@ -840,6 +856,9 @@
      *  @protected
      */
     iSliderPrototype.endHandler = function (evt) {
+        if (!this.isMoving) {
+            return;
+        }
         this.log('Event: end');
         this.isMoving = false;
         var offset = this.offset;
@@ -861,7 +880,7 @@
                     return false;
                 }
             }
-            else if (el.className === 'islider-dom') {
+            else if (el.className !== 'islider-pic') {
                 return false;
             }
             else {
@@ -885,8 +904,8 @@
         if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10) {
             this.tapEvt = document.createEvent('Event');
             this.tapEvt.initEvent('tap', true, true);
-            if (this.fixPage && this.type === 'dom') {
-                getLink(evt.target);
+            if (this.fixPage) {
+                evt.target && getLink(evt.target);
             }
             if (!evt.target.dispatchEvent(this.tapEvt)) {
                 evt.preventDefault();
@@ -916,7 +935,14 @@
      *  @param {number} dataIndex the goto index
      *  @public
      */
-    iSliderPrototype.slideTo = function (dataIndex) {
+    iSliderPrototype.slideTo = function (dataIndex, opts) {
+        if (this.locking) {
+            return;
+        }
+        this.unhold();
+        var animateTime = this.animateTime;
+        var animateType = this._opts.animateType;
+        var animateFunc = this._animateFunc;
         var data = this.data;
         var els = this.els;
         var idx = dataIndex;
@@ -924,8 +950,15 @@
         var offset = this.offset;
         var eventType;
 
-        //In the slide process, animate time is squeezed
-        var squeezeTime = Math.abs(offset[this.axis]) / this.scale * this.animateTime;
+        if (typeof opts === 'object') {
+            if (opts.animateTime > -1) {
+                animateTime = opts.animateTime;
+            }
+            if (typeof opts.animateType === 'string' && opts.animateType in this._animateFuncs) {
+                animateType = opts.animateType;
+                animateFunc = this._animateFuncs[animateType];
+            }
+        }
 
         if (Math.abs(n) > 1) {
             this._renderItem(n > 0 ? this.els[2] : this.els[0], idx);
@@ -954,9 +987,7 @@
         var sEle;
         // TODO
         // Fix no animate ext
-        if (this.isVertical && (
-                this._opts.animateType === 'rotate' || this._opts.animateType === 'flip'
-            )) {
+        if (this.isVertical && (animateType === 'rotate' || animateType === 'flip')) {
             if (n > 0) {
                 sEle = els.pop();
                 els.unshift(sEle);
@@ -976,6 +1007,9 @@
                 els.unshift(sEle);
             }
         }
+
+        //In the slide process, animate time is squeezed
+        var squeezeTime = Math.abs(offset[this.axis]) / this.scale * animateTime;
 
         // slidechange should render new item
         // and change new item style to fit animation
@@ -998,7 +1032,7 @@
             }, 200);
 
             // Minus squeeze time
-            squeezeTime = this.animateTime - squeezeTime;
+            squeezeTime = animateTime - squeezeTime;
 
             eventType = 'slideChange';
         }
@@ -1013,11 +1047,9 @@
         // do the trick animation
         for (var i = 0; i < 3; i++) {
             if (els[i] !== sEle) {
-                els[i].style.webkitTransition = 'all ' + (
-                        squeezeTime / 1000
-                    ) + 's ' + this.animateEasing;
+                els[i].style.webkitTransition = 'all ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
             }
-            this._animateFunc(els[i], this.axis, this.scale, i, 0);
+            animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
         }
 
         // If not looping, stop playing when meet the end of data
@@ -1031,7 +1063,7 @@
      * @public
      */
     iSliderPrototype.slideNext = function () {
-        this.slideTo(this.slideIndex + 1);
+        this.slideTo.apply(this, [this.slideIndex + 1].concat(Array.prototype.slice.call(arguments)));
     };
 
     /**
@@ -1039,7 +1071,7 @@
      * @public
      */
     iSliderPrototype.slidePrev = function () {
-        this.slideTo(this.slideIndex - 1);
+        this.slideTo.apply(this, [this.slideIndex - 1].concat(Array.prototype.slice.call(arguments)));
     };
 
     /**
@@ -1103,11 +1135,7 @@
      */
     iSliderPrototype.on = function (eventName, func) {
         if (inArray(eventName, iSlider.EVENTS) && typeof func === 'function') {
-            (
-                eventName in this.events
-                    ? this.events[eventName]
-                    : this.events[eventName] = []
-            ).push(func);
+            (eventName in this.events ? this.events[eventName] : this.events[eventName] = []).push(func);
         }
     };
 
@@ -1189,6 +1217,44 @@
      */
     iSliderPrototype.pause = function () {
         clearInterval(this.autoPlayTimer);
+    };
+
+    /**
+     * Maintaining the current scene
+     * Disable touch events, except for the native method.
+     * @public
+     */
+    iSliderPrototype.hold = function () {
+        this.holding = true;
+    };
+
+    /**
+     * Release current scene
+     * unlock at same time
+     * @public
+     */
+    iSliderPrototype.unhold = function () {
+        this.holding = false;
+        this.unlock();
+    };
+
+    /**
+     * You can't do anything on this scene
+     * lock native method calls
+     * hold at same time
+     * @public
+     */
+    iSliderPrototype.lock = function () {
+        this.hold();
+        this.locking = true;
+    };
+
+    /**
+     * unlock native method calls
+     * @public
+     */
+    iSliderPrototype.unlock = function () {
+        this.locking = false;
     };
 
     /* CommonJS */
