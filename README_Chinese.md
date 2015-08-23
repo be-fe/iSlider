@@ -14,11 +14,8 @@ iSlider是一个表现出众，无任何插件依赖的手机平台JavaScript的
 - 优秀的性能，更少的内存占用;
 - 丰富的动画效果，并可自行扩展;
 - 自动播放，循环播放，水平/垂直滑动等众多参数功能皆可配置;
-- 可以按需加载需要的功能。
-- 可以自由设置的回调
-- 支持滑动衰减效果，循环滑动，自动播放，水平/垂直切换。
-- 支持图片预加载，改善用户体验。
-- 支持图片的缩放。
+- 可以按需加载需要的功能;
+- 多种可设置的回调方法;
 
 ## 移动端展示
 
@@ -33,26 +30,25 @@ Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/
 
 ## 开始使用 iSlider
 
-使用iSlider最简单的办法是查阅我们提供的简易例子。大代码存放在demo文件夹的文件里面。
+使用iSlider最简单的办法是查阅我们提供的简易例子，大代码存放在demo文件夹的文件里面。
 
-使用iSlider只需要准备好数据即可，无论是本地数据还是从接口获取的数据，例如：
-
-``` javascript
-var data = [
-	{content: "imgs/1.jpg"},
-	{content: "imgs/2.jpg"},
-	{content: "imgs/3.jpg"}
-];
-```
-
-创建一個容器:
+- 创建一個容器
 	
 ``` html
 <div id="iSlider-wrapper"></div>
 ```
 
+- 准备一些数据
 
-初始化一个iSlider实例:
+``` javascript
+var data = [
+    {content: "imgs/1.jpg"},
+    {content: "imgs/2.jpg"},
+    {content: "imgs/3.jpg"}
+];
+```
+
+- 初始化一个iSlider
 
 ``` javascript
 var islider = new iSlider({
@@ -61,7 +57,7 @@ var islider = new iSlider({
 });
 ```
 
-如果你想加入更多效果，可以在初始化时配置参数:
+如果你想加入更多效果，可以在初始化时配置参数
 
 ``` javascript
 var islider = new iSlider({
@@ -91,8 +87,10 @@ var data = [{
 }];
 ```
 
-上面的例子只是iSlider的基本用法，一些进阶功能可以参考[WIKI](https://github.com/BE-FE/iSlider/wiki/Notices)。
-下面是iSlider详细的选项配置列表:   
+一些进阶功能可以参考[WIKI](https://github.com/BE-FE/iSlider/wiki/Notices)
+
+### 下面是iSlider详细的选项配置列表
+
 <table>
 <thead>
 	<tr>
@@ -193,6 +191,7 @@ var data = [{
 	</tr>
 </tbody>
 </table>
+
 ## 联系我们
 对iSlider的使用有任何问题,或者发现bug,欢迎给我们反馈：
 [提交反馈](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
