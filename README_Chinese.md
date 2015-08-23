@@ -1,31 +1,38 @@
-#iSlider
+# iSlider
+
 #### [iSlider English Official Page](http://be-fe.github.io/iSlider/index_en.html)
 #### [iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
 #### [iSlider 中文官网](http://be-fe.github.io/iSlider/index.html)
 #### [iSlider Example](http://be-fe.github.io/iSlider/demo/)
 
-iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理大多数的滑动场景，例如图片或者DOM元素。目前支持以下特性：
+iSlider是一个表现出众，无任何插件依赖的手机平台JavaScript的滑动组件。
 
-* 性能好，体积小，占用内存小，核心代码仅500行。
-* 可以按需加载需要的功能。
-* 丰富的动画效果。
-* 可以设置回调函数(onslidestart, onslide, onslideend, onslidechange)。
-* 支持滑动衰减效果，循环滑动，自动播放，水平/垂直切换。
-* 支持图片预加载，改善用户体验。
-* 支持图片的缩放。
+它能够处理大多数的滑动场景，例如图片或者DOM元素。
 
-## iSlider移动端展示
+目前支持以下特性：
+
+- 优秀的性能，更少的内存占用;
+- 丰富的动画效果，并可自行扩展;
+- 自动播放，循环播放，水平/垂直滑动等众多参数功能皆可配置;
+- 可以按需加载需要的功能。
+- 可以自由设置的回调
+- 支持滑动衰减效果，循环滑动，自动播放，水平/垂直切换。
+- 支持图片预加载，改善用户体验。
+- 支持图片的缩放。
+
+## 移动端展示
 
 ![](qrcode.png)
 
 Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/index.html)
 
-## 如何获取
+## 获取 iSlider
 - 直接在Github网站进行下载
 - 如果使用bower进行包管理，可以使用 `bower install iSlider`进行安装.
 - 可以使用 `npm install islider.js`
 
-## 开始使用iSlider
+## 开始使用 iSlider
+
 使用iSlider最简单的办法是查阅我们提供的简易例子。大代码存放在demo文件夹的文件里面。
 
 使用iSlider只需要准备好数据即可，无论是本地数据还是从接口获取的数据，例如：
@@ -38,65 +45,54 @@ var data = [
 ];
 ```
 
-HTML代码如下:
+创建一個容器:
 	
-	<div id="iSlider-wrapper"></div>
+``` html
+<div id="iSlider-wrapper"></div>
+```
 
-要使其运行，按下面例子新建iSlider类: 
 
- 	<script type="text/javascript">
-    	var islider = new iSlider({
-    		dom : document.getElementById('iSlider-wrapper'),
-    		data : data
-    	});
-    </script>
+初始化一个iSlider实例:
 
-如果你想加其它效果，可以按照我们demo/picture示例添加:
-	
-	<script type="text/javascript">
-    	var islider = new iSlider({
-			    data: list,
-			    dom: document.getElementById("iSlider-wrapper"),
-			    isVertical: true,
-			    isLooping: false,
-			    isDebug: true,
-			    isAutoplay: false,
-			    animateType: 'rotate'
-		});
-    </script>
-	
+``` javascript
+var islider = new iSlider({
+    dom : document.getElementById('iSlider-wrapper'),
+    data : data
+});
+```
 
-That's it. 
+如果你想加入更多效果，可以在初始化时配置参数:
 
-<h2 id="configuration">配置iSlider</h2>
-除了上文提到的基本部署模式，你还可以自定义我们提供的特性。例如，如果你想滑动DOM元素而非图片，你可以按以下的格式新建DOM数据: 
+``` javascript
+var islider = new iSlider({
+    dom: document.getElementById("iSlider-wrapper"),
+    data: list,
+    isVertical: true,
+    isLooping: false,
+    isDebug: true,
+    isAutoplay: false,
+    animateType: 'rotate'
+});
+```
+
+That's it!
+
+## 定制您的 iSlider
+
+从2.X版本开始，iSlider将不再需要指定数据的类型“type”，而变化为更加智能的识别方式，您可以在列表中设置多种类型的数据，如图片、HTML、node或fragment
 
 ``` javascript
 var data = [{
-	'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
+    'content' : '<div><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome</p><div>'
 },{
-	'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
+    'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>'
 },{
-	'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
+    'content' : '<div><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p><div>'
 }];
 ```
-如果想实现介绍部份提到的效果，可以按以下格式设置: 
 
-	<script type="text/javascript">
-    	var islider = new iSlider({
-    		dom : document.getElementById('iSlider-wrapper'),
-    		data : data,
-    		duration: 2000,
-		    isVertical: true,
-		    isLooping: true,
-		    isDebug: true,
-		    isAutoplay: true
-    	});
-    </script>
-
-##  深入了解iSlider
 上面的例子只是iSlider的基本用法，一些进阶功能可以参考[WIKI](https://github.com/BE-FE/iSlider/wiki/Notices)。
-下面是iSlider选项配置的列表:   
+下面是iSlider详细的选项配置列表:   
 <table>
 <thead>
 	<tr>
