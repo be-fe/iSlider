@@ -102,7 +102,7 @@ var data = [{
 <tbody>
     <tr>
         <td colspan="3">
-            <caption>必要的</caption>
+            必要的
         </td>
     </tr>
     <tr>
@@ -121,7 +121,7 @@ var data = [{
     </tr>
     <tr>
         <td colspan="3">
-            <caption>配置项</caption>
+            配置项
         </td>
     </tr>
     <tr>
@@ -191,7 +191,7 @@ var data = [{
     </tr>
     <tr>
         <td colspan="3">
-            <caption>事件</caption>
+            事件
         </td>
     </tr>
     <tr>
@@ -228,6 +228,174 @@ var data = [{
         <td>onsliderestored</td>
         <td>{function}</td>
         <td>当场景未发生变化完成(回弹动画完成)时触发的回调函数</td>
+    </tr>
+</tbody>
+</table>
+
+## iSlider更多功能
+
+<table>
+<thead>
+    <tr>
+        <td>方法</td>
+        <td>参数</td>
+        <td>说明</td>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>
+            extend
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            regPlugin
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            slideTo
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            slideNext
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            slidePrev
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            delegate
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            bind
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            slideTo
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            on
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            off
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            fire
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            play
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            pause
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            extend
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            regPlugin
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            loadData
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            hold
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            unhold
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            lock
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            unlock
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            destroy
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            reset
+        </td>
+        <td></td>
+        <td></td>
     </tr>
 </tbody>
 </table>
