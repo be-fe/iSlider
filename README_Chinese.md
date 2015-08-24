@@ -33,7 +33,7 @@ Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/
 使用iSlider最简单的办法是查阅我们提供的简易例子，大代码存放在demo文件夹的文件里面。
 
 - 创建一個容器
-	
+    
 ``` html
 <div id="iSlider-wrapper"></div>
 ```
@@ -93,102 +93,133 @@ var data = [{
 
 <table>
 <thead>
-	<tr>
-		<td>选项</td>
-		<td>数值</td>
-		<td>解释</td>
-	</tr>
+    <tr>
+        <td>选项</td>
+        <td>类型</td>
+        <td>说明</td>
+    </tr>
 </thead>
 <tbody>
-	<tr>
-		<td>dom</td>
-		<td>HTML Object</td>
-		<td>包含图片或者DOM元素的包裹DOM元素</td>
-	</tr>
-	<tr>
-		<td>data</td>
-		<td>Array of Content(picture | html)</td>
-		<td>若是图片数据，格式如下:
-		<pre>
-[{
-	content:"pics/1.jpg"
-}]
-		</pre>
-		</td>
-	</tr>
-	<tr>
-		<td>type</td>
-		<td>String (pic | dom)</td>
-		<td>默认值是'pic', 也支持'dom'</td>
-	</tr>
-	<tr>
-		<td>duration</td>
-		<td>Integer (1000 == 1s)</td>
-		<td>每个图片滑动的间隔时间，仅限于自动滑动模式</td>
-	</tr>
-	<tr>
-        <td>animateType</td>
-        <td>String</td>
-        <td>目前支持默认default, rotate, depth, flow, flip and card</td>
+    <tr>
+        <td>dom*</td>
+        <td>{HTML Element}</td>
+        <td>容器节点</td>
     </tr>
-	<tr>
-		<td>onslide</td>
-		<td>Function</td>
-		<td>手指滑动时的回调函数</td>
-	</tr>
-	<tr>
-		<td>onslidestart</td>
-		<td>Function</td>
-		<td>手指触屏时的回调函数</td>
-	</tr>
-	<tr>
-		<td>onslideend</td>
-		<td>Function</td>
-		<td>手指离开屏幕时的回调函数</td>
-	</tr>
-	<tr>
-		<td>onslidechange</td>
-		<td>Function</td>
-		<td>自动滑动模式下当图片滑动时的回调函数</td>
-	</tr>
-	<tr>
-		<td>isDebug</td>
-		<td>Boolean (true | false)</td>
-		<td>开启/关闭调度模式</td>
-	</tr>
-	<tr>
-		<td>isLooping</td>
-		<td>Boolean (true | false)</td>
-		<td>开启/关闭循环模式</td>
-	</tr>
-	<tr>
-		<td>isAutoplay</td>
-		<td>Boolean (true | false)</td>
-		<td>开启/关闭自动滑动模式</td>
-	</tr>
-		<tr>
-		<td>isVertical</td>
-		<td>Boolean (true | fasle)</td>
-		<td>开启水平/垂直滑动模式</td>
-	</tr>
-	</tr>
-		<tr>
-		<td>isOverspread</td>
-		<td>Boolean (true | fasle)</td>
-		<td>是否平铺整个浏览器屏幕</td>
-	</tr>
-	</tr>
-		<tr>
-		<td>initIndex</td>
-		<td>Number</td>
-		<td>初始化内容在data中的索引值</td>
-	</tr>
-	</tr>
-		<tr>
-		<td>useZoom</td>
-		<td>Boolean (true | fasle)</td>
-		<td>是否开启图片缩放</td>
-	</tr>
+    <tr>
+        <td>data*</td>
+        <td>{array}</td>
+        <td>数据列表:
+        <pre>
+[{
+    content:'{url|HTML string|element|fragment}',
+}, ...]
+        </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>{string}</td>
+        <td>设置为'pic'将开启全局图图片预加载功能，默认:null(不开启)</td>
+    </tr>
+    <tr>
+        <td>duration</td>
+        <td>{number}</td>
+        <td>单位:毫秒，在自动播放模式中，设置每个场景的停留时间</td>
+    </tr>
+    <tr>
+        <td>animateType</td>
+        <td>{string}</td>
+        <td>动画效果，目前支持默认default, rotate, depth, flow, flip and card</td>
+    </tr>
+    <tr>
+        <td>animateTime</td>
+        <td>{number}</td>
+        <td>单位:毫秒，动画效果持续时间</td>
+    </tr>
+    <tr>
+        <td>animateEasing</td>
+        <td>{string}</td>
+        <td>动画效果曲线，支持linear, ease, ease-in, ease-out, ease-in-out以及自定义的cubic-bezier曲线</td>
+    </tr>
+    <caption>事件</caption>
+    <tr>
+        <td>onslide</td>
+        <td>{function}</td>
+        <td>手指滑动时的回调函数</td>
+    </tr>
+    <tr>
+        <td>onslidestart</td>
+        <td>{function}</td>
+        <td>手指触屏时的回调函数</td>
+    </tr>
+    <tr>
+        <td>onslideend</td>
+        <td>{function}</td>
+        <td>手指离开屏幕时的回调函数</td>
+    </tr>
+    <tr>
+        <td>onslidechange</td>
+        <td>{function}</td>
+        <td>当场景发生改变时触发的回调函数</td>
+    </tr>
+    <tr>
+        <td>onslidechanged</td>
+        <td>{function}</td>
+        <td>当场景改变完成(动画完成)时触发的回调函数</td>
+    </tr>
+    <tr>
+        <td>onsliderestore</td>
+        <td>{function}</td>
+        <td>当场景未发生变化时触发的回调函数</td>
+    </tr>
+    <tr>
+        <td>onsliderestored</td>
+        <td>{function}</td>
+        <td>当场景未发生变化完成(回弹动画完成)时触发的回调函数</td>
+    </tr>
+    <tr>
+        <td>isDebug</td>
+        <td>{boolean}</td>
+        <td>开启/关闭调试模式，会打印更多日志信息，默认:false(关闭)</td>
+    </tr>
+    <tr>
+        <td>isLooping</td>
+        <td>{boolean}</td>
+        <td>开启/关闭循环模式，默认:false(关闭)</td>
+    </tr>
+    <tr>
+        <td>isAutoplay</td>
+        <td>{boolean}</td>
+        <td>开启/关闭自动滑动模式，默认:false(关闭)</td>
+    </tr>
+    <tr>
+        <td>isVertical</td>
+        <td>{boolean}</td>
+        <td>开启水平/垂直滑动模式，默认:false(关闭)</td>
+    </tr>
+    <tr>
+        <td>isOverspread</td>
+        <td>{boolean}</td>
+        <td>如果场景为图片模式，是否平铺整个浏览器屏幕(CSS3背景)，默认:false(关闭)</td>
+    </tr>
+    <tr>
+        <td>initIndex</td>
+        <td>{number}</td>
+        <td>默认首屏所使用的数据列表索引</td>
+    </tr>
+    <tr>
+        <td>plugins</td>
+        <td>{array}</td>
+        <td>启用插件，可为插件名称列表：
+        <pre>
+['dot', 'button', 'zoompic', ...]
+        </pre>
+        当然，还可以这样写，支持传入更多的插件初始化参数
+        <pre>
+[..., ['zoompic', {zoomFactor: 2}], ...]
+        </pre>
+        </td>
+    </tr>
 </tbody>
 </table>
 
