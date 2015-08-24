@@ -101,19 +101,27 @@ var data = [{
 </thead>
 <tbody>
     <tr>
-        <td>dom*</td>
+        <td colspan="3">
+            <caption>必要的</caption>
+        </td>
+    </tr>
+    <tr>
+        <td>dom</td>
         <td>{HTML Element}</td>
         <td>容器节点</td>
     </tr>
     <tr>
-        <td>data*</td>
+        <td>data</td>
         <td>{array}</td>
         <td>数据列表:
-        <pre>
-[{
+        <pre>[{
     content:'{url|HTML string|element|fragment}',
-}, ...]
-        </pre>
+}, ...]</pre>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <caption>配置项</caption>
         </td>
     </tr>
     <tr>
@@ -140,42 +148,6 @@ var data = [{
         <td>animateEasing</td>
         <td>{string}</td>
         <td>动画效果曲线，支持linear, ease, ease-in, ease-out, ease-in-out以及自定义的cubic-bezier曲线</td>
-    </tr>
-    <caption>事件</caption>
-    <tr>
-        <td>onslide</td>
-        <td>{function}</td>
-        <td>手指滑动时的回调函数</td>
-    </tr>
-    <tr>
-        <td>onslidestart</td>
-        <td>{function}</td>
-        <td>手指触屏时的回调函数</td>
-    </tr>
-    <tr>
-        <td>onslideend</td>
-        <td>{function}</td>
-        <td>手指离开屏幕时的回调函数</td>
-    </tr>
-    <tr>
-        <td>onslidechange</td>
-        <td>{function}</td>
-        <td>当场景发生改变时触发的回调函数</td>
-    </tr>
-    <tr>
-        <td>onslidechanged</td>
-        <td>{function}</td>
-        <td>当场景改变完成(动画完成)时触发的回调函数</td>
-    </tr>
-    <tr>
-        <td>onsliderestore</td>
-        <td>{function}</td>
-        <td>当场景未发生变化时触发的回调函数</td>
-    </tr>
-    <tr>
-        <td>onsliderestored</td>
-        <td>{function}</td>
-        <td>当场景未发生变化完成(回弹动画完成)时触发的回调函数</td>
     </tr>
     <tr>
         <td>isDebug</td>
@@ -210,15 +182,52 @@ var data = [{
     <tr>
         <td>plugins</td>
         <td>{array}</td>
-        <td>启用插件，可为插件名称列表：
-        <pre>
-['dot', 'button', 'zoompic', ...]
-        </pre>
-        当然，还可以这样写，支持传入更多的插件初始化参数
-        <pre>
-[..., ['zoompic', {zoomFactor: 2}], ...]
-        </pre>
+        <td>
+            启用插件，可为插件名称列表：
+            <pre>['dot', 'button', 'zoompic', ...]</pre>
+            当然，还可以这样写，支持传入更多的插件初始化参数
+            <pre>[..., ['zoompic', {zoomFactor: 2}], ...]</pre>
         </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <caption>事件</caption>
+        </td>
+    </tr>
+    <tr>
+        <td>onslide</td>
+        <td>{function}</td>
+        <td>手指滑动时的回调函数</td>
+    </tr>
+    <tr>
+        <td>onslidestart</td>
+        <td>{function}</td>
+        <td>手指触屏时的回调函数</td>
+    </tr>
+    <tr>
+        <td>onslideend</td>
+        <td>{function}</td>
+        <td>手指离开屏幕时的回调函数</td>
+    </tr>
+    <tr>
+        <td>onslidechange</td>
+        <td>{function}</td>
+        <td>当场景发生改变时触发的回调函数</td>
+    </tr>
+    <tr>
+        <td>onslidechanged</td>
+        <td>{function}</td>
+        <td>当场景改变完成(动画完成)时触发的回调函数</td>
+    </tr>
+    <tr>
+        <td>onsliderestore</td>
+        <td>{function}</td>
+        <td>当场景未发生变化时触发的回调函数</td>
+    </tr>
+    <tr>
+        <td>onsliderestored</td>
+        <td>{function}</td>
+        <td>当场景未发生变化完成(回弹动画完成)时触发的回调函数</td>
     </tr>
 </tbody>
 </table>
