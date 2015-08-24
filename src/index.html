@@ -61,10 +61,18 @@
 <script src="js/plugins/zoompic.js"></script>
 <script>
     var list = [];
-    for (var i = 2; i <= 5; i++)
+    for (var i = 1; i <= 3; i++)
         list.push({content: './resource/imgs/random/' + i + '.jpg'});
 
-    list.push({content: '<div style="font-size:2em;color:white;text-align: center">HTML<a href="http://baidu.com">Link</a></div>'});
+
+    for (var i = 4; i <= 9; i++)
+        list.push({
+            content: '<div style="font-size:1.2em;color:white;"><img src="./resource/imgs/random/' + i + '.jpg"/><br />TEXT' + i + '</div>'
+        });
+
+    list.push({
+        content: '<div style="font-size:2em;color:white;text-align: center">HTML<a href="http://baidu.com">Link</a></div>'
+    });
 
     list.push({
         content: (function () {
@@ -86,10 +94,13 @@
         })()
     });
 
+    // var islider = new iSlider(document.getElementById("iSlider-wrapper"));
+
     var islider = new iSlider({
         // type: 'pic',
         data: list,
         dom: document.getElementById("iSlider-wrapper"),
+        // isVertical: true,
         isLooping: 1,
         isOverspread: 1,
         animateType: 'card',

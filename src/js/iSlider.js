@@ -61,18 +61,62 @@
     }
 
     /**
+     * Checck is url
+     * @param {string} url
+     * @returns {boolean}
+     */
+    function isUrl(url) {
+        if (/<\/?[^>]*>/g.test(url))
+            return false;
+
+        var regex = '^' +
+            '(((https|http|ftp|rtsp|mms):)?//)?' +
+            '(([0-9a-z_!~*\'().&=+$%-]+: )?[0-9a-z_!~*\'().&=+$%-]+@)?' +
+            '(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9a-z_!~*\'()-]+.)*([0-9a-z][0-9a-z-]{0,61})?[0-9a-z].[a-z]{2,6})?' +
+            '(:[0-9]{1,4})?' +
+            '([^\?#]+)?' +
+            '(\\\?[^#]+)?' +
+            '(#.+)?' +
+            '$';
+        return new RegExp(regex).test(url);
+    }
+
+    /**
      * @constructor
+     *
      * @param {Object} opts 参数集
      * @param {Element} opts.dom 外层元素 Outer wrapper
      * @param {Array} opts.data 数据列表 Content data
      */
     var iSlider = function (opts) {
+        // TODO. Will support simple param
+        // var iSlider = function (node, data, opts) {
+        //    switch (arguments.length) {
+        //        case 1:
+        //            if (Object.prototype.toString.call(arguments[1]) !== '[object Object]')
+        //                throw new Error('The argument must be an object');
+        //        case 2:
+        //            if (isArray(arguments[1])) {
+        //                var opts = {};
+        //                opts.dom = node;
+        //                opts.data = data;
+        //            } else {
+        //                var opts = data;
+        //                opts.dom = opts.dom || node;
+        //            }
+        //            break;
+        //        case 3:
+        //            opts.dom = opts.dom || node;
+        //            opts.data = opts.data || data;
+        //            break;
+        //    }
+
         if (!opts.dom) {
-            throw new Error('dom element can not be empty!');
+            throw new Error('Container can not be empty!');
         }
 
         if (!opts.data || !opts.data.length) {
-            throw new Error('data must be an array and must have more than one element!');
+            throw new Error('Data must be an array and must have more than one element!');
         }
 
         /**
@@ -480,7 +524,7 @@
         if (Boolean(content.nodeName) && Boolean(content.nodeType)) {
             return 'node';
         } else if (typeof content === 'string') {
-            if (/[^\?#]+\.(jpg|jpeg|jpe|png|bmp|gif|tiff|tga)\??[^#]*#?.*$/.test(content)) {
+            if (isUrl(content)) {
                 return 'pic';
             }
             return 'html';
