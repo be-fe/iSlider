@@ -67,7 +67,7 @@ var islider = new iSlider({
 
 #### 动画效果
 
-**如果你想加入更多效果，可以载入效果扩展库，并在初始化时配置参数，指定animateType**
+**如果您想加入更多效果，可以载入效果扩展库，并在初始化时配置参数，指定animateType**
 
 ``` html
 <script src="iSlider.min.js"></script>
