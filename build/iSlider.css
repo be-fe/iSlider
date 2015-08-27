@@ -3,7 +3,8 @@
  */
 .islider-pic,
 .islider-dom,
-.islider-html
+.islider-node,
+.islider-html,
 .islider-element {
     position: absolute;
     margin: 0;
