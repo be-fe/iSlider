@@ -5,6 +5,8 @@
 #### [iSlider 中文官网](http://be-fe.github.io/iSlider/index.html)
 #### [iSlider Example](http://be-fe.github.io/iSlider/demo/)
 
+![](thumbnails/logo.png)
+
 iSlider是一个轻量且高性能，无任何库依赖的跨平台滑动控件。
 
 它能够处理大多数的滑动场景，提供多种切换动画效果，展示多种类型的场景。
@@ -19,7 +21,7 @@ iSlider是一个轻量且高性能，无任何库依赖的跨平台滑动控件�
 
 ## 移动端展示
 
-![](qrcode.png)
+![](thumbnails/qrcode.png)
 
 Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/index.html)
 
