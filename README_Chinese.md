@@ -127,18 +127,18 @@ var data = [{
     'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>' // HTML
 },{
     'content' : (function () { // element
-                    var dom = document.createElement('div');
-                    dom.innerHTML = 'Element';
-                    return dom;
-                })()
+            var dom = document.createElement('div');
+            dom.innerHTML = 'Element';
+            return dom;
+        })()
 },{
-     'content' : (function () { // fragment
-                     var frag = document.createDocumentFragment();
-                     var dom = document.createElement('div');
-                     dom.innerHTML = 'Fragment';
-                     frag.appendChild(dom);
-                     return frag;
-                 })()
+    'content' : (function () { // fragment
+            var frag = document.createDocumentFragment();
+            var dom = document.createElement('div');
+            dom.innerHTML = 'Fragment';
+            frag.appendChild(dom);
+            return frag;
+        })()
 }];
 ```
 
@@ -168,10 +168,13 @@ var data = [{
     <tr>
         <td>data</td>
         <td>{array}</td>
-        <td>数据列表:
-        <pre>[{
-    content:'{url|HTML string|element|fragment}',
-}, ...]</pre>
+        <td>
+            数据列表:
+            <br>
+            [{
+                content:'{url|HTML string|element|fragment}',
+            },
+            ...]
         </td>
     </tr>
     <tr>
@@ -299,6 +302,11 @@ var data = [{
 </thead>
 <tbody>
     <tr>
+        <td colspan="3">
+            静态方法
+        </td>
+    </tr>
+    <tr>
         <td>
             extend
         </td>
@@ -324,6 +332,11 @@ var data = [{
         </td>
         <td>
             注册插件
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            实例方法
         </td>
     </tr>
     <tr>
@@ -380,9 +393,7 @@ var data = [{
         <td>
             bind
         </td>
-        <td>
-            -
-        </td>
+        <td></td>
         <td>
             delegate 的别名
         </td>
@@ -470,9 +481,7 @@ var data = [{
         <td>
             extend
         </td>
-        <td>
-            -
-        </td>
+        <td></td>
         <td>
             同iSlider.extend
         </td>
@@ -481,9 +490,7 @@ var data = [{
         <td>
             regPlugin
         </td>
-        <td>
-            -
-        </td>
+        <td></td>
         <td>
             同iSlider.regPlugin，注册的同时会自动加入激活的插件列表中，并自动执行初始化
         </td>
@@ -503,9 +510,7 @@ var data = [{
         <td>
             hold
         </td>
-        <td>
-            -
-        </td>
+        <td></td>
         <td>
             当前场景禁止手势
         </td>
@@ -514,9 +519,7 @@ var data = [{
         <td>
             unhold
         </td>
-        <td>
-            -
-        </td>
+        <td></td>
         <td>
             当前场景开启手势，同时解除锁定
         </td>
@@ -525,9 +528,7 @@ var data = [{
         <td>
             lock
         </td>
-        <td>
-            -
-        </td>
+        <td></td>
         <td>
             锁定当前场景，禁用sliceTo, slideNext, slidePrev方法，同时禁止手势
         </td>
@@ -536,9 +537,7 @@ var data = [{
         <td>
             unlock
         </td>
-        <td>
-            -
-        </td>
+        <td></td>
         <td>
             解除锁定
         </td>
@@ -547,9 +546,7 @@ var data = [{
         <td>
             destroy
         </td>
-        <td>
-            -
-        </td>
+        <td></td>
         <td>
             销毁当前iSlider实例，内存释放
         </td>
@@ -558,9 +555,7 @@ var data = [{
         <td>
             reset
         </td>
-        <td>
-            -
-        </td>
+        <td></td>
         <td>
             复位当前iSlider实例
         </td>
