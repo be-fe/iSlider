@@ -442,9 +442,9 @@
                 var config = {};
                 opts.plugins.forEach(function pluginConfigEach(plugin) {
                     if (isArray(plugin)) {
-                        config[plugin[0]] = plugin[1] || {};
+                        config[plugin[0]] = plugin.slice(1);
                     } else if (typeof plugin === 'string') {
-                        config[plugin] = {};
+                        config[plugin] = [];
                     }
                 });
                 return config;
@@ -471,8 +471,8 @@
                 this.log('[INIT PLUGIN]:', i, plugins[i]);
                 plugins[i]
                 && typeof plugins[i] === 'function'
-                && typeof plugins[i].call
-                && plugins[i].call(this, config[i]);
+                && typeof plugins[i].apply
+                && plugins[i].apply(this, config[i]);
             }
         }
     };
