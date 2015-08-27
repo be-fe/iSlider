@@ -30,7 +30,7 @@ Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/
 
 ## 开始使用 iSlider
 
-使用iSlider最简单的办法是查阅我们提供的简易例子，大代码存放在demo文件夹的文件里面。
+使用iSlider最简单的办法是查阅我们提供的简易例子，请浏览demo文件夹中的内容。
 
 #### 创建一個容器
     
