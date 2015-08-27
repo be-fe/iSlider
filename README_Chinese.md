@@ -1,5 +1,7 @@
 # iSlider
 
+![](thumbnails/logo.png)
+
 #### [iSlider English Official Page](http://be-fe.github.io/iSlider/index_en.html)
 #### [iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
 #### [iSlider 中文官网](http://be-fe.github.io/iSlider/index.html)
