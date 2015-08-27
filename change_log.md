@@ -1,4 +1,6 @@
-### 2.X alpha 2015-08-18
+### iSlider 2.0
+
+2015-08-18
 
 #### Optimization, bug fixes
 
@@ -46,3 +48,27 @@
     priority
     - hold << lock(hold)
     - unhold(unlock) >> unlock
+
+### iSlider 1.1.1
+- Add image preload, load one more image when slideChange and renderHTML.
+- Add scroll support, you can use origin scroll or iscroll in iSlider
+- Add tap event, avoid click 300ms delay
+- Add simple event bind, you can easy bind events without jQuery
+
+### iSlider 1.1.0
+- increased animation type , including(default, rotate, flip, depth, flow)
+- fixed interval looping bug (when window blur)
+- added overspread mode
+- added desktop support
+- optimized the code style
+
+### iSlider 1.0 beta
+- fixed orientationchange event
+- add those event onslide & onslidechange & onslidestart & onslideend
+- add parameter like isVerticle & isLooping & isAutoplay
+
+### iSlider 0.9 beta
+- Keep li elements in 3
+- Add damping effect when meeting the edge of the list
+- handle onorientationchange Event
+- Add layer slider not just pic slider
