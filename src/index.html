@@ -110,10 +110,10 @@
         // isDebug: 0,
         plugins: ['dot', 'button', ['zoompic', {zoomFactor: 2}]],
         onslide: function () {
-            console.log(arguments)
+            console.debug(arguments)
         },
         onslidechange: function () {
-            console.error(arguments, 'Change~ juse one time');
+            console.debug(arguments, 'Change~ juse one time');
             this.off('slideChange', arguments.callee);
         }
     });

@@ -1122,16 +1122,26 @@
      * Register plugin (run time mode)
      * @param {string} name
      * @param {function} plugin
-     * @param {Array} opts
+     * @param {...}
      * @public
      */
-    iSliderPrototype.regPlugin = function (name, plugin, opts) {
-        this._plugins[name] = this._plugins[name] || plugin;
+    iSliderPrototype.regPlugin = function () {
+        var args = Array.prototype.slice.call(arguments);
+        var name = args.shift(),
+            plugin = args[0];
+
+        if (!this._plugins.hasOwnProperty(name) && typeof plugin !== 'function') {
+            return;
+        }
+        if (typeof plugin === 'function') {
+            this._plugins[name] = plugin;
+            args.shift();
+        }
+
         // Auto enable and init plugin when at run time
         if (!inArray(name, this._opts.plugins)) {
-            opts = opts != null && isArray(opts) ? opts : [];
-            this._opts.plugins.push([].concat([name], opts));
-            typeof this._plugins[name] === 'function' && this._plugins[name].call(this, opts);
+            this._opts.plugins.push(args.length ? [].concat([name], args) : name);
+            typeof this._plugins[name] === 'function' && this._plugins[name].apply(this, args);
         }
     };
 

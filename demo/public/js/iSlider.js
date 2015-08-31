@@ -136,7 +136,7 @@
      * @type {Array}
      * @protected
      */
-    iSlider.EVENTS = 'slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored'.split(' ');
+    iSlider.EVENTS = 'slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored destroy'.split(' ');
 
     /**
      * Easing white list
@@ -1120,15 +1120,29 @@
 
     /**
      * Register plugin (run time mode)
-     * @param name
-     * @param plugin
+     * @param {string} name
+     * @param {function} plugin
+     * @param {...}
      * @public
      */
-    iSliderPrototype.regPlugin = function (name, plugin) {
-        this._plugins[name] = this._plugins[name] || plugin;
+    iSliderPrototype.regPlugin = function () {
+        var args = Array.prototype.slice.call(arguments);
+        var name = args.shift(),
+            plugin = args[0];
+
+        if (!this._plugins.hasOwnProperty(name) && typeof plugin !== 'function') {
+            return;
+        }
+        if (typeof plugin === 'function') {
+            this._plugins[name] = plugin;
+            args.shift();
+        }
+
         // Auto enable and init plugin when at run time
-        !inArray(name, this._opts.plugins) && this._opts.plugins.push(name);
-        typeof this._plugins[name] === 'function' && this._plugins[name]();
+        if (!inArray(name, this._opts.plugins)) {
+            this._opts.plugins.push(args.length ? [].concat([name], args) : name);
+            typeof this._plugins[name] === 'function' && this._plugins[name].apply(this, args);
+        }
     };
 
     /**
@@ -1161,6 +1175,8 @@
     iSliderPrototype.destroy = function () {
         var outer = this.outer;
         var device = this.deviceEvents;
+
+        this.fire('destroy');
 
         outer.removeEventListener(device.startEvt, this);
         outer.removeEventListener(device.moveEvt, this);
