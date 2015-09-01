@@ -89,6 +89,20 @@
             }
             var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i - 1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
             dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate' + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
+        },
+        'fade': function (dom, axis, scale, i, offset) {
+            if (offset > 0) {
+                dom.style.visibility = (i > 1) ? 'hidden' : 'visible';
+            }
+            else {
+                dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
+            }
+            offset = Math.abs(offset);
+            if (i === 1) {
+                dom.style.opacity = 1 - (offset / scale);
+            } else {
+                dom.style.opacity = offset / scale;
+            }
         }
     });
 })(this);
