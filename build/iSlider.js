@@ -613,6 +613,22 @@
     };
 
     /**
+     * Postponing the intermediate scene rendering
+     * until the target scene is completely rendered (render in event slideChanged)
+     * to avoid a jumpy feel when switching between scenes
+     * given that the distance of sliding is more than 1.
+     * e.g. ```this.slideTo(>+-1)```
+     *
+     * @private
+     */
+    iSliderPrototype._renderIntermediateScene = function () {
+        if (this._intermediateScene != null) {
+            this._renderItem.apply(this, this._intermediateScene);
+            this._intermediateScene = null;
+        }
+    };
+
+    /**
      * Apply styles on changed
      * @private
      */
@@ -741,11 +757,12 @@
             self.inAnimate--;
             self.log('Event:', 'watchTransitionEnd::stuck::release', self.inAnimate);
             if (self.inAnimate === 0) {
-                self.inAnimate = 0;
+                //self.inAnimate = 0;
                 if (eventType === 'slideChanged') {
                     self._changedStyles();
                 }
                 self.fire.apply(self, args);
+                self._renderIntermediateScene();
             }
             unWatch();
         };
@@ -1004,6 +1021,9 @@
             }
         }
 
+        //In the slide process, animate time is squeezed
+        var squeezeTime = Math.abs(offset[this.axis]) / this.scale * animateTime;
+
         if (Math.abs(n) > 1) {
             this._renderItem(n > 0 ? this.els[2] : this.els[0], idx);
         }
@@ -1028,51 +1048,47 @@
         this.log('Index:' + this.slideIndex);
 
         // keep the right order of items
-        var sEle;
-        // TODO
-        // Fix no animate ext
-        if (this.isVertical && (animateType === 'rotate' || animateType === 'flip')) {
-            if (n > 0) {
-                sEle = els.pop();
-                els.unshift(sEle);
-            }
-            else if (n < 0) {
-                sEle = els.shift();
-                els.push(sEle);
-            }
-        }
-        else {
-            if (n > 0) {
-                sEle = els.shift();
-                els.push(sEle);
-            }
-            else if (n < 0) {
-                sEle = els.pop();
-                els.unshift(sEle);
-            }
-        }
-
-        //In the slide process, animate time is squeezed
-        var squeezeTime = Math.abs(offset[this.axis]) / this.scale * animateTime;
+        var headEl, tailEl;
 
         // slidechange should render new item
         // and change new item style to fit animation
-        if (n !== 0) {
+        if (n === 0) {
+            // Restore to current scene
+            eventType = 'slideRestore';
+        } else {
+            // TODO
+            var ori = (this.isVertical && (animateType === 'rotate' || animateType === 'flip')) ^ (n > 0)
+            if (ori) {
+                els.push(els.shift());
+                headEl = els[2];
+                tailEl = els[0];
+            }
+            else {
+                els.unshift(els.pop());
+                headEl = els[0];
+                tailEl = els[2];
+            }
             // slide to next/prev scenes
-            if (Math.abs(n) > 1) {
-                this._renderItem(els[0], idx - 1);
-                this._renderItem(els[2], idx + 1);
+            //if (Math.abs(n) > 1) {
+            //    this._renderItem(els[0], idx - 1);
+            //    this._renderItem(els[2], idx + 1);
+            //}
+            //else
+            if (Math.abs(n) === 1) {
+                this._renderIntermediateScene();
+                this._renderItem(headEl, idx + n);
+            } else if (Math.abs(n) > 1) {
+                // this._renderItem(els[n < 0 ? 0 : 2], idx + n + (n < 0 ? -1 : 1));
+                this._renderItem(headEl, idx + (ori ? 1 : -1));
+                this._intermediateScene = [tailEl, idx + (ori ? -1 : 1)];
             }
-            else if (Math.abs(n) === 1) {
-                this._renderItem(sEle, idx + n);
-            }
-            sEle.style.webkitTransition = 'none';
-            sEle.style.visibility = 'hidden';
+            headEl.style.webkitTransition = 'none';
+            headEl.style.visibility = 'hidden';
 
             // TODO
             // ???
             setTimeout(function () {
-                sEle.style.visibility = 'visible';
+                headEl.style.visibility = 'visible';
             }, 200);
 
             // Minus squeeze time
@@ -1080,17 +1096,13 @@
 
             eventType = 'slideChange';
         }
-        else {
-            // Restore to current scene
-            eventType = 'slideRestore';
-        }
 
         this.fire(eventType, this.slideIndex, els[1], this);
         this._watchTransitionEnd(squeezeTime, eventType + 'd', this.slideIndex, els[1], this);
 
         // do the trick animation
         for (var i = 0; i < 3; i++) {
-            if (els[i] !== sEle) {
+            if (els[i] !== headEl) {
                 els[i].style.webkitTransition = 'all ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
             }
             animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
