@@ -852,7 +852,8 @@
     iSliderPrototype.startHandler = function (evt) {
         if (this.fixPage) {
             var target = evt.target;
-            if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+            var whiteList = ['SELECT', 'INPUT', 'TEXTAREA', 'BUTTON', 'LABEL'];
+            if (whiteList.indexOf(target.tagName) < 0) {
                 evt.preventDefault();
             }
         }
@@ -1267,6 +1268,7 @@
         this.slideIndex = initIndex || 0;
         this.data = data;
         this._renderHTML();
+        this._initPlugins();
         this.isAutoplay && this.play();
     };
 

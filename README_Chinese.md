@@ -240,6 +240,11 @@ var data = [{
         <td>默认首屏所使用的数据列表索引</td>
     </tr>
     <tr>
+        <td>fixPage</td>
+        <td>{boolean}</td>
+        <td>是否禁用垂直滚动和回弹效果，默认:true(开启)</td>
+    </tr>
+    <tr>
         <td>plugins</td>
         <td>{array}</td>
         <td>
