@@ -1,6 +1,6 @@
 ### iSlider 2.0
 
-2015-08-18
+2015-08-29
 
 #### Optimization, bug fixes
 
