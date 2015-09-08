@@ -191,17 +191,17 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
     <tr>
         <td>type</td>
         <td>{string}</td>
-        <td>Setting to `pic` will enable global images preload. Default: null (disabled)</td>
+        <td>Sets to `pic` will enable global images preload. Default: null (disabled)</td>
     </tr>
     <tr>
         <td>duration</td>
         <td>{number}</td>
-        <td>Setting the duration of each scene during auto-play mode. Unit: millis.</td>
+        <td>Sets the duration of each scene during auto-play mode. Unit: millis.</td>
     </tr>
     <tr>
         <td>animateType</td>
         <td>{string}</td>
-        <td>Setting the animation type. Currently it could be one of `default`, `rotate`, `depth`, `flow`, `flip` and `card`</td>
+        <td>Sets the animation type. Currently it could be one of `default`, `rotate`, `depth`, `flow`, `flip` and `card`</td>
     </tr>
     <tr>
         <td>animateTime</td>
@@ -221,95 +221,97 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
     <tr>
         <td>isLooping</td>
         <td>{boolean}</td>
-        <td>Turning on/off the loop mode. Default: false (turned off)</td>
+        <td>Turns on/off the loop mode. Default: false (turned off)</td>
     </tr>
     <tr>
         <td>isAutoplay</td>
         <td>{boolean}</td>
-        <td>Turning on/off the auto sliding mode. Default: false (turned off)</td>
+        <td>Turns on/off the auto sliding mode. Default: false (turned off)</td>
     </tr>
     <tr>
         <td>isVertical</td>
         <td>{boolean}</td>
-        <td>Setting vertical/horizontal sliding. Default: false (horizontal)</td>
+        <td>Sets vertical/horizontal sliding. Default: false (horizontal)</td>
     </tr>
     <tr>
         <td>isOverspread</td>
         <td>{boolean}</td>
-        <td>如果场景为图片模式，是否平铺整个浏览器屏幕(CSS3背景)，默认:false(关闭)</td>
+        <td>Makes the image overspread the whole viewport (as CSS3 `background-size: cover`),
+            if the scene mode is image. Default: false (disabled)</td>
     </tr>
     <tr>
         <td>initIndex</td>
         <td>{number}</td>
-        <td>默认首屏所使用的数据列表索引</td>
+        <td>Specifies an index as the default home scene</td>
     </tr>
     <tr>
         <td>plugins</td>
         <td>{array}</td>
         <td>
-            启用插件，可为插件名称列表：
-            <pre>['dot', 'button', 'zoompic', ...]</pre>
-            当然，还可以这样写，支持传入更多的插件初始化参数
-            <pre>[..., ['zoompic', {zoomFactor: 2}], ...]</pre>
+            Enables plugins. It could be a simply list of plugin names:
+            `['dot', 'button', 'zoompic', ...]`
+
+            Or, it could be a more complex list which can also contain init params for plugins:
+            `[..., ['zoompic', {zoomFactor: 2}], ...]`
         </td>
     </tr>
     <tr>
         <td colspan="3">
-            事件
+            Events
         </td>
     </tr>
     <tr>
         <td>onslide</td>
         <td>{function}</td>
-        <td>手指滑动时的回调函数</td>
+        <td>Gets called on sliding</td>
     </tr>
     <tr>
         <td>onslidestart</td>
         <td>{function}</td>
-        <td>手指触屏时的回调函数</td>
+        <td>Gets called when the sliding event starts</td>
     </tr>
     <tr>
         <td>onslideend</td>
         <td>{function}</td>
-        <td>手指离开屏幕时的回调函数</td>
+        <td>Gets called when the sliding event ends</td>
     </tr>
     <tr>
         <td>onslidechange</td>
         <td>{function}</td>
-        <td>当场景发生改变时触发的回调函数</td>
+        <td>Gets called when the scene gets changed</td>
     </tr>
     <tr>
         <td>onslidechanged</td>
         <td>{function}</td>
-        <td>当场景改变完成(动画完成)时触发的回调函数</td>
+        <td>Gets called post scene change (when the transition animation ends)</td>
     </tr>
     <tr>
         <td>onsliderestore</td>
         <td>{function}</td>
-        <td>当场景未发生变化时触发的回调函数</td>
+        <td>Gets called if scene restores</td>
     </tr>
     <tr>
         <td>onsliderestored</td>
         <td>{function}</td>
-        <td>当场景未发生变化完成(回弹动画完成)时触发的回调函数</td>
+        <td>Gets called post scene restore (when the rollback animation ends)</td>
     </tr>
 </tbody>
 </table>
 
-## iSlider更多功能
+## More of iSlider
 
 <table>
 <thead>
     <tr>
-        <td>方法</td>
-        <td>参数</td>
-        <td>说明</td>
+        <td>Methods</td>
+        <td>Params</td>
+        <td>Explanation</td>
     </tr>
 </thead>
 <tbody>
     <tr>
         <td colspan="3">
-            静态方法
+            Static methods
         </td>
     </tr>
     <tr>
@@ -317,14 +319,15 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             extend
         </td>
         <td>
-            [{object} 原对象(可选)]
+            [{object} The original Object (Optional)]
             <br>
-            {object} 新对象
+            {object} The new Object
         </td>
         <td>
-            当参数长度为1时，将参数对象继承到iSlider.prototype
+            When the length of params is 1, the param object will be extended to iSlider.prototype
             <br>
-            当参数长度为2时，将第二个对象继承到第一个
+            When the length is 2, use the second object as the param object, and extend all it's methods
+            to the first object.
         </td>
     </tr>
     <tr>
@@ -332,9 +335,9 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             regPlugin
         </td>
         <td>
-            {string} 插件名称
+            {string} Plugin name
             <br>
-            {function} 插件初始化方法
+            {function} Init method for a plugin
         </td>
         <td>
             注册插件
@@ -342,7 +345,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
     </tr>
     <tr>
         <td colspan="3">
-            实例方法
+            Instance methods
         </td>
     </tr>
     <tr>
@@ -350,12 +353,13 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             slideTo
         </td>
         <td>
-            {number} 数据列表索引
+            {number} index of a scene
             <br>
-            [{object} 临时配置(可选)]
+            [{object} one-off configuration (optional)]
         </td>
         <td>
-            滚动到第n个场景，可以在第二个参数设置配置信息，改变本次滑动的动画效果: animateTime animateType
+            Slide to the N scene. Using the one-off configuration param, the transition effect 
+            for this particular slide can be specified. i.e. animateTime, animateType
         </td>
     </tr>
     <tr>
@@ -363,10 +367,11 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             slideNext
         </td>
         <td>
-            [{object} 临时配置(可选)]
+            [{object} one-off configuration (optional)]
         </td>
         <td>
-            滚动到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
+            Slide to the next scene. The one-off configuration can be used to specify the 
+            transition effect. i.e. animateTime, animateType
         </td>
     </tr>
     <tr>
@@ -374,10 +379,11 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             slidePrev
         </td>
         <td>
-            [{object} 临时配置(可选)]
+            [{object} one-off configuration (optional)]
         </td>
         <td>
-            滚动到前一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
+            Slide to the previous scene. The one-off configration can be used to specify the 
+            transition effect. i.e. animateTime, animateType
         </td>
     </tr>
     <tr>
@@ -385,14 +391,14 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             delegate
         </td>
         <td>
-            {string} 事件名称
+            {string} event name
             <br>
-            {string} 选择器 (querySelectorAll)
+            {string} selector (same syntax as querySelectorAll)
             <br>
-            {function} 事件响应方法
+            {function} event hanlder method
         </td>
         <td>
-            在容器node上绑定代理事件
+            Bind event handler to a node container
         </td>
     </tr>
     <tr>
@@ -401,7 +407,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            delegate 的别名
+            Alias of delegate
         </td>
     </tr>
     <tr>
@@ -409,12 +415,12 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             on
         </td>
         <td>
-            {string} 事件
+            {string} event name
             <br>
-            {function} 回掉方法
+            {function} event handler method
         </td>
         <td>
-            在iSlider的事件中注册回掉方法
+            Register event handler for iSlider events
             <br>
             <ul>
                 <li>
@@ -446,12 +452,12 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             off
         </td>
         <td>
-            {string} 事件
+            {string} event name
             <br>
-            {function} 回掉方法
+            {function} event handler method
         </td>
         <td>
-            从iSlider的事件中移除回掉方法
+            Remove an event handler from the registered handlers for a specified event
         </td>
     </tr>
     <tr>
@@ -459,10 +465,10 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             fire
         </td>
         <td>
-            随相应事件变化
+            {string} event name
         </td>
         <td>
-            出发某个事件
+            Trigger an event manually
         </td>
     </tr>
     <tr>
@@ -471,7 +477,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            开始自动切换（必须在自动播放模式中）
+            Start auto-play (auto-play mode must be specified) 
         </td>
     </tr>
     <tr>
@@ -480,7 +486,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            暂停自动切换（必须在自动播放模式中）
+            Stop auto-play (auto-play mode must be specified)
         </td>
     </tr>
     <tr>
@@ -489,7 +495,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            同iSlider.extend
+            Equivalent to iSlider.extend
         </td>
     </tr>
     <tr>
@@ -498,7 +504,9 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            同iSlider.regPlugin，注册的同时会自动加入激活的插件列表中，并自动执行初始化
+            Equivalent to iSlider.regPlugin.
+            Once registered, the plugin will be added to the active plugin list,
+            and be initialized automatically.
         </td>
     </tr>
     <tr>
@@ -506,10 +514,10 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             loadData
         </td>
         <td>
-            {array} 数据列表
+            {array} list of data
         </td>
         <td>
-            载入数据列表
+            Loads a list of data
         </td>
     </tr>
     <tr>
@@ -518,7 +526,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            当前场景禁止手势
+            Prevents the scene from any gesture 
         </td>
     </tr>
     <tr>
@@ -527,7 +535,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            当前场景开启手势，同时解除锁定
+            Resumes and allows gesture on the current scene
         </td>
     </tr>
     <tr>
@@ -536,7 +544,8 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            锁定当前场景，禁用sliceTo, slideNext, slidePrev方法，同时禁止手势
+            Locks the current scene, disables `slideTo`, `slideNext` and `slidePrev` and also
+            disable all gestures.
         </td>
     </tr>
     <tr>
@@ -545,7 +554,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            解除锁定
+            Unlocks the scene
         </td>
     </tr>
     <tr>
@@ -554,7 +563,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            销毁当前iSlider实例，内存释放
+            Destroys the current iSlider instance, and frees memory
         </td>
     </tr>
     <tr>
@@ -563,15 +572,16 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
+            Resets the current iSlider instance
             复位当前iSlider实例
         </td>
     </tr>
 </tbody>
 </table>
 
-## 联系我们
-对iSlider的使用有任何问题,或者发现bug,欢迎给我们反馈：
-[提交反馈](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
+## Contact us
+Any feedback is most welcome if you have any question regarding iSlider or any bug is found:
+[Commit a feedback](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
 
 ## License (MIT)
 
