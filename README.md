@@ -127,7 +127,7 @@ From 2.x, iSlider no longer requires `type` to specify the data type. It can now
 
 ``` javascript
 var data = [{
-    'content' : './qrcode.png'  // 图片
+    'content' : './qrcode.png'  // picture
 },{
     'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>' // HTML
 },{
@@ -339,7 +339,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             {function} Init method for a plugin
         </td>
         <td>
-            注册插件
+            register plugin
         </td>
     </tr>
     <tr>
@@ -572,7 +572,6 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         <td></td>
         <td>
             Resets the current iSlider instance
-            复位当前iSlider实例
         </td>
     </tr>
 </tbody>
