@@ -73,7 +73,6 @@ var islider = new iSlider({
 #### Animations
 
 **If you want more effects, you can load the animation effect extensions, set up the configuration when initializing iSlider and specify `animationType`.**
-**如果您想加入更多效果，可以载入效果扩展库，并在初始化时配置参数，指定animateType**
 
 ``` html
 <script src="iSlider.min.js"></script>
@@ -249,10 +248,10 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         <td>{array}</td>
         <td>
             Enables plugins. It could be a simply list of plugin names:
-            `['dot', 'button', 'zoompic', ...]`
-
+            <pre>['dot', 'button', 'zoompic', ...]</pre>
+            <br>
             Or, it could be a more complex list which can also contain init params for plugins:
-            `[..., ['zoompic', {zoomFactor: 2}], ...]`
+            <pre>[..., ['zoompic', {zoomFactor: 2}], ...]</pre>
         </td>
     </tr>
     <tr>
