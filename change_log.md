@@ -49,6 +49,8 @@
     - hold << lock(hold)
     - unhold(unlock) >> unlock
 
+- Jumpy reader scene more smoother
+
 ### iSlider 1.1.1
 - Add image preload, load one more image when slideChange and renderHTML.
 - Add scroll support, you can use origin scroll or iscroll in iSlider

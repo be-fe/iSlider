@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
-    <title>Default 2.0</title>
+    <title>iSlider with plugin zoompic</title>
     <link href="../public/css/iSlider.css" rel="stylesheet">
     <style>
         body {
@@ -51,19 +51,21 @@
 </head>
 <body>
 <div id="iSlider-wrapper"></div>
-<div id="hidden-space" style="display:none">
-    <p style="font-size:3em;text-align: center;color:#04f512">A node in dom tree.</p>
-</div>
 <script type="text/javascript" src="../public/js/iSlider.js"></script>
+<script type="text/javascript" src="../public/js/iSlider.plugin.zoompic.js"></script>
 <script>
     var list = [
-        // picture
+        // picture 1
         {
-            content: './imgs/0.jpg'
+            content: './imgs/3.jpg'
         },
         // HTML String
         {
             content: '<div style="font-size:4em;color:white;text-align: center">HTML String</div>'
+        },
+        // picture 2
+        {
+            content: './imgs/1.jpg'
         },
         // element
         {
@@ -74,20 +76,9 @@
                 return dom;
             })()
         },
-        // fragment
+        // picture 3
         {
-            content: (function () {
-                var frag = document.createDocumentFragment();
-                var dom = document.createElement('div');
-                dom.innerHTML = 'Fragment';
-                dom.style.cssText = 'font-size:3em;color:rgb(230, 63, 230);';
-                frag.appendChild(dom);
-                return frag;
-            })()
-        },
-        // dom
-        {
-            content: document.querySelector('#hidden-space > p')
+            content: './imgs/2.jpg'
         }
     ];
 
@@ -95,15 +86,9 @@
         dom: document.getElementById('iSlider-wrapper'),
         data: list,
         isLooping: 1,
-        isOverspread: 1,
+        isOverspread: false,
         animateTime: 800, // ms
-        onslidechanged: function (index) {
-            console.log('[slideChanged] change to ' + index);
-        }
-    });
-
-    S.on('slideRestored', function (index) {
-        console.log('[slideRestored] no change, restore to ' + index);
+        plugins: [['zoompic', {zoomFactor: 3}]]
     });
 </script>
 </body>

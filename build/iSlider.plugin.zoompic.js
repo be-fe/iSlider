@@ -4,7 +4,21 @@
  * @modify shinate shine.wangrs@gmail.com
  */
 
-(function (global) {
+(function (global, factory) {
+    /* CommonJS */
+    if (typeof require === 'function' && typeof module === 'object' && module && typeof exports === 'object' && exports)
+        factory(global, require('iSlider'));
+    /* AMD */
+    else if (typeof define === 'function' && define['amd'])
+        define(['iSlider'], function (iSlider) {
+            factory(global, iSlider);
+        });
+    /* Global */
+    else
+        factory(global, global['iSlider']);
+
+})(window ? window : this, function (global, iSlider) {
+
     'use strict';
 
     var startHandlerOriginal = iSlider.prototype.startHandler;
@@ -15,7 +29,7 @@
      * Support 3D matrix translate
      * @type {boolean}
      */
-    var has3d = ('WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix());
+    var has3d = ('WebKitCSSMatrix' in global && 'm11' in new WebKitCSSMatrix());
 
     /**
      * Min scale
@@ -468,12 +482,12 @@
 
     }
 
-    global.iSlider.extend({
+    iSlider.extend({
         startHandler: startHandler,
         moveHandler: moveHandler,
         endHandler: endHandler
     });
 
-    global.iSlider && global.iSlider.regPlugin('zoompic', initZoom);
+    iSlider.regPlugin('zoompic', initZoom);
 
-})(this);
+});

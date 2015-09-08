@@ -1,11 +1,30 @@
-/*
- * @file   To create dots index on iSlider
- * @author xieyu33333
+/**
+ * To create dots index on iSlider
+ *
+ * @file dot.js
+ * @author BE-FE Team
+ *    xieyu33333 xieyu33333@gmail.com
+ *    shinate shine.wangrs@gmail.com
  */
-(function (global) {
+
+(function (global, factory) {
+    /* CommonJS */
+    if (typeof require === 'function' && typeof module === 'object' && module && typeof exports === 'object' && exports)
+        factory(require('iSlider'));
+    /* AMD */
+    else if (typeof define === 'function' && define['amd'])
+        define(['iSlider'], function (iSlider) {
+            factory(iSlider);
+        });
+    /* Global */
+    else
+        factory(global['iSlider']);
+
+})(window ? window : this, function (iSlider) {
+
     'use strict';
 
-    global.iSlider && global.iSlider.regPlugin('dot', function () {
+    iSlider && iSlider.regPlugin('dot', function () {
         var HANDLE = this;
         if (!HANDLE.isVertical) {
             var data = HANDLE.data;
@@ -41,4 +60,4 @@
             });
         }
     });
-})(this);
+});
