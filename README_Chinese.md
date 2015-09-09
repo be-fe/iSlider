@@ -1,11 +1,11 @@
 # iSlider
 
+![](thumbnails/logo.png)
+
 #### [iSlider English Official Page](http://be-fe.github.io/iSlider/index_en.html)
 #### [iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
 #### [iSlider 中文官网](http://be-fe.github.io/iSlider/index.html)
 #### [iSlider Example](http://be-fe.github.io/iSlider/demo/)
-
-![](thumbnails/logo.png)
 
 iSlider是一个轻量且高性能，无任何库依赖的跨平台滑动控件。
 
