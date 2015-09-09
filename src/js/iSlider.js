@@ -136,7 +136,7 @@
      * @type {Array}
      * @protected
      */
-    iSlider.EVENTS = 'slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored destroy'.split(' ');
+    iSlider.EVENTS = 'slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored reloadData destroy'.split(' ');
 
     /**
      * Easing white list
@@ -1268,7 +1268,7 @@
         this.slideIndex = initIndex || 0;
         this.data = data;
         this._renderHTML();
-        this._initPlugins();
+        this.fire('reloadData');
         this.isAutoplay && this.play();
     };
 

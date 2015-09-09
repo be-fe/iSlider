@@ -31,21 +31,27 @@
             var dots = [];
             var dotWrap = document.createElement('ul');
             dotWrap.className = 'islider-dot-wrap';
-            var fregment = document.createDocumentFragment();
-            for (var i = 0; i < data.length; i++) {
-                dots[i] = document.createElement('li');
-                dots[i].className = 'islider-dot';
-                dots[i].setAttribute('index', i);
-                if (i === HANDLE.slideIndex) {
-                    dots[i].className += ' active';
+
+            var renderDots = function renderDots() {
+                var fregment = document.createDocumentFragment();
+                for (var i = 0; i < data.length; i++) {
+                    dots[i] = document.createElement('li');
+                    dots[i].className = 'islider-dot';
+                    dots[i].setAttribute('index', i);
+                    if (i === HANDLE.slideIndex) {
+                        dots[i].className += ' active';
+                    }
+                    dots[i].onclick = function () {
+                        HANDLE.slideTo(parseInt(this.getAttribute('index'), 10));
+                    };
+                    fregment.appendChild(dots[i]);
                 }
-                dots[i].addEventListener('click', function () {
-                    var index = parseInt(this.getAttribute('index'), 10);
-                    HANDLE.slideTo(index);
-                });
-                fregment.appendChild(dots[i]);
-            }
-            dotWrap.appendChild(fregment);
+                dotWrap.innerHTML = '';
+                dotWrap.appendChild(fregment);
+            };
+
+            renderDots();
+
             HANDLE.wrap.parentNode.appendChild(dotWrap);
 
             HANDLE.on('slideChange', function () {
@@ -57,6 +63,12 @@
                         }
                     }
                 }
+            });
+
+            HANDLE.on('reloadData', function () {
+                data = this.data;
+                dots = [];
+                renderDots();
             });
         }
     });

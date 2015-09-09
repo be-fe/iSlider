@@ -439,6 +439,12 @@ var data = [{
                 <li>
                     slideRestored
                 </li>
+                <li>
+                    reloadData
+                </li>
+                <li>
+                    destroy
+                </li>
             </ul>
         </td>
     </tr>

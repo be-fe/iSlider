@@ -443,6 +443,12 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
                 <li>
                     slideRestored
                 </li>
+                <li>
+                    reloadData
+                </li>
+                <li>
+                    destroy
+                </li>
             </ul>
         </td>
     </tr>
