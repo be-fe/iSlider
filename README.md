@@ -31,14 +31,14 @@ You can either:
 
 - Download directly from Github
 - Run `bower install iSlider` if bower is used
-- Run `npm install islider.js` 
+- Run `npm install islider.js`
 
 ## Get started
 
 The easiest way to get your hands dirty is to have a try the cases that we offer. Please refer to the folder `demo/` for more information.
 
 #### Creating a container
-    
+
 ``` html
 <div id="iSlider-wrapper"></div>
 ```
@@ -188,7 +188,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
     </tr>
     <tr>
-        <td>type</td>
+        <td>type (Soon abandoned or renamed)</td>
         <td>{string}</td>
         <td>Sets to `pic` will enable global images preload. Default: null (disabled)</td>
     </tr>
@@ -357,7 +357,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             [{object} one-off configuration (optional)]
         </td>
         <td>
-            Slide to the N scene. Using the one-off configuration param, the transition effect 
+            Slide to the N scene. Using the one-off configuration param, the transition effect
             for this particular slide can be specified. i.e. animateTime, animateType
         </td>
     </tr>
@@ -369,7 +369,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             [{object} one-off configuration (optional)]
         </td>
         <td>
-            Slide to the next scene. The one-off configuration can be used to specify the 
+            Slide to the next scene. The one-off configuration can be used to specify the
             transition effect. i.e. animateTime, animateType
         </td>
     </tr>
@@ -381,7 +381,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             [{object} one-off configuration (optional)]
         </td>
         <td>
-            Slide to the previous scene. The one-off configration can be used to specify the 
+            Slide to the previous scene. The one-off configration can be used to specify the
             transition effect. i.e. animateTime, animateType
         </td>
     </tr>
@@ -482,7 +482,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            Start auto-play (auto-play mode must be specified) 
+            Start auto-play (auto-play mode must be specified)
         </td>
     </tr>
     <tr>
@@ -531,7 +531,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
         <td></td>
         <td>
-            Prevents the scene from any gesture 
+            Prevents the scene from any gesture
         </td>
     </tr>
     <tr>

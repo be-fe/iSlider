@@ -185,7 +185,7 @@ var data = [{
         </td>
     </tr>
     <tr>
-        <td>type</td>
+        <td>type (即将废弃或更名)</td>
         <td>{string}</td>
         <td>设置为'pic'将开启全局图图片预加载功能，默认:null(不开启)</td>
     </tr>
