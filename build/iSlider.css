@@ -1,25 +1,30 @@
 /**
  * @file iSlider.css
  */
-.islider-pic,
-.islider-dom,
-.islider-node,
-.islider-html,
-.islider-element {
-    position: absolute;
+.islider-outer {
+    display: block;
+    list-style: none;
     margin: 0;
     padding: 0;
-    top: 0;
-    left: 0;
     height: 100%;
     overflow: hidden;
 }
 
-.islider-pic {
+.islider-outer > li {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    overflow: hidden;
     display: -webkit-box;
     -webkit-box-pack: center;
+    box-pack: center;
     -webkit-box-align: center;
-    list-style: none;
+    box-align: center;
 }
 
 .islider-img > img {
@@ -36,7 +41,7 @@
     bottom: 0;
     margin: auto 0;
     display: block;
-    background-color: rgb(119, 119, 119);
+    background-color: #777777;
 }
 
 .islider-btn-outer.left {
@@ -51,12 +56,8 @@
     position: absolute;
     width: 50%;
     height: 50%;
-    border-top-width: 2px;
-    border-top-style: solid;
-    border-top-color: rgb(255, 255, 255);
-    border-left-width: 2px;
-    border-left-style: solid;
-    border-left-color: rgb(255, 255, 255);
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
     margin: auto;
     top: 0;
     bottom: 0;
@@ -66,10 +67,12 @@
 
 .islider-btn-outer.left > .islider-btn-inner {
     -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
 
 .islider-btn-outer.right > .islider-btn-inner {
     -webkit-transform: rotate(135deg);
+    transform: rotate(135deg);
 }
 
 .islider-dot-wrap {
@@ -91,13 +94,13 @@
     width: 0.8em;
     height: 0.8em;
     border-radius: 50%;
-    border: 1px solid rgb(255, 255, 255);
+    border: 1px solid #ffffff;
     list-style-type: none;
     margin: 5px;
 }
 
 .islider-dot.active {
-    background-color: #fff;
+    background-color: #ffffff;
 }
 
 .islider-loader {

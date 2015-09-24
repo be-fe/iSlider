@@ -649,22 +649,20 @@
         // initail ul element
         var outer = this.outer || document.createElement('ul');
         outer.className = 'islider-outer';
-        outer.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;margin:0;padding:0;list-style:none;';
 
-        //loading
+        // loading
         if (this.type === 'pic' && !this.loader && this.isLoading) {
             var loader = document.createElement('div');
             loader.className = 'islider-loader';
             this.loader = loader;
             this.wrap.appendChild(loader);
+            this.fire('loading');
         }
 
         // storage li elements, only store 3 elements to reduce memory usage
         this.els = [];
         for (var i = 0; i < 3; i++) {
             var li = document.createElement('li');
-            // li.className = this.type === 'dom' ? 'islider-dom' : 'islider-pic';
-            li.style.cssText = 'height:' + this.height + 'px;width:' + this.width + 'px;';
             this.els.push(li);
 
             // prepare style animation

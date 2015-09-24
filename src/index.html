@@ -11,44 +11,6 @@
             background: #333;
             overflow: hidden;
         }
-
-        /*ul wrapper*/
-        #iSlider-wrapper {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            position: absolute;
-        }
-
-        #iSlider-wrapper ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        #iSlider-wrapper li {
-            position: absolute;
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-pack: center;
-            -webkit-box-align: center;
-            list-style: none;
-        }
-
-        #iSlider-wrapper li img {
-            max-width: 100%;
-            max-height: 100%;
-        }
-
-        .islider-btn-outer {
-            z-index: 10000;
-        }
-
     </style>
 </head>
 
@@ -94,8 +56,6 @@
         })()
     });
 
-    // var islider = new iSlider(document.getElementById("iSlider-wrapper"));
-
     var islider = new iSlider({
         // type: 'pic',
         data: list,
@@ -103,7 +63,7 @@
         // isVertical: true,
         isLooping: 1,
         isOverspread: 1,
-        animateType: 'fade',
+        animateType: 'default',
         animateTime: 500,
         fixPage: 1,
         isDebug: 1,
