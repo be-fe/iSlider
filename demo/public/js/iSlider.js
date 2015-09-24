@@ -125,6 +125,13 @@
          */
         this._opts = opts;
 
+        /**
+         * listener
+         * @type {{}}
+         * @private
+         */
+        this._LSN = {};
+
         this._setting();
         this._renderHTML();
         this._initPlugins();
@@ -290,64 +297,137 @@
 
         var opts = this._opts;
 
-        // dom element wrapping content
+        /**
+         * dom element wrapping content
+         * @type {Element}
+         * @public
+         */
         this.wrap = opts.dom;
 
-        // your data
+        /**
+         * Data list
+         * @type {Array}
+         * @public
+         */
         this.data = opts.data;
 
         // default type
+        // TODO will be renamed
         this.type = opts.type || null;
 
-        // default slide direction
+        /**
+         * default slide direction
+         * @type {boolean}
+         * @public
+         */
         this.isVertical = opts.isVertical || false;
 
-        // Overspread mode
+        /**
+         * Overspread mode
+         * @type {boolean}
+         * @public
+         */
         this.isOverspread = opts.isOverspread || false;
 
-        // Play time gap
+        /**
+         * Play time gap
+         * @type {number}
+         * @public
+         */
         this.duration = opts.duration || 2000;
 
-        // start from initIndex or 0
+        /**
+         * start from initIndex or 0
+         * @type {number}
+         * @public
+         */
         this.initIndex = opts.initIndex || 0;
 
-        // touchstart prevent default to fixPage
-        if (opts.fixPage === undefined) {
-            this.fixPage = true;
-        }
-        else {
-            this.fixPage = opts.fixPage;
-        }
+        /**
+         * touchstart prevent default to fixPage
+         * @type {boolean}
+         * @public
+         */
+        this.fixPage = opts.fixPage || true;
 
-        // TODO
-        // in looping mode, will support index overflow
+        // When initIndex overflow
+        // TODO in looping mode, will support index overflow
         if (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
             this.initIndex = 0;
         }
 
+        /**
+         * slideIndex
+         * @type {number}
+         * @private
+         */
         this.slideIndex = this.slideIndex || this.initIndex || 0;
 
+        /**
+         * Axis
+         * @type {string}
+         * @public
+         */
         this.axis = this.isVertical ? 'Y' : 'X';
+
+        /**
+         * reverseAxis
+         * @type {string}
+         * @private
+         */
         this.reverseAxis = this.axis === 'Y' ? 'X' : 'Y';
 
+        /**
+         * Wrapper width
+         * @type {number}
+         * @private
+         */
         this.width = this.wrap.clientWidth;
+
+        /**
+         * Wrapper height
+         * @type {number}
+         * @private
+         */
         this.height = this.wrap.clientHeight;
+
+        /**
+         * Ratio height:width
+         * @type {number}
+         * @private
+         */
         this.ratio = this.height / this.width;
+
+        /**
+         * Scale, size rule
+         * @type {number}
+         * @private
+         */
         this.scale = this.isVertical ? this.height : this.width;
 
+        // TODO will be removed
         this.isLoading = opts.isLoading;
 
+        /**
+         * On slide offset position
+         * @type {{X: number, Y: number}}
+         * @private
+         */
         this.offset = this.offset || {X: 0, Y: 0};
 
-        // looping logic adjust
-        if (this.data.length < 2) {
-            this.isLooping = false;
-            this.isAutoPlay = false;
-        }
-        else {
-            this.isLooping = opts.isLooping || false;
-            this.isAutoplay = opts.isAutoplay || false;
-        }
+        /**
+         * looping logic adjust
+         * @type {boolean}
+         * @private
+         */
+        this.isLooping = this.data.length > 1 && opts.isLooping ? true : false;
+
+        /**
+         * autoplay logic adjust
+         * @type {boolean}
+         * @private
+         */
+        this.isAutoplay = this.data.length > 1 && opts.isAutoplay ? true : false;
 
         // little trick set, when you chooce tear & vertical same time
         // iSlider overspread mode will be set true autometicly
@@ -355,7 +435,11 @@
             this.isOverspread = true;
         }
 
-        // debug mode
+        /**
+         * Debug mode
+         * @type {function}
+         * @private
+         */
         this.log = opts.isDebug ? function () {
             global.console.log.apply(global.console, arguments);
         } : iSlider.EMPTY_FUNCTION;
@@ -371,21 +455,35 @@
          */
         this._animateFunc = this._animateFuncs[opts.animateType in this._animateFuncs ? opts.animateType : 'default'];
 
-        // set animate process time (ms), default: 300ms
+        /**
+         * animate process time (ms), default: 300ms
+         * @type {number}
+         * @public
+         */
         this.animateTime = opts.animateTime != null && opts.animateTime > -1 ? opts.animateTime : 300;
 
-        // set animate effects, default: ease
+        /**
+         * animate effects, default: ease
+         * @type {string}
+         * @public
+         */
         this.animateEasing =
             inArray(opts.animateEasing, iSlider.EASING[0])
             || iSlider.EASING[1].test(opts.animateEasing)
                 ? opts.animateEasing
                 : 'ease';
 
+        /**
+         * In slide animation
+         * @type {number}
+         * @private
+         */
         this.inAnimate = 0;
 
         /**
          * Fix touch/mouse events
          * @type {{hasTouch, startEvt, moveEvt, endEvt}}
+         * @private
          */
         this.deviceEvents = (function () {
             var hasTouch = !!(('ontouchstart' in global) || global.DocumentTouch && document instanceof global.DocumentTouch);
@@ -567,7 +665,7 @@
             item = this.data[dataIndex];
         }
 
-        var type = this.type != null ? this.type : item.type || (item.type = this._itemType(dataIndex));
+        var type = item.type || (item.type = this._itemType(dataIndex));
 
         this.log('[Render ITEM]:', type, dataIndex, item);
 
@@ -731,7 +829,7 @@
                 data[prevIndex].loaded = 1;
             }
 
-            setTimeout(function () {
+            global.setTimeout(function () {
                 self._preloadImg(idx);
             }, 200);
         }
@@ -803,6 +901,7 @@
         outer.addEventListener(device.endEvt, this);
 
         global.addEventListener('orientationchange', this);
+        global.addEventListener('resize', this);
 
         // Fix android device
         global.addEventListener('focus', this, false);
@@ -838,6 +937,9 @@
                 break;
             case 'blur':
                 this.pause();
+                break;
+            case 'resize':
+                this.resizeHandler();
                 break;
         }
     };
@@ -984,10 +1086,25 @@
      *  @protected
      */
     iSliderPrototype.orientationchangeHandler = function () {
-        setTimeout(function () {
+        global.setTimeout(function () {
             this.reset();
             this.log('Event: orientationchange');
         }.bind(this), 100);
+    };
+
+    /**
+     * resize callback
+     * @protected
+     */
+    iSliderPrototype.resizeHandler = function () {
+        if (this.height !== this.wrap.clientHeight || this.width !== this.wrap.clientWidth) {
+            this._LSN.resize && global.clearTimeout(this._LSN.resize);
+            this._LSN.resize = global.setTimeout(function () {
+                this.reset();
+                this.log('Event: resize');
+                this._LSN.resize && global.clearTimeout(this._LSN.resize);
+            }.bind(this), 500);
+        }
     };
 
     /**
@@ -1047,7 +1164,7 @@
         this.log('Index:' + this.slideIndex);
 
         // keep the right order of items
-        var headEl, tailEl;
+        var headEl, tailEl, step;
 
         // slidechange should render new item
         // and change new item style to fit animation
@@ -1055,38 +1172,33 @@
             // Restore to current scene
             eventType = 'slideRestore';
         } else {
-            // TODO
-            var ori = (this.isVertical && (animateType === 'rotate' || animateType === 'flip')) ^ (n > 0)
-            if (ori) {
+
+            if ((this.isVertical && (animateType === 'rotate' || animateType === 'flip')) ^ (n > 0)) {
                 els.push(els.shift());
                 headEl = els[2];
                 tailEl = els[0];
+                step = 1;
             }
             else {
                 els.unshift(els.pop());
                 headEl = els[0];
                 tailEl = els[2];
+                step = -1;
             }
-            // slide to next/prev scenes
-            //if (Math.abs(n) > 1) {
-            //    this._renderItem(els[0], idx - 1);
-            //    this._renderItem(els[2], idx + 1);
-            //}
-            //else
+
             if (Math.abs(n) === 1) {
                 this._renderIntermediateScene();
                 this._renderItem(headEl, idx + n);
             } else if (Math.abs(n) > 1) {
-                // this._renderItem(els[n < 0 ? 0 : 2], idx + n + (n < 0 ? -1 : 1));
-                this._renderItem(headEl, idx + (ori ? 1 : -1));
-                this._intermediateScene = [tailEl, idx + (ori ? -1 : 1)];
+                this._renderItem(headEl, idx + step);
+                this._intermediateScene = [tailEl, idx - step];
             }
+
             headEl.style.webkitTransition = 'none';
             headEl.style.visibility = 'hidden';
 
-            // TODO
-            // ???
-            setTimeout(function () {
+            // TODO ???
+            global.setTimeout(function () {
                 headEl.style.visibility = 'visible';
             }, 200);
 
@@ -1237,8 +1349,7 @@
         if (eventName in this.events) {
             var funcs = this.events[eventName];
             for (var i = 0; i < funcs.length; i++) {
-                // TODO
-                // will support custom context, now context is instance of iSlider
+                // TODO will support custom context, now context is instance of iSlider
                 typeof funcs[i] === 'function'
                 && funcs[i].apply
                 && funcs[i].apply(this, Array.prototype.slice.call(arguments, 1));

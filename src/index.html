@@ -57,7 +57,6 @@
     });
 
     var islider = new iSlider({
-        // type: 'pic',
         data: list,
         dom: document.getElementById("iSlider-wrapper"),
         // isVertical: true,
@@ -75,7 +74,8 @@
         onslidechange: function () {
             console.debug(arguments, 'Change~ juse one time');
             this.off('slideChange', arguments.callee);
-        }
+        },
+        isLoading: true
     });
 
     islider.on('slideChange', function () {
