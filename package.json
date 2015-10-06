@@ -1,8 +1,8 @@
 {
-  "name": "islider",
+  "name": "iSlider",
   "version": "2.0.0",
   "author": "qbatyqi",
-  "main": "build/iSlider.js",
+  "main": "build/iSlider.min.js",
   "description": "Smooth mobile touch slider for Mobile WebApp, HTML5 App, Hybrid App",
   "devDependencies": {
     "amdclean": "~2.4.0",
@@ -19,6 +19,11 @@
     "url": "git@github.com:BE-FE/iSlider.git"
   },
   "keywords": [
+    "smooth",
+    "hybrid",
+    "slide",
+    "animate",
+    "effect",
     "mobile",
     "iSlider.js",
     "javascript"
