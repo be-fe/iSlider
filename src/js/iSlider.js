@@ -156,6 +156,13 @@
     ];
 
     /**
+     * TAGS whitelist on fixpage mode
+     * @type {Array}
+     * @protected
+     */
+    iSlider.FIX_PAGE_TAGS = 'SELECT INPUT TEXTAREA BUTTON LABEL'.split(' ');
+
+    /**
      * The empty function
      * @private
      */
@@ -167,19 +174,18 @@
      * @public
      */
     iSlider.extend = function () {
-        if (!arguments.length) {
-            return;
-        }
+        var main, extend, args = arguments;
 
-        var main, extend;
-        switch (arguments.length) {
+        switch (args.length) {
+            case 0:
+                return;
             case 1:
                 main = iSlider.prototype;
-                extend = arguments[0];
+                extend = args[0];
                 break;
             case 2:
-                main = arguments[0];
-                extend = arguments[1];
+                main = args[0];
+                extend = args[1];
                 break;
         }
 
@@ -639,16 +645,24 @@
      */
     iSliderPrototype._renderItem = function (el, dataIndex) {
 
-        var item;
-        var html;
-        var len = this.data.length;
-        // var self = this;
+        var item, len = this.data.length;
 
         var insertImg = function () {
-            html = item.height / item.width > this.ratio
-                ? '<img height="' + this.height + '" src="' + item.content + '">'
-                : '<img width="' + this.width + '" src="' + item.content + '">';
-            el.innerHTML = html;
+
+            var simg = ' src="' + item.content + '"';
+
+            if (item.height / item.width > this.ratio) {
+                simg += ' height="' + el.clientHeight + '"';
+            } else {
+                simg += ' width="' + el.clientWidth + '"';
+            }
+
+            if (this.isOverspread) {
+                el.style.background = 'url(' + item.content + ') no-repeat 50% 50%/cover';
+                simg += ' style="display:block;opacity:0;height:100%;width:100%;"'
+            }
+
+            el.innerHTML = '<img' + simg + ' />';
         }.bind(this);
 
         // clean scene
@@ -673,22 +687,17 @@
 
         switch (type) {
             case 'pic':
-                if (!this.isOverspread) {
-                    if (item.height && item.width) {
-                        insertImg();
-                    }
-                    else {
-                        var currentImg = new Image();
-                        currentImg.src = item.content;
-                        currentImg.onload = function () {
-                            item.height = currentImg.height;
-                            item.width = currentImg.width;
-                            insertImg();
-                        };
-                    }
+                if (item.height && item.width) {
+                    insertImg();
                 }
                 else {
-                    el.style.background = 'url(' + item.content + ') no-repeat 50% 50%/cover';
+                    var currentImg = new Image();
+                    currentImg.src = item.content;
+                    currentImg.onload = function () {
+                        item.height = currentImg.height;
+                        item.width = currentImg.width;
+                        insertImg();
+                    };
                 }
                 break;
             case 'dom':
@@ -917,15 +926,15 @@
     iSliderPrototype.handleEvent = function (evt) {
         var device = this.deviceEvents;
         switch (evt.type) {
-            case device.startEvt:
+            case 'mousedown':
+                if (!(evt.button === 0 && evt.buttons === 1)) break;
+            case 'touchstart':
                 this.startHandler(evt);
                 break;
             case device.moveEvt:
                 this.moveHandler(evt);
                 break;
             case device.endEvt:
-                this.endHandler(evt);
-                break;
             case 'touchcancel':
                 this.endHandler(evt);
                 break;
@@ -951,9 +960,7 @@
      */
     iSliderPrototype.startHandler = function (evt) {
         if (this.fixPage) {
-            var target = evt.target;
-            var whiteList = ['SELECT', 'INPUT', 'TEXTAREA', 'BUTTON', 'LABEL'];
-            if (whiteList.indexOf(target.tagName) < 0) {
+            if (iSlider.FIX_PAGE_TAGS.indexOf(evt.target.tagName) < 0) {
                 evt.preventDefault();
             }
         }
@@ -1137,7 +1144,7 @@
             }
         }
 
-        //In the slide process, animate time is squeezed
+        // In the slide process, animate time is squeezed
         var squeezeTime = Math.abs(offset[this.axis]) / this.scale * animateTime;
 
         if (Math.abs(n) > 1) {

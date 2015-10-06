@@ -67,6 +67,7 @@
         fixPage: 1,
         isDebug: 1,
         // isDebug: 0,
+        // isLoading: true,
         plugins: ['dot', 'button', ['zoompic', {zoomFactor: 2}]],
         onslide: function () {
             console.debug(arguments)
@@ -74,8 +75,7 @@
         onslidechange: function () {
             console.debug(arguments, 'Change~ juse one time');
             this.off('slideChange', arguments.callee);
-        },
-        isLoading: true
+        }
     });
 
     islider.on('slideChange', function () {
