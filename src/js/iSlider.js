@@ -795,6 +795,7 @@
 
     /**
      *  preload img when slideChange
+     *  From current index +2, -2 scene
      *  @param {number} dataIndex means which image will be load
      *  @private
      */
@@ -1299,6 +1300,15 @@
     };
 
     /**
+     * TODO unbind, unDelegate
+     * remove event delegate from wrap
+     * @public
+     */
+    iSliderPrototype.unbind = iSliderPrototype.unDelegate = function (eventType, selector, callback) {
+
+    };
+
+    /**
      * removeEventListener to release the memory
      * @public
      */
@@ -1308,12 +1318,19 @@
 
         this.fire('destroy');
 
+        // Clear events
         outer.removeEventListener(device.startEvt, this);
         outer.removeEventListener(device.moveEvt, this);
         outer.removeEventListener(device.endEvt, this);
         global.removeEventListener('orientationchange', this);
         global.removeEventListener('focus', this);
         global.removeEventListener('blur', this);
+
+        // Clear timer
+        this._LSN.forEach(function clearTimerOnDestroy(timer) {
+            timer && global.clearTimeout(timer);
+        });
+
         this.wrap.innerHTML = '';
     };
 
@@ -1389,16 +1406,21 @@
     };
 
     /**
-     * enable autoplay
+     * Start autoplay
      * @public
      */
     iSliderPrototype.play = function () {
         var self = this;
-        var duration = this.duration;
-        clearInterval(this.autoPlayTimer);
-        this.autoPlayTimer = setInterval(function () {
-            self.slideTo(self.slideIndex + 1);
-        }, duration);
+        this._LSN.autoPlay && global.clearTimeout(this._LSN.autoPlay);
+
+        function play() {
+            self._LSN.autoPlay = setTimeout(function () {
+                self.slideNext();
+                play();
+            }, self.duration);
+        };
+
+        play();
     };
 
     /**
@@ -1406,7 +1428,7 @@
      * @public
      */
     iSliderPrototype.pause = function () {
-        clearInterval(this.autoPlayTimer);
+        this._LSN.autoPlay && clearTimeout(this._LSN.autoPlay);
     };
 
     /**
