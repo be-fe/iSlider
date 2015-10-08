@@ -794,7 +794,11 @@
 
         this._changedStyles();
 
-        this._initLoadImg();
+        // Preload picture [ may be pic :) ]
+        global.setTimeout(function () {
+            this._preloadImg(this.slideIndex);
+        }.bind(this), 200);
+
         // append ul to div#canvas
         if (!this.outer) {
             this.outer = outer;
@@ -803,11 +807,10 @@
     };
 
     /**
-     * TODO Will be fixed
-     *  preload img when slideChange
-     *  From current index +2, -2 scene
-     *  @param {number} dataIndex means which image will be load
-     *  @private
+     * Preload img when slideChange
+     * From current index +2, -2 scene
+     * @param {number} dataIndex means which image will be load
+     * @private
      */
     iSliderPrototype._preloadImg = function (dataIndex) {
         if (this.data.length > 3) {
@@ -822,6 +825,7 @@
                     preloadImg.onload = function () {
                         item.width = preloadImg.width;
                         item.height = preloadImg.height;
+                        console.error(item);
                     };
                     item.loaded = 1;
                 }
