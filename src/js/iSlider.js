@@ -347,7 +347,7 @@
          * @type {number}
          * @public
          */
-        this.initIndex = opts.initIndex || 0;
+        this.initIndex = opts.initIndex > 0 && opts.initIndex < opts.data.length - 1 ? opts.initIndex : 0;
 
         /**
          * touchstart prevent default to fixPage
@@ -355,12 +355,6 @@
          * @public
          */
         this.fixPage = opts.fixPage || true;
-
-        // When initIndex overflow
-        // TODO in looping mode, will support index overflow
-        if (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
-            this.initIndex = 0;
-        }
 
         /**
          * slideIndex
@@ -615,26 +609,39 @@
     };
 
     /**
-     *
+     * Get item type
      * @param {number} index
      * @returns {string}
      * @private
      */
-    iSliderPrototype._itemType = function (dataIndex) {
-        var content = this.data[dataIndex].content;
+    iSliderPrototype._itemType = function (item) {
+        if (!isNaN(item)) {
+            item = this.data[item];
+        }
+        if (item.hasOwnProperty('type')) {
+            return item.type;
+        }
+        var content = item.content;
+        var type;
         if (content == null) {
-            return 'empty';
-        }
-        if (Boolean(content.nodeName) && Boolean(content.nodeType)) {
-            return 'node';
-        } else if (typeof content === 'string') {
-            if (isUrl(content)) {
-                return 'pic';
-            }
-            return 'html';
+            type = 'empty';
         } else {
-            return 'unknown';
+            if (Boolean(content.nodeName) && Boolean(content.nodeType)) {
+                type = 'node';
+            } else if (typeof content === 'string') {
+                if (isUrl(content)) {
+                    type = 'pic';
+                } else {
+                    type = 'html';
+                }
+            } else {
+                type = 'unknown';
+            }
         }
+
+        item.type = type;
+
+        return type;
     };
 
     /**
@@ -679,7 +686,7 @@
             item = this.data[dataIndex];
         }
 
-        var type = item.type || (item.type = this._itemType(dataIndex));
+        var type = this._itemType(item);
 
         this.log('[Render ITEM]:', type, dataIndex, item);
 
@@ -696,6 +703,7 @@
                     currentImg.onload = function () {
                         item.height = currentImg.height;
                         item.width = currentImg.width;
+                        item.loaded = 1;
                         insertImg();
                     };
                 }
@@ -706,6 +714,7 @@
                 break;
             case 'node':
             case 'element':
+                // fragment, create container
                 if (item.content.nodeType === 11) {
                     var entity = document.createElement('div');
                     entity.appendChild(item.content);
@@ -794,35 +803,39 @@
     };
 
     /**
+     * TODO Will be fixed
      *  preload img when slideChange
      *  From current index +2, -2 scene
      *  @param {number} dataIndex means which image will be load
      *  @private
      */
     iSliderPrototype._preloadImg = function (dataIndex) {
-        if (this.type === 'pic' && this.data.length > 3) {
+        if (this.data.length > 3) {
             var data = this.data;
             var len = data.length;
-            var loadImg = function (index) {
-                if (index > -1 && data[index].type === 'pic' && !data[index].loaded) {
+            var self = this;
+            var loadImg = function preloadImgLoadingProcess(index) {
+                var item = data[index];
+                if (self._itemType(item) === 'pic' && !item.loaded) {
                     var preloadImg = new Image();
-                    preloadImg.src = data[index].content;
+                    preloadImg.src = item.content;
                     preloadImg.onload = function () {
-                        data[index].width = preloadImg.width;
-                        data[index].height = preloadImg.height;
+                        item.width = preloadImg.width;
+                        item.height = preloadImg.height;
                     };
-                    data[index].loaded = 1;
+                    item.loaded = 1;
                 }
             };
 
-            loadImg(dataIndex + 2 > len - 1 ? ((dataIndex + 2) % len) : (dataIndex + 2));
-            loadImg(dataIndex - 2 < 0 ? (len - 2 + dataIndex) : (dataIndex - 2));
+            loadImg((dataIndex + 2) % len);
+            loadImg((dataIndex - 2 + len) % len);
         }
     };
 
     /**
-     *  load extra imgs when renderHTML
-     *  @private
+     * TODO will be fixed
+     * load extra imgs when renderHTML
+     * @private
      */
     iSliderPrototype._initLoadImg = function () {
         var data = this.data;
