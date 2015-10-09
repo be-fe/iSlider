@@ -62,11 +62,26 @@ var data = [
 #### Initializing a iSlider
 
 ``` javascript
+var islider = new iSlider(document.getElementById('iSlider-wrapper'), data);
+```
+
+you can also
+
+``` javascript
 var islider = new iSlider({
     dom : document.getElementById('iSlider-wrapper'),
     data : data
 });
 ```
+
+``` javascript
+var islider = new iSlider(document.getElementById('iSlider-wrapper'), data, {
+    dom : document.getElementById('iSlider-wrapper'),
+    data : data
+});
+```
+
+***Options properties precedence over parameters***
 
 ### Extending iSlider
 
@@ -189,8 +204,8 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
     </tr>
     <tr>
         <td>type (Soon abandoned or renamed)</td>
-        <td>{string}</td>
-        <td>Sets to `pic` will enable global images preload. Default: null (disabled)</td>
+        <td>-</td>
+        <td>-</td>
     </tr>
     <tr>
         <td>duration</td>

@@ -59,11 +59,26 @@ var data = [
 #### 初始化一个iSlider
 
 ``` javascript
+var islider = new iSlider(document.getElementById('iSlider-wrapper'), data});
+```
+
+也可以
+
+``` javascript
 var islider = new iSlider({
     dom : document.getElementById('iSlider-wrapper'),
     data : data
 });
 ```
+
+``` javascript
+var islider = new iSlider(document.getElementById('iSlider-wrapper'), data, {
+    dom : document.getElementById('iSlider-wrapper'),
+    data : data
+});
+```
+
+***配置对象属性的优先级高于参数***
 
 ### iSlider 扩展
 
@@ -185,9 +200,9 @@ var data = [{
         </td>
     </tr>
     <tr>
-        <td>type (即将废弃或更名)</td>
-        <td>{string}</td>
-        <td>设置为'pic'将开启全局图图片预加载功能，默认:null(不开启)</td>
+        <td>type (已废弃)</td>
+        <td>-</td>
+        <td>-</td>
     </tr>
     <tr>
         <td>duration</td>
