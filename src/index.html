@@ -56,29 +56,30 @@
         })()
     });
 
-    var islider = new iSlider({
-        data: list,
-        dom: document.getElementById("iSlider-wrapper"),
-        // isVertical: true,
-        isLooping: 1,
-        isOverspread: 1,
-        animateType: 'default',
-        animateTime: 500,
-        fixPage: 1,
-        isDebug: 1,
-        // isDebug: 0,
-        // isLoading: true,
-        // isAutoplay: true,
-        // duration: 5000,
-        plugins: ['dot', 'button', ['zoompic', {zoomFactor: 2}]],
-        onslide: function () {
-            console.debug(arguments)
-        },
-        onslidechange: function () {
-            console.debug(arguments, 'Change~ juse one time');
-            this.off('slideChange', arguments.callee);
-        }
-    });
+    var islider = new iSlider(
+            document.getElementById("(Ō̥̥̥̥̥̥̥ ԑ Ō̥̥̥̥̥̥̥ )"), list, {
+                // data: list
+                dom: document.getElementById("iSlider-wrapper"),
+                // isVertical: true,
+                isLooping: 1,
+                isOverspread: 1,
+                animateType: 'default',
+                animateTime: 500,
+                fixPage: 1,
+                isDebug: 1,
+                // isDebug: 0,
+                // isLoading: true,
+                // isAutoplay: true,
+                // duration: 5000,
+                plugins: ['dot', 'button', ['zoompic', {zoomFactor: 2}]],
+                onslide: function () {
+                    console.debug(arguments)
+                },
+                onslidechange: function () {
+                    console.debug(arguments, 'Change~ juse one time');
+                    this.off('slideChange', arguments.callee);
+                }
+            });
 
     islider.on('slideChange', function () {
         console.debug('Change event from method "on"', this, arguments);

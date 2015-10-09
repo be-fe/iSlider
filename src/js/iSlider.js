@@ -84,32 +84,29 @@
     /**
      * @constructor
      *
-     * @param {Object} opts 参数集
-     * @param {Element} opts.dom 外层元素 Outer wrapper
-     * @param {Array} opts.data 数据列表 Content data
+     * iSlicer([[{Element} container,] {Array} datalist,] {object} options)
+     *
+     * @param {Element} container
+     * @param {Array} datalist
+     * @param {Object} options
+     *
+     * @description
+     *  options.dom > container
+     *  options.data > datalist
      */
-    var iSlider = function (opts) {
-        // TODO. Will support simple param
-        // var iSlider = function (node, data, opts) {
-        //    switch (arguments.length) {
-        //        case 1:
-        //            if (Object.prototype.toString.call(arguments[1]) !== '[object Object]')
-        //                throw new Error('The argument must be an object');
-        //        case 2:
-        //            if (isArray(arguments[1])) {
-        //                var opts = {};
-        //                opts.dom = node;
-        //                opts.data = data;
-        //            } else {
-        //                var opts = data;
-        //                opts.dom = opts.dom || node;
-        //            }
-        //            break;
-        //        case 3:
-        //            opts.dom = opts.dom || node;
-        //            opts.data = opts.data || data;
-        //            break;
-        //    }
+    var iSlider = function () {
+
+        var args = Array.prototype.slice.call(arguments, 0, 3);
+        if (!args.length) {
+            throw new Error('Parameters required!');
+        }
+        var opts = args.pop();
+        switch (args.length) {
+            case 2:
+                opts.data = opts.data || args[1];
+            case 1:
+                opts.dom = opts.dom || args[0];
+        }
 
         if (!opts.dom) {
             throw new Error('Container can not be empty!');
@@ -132,8 +129,12 @@
          */
         this._LSN = {};
 
+        opts = args = null;
+
         this._setting();
-        this._renderHTML();
+
+        this.fire('initialize');
+        this._renderWrapper();
         this._initPlugins();
         this._bindHandler();
     };
@@ -143,7 +144,7 @@
      * @type {Array}
      * @protected
      */
-    iSlider.EVENTS = 'slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored reloadData destroy'.split(' ');
+    iSlider.EVENTS = 'initialize slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored reloadData destroy'.split(' ');
 
     /**
      * Easing white list
@@ -317,10 +318,6 @@
          */
         this.data = opts.data;
 
-        // default type
-        // TODO will be renamed
-        this.type = opts.type || null;
-
         /**
          * default slide direction
          * @type {boolean}
@@ -404,9 +401,6 @@
          * @private
          */
         this.scale = this.isVertical ? this.height : this.width;
-
-        // TODO will be removed
-        this.isLoading = opts.isLoading;
 
         /**
          * On slide offset position
@@ -760,20 +754,11 @@
      * render list html
      * @private
      */
-    iSliderPrototype._renderHTML = function () {
+    iSliderPrototype._renderWrapper = function () {
         this.outer && (this.outer.innerHTML = '');
         // initail ul element
         var outer = this.outer || document.createElement('ul');
         outer.className = 'islider-outer';
-
-        // loading
-        if (this.type === 'pic' && !this.loader && this.isLoading) {
-            var loader = document.createElement('div');
-            loader.className = 'islider-loader';
-            this.loader = loader;
-            this.wrap.appendChild(loader);
-            this.fire('loading');
-        }
 
         // storage li elements, only store 3 elements to reduce memory usage
         this.els = [];
@@ -825,7 +810,6 @@
                     preloadImg.onload = function () {
                         item.width = preloadImg.width;
                         item.height = preloadImg.height;
-                        console.error(item);
                     };
                     item.loaded = 1;
                 }
@@ -833,32 +817,6 @@
 
             loadImg((dataIndex + 2) % len);
             loadImg((dataIndex - 2 + len) % len);
-        }
-    };
-
-    /**
-     * TODO will be fixed
-     * load extra imgs when renderHTML
-     * @private
-     */
-    iSliderPrototype._initLoadImg = function () {
-        var data = this.data;
-        var len = data.length;
-        var idx = this.slideIndex;
-        var self = this;
-
-        if (this.type === 'pic' && len > 3) {
-            var nextIndex = (idx + 2 > len) ? ((idx + 1) % len) : (idx + 1);
-            var prevIndex = (idx - 1 < 0) ? (len - 1 + idx) : (idx - 1);
-            data[idx].loaded = 1;
-            data[nextIndex].loaded = 1;
-            if (self.isLooping) {
-                data[prevIndex].loaded = 1;
-            }
-
-            global.setTimeout(function () {
-                self._preloadImg(idx);
-            }, 200);
         }
     };
 
@@ -1222,7 +1180,6 @@
             headEl.style.webkitTransition = 'none';
             headEl.style.visibility = 'hidden';
 
-            // TODO ???
             global.setTimeout(function () {
                 headEl.style.visibility = 'visible';
             }, 200);
@@ -1405,7 +1362,7 @@
     iSliderPrototype.reset = function () {
         this.pause();
         this._setting();
-        this._renderHTML();
+        this._renderWrapper();
         this.isAutoplay && this.play();
     };
 
@@ -1417,7 +1374,7 @@
         this.pause();
         this.slideIndex = initIndex || 0;
         this.data = data;
-        this._renderHTML();
+        this._renderWrapper();
         this.fire('reloadData');
         this.isAutoplay && this.play();
     };
