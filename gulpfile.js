@@ -9,19 +9,17 @@ var clean = require('gulp-clean');
 var CONFIG = {
     src: './src',
     demo: './demo/public',
-    test: './test/public',
     build: './build'
 };
 
 gulp.task('clean', function () {
-    gulp.src([CONFIG.demo + '/*', CONFIG.test + '/*', CONFIG.build + '/*'], {read: false})
+    gulp.src([CONFIG.demo + '/*', CONFIG.build + '/*'], {read: false})
         .pipe(clean());
 });
 
 gulp.task('css', function () {
     gulp.src([CONFIG.src + '/style/iSlider.css'])
         .pipe(gulp.dest(CONFIG.demo + '/css'))
-        .pipe(gulp.dest(CONFIG.test + '/css'))
         .pipe(gulp.dest(CONFIG.build))
         .pipe(cssmin())
         .pipe(rename({
@@ -33,7 +31,6 @@ gulp.task('css', function () {
 gulp.task('iSlider', function () {
     return gulp.src(['src/js/iSlider.js'])
         .pipe(gulp.dest(CONFIG.demo + '/js'))
-        .pipe(gulp.dest(CONFIG.test + '/js'))
         .pipe(gulp.dest(CONFIG.build))
         .pipe(uglify())
         .pipe(rename({
@@ -48,7 +45,6 @@ gulp.task('externals', function () {
             path.basename = "iSlider." + path.basename;
         }))
         .pipe(gulp.dest(CONFIG.demo + '/js'))
-        .pipe(gulp.dest(CONFIG.test + '/js'))
         .pipe(gulp.dest(CONFIG.build))
         .pipe(uglify())
         .pipe(rename({
@@ -63,7 +59,6 @@ gulp.task('plugins', function () {
             path.basename = "iSlider.plugin." + path.basename;
         }))
         .pipe(gulp.dest(CONFIG.demo + '/js'))
-        .pipe(gulp.dest(CONFIG.test + '/js'))
         .pipe(gulp.dest(CONFIG.build))
         .pipe(uglify())
         .pipe(rename({
