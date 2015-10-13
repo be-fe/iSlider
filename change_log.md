@@ -8,6 +8,7 @@
 - Script reference change, adding mode
 - Remove configure options
     - useZoom (move to plugins)
+- Preload will work in all modes when the frame is automatically recognized as a picture.
 
 #### Something new
 
