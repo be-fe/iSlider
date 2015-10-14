@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <title>Default 2.0</title>
+    <link href="../public/css/iSlider.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #333;
+            overflow: hidden;
+        }
+
+        /*ul wrapper*/
+        #iSlider-wrapper {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: absolute;
+        }
+
+        #iSlider-wrapper ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #iSlider-wrapper li {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-pack: center;
+            -webkit-box-align: center;
+            list-style: none;
+        }
+
+        #iSlider-wrapper li img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+
+</head>
+<body>
+<div id="iSlider-wrapper"></div>
+<div id="hidden-space" style="display:none">
+    <p style="font-size:3em;text-align: center;color:#04f512">A node in dom tree.</p>
+</div>
+<script type="text/javascript" src="../public/js/iSlider.js"></script>
+<script>
+    var list = [
+        // picture
+        {
+            content: './imgs/0.jpg'
+        },
+        // HTML String
+        {
+            content: '<div style="font-size:4em;color:white;text-align: center">HTML String</div>'
+        },
+        // element
+        {
+            content: (function () {
+                var dom = document.createElement('div');
+                dom.innerHTML = 'Element';
+                dom.style.cssText = 'font-size:3em;color:rgb(230, 230, 63);';
+                return dom;
+            })()
+        },
+        // fragment
+        {
+            content: (function () {
+                var frag = document.createDocumentFragment();
+                var dom = document.createElement('div');
+                dom.innerHTML = 'Fragment';
+                dom.style.cssText = 'font-size:3em;color:rgb(230, 63, 230);';
+                frag.appendChild(dom);
+                return frag;
+            })()
+        },
+        // dom
+        {
+            content: document.querySelector('#hidden-space > p')
+        }
+    ];
+
+    var S = new iSlider({
+        dom: document.getElementById('iSlider-wrapper'),
+        data: list,
+        isLooping: 1,
+        isOverspread: 1,
+        animateTime: 800, // ms
+        onslidechanged: function (index) {
+            console.log('[slideChanged] change to ' + index);
+        }
+    });
+
+    S.on('slideRestored', function (index) {
+        console.log('[slideRestored] no change, restore to ' + index);
+    });
+</script>
+</body>
+</html>

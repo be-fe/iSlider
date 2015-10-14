@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <link rel="stylesheet" href="style/iSlider.css"/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #333;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+<div id="iSlider-wrapper"></div>
+<script src="js/iSlider.js"></script>
+<script src="js/ext/animate.js"></script>
+<script src="js/plugins/dot.js"></script>
+<script src="js/plugins/button.js"></script>
+<script src="js/plugins/zoompic.js"></script>
+<script>
+    var list = [];
+    for (var i = 1; i <= 3; i++)
+        list.push({content: './resource/imgs/random/' + i + '.jpg'});
+
+
+    for (var i = 4; i <= 9; i++)
+        list.push({
+            content: '<div style="font-size:1.2em;color:white;"><img src="./resource/imgs/random/' + i + '.jpg"/><br />TEXT' + i + '</div>'
+        });
+
+    list.push({
+        content: '<div style="font-size:2em;color:white;text-align: center">HTML<a href="http://baidu.com">Link</a></div>'
+    });
+
+    list.push({
+        content: (function () {
+            var dom = document.createElement('div');
+            dom.innerHTML = 'Element';
+            dom.style.cssText = 'font-size:2em;color:rgb(230, 230, 63);';
+            return dom;
+        })()
+    });
+
+    list.push({
+        content: (function () {
+            var frag = document.createDocumentFragment();
+            var dom = document.createElement('div');
+            dom.innerHTML = 'Fragment';
+            dom.style.cssText = 'font-size:2em;color:rgb(230, 63, 230);';
+            frag.appendChild(dom);
+            return frag;
+        })()
+    });
+
+    var islider = new iSlider(
+            document.getElementById("(Ō̥̥̥̥̥̥̥ ԑ Ō̥̥̥̥̥̥̥ )"), list, {
+                // data: list
+                dom: document.getElementById("iSlider-wrapper"),
+                // isVertical: true,
+                isLooping: 1,
+                isOverspread: 1,
+                animateType: 'default',
+                animateTime: 500,
+                fixPage: 1,
+                isDebug: 1,
+                // isDebug: 0,
+                // isLoading: true,
+                // isAutoplay: true,
+                // duration: 5000,
+                plugins: ['dot', 'button', ['zoompic', {zoomFactor: 2}]],
+                onslide: function () {
+                    console.debug(arguments)
+                },
+                onslidechange: function () {
+                    console.debug(arguments, 'Change~ juse one time');
+                    this.off('slideChange', arguments.callee);
+                }
+            });
+
+    islider.on('slideChange', function () {
+        console.debug('Change event from method "on"', this, arguments);
+    });
+
+    islider.on('slideChanged', function () {
+        console.debug('Change(d) event from method "on"', this, arguments);
+    });
+
+    islider.on('slideRestore', function () {
+        console.debug('Restore event from method "on"', this, arguments);
+    });
+
+    islider.on('slideRestored', function () {
+        console.debug('Restore(d) event from method "on"', this, arguments);
+    });
+</script>
+</body>
+</html>
