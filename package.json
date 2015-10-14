@@ -5,14 +5,12 @@
   "main": "build/iSlider.min.js",
   "description": "Smooth mobile touch slider for Mobile WebApp, HTML5 App, Hybrid App",
   "devDependencies": {
-    "amdclean": "~2.4.0",
     "gulp": "~3.8.9",
     "gulp-clean": "^0.3.1",
     "gulp-connect": "~2.2.0",
     "gulp-cssmin": "^0.1.7",
     "gulp-rename": "x",
     "gulp-uglify": "~1.0.1",
-    "requirejs": "x"
   },
   "repository": {
     "type": "git",
