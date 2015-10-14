@@ -84,32 +84,29 @@
     /**
      * @constructor
      *
-     * @param {Object} opts 参数集
-     * @param {Element} opts.dom 外层元素 Outer wrapper
-     * @param {Array} opts.data 数据列表 Content data
+     * iSlicer([[{Element} container,] {Array} datalist,] {object} options)
+     *
+     * @param {Element} container
+     * @param {Array} datalist
+     * @param {Object} options
+     *
+     * @description
+     *  options.dom > container
+     *  options.data > datalist
      */
-    var iSlider = function (opts) {
-        // TODO. Will support simple param
-        // var iSlider = function (node, data, opts) {
-        //    switch (arguments.length) {
-        //        case 1:
-        //            if (Object.prototype.toString.call(arguments[1]) !== '[object Object]')
-        //                throw new Error('The argument must be an object');
-        //        case 2:
-        //            if (isArray(arguments[1])) {
-        //                var opts = {};
-        //                opts.dom = node;
-        //                opts.data = data;
-        //            } else {
-        //                var opts = data;
-        //                opts.dom = opts.dom || node;
-        //            }
-        //            break;
-        //        case 3:
-        //            opts.dom = opts.dom || node;
-        //            opts.data = opts.data || data;
-        //            break;
-        //    }
+    var iSlider = function () {
+
+        var args = Array.prototype.slice.call(arguments, 0, 3);
+        if (!args.length) {
+            throw new Error('Parameters required!');
+        }
+        var opts = args.pop();
+        switch (args.length) {
+            case 2:
+                opts.data = opts.data || args[1];
+            case 1:
+                opts.dom = opts.dom || args[0];
+        }
 
         if (!opts.dom) {
             throw new Error('Container can not be empty!');
@@ -132,8 +129,12 @@
          */
         this._LSN = {};
 
+        opts = args = null;
+
         this._setting();
-        this._renderHTML();
+
+        this.fire('initialize');
+        this._renderWrapper();
         this._initPlugins();
         this._bindHandler();
     };
@@ -143,7 +144,7 @@
      * @type {Array}
      * @protected
      */
-    iSlider.EVENTS = 'slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored reloadData destroy'.split(' ');
+    iSlider.EVENTS = 'initialize slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored reloadData destroy'.split(' ');
 
     /**
      * Easing white list
@@ -154,6 +155,13 @@
         'linear ease ease-in ease-out ease-in-out'.split(' '),
         /cubic-bezier\(([^\d]*(\d+.?\d*)[^\,]*\,?){4}\)/
     ];
+
+    /**
+     * TAGS whitelist on fixpage mode
+     * @type {Array}
+     * @protected
+     */
+    iSlider.FIX_PAGE_TAGS = 'SELECT INPUT TEXTAREA BUTTON LABEL'.split(' ');
 
     /**
      * The empty function
@@ -167,19 +175,18 @@
      * @public
      */
     iSlider.extend = function () {
-        if (!arguments.length) {
-            return;
-        }
+        var main, extend, args = arguments;
 
-        var main, extend;
-        switch (arguments.length) {
+        switch (args.length) {
+            case 0:
+                return;
             case 1:
                 main = iSlider.prototype;
-                extend = arguments[0];
+                extend = args[0];
                 break;
             case 2:
-                main = arguments[0];
-                extend = arguments[1];
+                main = args[0];
+                extend = args[1];
                 break;
         }
 
@@ -311,10 +318,6 @@
          */
         this.data = opts.data;
 
-        // default type
-        // TODO will be renamed
-        this.type = opts.type || null;
-
         /**
          * default slide direction
          * @type {boolean}
@@ -341,7 +344,7 @@
          * @type {number}
          * @public
          */
-        this.initIndex = opts.initIndex || 0;
+        this.initIndex = opts.initIndex > 0 && opts.initIndex < opts.data.length - 1 ? opts.initIndex : 0;
 
         /**
          * touchstart prevent default to fixPage
@@ -349,12 +352,6 @@
          * @public
          */
         this.fixPage = opts.fixPage || true;
-
-        // When initIndex overflow
-        // TODO in looping mode, will support index overflow
-        if (this.initIndex > this.data.length - 1 || this.initIndex < 0) {
-            this.initIndex = 0;
-        }
 
         /**
          * slideIndex
@@ -404,9 +401,6 @@
          * @private
          */
         this.scale = this.isVertical ? this.height : this.width;
-
-        // TODO will be removed
-        this.isLoading = opts.isLoading;
 
         /**
          * On slide offset position
@@ -609,26 +603,39 @@
     };
 
     /**
-     *
+     * Get item type
      * @param {number} index
      * @returns {string}
      * @private
      */
-    iSliderPrototype._itemType = function (dataIndex) {
-        var content = this.data[dataIndex].content;
+    iSliderPrototype._itemType = function (item) {
+        if (!isNaN(item)) {
+            item = this.data[item];
+        }
+        if (item.hasOwnProperty('type')) {
+            return item.type;
+        }
+        var content = item.content;
+        var type;
         if (content == null) {
-            return 'empty';
-        }
-        if (Boolean(content.nodeName) && Boolean(content.nodeType)) {
-            return 'node';
-        } else if (typeof content === 'string') {
-            if (isUrl(content)) {
-                return 'pic';
-            }
-            return 'html';
+            type = 'empty';
         } else {
-            return 'unknown';
+            if (Boolean(content.nodeName) && Boolean(content.nodeType)) {
+                type = 'node';
+            } else if (typeof content === 'string') {
+                if (isUrl(content)) {
+                    type = 'pic';
+                } else {
+                    type = 'html';
+                }
+            } else {
+                type = 'unknown';
+            }
         }
+
+        item.type = type;
+
+        return type;
     };
 
     /**
@@ -639,16 +646,24 @@
      */
     iSliderPrototype._renderItem = function (el, dataIndex) {
 
-        var item;
-        var html;
-        var len = this.data.length;
-        // var self = this;
+        var item, len = this.data.length;
 
         var insertImg = function () {
-            html = item.height / item.width > this.ratio
-                ? '<img height="' + this.height + '" src="' + item.content + '">'
-                : '<img width="' + this.width + '" src="' + item.content + '">';
-            el.innerHTML = html;
+
+            var simg = ' src="' + item.content + '"';
+
+            if (item.height / item.width > this.ratio) {
+                simg += ' height="' + el.clientHeight + '"';
+            } else {
+                simg += ' width="' + el.clientWidth + '"';
+            }
+
+            if (this.isOverspread) {
+                el.style.background = 'url(' + item.content + ') no-repeat 50% 50%/cover';
+                simg += ' style="display:block;opacity:0;height:100%;width:100%;"'
+            }
+
+            el.innerHTML = '<img' + simg + ' />';
         }.bind(this);
 
         // clean scene
@@ -665,7 +680,7 @@
             item = this.data[dataIndex];
         }
 
-        var type = item.type || (item.type = this._itemType(dataIndex));
+        var type = this._itemType(item);
 
         this.log('[Render ITEM]:', type, dataIndex, item);
 
@@ -673,22 +688,18 @@
 
         switch (type) {
             case 'pic':
-                if (!this.isOverspread) {
-                    if (item.height && item.width) {
-                        insertImg();
-                    }
-                    else {
-                        var currentImg = new Image();
-                        currentImg.src = item.content;
-                        currentImg.onload = function () {
-                            item.height = currentImg.height;
-                            item.width = currentImg.width;
-                            insertImg();
-                        };
-                    }
+                if (item.height && item.width) {
+                    insertImg();
                 }
                 else {
-                    el.style.background = 'url(' + item.content + ') no-repeat 50% 50%/cover';
+                    var currentImg = new Image();
+                    currentImg.src = item.content;
+                    currentImg.onload = function () {
+                        item.height = currentImg.height;
+                        item.width = currentImg.width;
+                        item.loaded = 1;
+                        insertImg();
+                    };
                 }
                 break;
             case 'dom':
@@ -697,6 +708,7 @@
                 break;
             case 'node':
             case 'element':
+                // fragment, create container
                 if (item.content.nodeType === 11) {
                     var entity = document.createElement('div');
                     entity.appendChild(item.content);
@@ -742,20 +754,11 @@
      * render list html
      * @private
      */
-    iSliderPrototype._renderHTML = function () {
+    iSliderPrototype._renderWrapper = function () {
         this.outer && (this.outer.innerHTML = '');
         // initail ul element
         var outer = this.outer || document.createElement('ul');
         outer.className = 'islider-outer';
-
-        // loading
-        if (this.type === 'pic' && !this.loader && this.isLoading) {
-            var loader = document.createElement('div');
-            loader.className = 'islider-loader';
-            this.loader = loader;
-            this.wrap.appendChild(loader);
-            this.fire('loading');
-        }
 
         // storage li elements, only store 3 elements to reduce memory usage
         this.els = [];
@@ -776,7 +779,11 @@
 
         this._changedStyles();
 
-        this._initLoadImg();
+        // Preload picture [ may be pic :) ]
+        global.setTimeout(function () {
+            this._preloadImg(this.slideIndex);
+        }.bind(this), 200);
+
         // append ul to div#canvas
         if (!this.outer) {
             this.outer = outer;
@@ -785,53 +792,31 @@
     };
 
     /**
-     *  preload img when slideChange
-     *  @param {number} dataIndex means which image will be load
-     *  @private
+     * Preload img when slideChange
+     * From current index +2, -2 scene
+     * @param {number} dataIndex means which image will be load
+     * @private
      */
     iSliderPrototype._preloadImg = function (dataIndex) {
-        if (this.type === 'pic' && this.data.length > 3) {
+        if (this.data.length > 3) {
             var data = this.data;
             var len = data.length;
-            var loadImg = function (index) {
-                if (index > -1 && data[index].type === 'pic' && !data[index].loaded) {
+            var self = this;
+            var loadImg = function preloadImgLoadingProcess(index) {
+                var item = data[index];
+                if (self._itemType(item) === 'pic' && !item.loaded) {
                     var preloadImg = new Image();
-                    preloadImg.src = data[index].content;
+                    preloadImg.src = item.content;
                     preloadImg.onload = function () {
-                        data[index].width = preloadImg.width;
-                        data[index].height = preloadImg.height;
+                        item.width = preloadImg.width;
+                        item.height = preloadImg.height;
                     };
-                    data[index].loaded = 1;
+                    item.loaded = 1;
                 }
             };
 
-            loadImg(dataIndex + 2 > len - 1 ? ((dataIndex + 2) % len) : (dataIndex + 2));
-            loadImg(dataIndex - 2 < 0 ? (len - 2 + dataIndex) : (dataIndex - 2));
-        }
-    };
-
-    /**
-     *  load extra imgs when renderHTML
-     *  @private
-     */
-    iSliderPrototype._initLoadImg = function () {
-        var data = this.data;
-        var len = data.length;
-        var idx = this.slideIndex;
-        var self = this;
-
-        if (this.type === 'pic' && len > 3) {
-            var nextIndex = (idx + 2 > len) ? ((idx + 1) % len) : (idx + 1);
-            var prevIndex = (idx - 1 < 0) ? (len - 1 + idx) : (idx - 1);
-            data[idx].loaded = 1;
-            data[nextIndex].loaded = 1;
-            if (self.isLooping) {
-                data[prevIndex].loaded = 1;
-            }
-
-            global.setTimeout(function () {
-                self._preloadImg(idx);
-            }, 200);
+            loadImg((dataIndex + 2) % len);
+            loadImg((dataIndex - 2 + len) % len);
         }
     };
 
@@ -917,15 +902,15 @@
     iSliderPrototype.handleEvent = function (evt) {
         var device = this.deviceEvents;
         switch (evt.type) {
-            case device.startEvt:
+            case 'mousedown':
+                if (!(evt.button === 0 && evt.buttons === 1)) break;
+            case 'touchstart':
                 this.startHandler(evt);
                 break;
             case device.moveEvt:
                 this.moveHandler(evt);
                 break;
             case device.endEvt:
-                this.endHandler(evt);
-                break;
             case 'touchcancel':
                 this.endHandler(evt);
                 break;
@@ -951,9 +936,7 @@
      */
     iSliderPrototype.startHandler = function (evt) {
         if (this.fixPage) {
-            var target = evt.target;
-            var whiteList = ['SELECT', 'INPUT', 'TEXTAREA', 'BUTTON', 'LABEL'];
-            if (whiteList.indexOf(target.tagName) < 0) {
+            if (iSlider.FIX_PAGE_TAGS.indexOf(evt.target.tagName) < 0) {
                 evt.preventDefault();
             }
         }
@@ -1137,7 +1120,7 @@
             }
         }
 
-        //In the slide process, animate time is squeezed
+        // In the slide process, animate time is squeezed
         var squeezeTime = Math.abs(offset[this.axis]) / this.scale * animateTime;
 
         if (Math.abs(n) > 1) {
@@ -1197,7 +1180,6 @@
             headEl.style.webkitTransition = 'none';
             headEl.style.visibility = 'hidden';
 
-            // TODO ???
             global.setTimeout(function () {
                 headEl.style.visibility = 'visible';
             }, 200);
@@ -1292,6 +1274,15 @@
     };
 
     /**
+     * TODO unbind, unDelegate
+     * remove event delegate from wrap
+     * @public
+     */
+    iSliderPrototype.unbind = iSliderPrototype.unDelegate = function (eventType, selector, callback) {
+
+    };
+
+    /**
      * removeEventListener to release the memory
      * @public
      */
@@ -1301,12 +1292,19 @@
 
         this.fire('destroy');
 
+        // Clear events
         outer.removeEventListener(device.startEvt, this);
         outer.removeEventListener(device.moveEvt, this);
         outer.removeEventListener(device.endEvt, this);
         global.removeEventListener('orientationchange', this);
         global.removeEventListener('focus', this);
         global.removeEventListener('blur', this);
+
+        // Clear timer
+        this._LSN.forEach(function clearTimerOnDestroy(timer) {
+            timer && global.clearTimeout(timer);
+        });
+
         this.wrap.innerHTML = '';
     };
 
@@ -1364,7 +1362,7 @@
     iSliderPrototype.reset = function () {
         this.pause();
         this._setting();
-        this._renderHTML();
+        this._renderWrapper();
         this.isAutoplay && this.play();
     };
 
@@ -1376,22 +1374,27 @@
         this.pause();
         this.slideIndex = initIndex || 0;
         this.data = data;
-        this._renderHTML();
+        this._renderWrapper();
         this.fire('reloadData');
         this.isAutoplay && this.play();
     };
 
     /**
-     * enable autoplay
+     * Start autoplay
      * @public
      */
     iSliderPrototype.play = function () {
         var self = this;
-        var duration = this.duration;
-        clearInterval(this.autoPlayTimer);
-        this.autoPlayTimer = setInterval(function () {
-            self.slideTo(self.slideIndex + 1);
-        }, duration);
+        this._LSN.autoPlay && global.clearTimeout(this._LSN.autoPlay);
+
+        function play() {
+            self._LSN.autoPlay = setTimeout(function () {
+                self.slideNext();
+                play();
+            }, self.duration);
+        };
+
+        play();
     };
 
     /**
@@ -1399,7 +1402,7 @@
      * @public
      */
     iSliderPrototype.pause = function () {
-        clearInterval(this.autoPlayTimer);
+        this._LSN.autoPlay && clearTimeout(this._LSN.autoPlay);
     };
 
     /**
