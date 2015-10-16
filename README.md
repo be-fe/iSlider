@@ -201,7 +201,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
     </tr>
     <tr>
-        <td>type (Soon abandoned or renamed)</td>
+        <td>type (obsolete)</td>
         <td>-</td>
         <td>-</td>
     </tr>
@@ -255,6 +255,11 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         <td>initIndex</td>
         <td>{number}</td>
         <td>Specifies an index as the default home scene</td>
+    </tr>
+    <tr>
+        <td>fixPage</td>
+        <td>{boolean}</td>
+        <td>Whether to disable native scrolling and rebound effect. Default: true (enable)</td>
     </tr>
     <tr>
         <td>plugins</td>
