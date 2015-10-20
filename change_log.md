@@ -1,3 +1,20 @@
+### iSlider 2.0.1
+
+2015-10-20
+
+#### bug fixes
+
+- fixPage default value
+
+#### Something new
+
+- [Plug-ins] dot support more optisons,
+    - locate - In which the container, values: 'absolute' or 'relative' or DOM, default is 'absolute'
+        - absolute: Same with iSlider
+        - relative: In iSlider
+        - Specified dom, eg: document.getElementById('xxx')
+
+
 ### iSlider 2.0
 
 2015-08-29
