@@ -351,7 +351,7 @@
          * @type {boolean}
          * @public
          */
-        this.fixPage = opts.fixPage || true;
+        this.fixPage = opts.fixPage === undefined ? true : opts.fixPage;
 
         /**
          * slideIndex
