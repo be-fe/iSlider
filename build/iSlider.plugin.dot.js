@@ -5,6 +5,21 @@
  * @author BE-FE Team
  *    xieyu33333 xieyu33333@gmail.com
  *    shinate shine.wangrs@gmail.com
+ * @Instructions
+ *    activation:
+ *       new iSlider({
+ *          ...
+ *          plugins: ['dot']
+ *          ...
+ *       });
+ *    more options:
+ *       new iSlider({
+ *          ...
+ *          plugins: [['dot', {locate:'absoulute'}]]
+ *          ...
+ *       });
+ * @options
+ *    locate {string|HTML Element} the warpper of dots value: 'absolute', 'relative' or Specified dom, default: 'absolute'
  */
 
 (function (global, factory) {
@@ -24,9 +39,17 @@
 
     'use strict';
 
-    iSlider && iSlider.regPlugin('dot', function () {
+    iSlider && iSlider.regPlugin('dot', function (opts) {
         var HANDLE = this;
         if (!HANDLE.isVertical) {
+            var locate = (function (locate) {
+                if (locate === 'relative') {
+                    return HANDLE.wrap;
+                } else if (Boolean(locate.nodeName) && Boolean(locate.nodeType)) {
+                    return locate;
+                }
+                return HANDLE.wrap.parentNode;
+            })(opts && opts.locate != null ? opts.locate : false);
             var data = HANDLE.data;
             var dots = [];
             var dotWrap = document.createElement('ul');
@@ -52,7 +75,7 @@
 
             renderDots();
 
-            HANDLE.wrap.parentNode.appendChild(dotWrap);
+            locate.appendChild(dotWrap);
 
             HANDLE.on('slideChange', function () {
                 if (!HANDLE.isVertical) {
