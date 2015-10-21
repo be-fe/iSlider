@@ -1,3 +1,9 @@
+### iSlider 2.0.2
+
+#### bug fixes
+
+- Fix mouse buttons error on safari
+
 ### iSlider 2.0.1
 
 2015-10-20
