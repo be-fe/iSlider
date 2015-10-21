@@ -903,7 +903,8 @@
         var device = this.deviceEvents;
         switch (evt.type) {
             case 'mousedown':
-                if (!(evt.button === 0 && evt.buttons === 1)) break;
+                /* block mouse buttons except left */
+                if (evt.button !== 0) break;
             case 'touchstart':
                 this.startHandler(evt);
                 break;
