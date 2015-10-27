@@ -1302,9 +1302,10 @@
         global.removeEventListener('blur', this);
 
         // Clear timer
-        this._LSN.forEach && this._LSN.forEach(function clearTimerOnDestroy(timer) {
-            timer && global.clearTimeout(timer);
-        });
+        for (var n in this._LSN)
+            this._LSN.hasOwnProperty(n) && this._LSN[n] && global.clearTimeout(this._LSN[n]);
+        
+        this._LSN = null;
 
         this.wrap.innerHTML = '';
     };
