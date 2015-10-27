@@ -1302,7 +1302,7 @@
         global.removeEventListener('blur', this);
 
         // Clear timer
-        this._LSN.forEach(function clearTimerOnDestroy(timer) {
+        this._LSN.forEach && this._LSN.forEach(function clearTimerOnDestroy(timer) {
             timer && global.clearTimeout(timer);
         });
 
