@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta name="viewport"
-          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
-    <link rel="stylesheet" href="style/iSlider.css" />
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <link rel="stylesheet" href="style/iSlider.css"/>
     <style>
         body {
             margin: 0;
@@ -11,40 +11,6 @@
             background: #333;
             overflow: hidden;
         }
-
-        /*ul wrapper*/
-        #iSlider-wrapper {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            position: absolute;
-        }
-
-        #iSlider-wrapper ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        #iSlider-wrapper li {
-            position: absolute;
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-pack: center;
-            -webkit-box-align: center;
-            list-style: none;
-        }
-
-        #iSlider-wrapper li img {
-            max-width: 100%;
-            max-height: 100%;
-        }
-
     </style>
 </head>
 
@@ -57,10 +23,18 @@
 <script src="js/plugins/zoompic.js"></script>
 <script>
     var list = [];
-    for (var i = 2; i <= 5; i++)
+    for (var i = 1; i <= 3; i++)
         list.push({content: './resource/imgs/random/' + i + '.jpg'});
 
-    list.push({content: '<div style="font-size:2em;color:white;text-align: center">HTML</div>'});
+
+    for (var i = 4; i <= 9; i++)
+        list.push({
+            content: '<div style="font-size:1.2em;color:white;"><img src="./resource/imgs/random/' + i + '.jpg"/><br />TEXT' + i + '</div>'
+        });
+
+    list.push({
+        content: '<div style="font-size:2em;color:white;text-align: center">HTML<a href="http://baidu.com">Link</a></div>'
+    });
 
     list.push({
         content: (function () {
@@ -82,27 +56,30 @@
         })()
     });
 
-    console.log(list)
-
-    var islider = new iSlider({
-        // type: 'pic',
-        data: list,
-        dom: document.getElementById("iSlider-wrapper"),
-        isLooping: 1,
-        // isOverspread: 1,
-        animateType: 'default',
-        animateTime: 500,
-        isDebug: 1,
-        // isDebug: 0,
-        plugins: ['dot', 'button', ['zoompic', {zoomFactor: 2}]],
-        onslide: function () {
-            console.log(arguments)
-        },
-        onslidechange: function () {
-            console.error(arguments, 'Change~ juse one time');
-            this.off('slideChange', arguments.callee);
-        }
-    });
+    var islider = new iSlider(
+            document.getElementById("(Ō̥̥̥̥̥̥̥ ԑ Ō̥̥̥̥̥̥̥ )"), list, {
+                // data: list
+                dom: document.getElementById("iSlider-wrapper"),
+                // isVertical: true,
+                isLooping: 1,
+                isOverspread: 1,
+                animateType: 'default',
+                animateTime: 500,
+                fixPage: 1,
+                isDebug: 1,
+                // isDebug: 0,
+                // isLoading: true,
+                // isAutoplay: true,
+                // duration: 5000,
+                plugins: [['dot', {locate:'relative'}], 'button', ['zoompic', {zoomFactor: 2}]],
+                onslide: function () {
+                    console.debug(arguments)
+                },
+                onslidechange: function () {
+                    console.debug(arguments, 'Change~ juse one time');
+                    this.off('slideChange', arguments.callee);
+                }
+            });
 
     islider.on('slideChange', function () {
         console.debug('Change event from method "on"', this, arguments);

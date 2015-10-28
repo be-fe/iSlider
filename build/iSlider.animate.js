@@ -1,14 +1,31 @@
-/*
- * @file   Animation Library
- * @author xieyu33333
+/**
+ * More animations
+ * @file animate.js
+ * @author BE-FE Team
+ *    xieyu33333 xieyu33333@gmail.com
+ *    shinate shine.wangrs@gmail.com
  */
 
-(function (global) {
+(function (global, factory) {
+    /* CommonJS */
+    if (typeof require === 'function' && typeof module === 'object' && module && typeof exports === 'object' && exports)
+        factory(require('iSlider'));
+    /* AMD */
+    else if (typeof define === 'function' && define['amd'])
+        define(['iSlider'], function (iSlider) {
+            factory(iSlider);
+        });
+    /* Global */
+    else
+        factory(global['iSlider']);
+
+})(window ? window : this, function (iSlider) {
+
     'use strict';
 
-    global.iSlider && global.iSlider.extend(iSlider._animateFuncs, {
+    iSlider && iSlider.extend(iSlider._animateFuncs, {
         // rotate
-        'rotate': function (dom, axis, scale, i, offset) {
+        'rotate': function rotate(dom, axis, scale, i, offset) {
             var rotateDirect = (axis === 'X') ? 'Y' : 'X';
             var absoluteOffset = Math.abs(offset);
             var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
@@ -30,7 +47,7 @@
             dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ(' + (0.888 * scale / 2) + 'px) scale(0.888)';
         },
         // flip
-        'flip': function (dom, axis, scale, i, offset) {
+        'flip': function flip(dom, axis, scale, i, offset) {
             var rotateDirect = (axis === 'X') ? 'Y' : 'X';
             var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
             if (this.isVertical) {
@@ -48,13 +65,13 @@
             dom.style.cssText += 'position:absolute; -webkit-backface-visibility:hidden; background-color:' + bdColor + ';';
             dom.style.webkitTransform = 'translateZ(' + (scale / 2) + 'px) rotate' + rotateDirect + '(' + 180 * (offset / scale + i - 1) + 'deg) scale(0.875)';
         },
-        'depth': function (dom, axis, scale, i, offset) {
+        'depth': function depth(dom, axis, scale, i, offset) {
             var zoomScale = (4 - Math.abs(i - 1)) * 0.18;
             this.wrap.style.webkitPerspective = scale * 4;
             dom.style.zIndex = (i === 1) ? 100 : (offset > 0) ? (1 - i) : (i - 1);
             dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate' + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
         },
-        'flow': function (dom, axis, scale, i, offset) {
+        'flow': function flow(dom, axis, scale, i, offset) {
             var absoluteOffset = Math.abs(offset);
             var rotateDirect = (axis === 'X') ? 'Y' : 'X';
             var directAmend = (axis === 'X') ? 1 : -1;
@@ -71,7 +88,7 @@
 
             dom.style.webkitTransform = 'scale(0.7, 0.7) translateZ(' + (offsetRatio * 150 - 150) * Math.abs(i - 1) + 'px)' + 'translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)' + 'rotate' + rotateDirect + '(' + directAmend * (30 - offsetRatio * 30) * (1 - i) + 'deg)';
         },
-        'card': function (dom, axis, scale, i, offset) {
+        'card': function card(dom, axis, scale, i, offset) {
             var absoluteOffset = Math.abs(offset);
 
             if (i === 1) {
@@ -89,6 +106,20 @@
             }
             var zoomScale = (dom.cur) ? 1 - 0.2 * Math.abs(i - 1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
             dom.style.webkitTransform = 'scale(' + zoomScale + ', ' + zoomScale + ') translateZ(0) translate' + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
+        },
+        'fade': function fade(dom, axis, scale, i, offset) {
+            if (offset > 0) {
+                dom.style.visibility = (i > 1) ? 'hidden' : 'visible';
+            }
+            else {
+                dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
+            }
+            offset = Math.abs(offset);
+            if (i === 1) {
+                dom.style.opacity = 1 - (offset / scale);
+            } else {
+                dom.style.opacity = offset / scale;
+            }
         }
     });
-})(this);
+});

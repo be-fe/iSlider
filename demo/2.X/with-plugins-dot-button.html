@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
-    <title>Default 2.0</title>
+    <title>iSlider with plugins dot and button</title>
     <link href="../public/css/iSlider.css" rel="stylesheet">
     <style>
         body {
@@ -46,6 +46,25 @@
             max-width: 100%;
             max-height: 100%;
         }
+
+        .islider-btn-outer {
+            background-color: rgba(0, 0, 0, .5);
+            border-radius: 99px;
+        }
+
+        .islider-btn-inner {
+            height: 30%;
+            width: 30%;
+            margin-top: 34%;
+        }
+
+        .islider-btn-outer.left .islider-btn-inner {
+            margin-left: 40%;
+        }
+
+        .islider-btn-outer.right .islider-btn-inner {
+            margin-right: 40%;
+        }
     </style>
 
 </head>
@@ -55,6 +74,8 @@
     <p style="font-size:3em;text-align: center;color:#04f512">A node in dom tree.</p>
 </div>
 <script type="text/javascript" src="../public/js/iSlider.js"></script>
+<script type="text/javascript" src="../public/js/iSlider.plugin.dot.js"></script>
+<script type="text/javascript" src="../public/js/iSlider.plugin.button.js"></script>
 <script>
     var list = [
         // picture
@@ -97,14 +118,17 @@
         isLooping: 1,
         isOverspread: 1,
         animateTime: 800, // ms
-        onslidechanged: function (index) {
-            console.log('[slideChanged] change to ' + index);
-        }
+        plugins: ['button']
     });
 
-    S.on('slideRestored', function (index) {
-        console.log('[slideRestored] no change, restore to ' + index);
-    });
+    S.regPlugin('dot');
+
+    S.regPlugin('others', function () {
+        console.debug('Init Plugin "others"', arguments)
+        this.on('slideChange', function () {
+            alert('the plugin "others" on "slideChange"');
+        });
+    }, 1, 2, 3);
 </script>
 </body>
 </html>

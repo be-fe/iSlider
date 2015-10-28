@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
-    <title>Default 2.0</title>
+    <title>iSlider more animation</title>
     <link href="../public/css/iSlider.css" rel="stylesheet">
     <style>
         body {
@@ -55,6 +55,7 @@
     <p style="font-size:3em;text-align: center;color:#04f512">A node in dom tree.</p>
 </div>
 <script type="text/javascript" src="../public/js/iSlider.js"></script>
+<script type="text/javascript" src="../public/js/iSlider.animate.js"></script>
 <script>
     var list = [
         // picture
@@ -78,6 +79,7 @@
         {
             content: (function () {
                 var frag = document.createDocumentFragment();
+                var img = new Image()
                 var dom = document.createElement('div');
                 dom.innerHTML = 'Fragment';
                 dom.style.cssText = 'font-size:3em;color:rgb(230, 63, 230);';
@@ -94,16 +96,11 @@
     var S = new iSlider({
         dom: document.getElementById('iSlider-wrapper'),
         data: list,
+        isVertical: true,
         isLooping: 1,
         isOverspread: 1,
-        animateTime: 800, // ms
-        onslidechanged: function (index) {
-            console.log('[slideChanged] change to ' + index);
-        }
-    });
-
-    S.on('slideRestored', function (index) {
-        console.log('[slideRestored] no change, restore to ' + index);
+        animateTime: 800,
+        animateType: 'flip'
     });
 </script>
 </body>
