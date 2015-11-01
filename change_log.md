@@ -2,7 +2,13 @@
 
 #### bug fixes
 
-- Fix mouse buttons error on safari
+- Fix mouse buttons error on safari;
+- Fix timer clean in destroy;
+
+#### Something new
+
+- Create event callback management mechanism, and "unbind", "undelegate" method;
+- Cleanup delegate event when destruction;
 
 ### iSlider 2.0.1
 
