@@ -1395,7 +1395,6 @@
         if (eventName in this.events) {
             var funcs = this.events[eventName];
             for (var i = 0; i < funcs.length; i++) {
-                // TODO will support custom context, now context is instance of iSlider
                 typeof funcs[i] === 'function'
                 && funcs[i].apply
                 && funcs[i].apply(this, Array.prototype.slice.call(arguments, 1));
