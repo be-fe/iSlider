@@ -3,7 +3,9 @@
 ![](thumbnails/iSlider-logo.png)
 
 #### [iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
+#### [iSlider DEMO (coming soon ...)](http://be-fe.github.io/iSlider/demo/index.html)
 #### [iSlider 中文文档](https://github.com/BE-FE/iSlider/blob/master/README_Chinese.md)
+#### [iSlider 演示](http://be-fe.github.io/iSlider/demo/index_chinese.html)
 
 iSlider是一个轻量且高性能，无任何库依赖的跨平台滑动控件。
 
@@ -57,7 +59,7 @@ var data = [
 #### 初始化一个iSlider
 
 ``` javascript
-var islider = new iSlider(document.getElementById('iSlider-wrapper'), data});
+var islider = new iSlider(document.getElementById('iSlider-wrapper'), data);
 ```
 
 也可以
