@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport"
-          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
-    <link href="../public/css/iSlider.css" rel="stylesheet">
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <title>iSlider more animation</title>
+    <link href="public/css/iSlider.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -45,38 +46,47 @@
             max-width: 100%;
             max-height: 100%;
         }
-
     </style>
+
 </head>
-
 <body>
-<!-- Outer Canvas 外层画布 -->
 <div id="iSlider-wrapper"></div>
-<script src="../public/js/iSlider.js"></script>
-<script src="../public/js/iSlider.plugin.zoompic.js"></script>
-
-<script>
+<div id="hidden-space" style="display:none">
+    <p style="font-size:3em;text-align: center;color:#04f512">A node in dom tree.</p>
+</div>
+<script type="text/javascript" src="public/js/iSlider.js"></script>
+<script type="text/javascript" src="public/js/iSlider.animate.js"></script>
+<script id="show-code">
     var list = [
-        {content: "./imgs/random/1.jpg"},
-        {content: "./imgs/random/2.jpg"},
-        {content: "./imgs/random/3.jpg"},
-        {content: "./imgs/random/4.jpg"},
-        {content: "./imgs/random/5.jpg"},
-        {content: "./imgs/random/6.jpg"},
-        {content: "./imgs/random/7.jpg"},
-        {content: "./imgs/random/8.jpg"},
-        {content: "./imgs/random/9.jpg"}
+        // picture
+        {
+            content: './imgs/6.jpg'
+        },
+        // picture
+        {
+            content: './imgs/7.jpg'
+        },
+        // picture
+        {
+            content: './imgs/11.jpg'
+        },
+        // picture
+        {
+            content: './imgs/9.jpg'
+        },
+        // picture
+        {
+            content: './imgs/10.jpg'
+        }
     ];
 
-    var islider = new iSlider({
-        type: 'pic',
+    var S = new iSlider({
+        dom: document.getElementById('iSlider-wrapper'),
         data: list,
-        dom: document.getElementById("iSlider-wrapper"),
-        isLooping: true,
-        animateType: 'default',
-        useZoom: true
+        isLooping: 0,
+        isOverspread: 1,
+        animateTime: 800
     });
-
 </script>
 </body>
 </html>
