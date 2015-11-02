@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
-    <title>iSlider more animation</title>
+    <title>iSlider loop</title>
     <link href="public/css/iSlider.css" rel="stylesheet">
     <style>
         body {
@@ -62,27 +62,47 @@
         {
             content: './imgs/6.jpg'
         },
-        // picture
+        // HTML String
         {
-            content: './imgs/7.jpg'
+            content: '<div style="font-size:4em;color:white;text-align: center">HTML String</div>'
         },
-        // picture
+        // element
         {
-            content: './imgs/11.jpg'
+            content: (function () {
+                var dom = document.createElement('div');
+                dom.innerHTML = 'Element';
+                dom.style.cssText = 'font-size:3em;color:rgb(230, 230, 63);';
+                return dom;
+            })()
         },
-        // picture
+        // fragment
         {
-            content: './imgs/9.jpg'
+            content: (function () {
+                var frag = document.createDocumentFragment();
+                var img = new Image()
+                var dom = document.createElement('div');
+                dom.innerHTML = 'Fragment';
+                dom.style.cssText = 'font-size:3em;color:rgb(230, 63, 230);';
+                frag.appendChild(dom);
+                return frag;
+            })()
         },
-        // picture
+        // dom
         {
-            content: './imgs/10.jpg'
+            content: document.querySelector('#hidden-space > p')
+        },
+        // iframe
+        {
+            content: '' +
+            '<div style="padding-top:.2em;font-size:3em;color:rgb(230, 63, 230);position:absolute;top:0;left:0;height:100%;width:100%;z-index:1">' +
+            '<span style="padding:.2em;background-color:black;">Iframe</span>' +
+            '</div>' +
+            '<iframe style="position:relative;z-index:0;height:100%;" src="http://mobile.baidu.com"></iframe>'
         }
     ];
 
-    var S = new iSlider({
-        dom: document.getElementById('iSlider-wrapper'),
-        data: list,
+    var S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
+        isAutoplay: 1,
         isLooping: 0,
         isOverspread: 1,
         animateTime: 800

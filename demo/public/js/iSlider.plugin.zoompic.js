@@ -195,7 +195,7 @@
      */
     function initZoom(opts) {
         currentScale = 1;
-        zoomFactor = opts.zoomFactor || 2;
+        zoomFactor = opts && opts.zoomFactor || 2;
     }
 
     /**

@@ -80,14 +80,12 @@
         }
     ];
 
-    var S = new iSlider({
-        dom: document.getElementById('iSlider-wrapper'),
-        data: list,
-        isVertical: true,
+    var S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
         isLooping: 1,
         isOverspread: 1,
+        isAutoplay: 1,
         animateTime: 800,
-        animateType: 'flip'
+        animateType: 'flow'
     });
 </script>
 </body>

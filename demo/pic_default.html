@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
-    <link href="../public/css/iSlider.css" rel="stylesheet">
+    <link href="public/css/iSlider.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -52,7 +52,7 @@
 <body>
 <!-- Outer Canvas 外层画布 -->
 <div id="iSlider-wrapper"></div>
-<script src="../public/js/iSlider.js"></script>
+<script src="public/js/iSlider.js"></script>
 
 <script>
     var list = [
@@ -68,7 +68,6 @@
     ];
 
     var islider = new iSlider({
-        type: 'pic',
         data: list,
         dom: document.getElementById("iSlider-wrapper"),
         isLooping: true,

@@ -1,40 +1,25 @@
-var $toggleBox = document.getElementById('toggle-box');
-var iframes = document.getElementById('demos').getElementsByTagName('iframe');
-var $showCode = document.getElementById('demo-code');
-var hljs = window.hljs;
+(function ($) {
 
-iframes[0].onload = function () {
-    setShowCode(iframes[0]);
-};
-// 确保第一个实例的代码被展示
-setTimeout(function () {
-    if (!$showCode.textContent) {
-        setShowCode(iframes[0]);
+    var hljs = window.hljs;
+    var demoCode = $('#demo-code');
+
+    var frameSet = $('#frameset');
+    frameSet.on('load', function () {
+        setShowCode($(this).get(0));
+    });
+
+    $('#toggle-box').on('click', 'button', function () {
+        var el = $(this);
+        frameSet.attr('src', el.data('target'));
+    });
+
+    function setShowCode(iframe) {
+        demoCode.text(iframe.contentDocument.getElementById('show-code').innerHTML);
+        hljs.highlightBlock(demoCode.get(0));
     }
-}, 2000);
 
-$toggleBox.addEventListener('click', function(evnet) {
-    var target = event.target;
-    var id = target.getAttribute('data-target');
-    var iframe = document.getElementById(id);
-    var len = iframes.length - 1;
+    $(document).ready(function () {
+        setShowCode(frameSet.get(0));
+    });
 
-    if (id) {
-        for (;len >= 0; len--) {
-            iframes[len].hidden = true;
-        }
-        iframe.style.opacity = 0;
-        iframe.hidden = false;
-        setTimeout(function () {
-            iframe.style.opacity = 1;
-        }, 100);
-
-        // $showCode.textContent = window.frames[1].document.getElementById('show-code').innerHTML;
-        setShowCode(iframe);
-    }
-});
-
-function setShowCode (iframe) {
-    $showCode.textContent = iframe.contentDocument.getElementById('show-code').innerHTML;
-    hljs.highlightBlock($showCode);
-}
+})(jQuery);
