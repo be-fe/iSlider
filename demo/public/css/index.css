@@ -155,6 +155,10 @@ tr:nth-child(2n) {
     margin: 5px 10px;
 }
 
+#toggle-box button.active {
+    background-color: #0fb748;
+}
+
 #toggle-box button:active {
     background-color: #286090;
 }

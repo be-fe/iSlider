@@ -2,14 +2,17 @@
 
     var hljs = window.hljs;
     var demoCode = $('#demo-code');
+    var toggleBox = $('#toggle-box');
 
     var frameSet = $('#frameset');
     frameSet.on('load', function () {
         setShowCode($(this).get(0));
     });
 
-    $('#toggle-box').on('click', 'button', function () {
+    toggleBox.on('click', 'button', function () {
         var el = $(this);
+        toggleBox.find('.active').removeClass('active');
+        el.addClass('active');
         frameSet.attr('src', el.data('target'));
     });
 
