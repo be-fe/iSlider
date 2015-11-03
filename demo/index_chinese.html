@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>iSlider by BE-FE</title>
+
+    <link rel="stylesheet" href="public/css/index.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.9.1/styles/default.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+<header class="summary">
+    <h2>iSlider Demo</h2>
+
+    <div class="divider"></div>
+    <ul>
+        <li>
+            <a href="#intro">概要</a>
+            <!-- <h3>概要</h3> -->
+            <!--                 <ul>
+                                <li><a>Only Image</a></li>
+                                <li><a>Image with animation</a></li>
+                                <li><a>Image with autoplay</a></li>
+                            </ul> -->
+        </li>
+        <li><a href="#frame">结构说明</a></li>
+        <li><a href="#demos">demo实例</a></li>
+        <li><a href="#demo-code">demo代码</a></li>
+        <li><a href="#options">初始化</a></li>
+        <li><a href="#functions">实例方法</a></li>
+
+    </ul>
+</header>
+<section>
+    <div id="section-content">
+        <div id="intro">
+            <h1>
+                <a id="islider" class="anchor" href="#islider" aria-hidden="true">
+                    <span class="octicon octicon-link"></span>
+                </a>
+                iSlider
+            </h1>
+            <h4>
+                <a href="http://be-fe.github.io/iSlider/index_en.html">iSlider English Official Page</a>
+                <br>
+                <a href="#demos">iSlider Example</a>
+            </h4>
+
+            <p>iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：</p>
+            <ul class="task-list">
+                <li>性能极好，硬件加速，极小占用内存</li>
+                <li>能够自定义动画，自带的动画包括 default, rotate, depth, flow, flip, card</li>
+                <li>你能够简易地添加回调函数(onslidestart, onslide, onslideend, onslidechange)</li>
+                <li>我们还支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动</li>
+                <li>支持桌面鼠标动作，方便测试</li>
+                <li>支持图片预加载，改善用户体验</li>
+                <li>支持手势缩放，解决图片太大无法看清问题</li>
+            </ul>
+            <h2 id="frame">iSlider结构说明</h2>
+            <ul>
+                <li>islider_core.js： iSlider核心代码库,定义iSlider类，绑定touch事件，图片预加载逻辑，以及图片翻页逻辑</li>
+                <li>islider_dot.js： 支持在图片上添加页码标示，支持点击翻页，以...展示，<a target="_blank" href="./pic_with_dots.html">demo地址</a>
+                </li>
+                <li>islider_button.js： 支持在图片上添加页码标示，支持点击翻页. 以左右图标展示<a target="_blank" href="./pic_with_button.html">demo地址</a>
+                </li>
+                <li>islider_animate.js： islider滑动效果库，目前支持flip、depth、flow等翻页效果. <a target="_blank"
+                                                                                  href="./pic_with_animate.html">demo地址</a>
+                </li>
+                <li>islider_zoom.js： 针对type为pic类型的滑动元素提供的手势缩放功能，支持android和ios中手势缩放功能，同时支持边缘检测<a href="./pic_zoom.html"
+                                                                                                target="_blank">demo地址</a>
+                </li>
+            </ul>
+        </div>
+        <div id="demos">
+            <h2>iSlider demos</h2>
+
+            <p>若是PC，请打开webkit浏览器进行测试</p>
+
+            <h3 class="animate-title">动画效果</h3>
+
+            <div class="islider-demo-wrap">
+                <div id="iphone-fade"></div>
+                <iframe src="./2.X_more-loop.html" id="frameset"></iframe>
+            </div>
+            <div id="toggle-box">
+                <button type="button" data-target="./2.X_default.html">简单开始</button>
+                <button type="button" data-target="./2.X_more-loop.html">循环播放</button>
+                <button type="button" data-target="./2.X_more-animation.html">切换特效</button>
+                <button type="button" data-target="./2.X_more-3d.html">3D切换特效</button>
+                <button type="button" data-target="./2.X_more-autoplay.html">自动播放控制</button>
+                <button type="button" data-target="./2.X_more-vertical.html">支持垂直切换</button>
+                <button type="button" data-target="./2.X_with-plugin-zoom.html">图片缩放插件</button>
+                <button type="button" data-target="./2.X_with-plugins-dot-button.html">提供各种按钮插件支持</button>
+                <button type="button" data-target="./2.X_with-plugins-others.html">自定义的插件</button>
+            </div>
+            <h3 class="animate-title">demo代码</h3>
+                <pre>
+                    <code id="demo-code" class="javascript">
+                    </code>
+                </pre>
+            <h2>初始化:</h2>
+            <table border="0" cellspacing="0" id="options">
+                <thead>
+                <tr>
+                    <td>选项</td>
+                    <td>类型</td>
+                    <td>说明</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="3">
+                        必要的
+                    </td>
+                </tr>
+                <tr>
+                    <td>dom</td>
+                    <td>{HTML Element}</td>
+                    <td>容器节点</td>
+                </tr>
+                <tr>
+                    <td>data</td>
+                    <td>{array}</td>
+                    <td>
+                        数据列表:
+                        <br>
+                        [{
+                        content:'{url|HTML string|element|fragment}',
+                        },
+                        ...]
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        配置项
+                    </td>
+                </tr>
+                <tr>
+                    <td>type (已废弃)</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>duration</td>
+                    <td>{number}</td>
+                    <td>单位:毫秒，在自动播放模式中，设置每个场景的停留时间</td>
+                </tr>
+                <tr>
+                    <td>animateType</td>
+                    <td>{string}</td>
+                    <td>动画效果，目前支持默认default, rotate, depth, flow, flip and card</td>
+                </tr>
+                <tr>
+                    <td>animateTime</td>
+                    <td>{number}</td>
+                    <td>单位:毫秒，动画效果持续时间</td>
+                </tr>
+                <tr>
+                    <td>animateEasing</td>
+                    <td>{string}</td>
+                    <td>动画效果曲线，支持linear, ease, ease-in, ease-out, ease-in-out以及自定义的cubic-bezier曲线</td>
+                </tr>
+                <tr>
+                    <td>isDebug</td>
+                    <td>{boolean}</td>
+                    <td>开启/关闭调试模式，会打印更多日志信息，默认:false(关闭)</td>
+                </tr>
+                <tr>
+                    <td>isLooping</td>
+                    <td>{boolean}</td>
+                    <td>开启/关闭循环模式，默认:false(关闭)</td>
+                </tr>
+                <tr>
+                    <td>isAutoplay</td>
+                    <td>{boolean}</td>
+                    <td>开启/关闭自动滑动模式，默认:false(关闭)</td>
+                </tr>
+                <tr>
+                    <td>isVertical</td>
+                    <td>{boolean}</td>
+                    <td>开启水平/垂直滑动模式，默认:false(关闭)</td>
+                </tr>
+                <tr>
+                    <td>isOverspread</td>
+                    <td>{boolean}</td>
+                    <td>如果场景为图片模式，是否平铺整个浏览器屏幕(CSS3背景)，默认:false(关闭)</td>
+                </tr>
+                <tr>
+                    <td>initIndex</td>
+                    <td>{number}</td>
+                    <td>默认首屏所使用的数据列表索引</td>
+                </tr>
+                <tr>
+                    <td>fixPage</td>
+                    <td>{boolean}</td>
+                    <td>是否禁用垂直滚动和回弹效果，默认:true(开启)</td>
+                </tr>
+                <tr>
+                    <td>plugins</td>
+                    <td>{array}</td>
+                    <td>
+                        启用插件，可为插件名称列表：
+                        <pre>['dot', 'button', 'zoompic', ...]</pre>
+                        当然，还可以这样写，支持传入更多的插件初始化参数
+                        <pre>[..., ['zoompic', {zoomFactor: 2}], ...]</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        事件
+                    </td>
+                </tr>
+                <tr>
+                    <td>onslide</td>
+                    <td>{function}</td>
+                    <td>手指滑动时的回调函数</td>
+                </tr>
+                <tr>
+                    <td>onslidestart</td>
+                    <td>{function}</td>
+                    <td>手指触屏时的回调函数</td>
+                </tr>
+                <tr>
+                    <td>onslideend</td>
+                    <td>{function}</td>
+                    <td>手指离开屏幕时的回调函数</td>
+                </tr>
+                <tr>
+                    <td>onslidechange</td>
+                    <td>{function}</td>
+                    <td>当场景发生改变时触发的回调函数</td>
+                </tr>
+                <tr>
+                    <td>onslidechanged</td>
+                    <td>{function}</td>
+                    <td>当场景改变完成(动画完成)时触发的回调函数</td>
+                </tr>
+                <tr>
+                    <td>onsliderestore</td>
+                    <td>{function}</td>
+                    <td>当场景未发生变化时触发的回调函数</td>
+                </tr>
+                <tr>
+                    <td>onsliderestored</td>
+                    <td>{function}</td>
+                    <td>当场景未发生变化完成(回弹动画完成)时触发的回调函数</td>
+                </tr>
+                </tbody>
+            </table>
+            <h2 id="functions">实例方法:</h2>
+            <table cellspacing="0">
+                <thead>
+                <tr>
+                    <td>方法</td>
+                    <td>参数</td>
+                    <td>说明</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="3">
+                        静态方法
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        extend
+                    </td>
+                    <td>
+                        [{object} 原对象(可选)]
+                        <br>
+                        {object} 新对象
+                    </td>
+                    <td>
+                        当参数长度为1时，将参数对象继承到iSlider.prototype
+                        <br>
+                        当参数长度为2时，将第二个对象继承到第一个
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        regPlugin
+                    </td>
+                    <td>
+                        {string} 插件名称
+                        <br>
+                        {function} 插件初始化方法
+                    </td>
+                    <td>
+                        注册插件
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        实例方法
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        slideTo
+                    </td>
+                    <td>
+                        {number} 数据列表索引
+                        <br>
+                        [{object} 临时配置(可选)]
+                    </td>
+                    <td>
+                        滚动到第n个场景，可以在第二个参数设置配置信息，改变本次滑动的动画效果: animateTime animateType
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        slideNext
+                    </td>
+                    <td>
+                        [{object} 临时配置(可选)]
+                    </td>
+                    <td>
+                        滚动到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        slidePrev
+                    </td>
+                    <td>
+                        [{object} 临时配置(可选)]
+                    </td>
+                    <td>
+                        滚动到前一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        delegate
+                    </td>
+                    <td>
+                        {string} 事件名称
+                        <br>
+                        {string} 选择器 (querySelectorAll)
+                        <br>
+                        {function} 事件响应方法
+                    </td>
+                    <td>
+                        在容器node上绑定代理事件
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        bind
+                    </td>
+                    <td></td>
+                    <td>
+                        delegate 的别名
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        on
+                    </td>
+                    <td>
+                        {string} 事件
+                        <br>
+                        {function} 回掉方法
+                    </td>
+                    <td>
+                        在iSlider的事件中注册回掉方法
+                        <br>
+                        <ul>
+                            <li>
+                                slide
+                            </li>
+                            <li>
+                                slideStart
+                            </li>
+                            <li>
+                                slideEnd
+                            </li>
+                            <li>
+                                slideChange
+                            </li>
+                            <li>
+                                slideChanged
+                            </li>
+                            <li>
+                                slideRestore
+                            </li>
+                            <li>
+                                slideRestored
+                            </li>
+                            <li>
+                                reloadData
+                            </li>
+                            <li>
+                                destroy
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        off
+                    </td>
+                    <td>
+                        {string} 事件
+                        <br>
+                        {function} 回掉方法
+                    </td>
+                    <td>
+                        从iSlider的事件中移除回掉方法
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        fire
+                    </td>
+                    <td>
+                        随相应事件变化
+                    </td>
+                    <td>
+                        出发某个事件
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        play
+                    </td>
+                    <td></td>
+                    <td>
+                        开始自动切换（必须在自动播放模式中）
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        pause
+                    </td>
+                    <td></td>
+                    <td>
+                        暂停自动切换（必须在自动播放模式中）
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        extend
+                    </td>
+                    <td></td>
+                    <td>
+                        同iSlider.extend
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        regPlugin
+                    </td>
+                    <td></td>
+                    <td>
+                        同iSlider.regPlugin，注册的同时会自动加入激活的插件列表中，并自动执行初始化
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        loadData
+                    </td>
+                    <td>
+                        {array} 数据列表
+                    </td>
+                    <td>
+                        载入数据列表
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        hold
+                    </td>
+                    <td></td>
+                    <td>
+                        当前场景禁止手势
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        unhold
+                    </td>
+                    <td></td>
+                    <td>
+                        当前场景开启手势，同时解除锁定
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        lock
+                    </td>
+                    <td></td>
+                    <td>
+                        锁定当前场景，禁用sliceTo, slideNext, slidePrev方法，同时禁止手势
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        unlock
+                    </td>
+                    <td></td>
+                    <td>
+                        解除锁定
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        destroy
+                    </td>
+                    <td></td>
+                    <td>
+                        销毁当前iSlider实例，内存释放
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        reset
+                    </td>
+                    <td></td>
+                    <td>
+                        复位当前iSlider实例
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script src="//cdn.bootcss.com/jquery/1.11.2/jquery.js"></script>
+<script src="//cdn.jsdelivr.net/highlight.js/8.9.1/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="./public/js/index.js"></script>
+</body>
+</html>

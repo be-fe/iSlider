@@ -4,8 +4,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
-    <title>Default 2.0</title>
-    <link href="../public/css/iSlider.css" rel="stylesheet">
+    <title>iSlider with plugins dot and button</title>
+    <link href="./public/css/iSlider.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -46,6 +46,25 @@
             max-width: 100%;
             max-height: 100%;
         }
+
+        .islider-btn-outer {
+            background-color: rgba(0, 0, 0, .5);
+            border-radius: 99px;
+        }
+
+        .islider-btn-inner {
+            height: 30%;
+            width: 30%;
+            margin-top: 34%;
+        }
+
+        .islider-btn-outer.left .islider-btn-inner {
+            margin-left: 40%;
+        }
+
+        .islider-btn-outer.right .islider-btn-inner {
+            margin-right: 40%;
+        }
     </style>
 
 </head>
@@ -54,12 +73,14 @@
 <div id="hidden-space" style="display:none">
     <p style="font-size:3em;text-align: center;color:#04f512">A node in dom tree.</p>
 </div>
-<script type="text/javascript" src="../public/js/iSlider.js"></script>
-<script>
+<script type="text/javascript" src="./public/js/iSlider.js"></script>
+<script type="text/javascript" src="./public/js/iSlider.plugin.dot.js"></script>
+<script type="text/javascript" src="./public/js/iSlider.plugin.button.js"></script>
+<script id="show-code">
     var list = [
         // picture
         {
-            content: './imgs/0.jpg'
+            content: './imgs/6.jpg'
         },
         // HTML String
         {
@@ -78,6 +99,7 @@
         {
             content: (function () {
                 var frag = document.createDocumentFragment();
+                var img = new Image()
                 var dom = document.createElement('div');
                 dom.innerHTML = 'Fragment';
                 dom.style.cssText = 'font-size:3em;color:rgb(230, 63, 230);';
@@ -88,6 +110,14 @@
         // dom
         {
             content: document.querySelector('#hidden-space > p')
+        },
+        // iframe
+        {
+            content: '' +
+            '<div style="padding-top:.2em;font-size:3em;color:rgb(230, 63, 230);position:absolute;top:0;left:0;height:100%;width:100%;z-index:1">' +
+            '<span style="padding:.2em;background-color:black;">Iframe</span>' +
+            '</div>' +
+            '<iframe style="position:relative;z-index:0;height:100%;" src="http://mobile.baidu.com"></iframe>'
         }
     ];
 
@@ -97,13 +127,7 @@
         isLooping: 1,
         isOverspread: 1,
         animateTime: 800, // ms
-        onslidechanged: function (index) {
-            console.log('[slideChanged] change to ' + index);
-        }
-    });
-
-    S.on('slideRestored', function (index) {
-        console.log('[slideRestored] no change, restore to ' + index);
+        plugins: ['dot', 'button']
     });
 </script>
 </body>

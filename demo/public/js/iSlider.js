@@ -100,7 +100,11 @@
         if (!args.length) {
             throw new Error('Parameters required!');
         }
-        var opts = args.pop();
+
+        var opts = Object.prototype.toString.call(args.slice(-1)[0]) === '[object Object]'
+            ? args.pop()
+            : {};
+
         switch (args.length) {
             case 2:
                 opts.data = opts.data || args[1];
@@ -660,9 +664,9 @@
             var simg = ' src="' + item.content + '"';
 
             if (item.height / item.width > this.ratio) {
-                simg += ' height="' + el.clientHeight + '"';
+                simg += ' height="100%"';
             } else {
-                simg += ' width="' + el.clientWidth + '"';
+                simg += ' width="100%"';
             }
 
             if (this.isOverspread) {
@@ -775,12 +779,11 @@
 
             // prepare style animation
             this._animateFunc(li, this.axis, this.scale, i, 0);
-            if (this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
-                this._renderItem(li, 1 - i + this.slideIndex);
-            }
-            else {
-                this._renderItem(li, i - 1 + this.slideIndex);
-            }
+
+            this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')
+                ? this._renderItem(li, 1 - i + this.slideIndex)
+                : this._renderItem(li, i - 1 + this.slideIndex);
+
             outer.appendChild(li);
         }
 

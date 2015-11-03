@@ -1,3 +1,9 @@
+### iSlider 2.0.3
+
+2015-11-02
+
+Fix parameter error, opts is is no longer necessary.
+
 ### iSlider 2.0.2
 
 #### bug fixes
