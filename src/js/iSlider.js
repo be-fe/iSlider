@@ -100,7 +100,11 @@
         if (!args.length) {
             throw new Error('Parameters required!');
         }
-        var opts = args.pop();
+
+        var opts = Object.prototype.toString.call(args.slice(-1)[0]) === '[object Object]'
+            ? args.pop()
+            : {};
+
         switch (args.length) {
             case 2:
                 opts.data = opts.data || args[1];
@@ -128,6 +132,13 @@
          * @private
          */
         this._LSN = {};
+
+        /**
+         * Event handle
+         * @type {{}}
+         * @private
+         */
+        this._EventHandle = {};
 
         opts = args = null;
 
@@ -653,9 +664,9 @@
             var simg = ' src="' + item.content + '"';
 
             if (item.height / item.width > this.ratio) {
-                simg += ' height="' + el.clientHeight + '"';
+                simg += ' height="100%"';
             } else {
-                simg += ' width="' + el.clientWidth + '"';
+                simg += ' width="100%"';
             }
 
             if (this.isOverspread) {
@@ -768,12 +779,11 @@
 
             // prepare style animation
             this._animateFunc(li, this.axis, this.scale, i, 0);
-            if (this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')) {
-                this._renderItem(li, 1 - i + this.slideIndex);
-            }
-            else {
-                this._renderItem(li, i - 1 + this.slideIndex);
-            }
+
+            this.isVertical && (this._opts.animateType === 'rotate' || this._opts.animateType === 'flip')
+                ? this._renderItem(li, 1 - i + this.slideIndex)
+                : this._renderItem(li, i - 1 + this.slideIndex);
+
             outer.appendChild(li);
         }
 
@@ -1259,6 +1269,8 @@
      *  @public
      */
     iSliderPrototype.bind = iSliderPrototype.delegate = function (evtType, selector, callback) {
+
+
         function handle(e) {
             var evt = global.event ? global.event : e;
             var target = evt.target;
@@ -1272,15 +1284,41 @@
         }
 
         this.wrap.addEventListener(evtType, handle, false);
+
+        var key = evtType + ';' + selector;
+        if (!this._EventHandle.hasOwnProperty(key)) {
+            this._EventHandle[key] = [
+                [callback],
+                [handle]
+            ]
+        } else {
+            this._EventHandle[key][0].push(callback);
+            this._EventHandle[key][1].push(handle);
+        }
     };
 
     /**
-     * TODO unbind, unDelegate
      * remove event delegate from wrap
+     *
+     * @param {string} evtType event name
+     * @param {string} selector the simple css selector like jQuery
+     * @param {function} callback event callback
      * @public
      */
-    iSliderPrototype.unbind = iSliderPrototype.unDelegate = function (eventType, selector, callback) {
+    iSliderPrototype.unbind = iSliderPrototype.unDelegate = function (evtType, selector, callback) {
+        var key = evtType + ';' + selector;
+        if (this._EventHandle.hasOwnProperty(key)) {
+            var i = this._EventHandle[key][0].indexOf(callback);
+            if (i > -1) {
+                this.wrap.removeEventListener(evtType, this._EventHandle[key][1][i]);
+                this._EventHandle[key][0][i] = this._EventHandle[key][1][i] = null;
+                // delete this._EventHandle[key][0][i];
+                // delete this._EventHandle[key][1][i];
+                return true;
+            }
+        }
 
+        return false
     };
 
     /**
@@ -1301,10 +1339,21 @@
         global.removeEventListener('focus', this);
         global.removeEventListener('blur', this);
 
+        // Clear delegate events
+        for (var n in this._EventHandle) {
+            var handList = this._EventHandle[n][1];
+            for (var i = 0; i < handList.length; i++) {
+                if (typeof handList[i] === 'function') {
+                    this.wrap.removeEventListener(n.substr(0, n.indexOf(';')), handList[i]);
+                }
+            }
+        }
+        this._EventHandle = null;
+
         // Clear timer
         for (var n in this._LSN)
             this._LSN.hasOwnProperty(n) && this._LSN[n] && global.clearTimeout(this._LSN[n]);
-        
+
         this._LSN = null;
 
         this.wrap.innerHTML = '';
@@ -1349,7 +1398,6 @@
         if (eventName in this.events) {
             var funcs = this.events[eventName];
             for (var i = 0; i < funcs.length; i++) {
-                // TODO will support custom context, now context is instance of iSlider
                 typeof funcs[i] === 'function'
                 && funcs[i].apply
                 && funcs[i].apply(this, Array.prototype.slice.call(arguments, 1));

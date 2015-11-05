@@ -1,8 +1,20 @@
+### iSlider 2.0.3
+
+2015-11-02
+
+Fix parameter error, opts is is no longer necessary.
+
 ### iSlider 2.0.2
 
 #### bug fixes
 
-- Fix mouse buttons error on safari
+- Fix mouse buttons error on safari;
+- Fix timer clean in destroy;
+
+#### Something new
+
+- Create event callback management mechanism, and "unbind", "undelegate" method;
+- Cleanup delegate event when destruction;
 
 ### iSlider 2.0.1
 

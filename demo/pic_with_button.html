@@ -4,8 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
-    <title>iSlider with plugin zoompic</title>
-    <link href="../public/css/iSlider.css" rel="stylesheet">
+    <link href="public/css/iSlider.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -46,50 +45,35 @@
             max-width: 100%;
             max-height: 100%;
         }
-    </style>
 
+    </style>
 </head>
+
 <body>
+<!-- Outer Canvas 外层画布 -->
 <div id="iSlider-wrapper"></div>
-<script type="text/javascript" src="../public/js/iSlider.js"></script>
-<script type="text/javascript" src="../public/js/iSlider.plugin.zoompic.js"></script>
+<script src="public/js/iSlider.js"></script>
+<script src="public/js/iSlider.plugin.button.js"></script>
 <script>
     var list = [
-        // picture 1
-        {
-            content: './imgs/3.jpg'
-        },
-        // HTML String
-        {
-            content: '<div style="font-size:4em;color:white;text-align: center">HTML String</div>'
-        },
-        // picture 2
-        {
-            content: './imgs/1.jpg'
-        },
-        // element
-        {
-            content: (function () {
-                var dom = document.createElement('div');
-                dom.innerHTML = 'Element';
-                dom.style.cssText = 'font-size:3em;color:rgb(230, 230, 63);';
-                return dom;
-            })()
-        },
-        // picture 3
-        {
-            content: './imgs/2.jpg'
-        }
+        {content: "./imgs/high/1.jpg"},
+        {content: "./imgs/high/2.jpg"},
+        {content: "./imgs/high/3.jpg"},
+        {content: "./imgs/high/4.jpg"},
+        {content: "./imgs/high/5.jpg"},
+        {content: "./imgs/high/6.jpg"},
+        {content: "./imgs/high/7.jpg"},
+        {content: "./imgs/high/8.jpg"},
+        {content: "./imgs/high/9.jpg"}
     ];
 
-    var S = new iSlider({
-        dom: document.getElementById('iSlider-wrapper'),
+    var islider = new iSlider({
         data: list,
-        isLooping: 1,
-        isOverspread: false,
-        animateTime: 800, // ms
-        plugins: [['zoompic', {zoomFactor: 3}]]
+        dom: document.getElementById("iSlider-wrapper"),
+        isLooping: true,
+        plugins: ['button']
     });
+
 </script>
 </body>
 </html>
