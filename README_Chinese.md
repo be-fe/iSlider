@@ -422,6 +422,30 @@ var data = [{
     </tr>
     <tr>
         <td>
+            unDelegate
+        </td>
+        <td>
+            {string} 事件名称
+            <br>
+            {string} 选择器 (querySelectorAll)
+            <br>
+            {function} 事件响应方法
+        </td>
+        <td>
+            解绑事件句柄
+        </td>
+    </tr>
+    <tr>
+        <td>
+            unbind
+        </td>
+        <td></td>
+        <td>
+            unDelegate的别名
+        </td>
+    </tr>
+    <tr>
+        <td>
             on
         </td>
         <td>
