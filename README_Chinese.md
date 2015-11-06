@@ -3,7 +3,7 @@
 ![](thumbnails/iSlider-logo.png)
 
 #### [iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
-#### [iSlider DEMO (coming soon ...)](http://be-fe.github.io/iSlider/demo/index.html)
+#### [iSlider DEMO](http://be-fe.github.io/iSlider/demo/index.html)
 #### [iSlider 中文文档](https://github.com/BE-FE/iSlider/blob/master/README_Chinese.md)
 #### [iSlider 演示](http://be-fe.github.io/iSlider/demo/index_chinese.html)
 
@@ -418,6 +418,30 @@ var data = [{
         <td></td>
         <td>
             delegate 的别名
+        </td>
+    </tr>
+    <tr>
+        <td>
+            unDelegate
+        </td>
+        <td>
+            {string} 事件名称
+            <br>
+            {string} 选择器 (querySelectorAll)
+            <br>
+            {function} 事件响应方法
+        </td>
+        <td>
+            解绑事件句柄
+        </td>
+    </tr>
+    <tr>
+        <td>
+            unbind
+        </td>
+        <td></td>
+        <td>
+            unDelegate的别名
         </td>
     </tr>
     <tr>

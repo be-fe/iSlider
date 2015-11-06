@@ -3,7 +3,7 @@
 ![](thumbnails/iSlider-logo.png)
 
 #### [iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
-#### [iSlider DEMO (coming soon ...)](http://be-fe.github.io/iSlider/demo/index.html)
+#### [iSlider DEMO](http://be-fe.github.io/iSlider/demo/index.html)
 #### [iSlider 中文文档](https://github.com/BE-FE/iSlider/blob/master/README_Chinese.md)
 #### [iSlider 演示](http://be-fe.github.io/iSlider/demo/index_chinese.html)
 
@@ -427,6 +427,30 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         <td></td>
         <td>
             Alias of delegate
+        </td>
+    </tr>
+    <tr>
+        <td>
+            unDelegate
+        </td>
+        <td>
+            {string} event name
+            <br>
+            {string} selector (same syntax as querySelectorAll)
+            <br>
+            {function} event hanlder method
+        </td>
+        <td>
+            unBind event handler
+        </td>
+    </tr>
+    <tr>
+        <td>
+            unbind
+        </td>
+        <td></td>
+        <td>
+            Alias of unDelegate
         </td>
     </tr>
     <tr>
