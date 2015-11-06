@@ -431,6 +431,30 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
     </tr>
     <tr>
         <td>
+            unDelegate
+        </td>
+        <td>
+            {string} event name
+            <br>
+            {string} selector (same syntax as querySelectorAll)
+            <br>
+            {function} event hanlder method
+        </td>
+        <td>
+            unBind event handler
+        </td>
+    </tr>
+    <tr>
+        <td>
+            unbind
+        </td>
+        <td></td>
+        <td>
+            Alias of unDelegate
+        </td>
+    </tr>
+    <tr>
+        <td>
             on
         </td>
         <td>
