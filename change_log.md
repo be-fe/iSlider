@@ -1,3 +1,14 @@
+### iSlider 2.0.4
+
+2015-11-13
+
+- [BUG Fix]None fixPage mode, overflow will set to "auto"
+- [BUG Fix]Add "mouseout" event, on desktop browser. Sticky problem when the finger to draw boundaries during sliding.
+- [Optimization] Image loading sequence
+- [Optimization] Animation Scope
+- [Optimization] AnimateType mount change
+- [Plug-in] BIZone added
+
 ### iSlider 2.0.3
 
 2015-11-02
