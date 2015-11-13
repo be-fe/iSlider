@@ -5,11 +5,23 @@
           content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
     <link rel="stylesheet" href="style/iSlider.css"/>
     <style>
+        html, body {
+            height: 100%;
+        }
+
         body {
             margin: 0;
             padding: 0;
             background: #333;
             overflow: hidden;
+        }
+
+        #iSlider-wrapper {
+            height: 100%;
+        }
+
+        .islider-btn-outer {
+            z-index: 1000;
         }
     </style>
 </head>
@@ -83,17 +95,16 @@
             document.getElementById("(Ō̥̥̥̥̥̥̥ ԑ Ō̥̥̥̥̥̥̥ )"), list, {
 //                data: list,
                 dom: document.getElementById("iSlider-wrapper"),
-//                isVertical: true,
+                isVertical: true,
                 isLooping: 1,
                 isOverspread: 1,
-//                animateType: 'default',
-                animateTime: 5000,
+                animateType: 'rotate',
+                animateTime: 1000,
                 fixPage: 0,
                 isDebug: 1,
-                // isLoading: true,
                 // isAutoplay: true,
                 // duration: 5000,
-                // plugins: [['dot', {locate: 'relative'}], 'button', ['zoompic', {zoomFactor: 2}], 'BIZone'],
+                plugins: [['dot', {locate: 'relative'}], 'button', ['zoompic', {zoomFactor: 2}]],
 //                onslide: function () {
 //                    console.debug(arguments)
 //                },

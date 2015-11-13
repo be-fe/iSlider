@@ -227,11 +227,11 @@
     /**
      * animation parmas:
      *
-     * @param {Element}      dom             图片的外层<li>容器       Img wrapper
-     * @param {String}       axis            动画方向                animate direction
-     * @param {Number}       scale           容器宽度                Outer wrapper
-     * @param {Number}       i               <li>容器index          Img wrapper's index
-     * @param {Number}       offset          滑动距离                move distance
+     * @param {Element} dom 图片的外层<li>容器 Img wrapper
+     * @param {String} axis 动画方向 animate direction
+     * @param {Number} scale 容器宽度 Outer wrapper
+     * @param {Number} i <li>容器index Img wrapper's index
+     * @param {Number} offset 滑动距离 move distance
      * @protected
      */
     iSlider._animateFuncs = {
@@ -266,7 +266,7 @@
     })();
 
     /**
-     * This is a alias，conducive to compression
+     * This is a alias, conducive to compression
      * @type {Object}
      */
     var iSliderPrototype = iSlider.prototype;
@@ -796,6 +796,11 @@
             // prepare style animation
             this._animateFunc(li, this.axis, this.scale, i, 0);
 
+            // auto overflow in none fixPage mode
+            if (!this.fixPage) {
+                li.style.overflow = 'auto';
+            }
+
             this.isVertical && (this.animateType === 'rotate' || this.animateType === 'flip')
                 ? this._renderItem(li, 1 - i + this.slideIndex)
                 : this._renderItem(li, i - 1 + this.slideIndex);
@@ -934,7 +939,7 @@
         var device = this.deviceEvents;
         switch (evt.type) {
             case 'mousedown':
-                /* block mouse buttons except left */
+                // block mouse buttons except left
                 if (evt.button !== 0) break;
             case 'touchstart':
                 this.startHandler(evt);
@@ -943,7 +948,7 @@
                 this.moveHandler(evt);
                 break;
             case device.endEvt:
-            case 'mouseout':
+            case 'mouseout': // mouseout event, trigger endEvent
             case 'touchcancel':
                 this.endHandler(evt);
                 break;
@@ -1231,7 +1236,7 @@
         for (var i = 0; i < 3; i++) {
             if (els[i] !== headEl) {
                 // Only applies to "transform"
-                els[i].style.webkitTransition = 'transform ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
+                els[i].style.webkitTransition = 'all ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
             }
             animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
         }
