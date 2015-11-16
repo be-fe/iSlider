@@ -155,7 +155,7 @@
      * @type {Array}
      * @protected
      */
-    iSlider.EVENTS = 'initialize slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored reloadData destroy'.split(' ');
+    iSlider.EVENTS = 'initialize slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored reloadData reset destroy'.split(' ');
 
     /**
      * Easing white list
@@ -435,6 +435,13 @@
         this.isLooping = opts.isLooping && this.data.length > 1 ? true : false;
 
         /**
+         * AutoPlay waitting milsecond to start
+         * @type {number}
+         * @private
+         */
+        this.delay = opts.delay || 0;
+
+        /**
          * autoplay logic adjust
          * @type {boolean}
          * @private
@@ -526,25 +533,25 @@
         // --------------------------------
 
         // Callback function when your finger is moving
-        this.on('slide', opts.onslide);
+        this.on('slide', opts.onslide, 1);
 
         // Callback function when your finger touch the screen
-        this.on('slideStart', opts.onslidestart);
+        this.on('slideStart', opts.onslidestart, 1);
 
         // Callback function when the finger move out of the screen
-        this.on('slideEnd', opts.onslideend);
+        this.on('slideEnd', opts.onslideend, 1);
 
         // Callback function when slide to next/prev scene
-        this.on('slideChange', opts.onslidechange);
+        this.on('slideChange', opts.onslidechange, 1);
 
         // Callback function when next/prev scene, while animation has completed
-        this.on('slideChanged', opts.onslidechanged);
+        this.on('slideChanged', opts.onslidechanged, 1);
 
         // Callback function when restore to the current scene
-        this.on('slideRestore', opts.onsliderestore);
+        this.on('slideRestore', opts.onsliderestore, 1);
 
         // Callback function when restore to the current scene, while animation has completed
-        this.on('slideRestored', opts.onsliderestored);
+        this.on('slideRestored', opts.onsliderestored, 1);
 
         // --------------------------------
         // - Plugins
@@ -571,9 +578,7 @@
         })();
 
         // Autoplay mode
-        if (this.isAutoplay) {
-            this.play();
-        }
+        this.delay && global.setTimeout(this._autoPlay.bind(this), this.delay);
     };
 
     /**
@@ -788,7 +793,13 @@
         outer.className = 'islider-outer';
 
         // storage li elements, only store 3 elements to reduce memory usage
+        /**
+         * Slider elements x3
+         * @type {Array}
+         * @public
+         */
         this.els = [];
+
         for (var i = 0; i < 3; i++) {
             var li = document.createElement('li');
             this.els.push(li);
@@ -817,6 +828,10 @@
 
         // append ul to div#canvas
         if (!this.outer) {
+            /**
+             * @type {Element}
+             * @public
+             */
             this.outer = outer;
             this.wrap.appendChild(outer);
         }
@@ -956,7 +971,7 @@
                 this.orientationchangeHandler();
                 break;
             case 'focus':
-                this.isAutoplay && this.play();
+                this._autoPlay();
                 break;
             case 'blur':
                 this.pause();
@@ -1098,7 +1113,7 @@
 
         this.offset.X = this.offset.Y = 0;
 
-        this.isAutoplay && this.play();
+        this._autoPlay();
 
         this.fire('slideEnd', evt, this);
     };
@@ -1299,8 +1314,7 @@
      */
     iSliderPrototype.bind = iSliderPrototype.delegate = function (evtType, selector, callback) {
 
-
-        function handle(e) {
+        function delegatedEventCallbackHandle(e) {
             var evt = global.event ? global.event : e;
             var target = evt.target;
             var eleArr = document.querySelectorAll(selector);
@@ -1312,17 +1326,17 @@
             }
         }
 
-        this.wrap.addEventListener(evtType, handle, false);
+        this.wrap.addEventListener(evtType, delegatedEventCallbackHandle, false);
 
         var key = evtType + ';' + selector;
         if (!this._EventHandle.hasOwnProperty(key)) {
             this._EventHandle[key] = [
                 [callback],
-                [handle]
+                [delegatedEventCallbackHandle]
             ]
         } else {
             this._EventHandle[key][0].push(callback);
-            this._EventHandle[key][1].push(handle);
+            this._EventHandle[key][1].push(delegatedEventCallbackHandle);
         }
     };
 
@@ -1397,10 +1411,29 @@
      * @param {function} func
      * @public
      */
-    iSliderPrototype.on = function (eventName, func) {
+    iSliderPrototype.on = function (eventName, func, force) {
         if (inArray(eventName, iSlider.EVENTS) && typeof func === 'function') {
-            (eventName in this.events ? this.events[eventName] : this.events[eventName] = []).push(func);
+            !(eventName in this.events) && (this.events[eventName] = []);
+            if (!force) {
+                this.events[eventName].push(func);
+            } else {
+                this.events[eventName].unshift(func);
+            }
         }
+    };
+
+    /**
+     * Find callback function position
+     * @param eventName
+     * @param func
+     * @returns {number}
+     * @public
+     */
+    iSliderPrototype.has = function (eventName, func) {
+        if (eventName in this.events) {
+            return this.events[eventName].indexOf(func);
+        }
+        return -1;
     };
 
     /**
@@ -1410,12 +1443,9 @@
      * @public
      */
     iSliderPrototype.off = function (eventName, func) {
-        if (eventName in this.events) {
-            var funcs = this.events[eventName];
-            var index = funcs.indexOf(func);
-            if (index > -1) {
-                delete funcs[index];
-            }
+        var index = this.has(eventName, func);
+        if (index > -1) {
+            delete this.events[eventName][index];
         }
     };
 
@@ -1445,7 +1475,7 @@
         this.pause();
         this._setting();
         this._renderWrapper();
-        this.isAutoplay && this.play();
+        this.delay && global.setTimeout(this._autoPlay.bind(this), this.delay);
     };
 
     /**
@@ -1458,7 +1488,19 @@
         this.data = data;
         this._renderWrapper();
         this.fire('reloadData');
-        this.isAutoplay && this.play();
+        this.delay && global.setTimeout(this._autoPlay.bind(this), this.delay);
+    };
+
+    iSliderPrototype._autoPlay = function () {
+        // enable
+        if (this.isAutoplay) {
+            this.has('slideChanged', this.play) < 0 && this.on('slideChanged', this.play, 1);
+            this.has('slideRestored', this.play) < 0 && this.on('slideRestored', this.play, 1);
+            this.play();
+        } else {
+            this.off('slideChanged', this.play);
+            this.off('slideRestored', this.play);
+        }
     };
 
     /**
@@ -1466,17 +1508,8 @@
      * @public
      */
     iSliderPrototype.play = function () {
-        var self = this;
         this._LSN.autoPlay && global.clearTimeout(this._LSN.autoPlay);
-
-        function play() {
-            self._LSN.autoPlay = setTimeout(function () {
-                self.slideNext();
-                play();
-            }, self.duration);
-        };
-
-        play();
+        this._LSN.autoPlay = global.setTimeout(this.slideNext.bind(this), this.duration);
     };
 
     /**
@@ -1484,7 +1517,7 @@
      * @public
      */
     iSliderPrototype.pause = function () {
-        this._LSN.autoPlay && clearTimeout(this._LSN.autoPlay);
+        this._LSN.autoPlay && global.clearTimeout(this._LSN.autoPlay);
     };
 
     /**
