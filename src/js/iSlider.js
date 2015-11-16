@@ -1491,6 +1491,10 @@
         this.delay && global.setTimeout(this._autoPlay.bind(this), this.delay);
     };
 
+    /**
+     * auto check to play and bind events
+     * @private
+     */
     iSliderPrototype._autoPlay = function () {
         // enable
         if (this.isAutoplay) {
