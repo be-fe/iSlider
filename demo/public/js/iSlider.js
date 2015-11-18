@@ -578,7 +578,7 @@
         })();
 
         // Autoplay mode
-        this.delay && global.setTimeout(this._autoPlay.bind(this), this.delay);
+        this.delay ? global.setTimeout(this._autoPlay.bind(this), this.delay) : this._autoPlay();
     };
 
     /**
