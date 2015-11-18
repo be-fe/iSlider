@@ -1,3 +1,10 @@
+### iSlider 2.0.5
+
+- [Optimization]Autoplay timer will start counting after animation("slideChanged", "slideRestored")
+- [Optimization]Add option "delay" for setting what time to start auto-play
+- [Optimization]Methods "on" add the third parameter to set a callback priority(Boolean equivalent value), If set to "true" then added to the top of the queue. default is "false".
+
+
 ### iSlider 2.0.4
 
 2015-11-13
