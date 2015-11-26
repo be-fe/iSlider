@@ -58,37 +58,42 @@
                 <a href="#demos">iSlider DEMO</a>
             </h4>
 
-            <p>iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。它有如下特性：</p>
+            <p>iSlider is an outstanding, dependecy-free sliding js framework for mobile. 
+                It is capable of handling any kind of elements, e.g. image, DOM element.
+                It features:
+            </p>
             <ul class="task-list">
-                <li>性能极好，硬件加速，极小占用内存</li>
-                <li>能够自定义动画，自带的动画包括 default, rotate, depth, flow, flip, card, fade 等</li>
-                <li>你能够简易地添加回调函数(islider.on('eventType', callback))</li>
-                <li>支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动</li>
-                <li>自动适配桌面鼠标动作与移动端手势，方便测试与跨平台使用</li>
-                <li>支持图片预加载，改善用户体验</li>
-                <li>[Plugin]支持手势缩放，解决图片太大无法看清问题</li>
-                <li>[2.0+]支持更多种类的元素置入，自动匹配场景类型，识别图片并预加载</li>
-                <li>[2.0+]更完善的代理事件管理机制，优化内存占用</li>
+                <li>Highly performant, hardware acceleration, least memory usage.</li>
+                <li>Able to customise animations. Built-in animations include default, rotate, depth, flow, flip, card, fade etc.</li>
+                <li>You can easily add a callback function (islider.on('eventType', callback))</li>
+                <li>Supports ease-out sliding, looping, auto-sliding, horizontal/vertical sliding</li>
+                <li>Responsive to both mouse events and mobile gestures. Feasible in cross-platform scenarios</li>
+                <li>Pre-loading enabled to enhancement user experience</li>
+                <li>[Plugin] Supports pinch to zoom, in case the image is too huge to view</li>
+                <li>[2.0+] Supports more types of embeded elements. Auto detects the scenario, recognises the image and pre loads.</li>
+                <li>[2.0+] Better delegate event system, lessen memory usage</li>
             </ul>
-            <h2 id="frame">iSlider 结构说明</h2>
+            <h2 id="frame">iSlider Architecture</h2>
             <ul>
                 <li>
-                    iSlider.js： iSlider核心代码库,定义iSlider类，绑定touch事件，图片预加载逻辑，以及图片翻页逻辑
+                    iSlider.js： iSlider core, which defines class iSlider, binds touch event, implements image pre-loading and 
+                    image transitions.
                 </li>
                 <li>
-                    iSlider.animate.js： islider滑动效果库，目前支持flip、depth、flow等翻页效果。
-                    <a target="_blank" href="./pic_with_animate.html">demo地址</a>
+                    iSlider.animate.js： sliding animiation library. At the moment, it supports flip、depth、flow etc.
+                    <a target="_blank" href="./pic_with_animate.html">demo</a>
                 </li>
                 <li>
-                    iSlider.plugin.dot.js： 支持在图片上添加页码标示，支持点击翻页，以...展示。
-                    <a target="_blank" href="./pic_with_dots.html">demo地址</a>
+                    iSlider.plugin.dot.js： supports page annotations over image, and tap to switch, present with "..."
+                    <a target="_blank" href="./pic_with_dots.html">demo</a>
                 </li>
                 <li>
-                    iSlider.plugin.button.js： 支持在图片上添加页码标示，支持点击翻页，以左右图标展示。
-                    <a target="_blank" href="./pic_with_button.html">demo地址</a>
+                    iSlider.plugin.button.js： Supports page annotations over image, and tap to switch, present with left/right icons
+                    <a target="_blank" href="./pic_with_button.html">demo</a>
                 </li>
                 <li>
-                    iSlider.plugin.zoompic.js： 针对type为pic类型的滑动元素提供的手势缩放功能，支持android和ios中手势缩放功能，同时支持边缘检测。
+                    iSlider.plugin.zoompic.js： provides pinching for zooming for element with type of 'pic',
+                    supports android and ios' native zooming gestures, and also auto detects the edge.
                     <a target="_blank" href="./pic_zoom.html">demo地址</a>
                 </li>
             </ul>
