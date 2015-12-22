@@ -1,3 +1,7 @@
+### iSlider 2.0.6
+- [Optimization]add default width:100% for ul in css file.
+- [BUG fix]At isOverspread mode, background image cant be displayed. background size problem. (╯‵□′)╯︵┻━┻, baidu browser... kernel tooooooo damn old!
+
 ### iSlider 2.0.5
 
 - [Optimization]Autoplay timer will start counting after animation("slideChanged", "slideRestored")

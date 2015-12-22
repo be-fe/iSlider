@@ -689,7 +689,7 @@
                 simg += ' width="100%"';
             }
             if (self.isOverspread) {
-                el.style.background = 'url(' + item.content + ') no-repeat 50% 50%/cover';
+                el.style.cssText = 'background:url(' + item.content + ') no-repeat 50% 50%;background-size:cover';
                 simg += ' style="display:block;opacity:0;height:100%;width:100%;"'
             }
             // for right button, save picture
