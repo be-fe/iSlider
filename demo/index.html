@@ -4,9 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>iSlider by BE-FE</title>
-
     <link rel="stylesheet" href="public/css/index.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.9.1/styles/default.min.css">
+    <link rel="stylesheet" href="//highlightjs.org/static/styles/monokai_sublime.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -14,7 +13,588 @@
 </head>
 <body>
 <header class="summary">
-    <h2>Coming soon ...</h2>
+    <h2>iSlider Demo</h2>
+
+    <div class="divider"></div>
+    <ul>
+        <li><a href="#intro">Summary</a></li>
+        <li><a href="#frame">Structure</a></li>
+        <li><a href="#demos">Demo instance</a></li>
+        <li><a href="#demo-code">Demo code</a></li>
+        <li><a href="#options">Initialize Options</a></li>
+        <li><a href="#functions">Methods</a></li>
+    </ul>
+    <ul>
+        <li>
+            <iframe src="https://ghbtns.com/github-btn.html?user=BE-FE&repo=iSlider&type=star&count=true&size=small"
+                    frameborder="0" scrolling="0" width="160px" height="20px"></iframe>
+        </li>
+        <li>
+            <iframe src="https://ghbtns.com/github-btn.html?user=BE-FE&repo=iSlider&type=watch&count=true&size=small&v=2"
+                    frameborder="0" scrolling="0" width="160px" height="20px"></iframe>
+        </li>
+        <li>
+            <iframe src="https://ghbtns.com/github-btn.html?user=BE-FE&repo=iSlider&type=fork&count=true&size=small"
+                    frameborder="0" scrolling="0" width="158px" height="20px"></iframe>
+        </li>
+        <li>
+            <iframe src="https://img.shields.io/npm/dm/islider.svg" frameborder="0" scrolling="0" width="160px"
+                    height="20px"></iframe>
+        </li>
+    </ul>
 </header>
+<section>
+    <div id="section-content">
+        <div id="intro">
+            <h1>
+                <a id="islider" class="anchor" href="#islider" aria-hidden="true">
+                    <span class="octicon octicon-link"></span>
+                </a>
+                iSlider
+            </h1>
+            <h4>
+                <a href="http://be-fe.github.io/iSlider/demo/index_chinese.html">iSlider 中文演示页</a>
+                <br>
+                <a href="#demos">iSlider DEMO</a>
+            </h4>
+
+            <p>iSlider is an outstanding, dependecy-free sliding js framework for mobile. 
+                It is capable of handling any kind of elements, e.g. image, DOM element.
+                It features:
+            </p>
+            <ul class="task-list">
+                <li>Highly performant, hardware acceleration, least memory usage.</li>
+                <li>Able to customise animations. Built-in animations include default, rotate, depth, flow, flip, card, fade etc.</li>
+                <li>You can easily add a callback function (islider.on('eventType', callback))</li>
+                <li>Supports ease-out sliding, looping, auto-sliding, horizontal/vertical sliding</li>
+                <li>Responsive to both mouse events and mobile gestures. Feasible in cross-platform scenarios</li>
+                <li>Pre-loading enabled to enhancement user experience</li>
+                <li>[Plugin] Supports pinch to zoom, in case the image is too huge to view</li>
+                <li>[2.0+] Supports more types of embeded elements. Auto detects the scenario, recognises the image and pre loads.</li>
+                <li>[2.0+] Better delegate event system, lessen memory usage</li>
+            </ul>
+            <h2 id="frame">iSlider Architecture</h2>
+            <ul>
+                <li>
+                    iSlider.js： iSlider core, which defines class iSlider, binds touch event, implements image pre-loading and 
+                    image transitions.
+                </li>
+                <li>
+                    iSlider.animate.js： sliding animiation library. At the moment, it supports flip、depth、flow etc.
+                    <a target="_blank" href="./pic_with_animate.html">demo</a>
+                </li>
+                <li>
+                    iSlider.plugin.dot.js： supports page annotations over image, and tap to switch, present with "..."
+                    <a target="_blank" href="./pic_with_dots.html">demo</a>
+                </li>
+                <li>
+                    iSlider.plugin.button.js： Supports page annotations over image, and tap to switch, present with left/right icons
+                    <a target="_blank" href="./pic_with_button.html">demo</a>
+                </li>
+                <li>
+                    iSlider.plugin.zoompic.js： provides pinching for zooming for element with type of 'pic',
+                    supports android and ios' native zooming gestures, and also auto detects the edge.
+                    <a target="_blank" href="./pic_zoom.html">demo地址</a>
+                </li>
+            </ul>
+        </div>
+        <div id="demos">
+            <h2>iSlider DEMO</h2>
+
+            <p>If PC, open the webkit browser for testing</p>
+
+            <h3 class="animate-title">Animation Effects</h3>
+
+            <div class="islider-demo-wrap">
+                <div id="iphone-fade"></div>
+                <iframe src="./2.X_more-loop.html" id="frameset"></iframe>
+            </div>
+            <div id="toggle-box">
+                <button type="button" data-target="./2.X_default.html">Simple Start</button>
+                <button type="button" class="active" data-target="./2.X_more-loop.html">Loop</button>
+                <button type="button" data-target="./2.X_more-animation.html">Effect</button>
+                <button type="button" data-target="./2.X_more-3d.html">3D Effect</button>
+                <button type="button" data-target="./2.X_more-autoplay.html">AutoPlay control</button>
+                <button type="button" data-target="./2.X_more-vertical.html">Vertical Handover</button>
+                <button type="button" data-target="./2.X_with-plugin-zoom.html">Picture scaling plug-in</button>
+                <button type="button" data-target="./2.X_with-plugins-dot-button.html">Dot Button plug-in</button>
+                <button type="button" data-target="./2.X_with-plugins-others.html">Custom plug-ins</button>
+            </div>
+            <h3 class="animate-title">demo code</h3>
+                <pre>
+                    <code id="demo-code" class="javascript">
+                    </code>
+                </pre>
+            <h2>Initialize Options</h2>
+            <table border="0" cellspacing="0" id="options">
+                <thead>
+                <tr>
+                    <td>Option</td>
+                    <td>Type</td>
+                    <td>Explanation</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="3">
+                        Required
+                    </td>
+                </tr>
+                <tr>
+                    <td>dom</td>
+                    <td>{HTML Element}</td>
+                    <td>Container node</td>
+                </tr>
+                <tr>
+                    <td>data</td>
+                    <td>{array}</td>
+                    <td>
+                        data list:
+                        <br>
+                        [{
+                        content:'{url|HTML string|element|fragment}',
+                        },
+                        ...]
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Options
+                    </td>
+                </tr>
+                <tr>
+                    <td>type (obsolete)</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>duration</td>
+                    <td>{number}</td>
+                    <td>Sets the duration of each scene during auto-play mode. Unit: millis.</td>
+                </tr>
+                <tr>
+                    <td>animateType</td>
+                    <td>{string}</td>
+                    <td>Sets the animation type. Currently it could be one of `default`, `rotate`, `depth`, `flow`,
+                        `flip` and `card`
+                    </td>
+                </tr>
+                <tr>
+                    <td>animateTime</td>
+                    <td>{number}</td>
+                    <td>Duration of the animation. Unit: millis.</td>
+                </tr>
+                <tr>
+                    <td>animateEasing</td>
+                    <td>{string}</td>
+                    <td>Animation easing function. Possible values are `linear`, `ease`, `ease-in`, `ease-out`,
+                        `ease-in-out` or customed `cubic-bezier`
+                    </td>
+                </tr>
+                <tr>
+                    <td>isDebug</td>
+                    <td>{boolean}</td>
+                    <td>If true, more logs will be output. Default: false (disabled)</td>
+                </tr>
+                <tr>
+                    <td>isLooping</td>
+                    <td>{boolean}</td>
+                    <td>Turns on/off the loop mode. Default: false (turned off)</td>
+                </tr>
+                <tr>
+                    <td>isAutoplay</td>
+                    <td>{boolean}</td>
+                    <td>Turns on/off the auto sliding mode. Default: false (turned off)</td>
+                </tr>
+                <tr>
+                    <td>isVertical</td>
+                    <td>{boolean}</td>
+                    <td>Sets vertical/horizontal sliding. Default: false (horizontal)</td>
+                </tr>
+                <tr>
+                    <td>isOverspread</td>
+                    <td>{boolean}</td>
+                    <td>Makes the image overspread the whole viewport (as CSS3 `background-size: cover`),
+                        if the scene mode is image. Default: false (disabled)
+                    </td>
+                </tr>
+                <tr>
+                    <td>initIndex</td>
+                    <td>{number}</td>
+                    <td>Specifies an index as the default home scene</td>
+                </tr>
+                <tr>
+                    <td>fixPage</td>
+                    <td>{boolean}</td>
+                    <td>Whether to disable native scrolling and rebound effect. Default: true (enable)</td>
+                </tr>
+                <tr>
+                    <td>plugins</td>
+                    <td>{array}</td>
+                    <td>
+                        Enables plugins. It could be a simply list of plugin names:
+                        <pre>['dot', 'button', 'zoompic', ...]</pre>
+                        <br>
+                        Or, it could be a more complex list which can also contain init params for plugins:
+                        <pre>[..., ['zoompic', {zoomFactor: 2}], ...]</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Events
+                    </td>
+                </tr>
+                <tr>
+                    <td>onslide</td>
+                    <td>{function}</td>
+                    <td>Gets called on sliding</td>
+                </tr>
+                <tr>
+                    <td>onslidestart</td>
+                    <td>{function}</td>
+                    <td>Gets called when the sliding event starts</td>
+                </tr>
+                <tr>
+                    <td>onslideend</td>
+                    <td>{function}</td>
+                    <td>Gets called when the sliding event ends</td>
+                </tr>
+                <tr>
+                    <td>onslidechange</td>
+                    <td>{function}</td>
+                    <td>Gets called when the scene gets changed</td>
+                </tr>
+                <tr>
+                    <td>onslidechanged</td>
+                    <td>{function}</td>
+                    <td>Gets called post scene change (when the transition animation ends)</td>
+                </tr>
+                <tr>
+                    <td>onsliderestore</td>
+                    <td>{function}</td>
+                    <td>Gets called if scene restores</td>
+                </tr>
+                <tr>
+                    <td>onsliderestored</td>
+                    <td>{function}</td>
+                    <td>Gets called post scene restore (when the rollback animation ends)</td>
+                </tr>
+                </tbody>
+            </table>
+            <h2 id="functions">Methods</h2>
+            <table cellspacing="0">
+                <thead>
+                <tr>
+                    <td>Methods</td>
+                    <td>Params</td>
+                    <td>Explanation</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="3">
+                        Static methods
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        extend
+                    </td>
+                    <td>
+                        [{object} The original Object (Optional)]
+                        <br>
+                        {object} The new Object
+                    </td>
+                    <td>
+                        When the length of params is 1, the param object will be extended to iSlider.prototype
+                        <br>
+                        When the length is 2, use the second object as the param object, and extend all it's methods
+                        to the first object.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        regPlugin
+                    </td>
+                    <td>
+                        {string} Plugin name
+                        <br>
+                        {function} Init method for a plugin
+                    </td>
+                    <td>
+                        register plugin
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Instance methods
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        slideTo
+                    </td>
+                    <td>
+                        {number} index of a scene
+                        <br>
+                        [{object} one-off configuration (optional)]
+                    </td>
+                    <td>
+                        Slide to the N scene. Using the one-off configuration param, the transition effect
+                        for this particular slide can be specified. i.e. animateTime, animateType
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        slideNext
+                    </td>
+                    <td>
+                        [{object} one-off configuration (optional)]
+                    </td>
+                    <td>
+                        Slide to the next scene. The one-off configuration can be used to specify the
+                        transition effect. i.e. animateTime, animateType
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        slidePrev
+                    </td>
+                    <td>
+                        [{object} one-off configuration (optional)]
+                    </td>
+                    <td>
+                        Slide to the previous scene. The one-off configration can be used to specify the
+                        transition effect. i.e. animateTime, animateType
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        delegate
+                    </td>
+                    <td>
+                        {string} event name
+                        <br>
+                        {string} selector (same syntax as querySelectorAll)
+                        <br>
+                        {function} event hanlder method
+                    </td>
+                    <td>
+                        Bind event handler to a node container
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        bind
+                    </td>
+                    <td></td>
+                    <td>
+                        Alias of delegate
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        unDelegate
+                    </td>
+                    <td>
+                        {string} event name
+                        <br>
+                        {string} selector (same syntax as querySelectorAll)
+                        <br>
+                        {function} event hanlder method
+                    </td>
+                    <td>
+                        unBind event handler
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        unbind
+                    </td>
+                    <td></td>
+                    <td>
+                        Alias of unDelegate
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        on
+                    </td>
+                    <td>
+                        {string} event name
+                        <br>
+                        {function} event handler method
+                    </td>
+                    <td>
+                        Register event handler for iSlider events
+                        <br>
+                        <ul>
+                            <li>
+                                slide
+                            </li>
+                            <li>
+                                slideStart
+                            </li>
+                            <li>
+                                slideEnd
+                            </li>
+                            <li>
+                                slideChange
+                            </li>
+                            <li>
+                                slideChanged
+                            </li>
+                            <li>
+                                slideRestore
+                            </li>
+                            <li>
+                                slideRestored
+                            </li>
+                            <li>
+                                reloadData
+                            </li>
+                            <li>
+                                destroy
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        off
+                    </td>
+                    <td>
+                        {string} event name
+                        <br>
+                        {function} event handler method
+                    </td>
+                    <td>
+                        Remove an event handler from the registered handlers for a specified event
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        fire
+                    </td>
+                    <td>
+                        {string} event name
+                    </td>
+                    <td>
+                        Trigger an event manually
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        play
+                    </td>
+                    <td></td>
+                    <td>
+                        Start auto-play (auto-play mode must be specified)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        pause
+                    </td>
+                    <td></td>
+                    <td>
+                        Stop auto-play (auto-play mode must be specified)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        extend
+                    </td>
+                    <td></td>
+                    <td>
+                        Equivalent to iSlider.extend
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        regPlugin
+                    </td>
+                    <td></td>
+                    <td>
+                        Equivalent to iSlider.regPlugin.
+                        Once registered, the plugin will be added to the active plugin list,
+                        and be initialized automatically.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        loadData
+                    </td>
+                    <td>
+                        {array} list of data
+                    </td>
+                    <td>
+                        Loads a list of data
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        hold
+                    </td>
+                    <td></td>
+                    <td>
+                        Prevents the scene from any gesture
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        unhold
+                    </td>
+                    <td></td>
+                    <td>
+                        Resumes and allows gesture on the current scene
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        lock
+                    </td>
+                    <td></td>
+                    <td>
+                        Locks the current scene, disables `slideTo`, `slideNext` and `slidePrev` and also
+                        disable all gestures.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        unlock
+                    </td>
+                    <td></td>
+                    <td>
+                        Unlocks the scene
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        destroy
+                    </td>
+                    <td></td>
+                    <td>
+                        Destroys the current iSlider instance, and frees memory
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        reset
+                    </td>
+                    <td></td>
+                    <td>
+                        Resets the current iSlider instance
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script src="//cdn.bootcss.com/jquery/1.11.2/jquery.js"></script>
+<script src="//cdn.jsdelivr.net/highlight.js/8.9.1/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="./public/js/index.js"></script>
 </body>
 </html>
