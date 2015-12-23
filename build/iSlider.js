@@ -689,7 +689,7 @@
                 simg += ' width="100%"';
             }
             if (self.isOverspread) {
-                el.style.background = 'url(' + item.content + ') no-repeat 50% 50%/cover';
+                el.style.cssText = 'background:url(' + item.content + ') no-repeat 50% 50%;background-size:cover';
                 simg += ' style="display:block;opacity:0;height:100%;width:100%;"'
             }
             // for right button, save picture
@@ -1072,18 +1072,18 @@
         var absOffset = Math.abs(offset[axis]);
         var absReverseOffset = Math.abs(offset[this.reverseAxis]);
 
-        var getLink = function (el) {
+        function dispatchLink(el) {
             if (el.tagName === 'A') {
                 if (el.href) {
                     global.location.href = el.href
                     return false;
                 }
             }
-            else if (el.className !== 'islider-pic') {
+            else if (el.tagName === 'LI' && el.className.search(/^islider\-/) > -1) {
                 return false;
             }
             else {
-                getLink(el.parentNode);
+                dispatchLink(el.parentNode);
             }
         }
 
@@ -1100,15 +1100,8 @@
         }
 
         // create tap event if offset < 10
-        if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10) {
-            this.tapEvt = document.createEvent('Event');
-            this.tapEvt.initEvent('tap', true, true);
-            if (this.fixPage) {
-                evt.target && getLink(evt.target);
-            }
-            if (!evt.target.dispatchEvent(this.tapEvt)) {
-                evt.preventDefault();
-            }
+        if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10 && this.fixPage && evt.target) {
+            dispatchLink(evt.target);
         }
 
         this.offset.X = this.offset.Y = 0;

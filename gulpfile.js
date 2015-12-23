@@ -13,7 +13,11 @@ var CONFIG = {
 };
 
 gulp.task('clean', function () {
-    gulp.src([CONFIG.demo + '/*', CONFIG.build + '/*'], {read: false})
+    gulp.src([
+        CONFIG.build + '/*'
+    ], {
+        read: false
+    })
         .pipe(clean());
 });
 
