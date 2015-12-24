@@ -1,4 +1,11 @@
+### iSlider 2.0.7
+
+- [BUG fix]Remove tap event trigger.
+    - Without tap library support, if you bind a tap event, we will help you trigger it. If there are library supports tap, such as zepto, it will trigger twice. Accordingly, this action must be removed.
+    - If you want to use the tap, or any other custom events, which means that it is important to you, we do not need to stop it.
+
 ### iSlider 2.0.6
+
 - [Optimization]add default width:100% for ul in css file.
 - [BUG fix]At isOverspread mode, background image cant be displayed. background size problem. (╯‵□′)╯︵┻━┻, baidu browser... kernel tooooooo damn old!
 
