@@ -355,7 +355,7 @@
          * @type {number}
          * @public
          */
-        this.initIndex = opts.initIndex > 0 && opts.initIndex < opts.data.length - 1 ? opts.initIndex : 0;
+        this.initIndex = opts.initIndex > 0 && opts.initIndex <= opts.data.length - 1 ? opts.initIndex : 0;
 
         /**
          * touchstart prevent default to fixPage
