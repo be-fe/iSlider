@@ -128,7 +128,7 @@
 
         /**
          * listener
-         * @type {{}}
+         * @type {object}
          * @private
          */
         this._LSN = {};
@@ -355,7 +355,7 @@
          * @type {number}
          * @public
          */
-        this.initIndex = opts.initIndex > 0 && opts.initIndex < opts.data.length - 1 ? opts.initIndex : 0;
+        this.initIndex = opts.initIndex > 0 && opts.initIndex <= opts.data.length - 1 ? opts.initIndex : 0;
 
         /**
          * touchstart prevent default to fixPage
@@ -520,6 +520,20 @@
                 endEvt: hasTouch ? 'touchend' : 'mouseup'
             };
         })();
+
+        /**
+         * is on Moving
+         * @type {boolean}
+         * @private
+         */
+        this.isMoving = false;
+
+        /**
+         * Whether a sliding action, perhaps more consecutive frames
+         * @type {boolean}
+         * @private
+         */
+        this.isAnimating = false;
 
         /**
          * Init events
@@ -1003,8 +1017,22 @@
         this.log('Event: start');
         this.fire('slideStart', evt, this);
 
+        /**
+         * @type {number}
+         * @private
+         */
         this.startTime = new Date().getTime();
+
+        /**
+         * @type {number}
+         * @private
+         */
         this.startX = device.hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
+
+        /**
+         * @type {number}
+         * @private
+         */
         this.startY = device.hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
     };
 
@@ -1075,7 +1103,7 @@
         function dispatchLink(el) {
             if (el.tagName === 'A') {
                 if (el.href) {
-                    global.location.href = el.href
+                    global.location.href = el.href;
                     return false;
                 }
             }
