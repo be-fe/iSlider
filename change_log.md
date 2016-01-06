@@ -1,3 +1,7 @@
+### iSlider 2.0.8
+
+- [BUG fix]Fix initPage error, thanks @ronnyKJ
+
 ### iSlider 2.0.7
 
 - [BUG fix]Remove tap event trigger.
