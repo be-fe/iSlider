@@ -1272,7 +1272,7 @@
         // do the trick animation
         for (var i = 0; i < 3; i++) {
             if (els[i] !== headEl) {
-                // Only applies to "transform"
+                // TODO: Only applies their effects
                 els[i].style.webkitTransition = 'all ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
             }
             animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
