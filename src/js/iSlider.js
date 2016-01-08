@@ -703,7 +703,7 @@
                 simg += ' width="100%"';
             }
             if (self.isOverspread) {
-                el.style.cssText = 'background:url(' + item.content + ') no-repeat 50% 50%;background-size:cover';
+                el.style.cssText += 'background-image:url(' + item.content + ');background-repeat:no-repeat;background-position:50% 50%;background-size:cover';
                 simg += ' style="display:block;opacity:0;height:100%;width:100%;"'
             }
             // for right button, save picture
@@ -1253,11 +1253,12 @@
             }
 
             headEl.style.webkitTransition = 'none';
-            headEl.style.visibility = 'hidden';
 
-            global.setTimeout(function () {
-                headEl.style.visibility = 'visible';
-            }, 200);
+            // Disperse ghost in the back
+            if (animateType === 'rotate' || animateType === 'flip') {
+                headEl.style.visibility = 'hidden';
+                els[1].style.visibility = 'visible';
+            }
 
             // Minus squeeze time
             squeezeTime = animateTime - squeezeTime;
