@@ -16,7 +16,7 @@
      * Check in array
      * @param oElement
      * @param aSource
-     * @returns {boolean}
+     * @returns {Boolean}
      */
     function inArray(oElement, aSource) {
         return aSource.indexOf(oElement) > -1;
@@ -25,15 +25,24 @@
     /**
      * Check is array
      * @param o
-     * @returns {boolean}
+     * @returns {Boolean}
      */
     function isArray(o) {
         return Object.prototype.toString.call(o) === '[object Array]';
     };
 
     /**
-     * @param obj
-     * @param cls
+     * Check is object
+     * @param o
+     * @returns {Boolean}
+     */
+    function isObject(o) {
+        return Object.prototype.toString.call(o) === '[object Object]';
+    };
+
+    /**
+     * @param {Element} obj
+     * @param {String} cls
      * @returns {Array|{index: number, input: string}}
      */
     function hasClass(obj, cls) {
@@ -41,8 +50,8 @@
     }
 
     /**
-     * @param obj
-     * @param cls
+     * @param {Element} obj
+     * @param {String} cls
      */
     function addClass(obj, cls) {
         if (!hasClass(obj, cls)) {
@@ -51,19 +60,19 @@
     }
 
     /**
-     * @param obj
-     * @param cls
+     * @param {Element} obj
+     * @param {String} cls
      */
     function removeClass(obj, cls) {
         if (hasClass(obj, cls)) {
-            obj.className = obj.className.replace(RegExp('(\\s|^)' + cls + '(\\s|$)'), '');
+            obj.className = obj.className.replace(RegExp('(\\s|^)' + cls + '(\\s|$)'), '$3');
         }
     }
 
     /**
-     * Checck is url
-     * @param {string} url
-     * @returns {boolean}
+     * Check is url
+     * @param {String} url
+     * @returns {Boolean}
      */
     function isUrl(url) {
         if (/<\/?[^>]*>/g.test(url))
@@ -82,6 +91,18 @@
     }
 
     /**
+     * Parse arguments to array
+     *
+     * @param {Arguments} a
+     * @param {Number|null} start
+     * @param {Number|null} end
+     * @returns {Array}
+     */
+    function _A(a) {
+        return Array.prototype.slice.apply(a, Array.prototype.slice.call(arguments, 1));
+    }
+
+    /**
      * @constructor
      *
      * iSlicer([[{Element} container,] {Array} datalist,] {object} options)
@@ -96,14 +117,12 @@
      */
     var iSlider = function () {
 
-        var args = Array.prototype.slice.call(arguments, 0, 3);
+        var args = _A(arguments, 0, 3);
         if (!args.length) {
             throw new Error('Parameters required!');
         }
 
-        var opts = Object.prototype.toString.call(args.slice(-1)[0]) === '[object Object]'
-            ? args.pop()
-            : {};
+        var opts = isObject(args.slice(-1)[0]) ? args.pop() : {};
 
         switch (args.length) {
             case 2:
@@ -140,7 +159,7 @@
          */
         this._EventHandle = {};
 
-        opts = args = null;
+        opts = null, args = null;
 
         this._setting();
 
@@ -241,7 +260,7 @@
     };
 
     /**
-     * @returns {string}
+     * @returns {String}
      * @private
      */
     iSlider._transitionEndEvent = (function () {
@@ -298,13 +317,13 @@
         this._animateFuncs = iSlider._animateFuncs;
 
         /**
-         * @type {boolean}
+         * @type {Boolean}
          * @private
          */
         this.holding = false;
 
         /**
-         * @type {boolean}
+         * @type {Boolean}
          * @private
          */
         this.locking = false;
@@ -331,14 +350,14 @@
 
         /**
          * default slide direction
-         * @type {boolean}
+         * @type {Boolean}
          * @public
          */
         this.isVertical = !!opts.isVertical;
 
         /**
          * Overspread mode
-         * @type {boolean}
+         * @type {Boolean}
          * @public
          */
         this.isOverspread = !!opts.isOverspread;
@@ -359,7 +378,7 @@
 
         /**
          * touchstart prevent default to fixPage
-         * @type {boolean}
+         * @type {Boolean}
          * @public
          */
         this.fixPage = opts.fixPage == null ? true : !!opts.fixPage;
@@ -373,14 +392,14 @@
 
         /**
          * Axis
-         * @type {string}
+         * @type {String}
          * @public
          */
         this.axis = this.isVertical ? 'Y' : 'X';
 
         /**
          * reverseAxis
-         * @type {string}
+         * @type {String}
          * @private
          */
         this.reverseAxis = this.axis === 'Y' ? 'X' : 'Y';
@@ -422,14 +441,14 @@
 
         /**
          * Enable/disable touch events
-         * @type {boolean}
+         * @type {Boolean}
          * @private
          */
         this.isTouchable = opts.isTouchable == null ? true : !!opts.isTouchable;
 
         /**
          * looping logic adjust
-         * @type {boolean}
+         * @type {Boolean}
          * @private
          */
         this.isLooping = opts.isLooping && this.data.length > 1 ? true : false;
@@ -443,14 +462,14 @@
 
         /**
          * autoplay logic adjust
-         * @type {boolean}
+         * @type {Boolean}
          * @private
          */
         this.isAutoplay = opts.isAutoplay && this.data.length > 1 ? true : false;
 
         /**
          * Animate type
-         * @type {string}
+         * @type {String}
          * @private
          */
         this.animateType = opts.animateType in this._animateFuncs ? opts.animateType : 'default';
@@ -490,7 +509,7 @@
 
         /**
          * animate effects, default: ease
-         * @type {string}
+         * @type {String}
          * @public
          */
         this.animateEasing =
@@ -523,14 +542,14 @@
 
         /**
          * is on Moving
-         * @type {boolean}
+         * @type {Boolean}
          * @private
          */
         this.isMoving = false;
 
         /**
          * Whether a sliding action, perhaps more consecutive frames
-         * @type {boolean}
+         * @type {Boolean}
          * @private
          */
         this.isAnimating = false;
@@ -649,7 +668,7 @@
     /**
      * Get item type
      * @param {number} index
-     * @returns {string}
+     * @returns {String}
      * @private
      */
     iSliderPrototype._itemType = function (item) {
@@ -704,7 +723,7 @@
             }
             if (self.isOverspread) {
                 el.style.cssText += 'background-image:url(' + item.content + ');background-repeat:no-repeat;background-position:50% 50%;background-size:cover';
-                simg += ' style="display:block;opacity:0;height:100%;width:100%;"'
+                simg += ' style="display:block;opacity:0;height:100%;width:100%;"';
             }
             // for right button, save picture
             el.innerHTML = '<img' + simg + ' />';
@@ -792,8 +811,13 @@
         var slideStyles = ['islider-prev', 'islider-active', 'islider-next'];
         this.els.forEach(function changeStypeEach(el, index) {
             removeClass(el, '(' + slideStyles.join('|') + ')');
-            addClass(el, slideStyles[index])
-        });
+            addClass(el, slideStyles[index]);
+
+            // For seams
+            el.style.webkitTransform = el.style.webkitTransform.replace(new RegExp(' scale' + this.axis + '\\([^\\)]+\\)'), function () {
+                return '';
+            })
+        }.bind(this));
     };
 
     /**
@@ -888,7 +912,7 @@
     iSliderPrototype._watchTransitionEnd = function (time, eventType) {
 
         var self = this;
-        var args = Array.prototype.slice.call(arguments, 1);
+        var args = _A(arguments, 1);
         var lsn;
         this.log('Event:', 'watchTransitionEnd::stuck::pile', this.inAnimate);
 
@@ -947,6 +971,8 @@
             outer.addEventListener(device.startEvt, this);
             outer.addEventListener(device.moveEvt, this);
             outer.addEventListener(device.endEvt, this);
+
+            // Viscous drag adaptation
             !this.deviceEvents.hasTouch && outer.addEventListener('mouseout', this);
         }
 
@@ -1069,10 +1095,24 @@
                 }
             }
 
+            var el = evt.path[evt.path.indexOf(this.outer) - 1];
+
             for (var i = 0; i < 3; i++) {
                 var item = this.els[i];
+                item.style.visibility = 'visible';
                 item.style.webkitTransition = 'all 0s';
                 this._animateFunc(item, axis, this.scale, i, offset[axis]);
+
+                // For seams
+                item.style.webkitTransform += ' scale' + axis + '(1.001)';
+                removeClass(item, '(islider-sliding|islider-sliding-focus)');
+                if (!hasClass(item, 'islider-sliding') || !hasClass(item, 'islider-sliding-focus')) {
+                    if (item === el) {
+                        addClass(el, 'islider-sliding-focus');
+                    } else {
+                        addClass(item, 'islider-sliding');
+                    }
+                }
             }
         }
     };
@@ -1273,9 +1313,17 @@
         for (var i = 0; i < 3; i++) {
             if (els[i] !== headEl) {
                 // TODO: Only applies their effects
-                els[i].style.webkitTransition = 'all ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
+                els[i].style.webkitTransition = 'transform ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
             }
             animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
+
+            // For seams
+            if (headEl) {
+                removeClass(els[i], '(islider-sliding|islider-sliding-focus)');
+                addClass(els[1], 'islider-sliding-focus');
+                addClass(headEl, 'islider-sliding');
+            }
+            els[i].style.webkitTransform += ' scale' + this.axis + '(1.001)';
         }
 
         // If not looping, stop playing when meet the end of data
@@ -1289,7 +1337,7 @@
      * @public
      */
     iSliderPrototype.slideNext = function () {
-        this.slideTo.apply(this, [this.slideIndex + 1].concat(Array.prototype.slice.call(arguments)));
+        this.slideTo.apply(this, [this.slideIndex + 1].concat(_A(arguments)));
     };
 
     /**
@@ -1297,18 +1345,18 @@
      * @public
      */
     iSliderPrototype.slidePrev = function () {
-        this.slideTo.apply(this, [this.slideIndex - 1].concat(Array.prototype.slice.call(arguments)));
+        this.slideTo.apply(this, [this.slideIndex - 1].concat(_A(arguments)));
     };
 
     /**
      * Register plugin (run time mode)
-     * @param {string} name
+     * @param {String} name
      * @param {function} plugin
      * @param {...}
      * @public
      */
     iSliderPrototype.regPlugin = function () {
-        var args = Array.prototype.slice.call(arguments);
+        var args = _A(arguments);
         var name = args.shift(),
             plugin = args[0];
 
@@ -1329,8 +1377,8 @@
 
     /**
      *  simple event delegate method
-     *  @param {string} evtType event name
-     *  @param {string} selector the simple css selector like jQuery
+     *  @param {String} evtType event name
+     *  @param {String} selector the simple css selector like jQuery
      *  @param {function} callback event callback
      *  @public
      */
@@ -1365,8 +1413,8 @@
     /**
      * remove event delegate from wrap
      *
-     * @param {string} evtType event name
-     * @param {string} selector the simple css selector like jQuery
+     * @param {String} evtType event name
+     * @param {String} selector the simple css selector like jQuery
      * @param {function} callback event callback
      * @public
      */
@@ -1401,6 +1449,8 @@
             outer.removeEventListener(device.startEvt, this);
             outer.removeEventListener(device.moveEvt, this);
             outer.removeEventListener(device.endEvt, this);
+
+            // Viscous drag unbind
             !this.deviceEvents.hasTouch && outer.removeEventListener('mouseout', this);
         }
         global.removeEventListener('orientationchange', this);
@@ -1429,7 +1479,7 @@
 
     /**
      * Register event callback
-     * @param {string} eventName
+     * @param {String} eventName
      * @param {function} func
      * @public
      */
@@ -1460,7 +1510,7 @@
 
     /**
      * Remove event callback
-     * @param {string} eventName
+     * @param {String} eventName
      * @param {function} func
      * @public
      */
@@ -1473,7 +1523,7 @@
 
     /**
      * Trigger event callbacks
-     * @param {string} eventName
+     * @param {String} eventName
      * @param {*} args
      * @public
      */
@@ -1484,7 +1534,7 @@
             for (var i = 0; i < funcs.length; i++) {
                 typeof funcs[i] === 'function'
                 && funcs[i].apply
-                && funcs[i].apply(this, Array.prototype.slice.call(arguments, 1));
+                && funcs[i].apply(this, _A(arguments, 1));
             }
         }
     };
