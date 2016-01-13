@@ -1,6 +1,6 @@
 {
   "name": "islider.js",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "author": "EUX team",
   "main": "build/iSlider.min.js",
   "description": "Smooth mobile touch slider for Mobile WebApp, HTML5 App, Hybrid App",

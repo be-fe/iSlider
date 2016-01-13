@@ -1,3 +1,8 @@
+### iSlider 2.0.9
+- [BUG fix]disperse ghost when rotate and flip
+- [Optimization]animate: remove rotate and flip cover background-color
+- Some optimization
+
 ### iSlider 2.0.8
 
 - [BUG fix]Fix initPage error, thanks @ronnyKJ
