@@ -1100,13 +1100,12 @@
             for (var i = 0; i < 3; i++) {
                 var item = this.els[i];
                 item.style.visibility = 'visible';
-                item.style.webkitTransition = 'all 0s';
+                item.style.webkitTransition = 'none';
                 this._animateFunc(item, axis, this.scale, i, offset[axis]);
 
                 // For seams
                 item.style.webkitTransform += ' scale' + axis + '(1.001)';
-                removeClass(item, '(islider-sliding|islider-sliding-focus)');
-                if (!hasClass(item, 'islider-sliding') || !hasClass(item, 'islider-sliding-focus')) {
+                if (!hasClass(item, '(islider-sliding|islider-sliding-focus)')) {
                     if (item === el) {
                         addClass(el, 'islider-sliding-focus');
                     } else {
