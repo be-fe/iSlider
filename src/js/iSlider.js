@@ -103,6 +103,30 @@
     }
 
     /**
+     * TODO
+     * @type {{add: Function, drop: Function}}
+     * @private
+     */
+    //var seams = {
+    //    add: function (el, axis) {
+    //        var mxn, pos;
+    //        console.log(window.getComputedStyle(el));
+    //        el.style.webkitTransform = window.getComputedStyle(el).webkitTransform.replace(/^(matrix(3d)?)\(([^\)]+)\)/, function () {
+    //            console.log(arguments);
+    //            pos = arguments[2] == null ? 3 : 5;
+    //            pos = axis === 'X' ? 0 : pos;
+    //            mxn = arguments[3].split(', ');
+    //            mxn[pos] = parseFloat(mxn[pos]) * 1.001;
+    //            console.log(arguments[1] + '(' + mxn.join(', ') + ')');
+    //            return arguments[1] + '(' + mxn.join(', ') + ')';
+    //        });
+    //    },
+    //    drop: function (el, axis) {
+    //        console.log(window.getComputedStyle(el).transform);
+    //    }
+    //};
+
+    /**
      * @constructor
      *
      * iSlicer([[{Element} container,] {Array} datalist,] {object} options)
@@ -813,10 +837,7 @@
             removeClass(el, slideStyles.join('|'));
             addClass(el, slideStyles[index]);
 
-            // For seams
-            //el.style.webkitTransform = el.style.webkitTransform.replace(new RegExp(' scale' + this.axis + '\\([^\\)]+\\)'), function () {
-            //    return '';
-            //});
+            // TODO For seams
         }.bind(this));
     };
 
@@ -1110,22 +1131,20 @@
                 item.style.webkitTransition = 'none';
                 this._animateFunc(item, axis, this.scale, i, offset[axis]);
 
-                // For seams
-                //item.style.webkitTransform += ' scale' + axis + '(1.001)';
-                if (!hasClass(item, 'islider-sliding|islider-sliding-focus')) {
-                    var ep = (function (el) {
-                        function getEp(el) {
-                            return hasClass(el, 'islider-outer') ? el : getEp(el.parentNode);
-                        };
-                        return getEp(el);
-                    })(evt.target);
-                    console.log(ep);
-                    if (item === ep) {
-                        addClass(ep, 'islider-sliding-focus');
-                    } else {
-                        addClass(item, 'islider-sliding');
-                    }
-                }
+                // TODO For seams
+                //if (!hasClass(item, 'islider-sliding|islider-sliding-focus')) {
+                //    var ep = (function (el) {
+                //        function getEp(el) {
+                //            return hasClass(el, 'islider-outer') ? el : getEp(el.parentNode);
+                //        };
+                //        return getEp(el);
+                //    })(evt.target);
+                //    if (item === ep) {
+                //        addClass(ep, 'islider-sliding-focus');
+                //    } else {
+                //        addClass(item, 'islider-sliding');
+                //    }
+                //}
             }
         }
     };
@@ -1318,12 +1337,12 @@
 
             eventType = 'slideChange';
 
-            // For seams
-            els.forEach(function (el) {
-                removeClass(el, 'islider-sliding|islider-sliding-focus');
-            });
-            addClass(els[1], 'islider-sliding-focus');
-            addClass(headEl, 'islider-sliding');
+            // TODO For seams
+            //els.forEach(function (el) {
+            //    removeClass(el, 'islider-sliding|islider-sliding-focus');
+            //});
+            //addClass(els[1], 'islider-sliding-focus');
+            //addClass(headEl, 'islider-sliding');
         }
 
         this.fire(eventType, this.slideIndex, els[1], this);
@@ -1333,11 +1352,9 @@
         for (var i = 0; i < 3; i++) {
             if (els[i] !== headEl) {
                 // TODO: Only applies their effects
-                els[i].style.webkitTransition = 'transform ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
+                els[i].style.webkitTransition = 'all ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
             }
             animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
-
-            //els[i].style.webkitTransform += ' scale' + this.axis + '(1.001)';
         }
 
         // If not looping, stop playing when meet the end of data
