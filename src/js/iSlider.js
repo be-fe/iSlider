@@ -46,7 +46,7 @@
      * @returns {Array|{index: number, input: string}}
      */
     function hasClass(obj, cls) {
-        return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+        return obj.className.match(new RegExp('(\\s|^)(' + cls + ')(\\s|$)'));
     }
 
     /**
@@ -65,7 +65,7 @@
      */
     function removeClass(obj, cls) {
         if (hasClass(obj, cls)) {
-            obj.className = obj.className.replace(RegExp('(\\s|^)' + cls + '(\\s|$)'), '$3');
+            obj.className = obj.className.replace(RegExp('(\\s|^)(' + cls + ')(\\s|$)'), '$3');
         }
     }
 
@@ -810,13 +810,13 @@
     iSliderPrototype._changedStyles = function () {
         var slideStyles = ['islider-prev', 'islider-active', 'islider-next'];
         this.els.forEach(function changeStypeEach(el, index) {
-            removeClass(el, '(' + slideStyles.join('|') + ')');
+            removeClass(el, slideStyles.join('|'));
             addClass(el, slideStyles[index]);
 
             // For seams
-            el.style.webkitTransform = el.style.webkitTransform.replace(new RegExp(' scale' + this.axis + '\\([^\\)]+\\)'), function () {
-                return '';
-            })
+            //el.style.webkitTransform = el.style.webkitTransform.replace(new RegExp(' scale' + this.axis + '\\([^\\)]+\\)'), function () {
+            //    return '';
+            //});
         }.bind(this));
     };
 
@@ -825,10 +825,19 @@
      * @private
      */
     iSliderPrototype._renderWrapper = function () {
-        this.outer && (this.outer.innerHTML = '');
-        // initail ul element
-        var outer = this.outer || document.createElement('ul');
+        this.wrap.style.overflow = 'hidden';
+        // initail outer element
+        var outer;
+        if (this.outer) {
+            outer = this.outer;
+            outer.innerHTML = '';
+        } else {
+            outer = document.createElement('ul');
+        }
         outer.className = 'islider-outer';
+        outer.style.overflow = 'hidden';
+        // no need...
+        // outer.style.cssText += 'width:' + this.wrap.offsetWidth + 'px;height:' + this.wrap.offsetHeight + 'px';
 
         // storage li elements, only store 3 elements to reduce memory usage
         /**
@@ -1095,8 +1104,6 @@
                 }
             }
 
-            var el = evt.path[evt.path.indexOf(this.outer) - 1];
-
             for (var i = 0; i < 3; i++) {
                 var item = this.els[i];
                 item.style.visibility = 'visible';
@@ -1104,10 +1111,17 @@
                 this._animateFunc(item, axis, this.scale, i, offset[axis]);
 
                 // For seams
-                item.style.webkitTransform += ' scale' + axis + '(1.001)';
-                if (!hasClass(item, '(islider-sliding|islider-sliding-focus)')) {
-                    if (item === el) {
-                        addClass(el, 'islider-sliding-focus');
+                //item.style.webkitTransform += ' scale' + axis + '(1.001)';
+                if (!hasClass(item, 'islider-sliding|islider-sliding-focus')) {
+                    var ep = (function (el) {
+                        function getEp(el) {
+                            return hasClass(el, 'islider-outer') ? el : getEp(el.parentNode);
+                        };
+                        return getEp(el);
+                    })(evt.target);
+                    console.log(ep);
+                    if (item === ep) {
+                        addClass(ep, 'islider-sliding-focus');
                     } else {
                         addClass(item, 'islider-sliding');
                     }
@@ -1253,7 +1267,7 @@
                 this.slideIndex = n > 0 ? 0 : data.length - 1;
             }
             else {
-                this.slideIndex = this.slideIndex;
+                // this.slideIndex = this.slideIndex;
                 n = 0;
             }
         }
@@ -1294,7 +1308,7 @@
             headEl.style.webkitTransition = 'none';
 
             // Disperse ghost in the back
-            if (animateType === 'rotate' || animateType === 'flip') {
+            if (-1 < ['rotate', 'flip'].indexOf(animateType)) {
                 headEl.style.visibility = 'hidden';
                 els[1].style.visibility = 'visible';
             }
@@ -1303,6 +1317,13 @@
             squeezeTime = animateTime - squeezeTime;
 
             eventType = 'slideChange';
+
+            // For seams
+            els.forEach(function (el) {
+                removeClass(el, 'islider-sliding|islider-sliding-focus');
+            });
+            addClass(els[1], 'islider-sliding-focus');
+            addClass(headEl, 'islider-sliding');
         }
 
         this.fire(eventType, this.slideIndex, els[1], this);
@@ -1316,13 +1337,7 @@
             }
             animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
 
-            // For seams
-            if (headEl) {
-                removeClass(els[i], '(islider-sliding|islider-sliding-focus)');
-                addClass(els[1], 'islider-sliding-focus');
-                addClass(headEl, 'islider-sliding');
-            }
-            els[i].style.webkitTransform += ' scale' + this.axis + '(1.001)';
+            //els[i].style.webkitTransform += ' scale' + this.axis + '(1.001)';
         }
 
         // If not looping, stop playing when meet the end of data
