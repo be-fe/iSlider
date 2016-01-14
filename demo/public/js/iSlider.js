@@ -385,10 +385,11 @@
 
         /**
          * Fill seam when render
+         * Default is false
          * @type {Boolean}
          * @public
          */
-        this.fillSeam = opts.fillSeam == null ? true : !!opts.fillSeam;
+        this.fillSeam = !!opts.fillSeam;
 
         /**
          * slideIndex
