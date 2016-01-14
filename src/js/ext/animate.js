@@ -44,7 +44,7 @@
             }
 
             dom.style.cssText += '-webkit-backface-visibility:hidden; -webkit-transform-style:preserve-3d; position:absolute;';
-            dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ(' + (0.888 * scale / 2) + 'px) scale(0.888)';
+            dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ(' + (0.889 * scale / 2) + 'px) scale(0.889)';
         },
         // flip
         'flip': function flip(dom, axis, scale, i, offset) {

@@ -103,30 +103,6 @@
     }
 
     /**
-     * TODO
-     * @type {{add: Function, drop: Function}}
-     * @private
-     */
-    //var seams = {
-    //    add: function (el, axis) {
-    //        var mxn, pos;
-    //        console.log(window.getComputedStyle(el));
-    //        el.style.webkitTransform = window.getComputedStyle(el).webkitTransform.replace(/^(matrix(3d)?)\(([^\)]+)\)/, function () {
-    //            console.log(arguments);
-    //            pos = arguments[2] == null ? 3 : 5;
-    //            pos = axis === 'X' ? 0 : pos;
-    //            mxn = arguments[3].split(', ');
-    //            mxn[pos] = parseFloat(mxn[pos]) * 1.001;
-    //            console.log(arguments[1] + '(' + mxn.join(', ') + ')');
-    //            return arguments[1] + '(' + mxn.join(', ') + ')';
-    //        });
-    //    },
-    //    drop: function (el, axis) {
-    //        console.log(window.getComputedStyle(el).transform);
-    //    }
-    //};
-
-    /**
      * @constructor
      *
      * iSlicer([[{Element} container,] {Array} datalist,] {object} options)
@@ -406,6 +382,14 @@
          * @public
          */
         this.fixPage = opts.fixPage == null ? true : !!opts.fixPage;
+
+        /**
+         * Fill seam when render
+         * Default is false
+         * @type {Boolean}
+         * @public
+         */
+        this.fillSeam = !!opts.fillSeam;
 
         /**
          * slideIndex
@@ -838,6 +822,7 @@
             addClass(el, slideStyles[index]);
 
             // TODO For seams
+            this.fillSeam && this.originScale(el);
         }.bind(this));
     };
 
@@ -888,6 +873,11 @@
         }
 
         this._changedStyles();
+
+        if (this.fillSeam)
+            this.els.forEach(function (el, i) {
+                addClass(el, 'islider-sliding' + (i === 1 ? '-focus' : ''));
+            });
 
         // Preload picture [ may be pic :) ]
         global.setTimeout(function () {
@@ -1132,19 +1122,7 @@
                 this._animateFunc(item, axis, this.scale, i, offset[axis]);
 
                 // TODO For seams
-                //if (!hasClass(item, 'islider-sliding|islider-sliding-focus')) {
-                //    var ep = (function (el) {
-                //        function getEp(el) {
-                //            return hasClass(el, 'islider-outer') ? el : getEp(el.parentNode);
-                //        };
-                //        return getEp(el);
-                //    })(evt.target);
-                //    if (item === ep) {
-                //        addClass(ep, 'islider-sliding-focus');
-                //    } else {
-                //        addClass(item, 'islider-sliding');
-                //    }
-                //}
+                this.fillSeam && this.seamScale(item);
             }
         }
     };
@@ -1338,11 +1316,13 @@
             eventType = 'slideChange';
 
             // TODO For seams
-            //els.forEach(function (el) {
-            //    removeClass(el, 'islider-sliding|islider-sliding-focus');
-            //});
-            //addClass(els[1], 'islider-sliding-focus');
-            //addClass(headEl, 'islider-sliding');
+            if (this.fillSeam) {
+                els.forEach(function (el) {
+                    removeClass(el, 'islider-sliding|islider-sliding-focus');
+                });
+                addClass(els[1], 'islider-sliding-focus');
+                addClass(headEl, 'islider-sliding');
+            }
         }
 
         this.fire(eventType, this.slideIndex, els[1], this);
@@ -1355,6 +1335,8 @@
                 els[i].style.webkitTransition = 'all ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
             }
             animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
+
+            this.fillSeam && this.seamScale(els[i]);
         }
 
         // If not looping, stop playing when meet the end of data
@@ -1663,6 +1645,56 @@
      */
     iSliderPrototype.unlock = function () {
         this.locking = false;
+    };
+
+    iSliderPrototype.seamScale = function (el) {
+        var regex = /scale([XY]?)\(([^\)]+)\)/;
+        if (regex.test(el.style.webkitTransform)) {
+            el.style.webkitTransform = el.style.webkitTransform.replace(regex, function (res, axis, scale) {
+                var sc = {};
+                if (axis) {
+                    sc[axis] = parseFloat(scale);
+                    return 'scale' + this.axis + '(' + (axis === this.axis ? 1.001 * sc[this.axis] : 1.001) + ')';
+                } else {
+                    if (scale.indexOf(',') > -1) {
+                        scale = scale.split(',');
+                        sc.X = parseFloat(scale[0]);
+                        sc.Y = parseFloat(scale[1]);
+                    } else {
+                        sc.Y = sc.X = parseFloat(scale);
+                    }
+                    sc[this.axis] *= 1.001;
+                    return 'scale(' + sc.X + ', ' + sc.Y + ')';
+                }
+            }.bind(this));
+        } else {
+            el.style.webkitTransform += 'scale' + this.axis + '(1.001)';
+        }
+    };
+
+    iSliderPrototype.originScale = function (el) {
+        var regex = /([\x20]?scale)([XY]?)\(([^\)]+)\)/;
+        el.style.webkitTransform = el.style.webkitTransform.replace(regex, function (sc, res, axis, scale) {
+            var sc = {};
+            if (axis) {
+                if (scale === '1.001') {
+                    return '';
+                } else {
+                    sc[axis] = parseFloat(scale);
+                    return 'scale' + this.axis + '(' + (axis === this.axis ? sc[this.axis] / 1.001 : 1) + ')';
+                }
+            } else {
+                if (scale.indexOf(',') > -1) {
+                    scale = scale.split(',');
+                    sc.X = parseFloat(scale[0]);
+                    sc.Y = parseFloat(scale[1]);
+                } else {
+                    sc.Y = sc.X = parseFloat(scale);
+                }
+                sc[this.axis] /= 1.001;
+                return 'scale(' + sc.X + ', ' + sc.Y + ')';
+            }
+        }.bind(this));
     };
 
     /* CommonJS */
