@@ -33,6 +33,14 @@
     max-height: 100%;
 }
 
+.islider-sliding {
+    z-index: 0;
+}
+
+.islider-sliding-focus {
+    z-index: 1;
+}
+
 .islider-btn-outer {
     position: absolute;
     width: 3em;
