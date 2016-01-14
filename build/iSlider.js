@@ -874,9 +874,10 @@
 
         this._changedStyles();
 
-        this.els.forEach(function (el, i) {
-            addClass(el, 'islider-sliding' + (i === 1 ? '-focus' : ''));
-        });
+        if (this.fillSeam)
+            this.els.forEach(function (el, i) {
+                addClass(el, 'islider-sliding' + (i === 1 ? '-focus' : ''));
+            });
 
         // Preload picture [ may be pic :) ]
         global.setTimeout(function () {
@@ -1122,20 +1123,6 @@
 
                 // TODO For seams
                 this.fillSeam && this.seamScale(item);
-                //if (!hasClass(item, 'islider-sliding|islider-sliding-focus')) {
-                //    var ep = (function (el) {
-                //        function getEp(el) {
-                //            return hasClass(el.parentNode, 'islider-outer') ? el : getEp(el.parentNode);
-                //        };
-                //        return getEp(el);
-                //    })(evt.target);
-                //
-                //    if (item === ep) {
-                //        addClass(ep, 'islider-sliding-focus');
-                //    } else {
-                //        addClass(item, 'islider-sliding');
-                //    }
-                //}
             }
         }
     };
@@ -1329,11 +1316,13 @@
             eventType = 'slideChange';
 
             // TODO For seams
-            els.forEach(function (el) {
-                removeClass(el, 'islider-sliding|islider-sliding-focus');
-            });
-            addClass(els[1], 'islider-sliding-focus');
-            addClass(headEl, 'islider-sliding');
+            if (this.fillSeam) {
+                els.forEach(function (el) {
+                    removeClass(el, 'islider-sliding|islider-sliding-focus');
+                });
+                addClass(els[1], 'islider-sliding-focus');
+                addClass(headEl, 'islider-sliding');
+            }
         }
 
         this.fire(eventType, this.slideIndex, els[1], this);
