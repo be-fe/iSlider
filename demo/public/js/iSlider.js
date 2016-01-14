@@ -822,7 +822,7 @@
             addClass(el, slideStyles[index]);
 
             // TODO For seams
-            this.fillSeam && this.seamScale(el);
+            this.fillSeam && this.originScale(el);
         }.bind(this));
     };
 

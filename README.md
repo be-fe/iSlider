@@ -261,7 +261,12 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
     <tr>
         <td>fixPage</td>
         <td>{boolean}</td>
-        <td>Whether to disable native scrolling and rebound effect. Default: true (enable)</td>
+        <td>Whether to disable native scrolling and rebound effect. Default: true (enabled)</td>
+    </tr>
+    <tr>
+        <td>fillSeam</td>
+        <td>{boolean}</td>
+        <td>Fill the seam between scenes. Default: false (disabled)</td>
     </tr>
     <tr>
         <td>plugins</td>
