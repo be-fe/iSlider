@@ -14,8 +14,8 @@
 
     /**
      * Check in array
-     * @param oElement
-     * @param aSource
+     * @param {*} oElement
+     * @param {Array} aSource
      * @returns {Boolean}
      */
     function inArray(oElement, aSource) {
@@ -24,7 +24,7 @@
 
     /**
      * Check is array
-     * @param o
+     * @param {*} o
      * @returns {Boolean}
      */
     function isArray(o) {
@@ -33,7 +33,7 @@
 
     /**
      * Check is object
-     * @param o
+     * @param {*} o
      * @returns {Boolean}
      */
     function isObject(o) {
@@ -41,7 +41,7 @@
     };
 
     /**
-     * @param {Element} obj
+     * @param {HTML Element} obj
      * @param {String} cls
      * @returns {Array|{index: number, input: string}}
      */
@@ -50,7 +50,7 @@
     }
 
     /**
-     * @param {Element} obj
+     * @param {HTML Element} obj
      * @param {String} cls
      */
     function addClass(obj, cls) {
@@ -60,7 +60,7 @@
     }
 
     /**
-     * @param {Element} obj
+     * @param {HTML Element} obj
      * @param {String} cls
      */
     function removeClass(obj, cls) {
@@ -105,9 +105,9 @@
     /**
      * @constructor
      *
-     * iSlicer([[{Element} container,] {Array} datalist,] {object} options)
+     * iSlicer([[{HTML Element} container,] {Array} datalist,] {Object} options)
      *
-     * @param {Element} container
+     * @param {HTML Element} container
      * @param {Array} datalist
      * @param {Object} options
      *
@@ -147,7 +147,7 @@
 
         /**
          * listener
-         * @type {object}
+         * @type {Object}
          * @private
          */
         this._LSN = {};
@@ -246,7 +246,7 @@
     /**
      * animation parmas:
      *
-     * @param {Element} dom 图片的外层<li>容器 Img wrapper
+     * @param {HTML Element} dom 图片的外层<li>容器 Img wrapper
      * @param {String} axis 动画方向 animate direction
      * @param {Number} scale 容器宽度 Outer wrapper
      * @param {Number} i <li>容器index Img wrapper's index
@@ -336,7 +336,7 @@
 
         /**
          * dom element wrapping content
-         * @type {Element}
+         * @type {HTML Element}
          * @public
          */
         this.wrap = opts.dom;
@@ -364,14 +364,14 @@
 
         /**
          * Play time gap
-         * @type {number}
+         * @type {Number}
          * @public
          */
         this.duration = opts.duration || 2000;
 
         /**
          * start from initIndex or 0
-         * @type {number}
+         * @type {Number}
          * @public
          */
         this.initIndex = opts.initIndex > 0 && opts.initIndex <= opts.data.length - 1 ? opts.initIndex : 0;
@@ -393,7 +393,7 @@
 
         /**
          * slideIndex
-         * @type {number}
+         * @type {Number}
          * @private
          */
         this.slideIndex = this.slideIndex || this.initIndex || 0;
@@ -414,28 +414,28 @@
 
         /**
          * Wrapper width
-         * @type {number}
+         * @type {Number}
          * @private
          */
         this.width = this.wrap.clientWidth;
 
         /**
          * Wrapper height
-         * @type {number}
+         * @type {Number}
          * @private
          */
         this.height = this.wrap.clientHeight;
 
         /**
          * Ratio height:width
-         * @type {number}
+         * @type {Number}
          * @private
          */
         this.ratio = this.height / this.width;
 
         /**
          * Scale, size rule
-         * @type {number}
+         * @type {Number}
          * @private
          */
         this.scale = this.isVertical ? this.height : this.width;
@@ -463,7 +463,7 @@
 
         /**
          * AutoPlay waitting milsecond to start
-         * @type {number}
+         * @type {Number}
          * @private
          */
         this.delay = opts.delay || 0;
@@ -495,7 +495,7 @@
 
         /**
          * Debug mode
-         * @type {function}
+         * @type {Function}
          * @private
          */
         this.log = opts.isDebug ? function () {
@@ -510,7 +510,7 @@
 
         /**
          * animate process time (ms), default: 300ms
-         * @type {number}
+         * @type {Number}
          * @public
          */
         this.animateTime = opts.animateTime != null && opts.animateTime > -1 ? opts.animateTime : 300;
@@ -528,7 +528,7 @@
 
         /**
          * In slide animation
-         * @type {number}
+         * @type {Number}
          * @private
          */
         this.inAnimate = 0;
@@ -599,7 +599,7 @@
         // --------------------------------
 
         /**
-         * @type {object}
+         * @type {Object}
          * @private
          */
         this.pluginConfig = (function () {
@@ -675,7 +675,7 @@
 
     /**
      * Get item type
-     * @param {number} index
+     * @param {Number} index
      * @returns {String}
      * @private
      */
@@ -711,8 +711,8 @@
 
     /**
      * render single item html by idx
-     * @param {HTMLElement} el ..
-     * @param {number} dataIndex  ..
+     * @param {HTML Element} el ..
+     * @param {Number} dataIndex  ..
      * @private
      */
     iSliderPrototype._renderItem = function (el, dataIndex) {
@@ -887,7 +887,7 @@
         // append ul to div#canvas
         if (!this.outer) {
             /**
-             * @type {Element}
+             * @type {HTML Element}
              * @public
              */
             this.outer = outer;
@@ -898,7 +898,7 @@
     /**
      * Preload img when slideChange
      * From current index +2, -2 scene
-     * @param {number} dataIndex means which image will be load
+     * @param {Number} dataIndex means which image will be load
      * @private
      */
     iSliderPrototype._preloadImg = function (dataIndex) {
@@ -1007,7 +1007,7 @@
     /**
      *  Uniformity admin event
      *  Event router
-     *  @param {object} evt event object
+     *  @param {Object} evt event object
      *  @protected
      */
     iSliderPrototype.handleEvent = function (evt) {
@@ -1044,7 +1044,7 @@
 
     /**
      *  touchstart callback
-     *  @param {object} evt event object
+     *  @param {Object} evt event object
      *  @protected
      */
     iSliderPrototype.startHandler = function (evt) {
@@ -1064,19 +1064,19 @@
         this.fire('slideStart', evt, this);
 
         /**
-         * @type {number}
+         * @type {Number}
          * @private
          */
         this.startTime = new Date().getTime();
 
         /**
-         * @type {number}
+         * @type {Number}
          * @private
          */
         this.startX = device.hasTouch ? evt.targetTouches[0].pageX : evt.pageX;
 
         /**
-         * @type {number}
+         * @type {Number}
          * @private
          */
         this.startY = device.hasTouch ? evt.targetTouches[0].pageY : evt.pageY;
@@ -1084,7 +1084,7 @@
 
     /**
      *  touchmove callback
-     *  @param {object} evt event object
+     *  @param {Object} evt event object
      *  @protected
      */
     iSliderPrototype.moveHandler = function (evt) {
@@ -1152,7 +1152,7 @@
 
         function dispatchLink(el) {
             if (el.tagName === 'A') {
-                if (el.href) {
+                if (el.href && el.getAttribute('target') !== '_blank') {
                     global.location.href = el.href;
                     return false;
                 }
@@ -1217,7 +1217,7 @@
 
     /**
      *  slide logical, goto data index
-     *  @param {number} dataIndex the goto index
+     *  @param {Number} dataIndex the goto index
      *  @public
      */
     iSliderPrototype.slideTo = function (dataIndex, opts) {
@@ -1364,7 +1364,7 @@
     /**
      * Register plugin (run time mode)
      * @param {String} name
-     * @param {function} plugin
+     * @param {Function} plugin
      * @param {...}
      * @public
      */
@@ -1392,7 +1392,7 @@
      *  simple event delegate method
      *  @param {String} evtType event name
      *  @param {String} selector the simple css selector like jQuery
-     *  @param {function} callback event callback
+     *  @param {Function} callback event callback
      *  @public
      */
     iSliderPrototype.bind = iSliderPrototype.delegate = function (evtType, selector, callback) {
@@ -1428,7 +1428,7 @@
      *
      * @param {String} evtType event name
      * @param {String} selector the simple css selector like jQuery
-     * @param {function} callback event callback
+     * @param {Function} callback event callback
      * @public
      */
     iSliderPrototype.unbind = iSliderPrototype.unDelegate = function (evtType, selector, callback) {
@@ -1493,7 +1493,7 @@
     /**
      * Register event callback
      * @param {String} eventName
-     * @param {function} func
+     * @param {Function} func
      * @public
      */
     iSliderPrototype.on = function (eventName, func, force) {
@@ -1511,7 +1511,7 @@
      * Find callback function position
      * @param eventName
      * @param func
-     * @returns {number}
+     * @returns {Number}
      * @public
      */
     iSliderPrototype.has = function (eventName, func) {
@@ -1524,7 +1524,7 @@
     /**
      * Remove event callback
      * @param {String} eventName
-     * @param {function} func
+     * @param {Function} func
      * @public
      */
     iSliderPrototype.off = function (eventName, func) {
@@ -1647,6 +1647,10 @@
         this.locking = false;
     };
 
+    /**
+     * Fill the seam
+     * @param {HTML Element} el
+     */
     iSliderPrototype.seamScale = function (el) {
         var regex = /scale([XY]?)\(([^\)]+)\)/;
         if (regex.test(el.style.webkitTransform)) {
@@ -1672,6 +1676,10 @@
         }
     };
 
+    /**
+     *
+     * @param {HTML Element} el
+     */
     iSliderPrototype.originScale = function (el) {
         var regex = /([\x20]?scale)([XY]?)\(([^\)]+)\)/;
         el.style.webkitTransform = el.style.webkitTransform.replace(regex, function (sc, res, axis, scale) {
