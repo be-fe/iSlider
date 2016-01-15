@@ -1161,8 +1161,12 @@
 
         function dispatchLink(el) {
             if (el.tagName === 'A') {
-                if (el.href && el.getAttribute('target') !== '_blank') {
-                    global.location.href = el.href;
+                if (el.href) {
+                    if (el.getAttribute('target') === '_blank') {
+                        window.open(el.href);
+                    } else {
+                        global.location.href = el.href;
+                    }
                     return false;
                 }
             }
