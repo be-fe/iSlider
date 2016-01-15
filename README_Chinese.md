@@ -227,27 +227,27 @@ var data = [{
     <tr>
         <td>isDebug</td>
         <td>{boolean}</td>
-        <td>开启/关闭调试模式，会打印更多日志信息，默认:false(关闭)</td>
+        <td>开启/关闭调试模式，会打印更多日志信息，默认:false (关闭)</td>
     </tr>
     <tr>
         <td>isLooping</td>
         <td>{boolean}</td>
-        <td>开启/关闭循环模式，默认:false(关闭)</td>
+        <td>开启/关闭循环模式，默认:false (关闭)</td>
     </tr>
     <tr>
         <td>isAutoplay</td>
         <td>{boolean}</td>
-        <td>开启/关闭自动滑动模式，默认:false(关闭)</td>
+        <td>开启/关闭自动滑动模式，默认:false (关闭)</td>
     </tr>
     <tr>
         <td>isVertical</td>
         <td>{boolean}</td>
-        <td>开启水平/垂直滑动模式，默认:false(关闭)</td>
+        <td>开启水平/垂直滑动模式，默认:false (关闭)</td>
     </tr>
     <tr>
         <td>isOverspread</td>
         <td>{boolean}</td>
-        <td>如果场景为图片模式，是否平铺整个浏览器屏幕(CSS3背景)，默认:false(关闭)</td>
+        <td>如果场景为图片模式，是否平铺整个浏览器屏幕(CSS3背景)，默认:false (关闭)</td>
     </tr>
     <tr>
         <td>initIndex</td>
@@ -257,7 +257,12 @@ var data = [{
     <tr>
         <td>fixPage</td>
         <td>{boolean}</td>
-        <td>是否禁用垂直滚动和回弹效果，默认:true(开启)</td>
+        <td>是否禁用垂直滚动和回弹效果，默认:true (开启)</td>
+    </tr>
+    <tr>
+        <td>fillSeam</td>
+        <td>{boolean}</td>
+        <td>填补场景间的接缝. Default: false (关闭)</td>
     </tr>
     <tr>
         <td>plugins</td>

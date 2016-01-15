@@ -28,7 +28,7 @@
         'rotate': function rotate(dom, axis, scale, i, offset) {
             var rotateDirect = (axis === 'X') ? 'Y' : 'X';
             var absoluteOffset = Math.abs(offset);
-            var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
+            // var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
 
             if (this.isVertical) {
                 offset = -offset;
@@ -43,13 +43,13 @@
                 dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
             }
 
-            dom.style.cssText += '-webkit-backface-visibility:hidden; -webkit-transform-style:preserve-3d; ' + 'background-color:' + bdColor + '; position:absolute;';
-            dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ(' + (0.888 * scale / 2) + 'px) scale(0.888)';
+            dom.style.cssText += '-webkit-backface-visibility:hidden; -webkit-transform-style:preserve-3d; position:absolute;';
+            dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ(' + (0.889 * scale / 2) + 'px) scale(0.889)';
         },
         // flip
         'flip': function flip(dom, axis, scale, i, offset) {
             var rotateDirect = (axis === 'X') ? 'Y' : 'X';
-            var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
+            // var bdColor = window.getComputedStyle(this.wrap.parentNode, null).backgroundColor;
             if (this.isVertical) {
                 offset = -offset;
             }
@@ -62,7 +62,7 @@
                 dom.style.visibility = (i < 1) ? 'hidden' : 'visible';
             }
 
-            dom.style.cssText += 'position:absolute; -webkit-backface-visibility:hidden; background-color:' + bdColor + ';';
+            dom.style.cssText += 'position:absolute; -webkit-backface-visibility:hidden;';
             dom.style.webkitTransform = 'translateZ(' + (scale / 2) + 'px) rotate' + rotateDirect + '(' + 180 * (offset / scale + i - 1) + 'deg) scale(0.875)';
         },
         'depth': function depth(dom, axis, scale, i, offset) {

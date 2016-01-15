@@ -41,58 +41,55 @@
 
     iSlider && iSlider.regPlugin('dot', function (opts) {
         var HANDLE = this;
-        if (!HANDLE.isVertical) {
-            var locate = (function (locate) {
-                if (locate === 'relative') {
-                    return HANDLE.wrap;
-                } else if (Boolean(locate.nodeName) && Boolean(locate.nodeType)) {
-                    return locate;
-                }
-                return HANDLE.wrap.parentNode;
-            })(opts && opts.locate != null ? opts.locate : false);
-            var data = HANDLE.data;
-            var dots = [];
-            var dotWrap = document.createElement('ul');
-            dotWrap.className = 'islider-dot-wrap';
+        var locate = (function (locate) {
+            if (locate === 'relative') {
+                return HANDLE.wrap;
+            } else if (Boolean(locate.nodeName) && Boolean(locate.nodeType)) {
+                return locate;
+            }
+            return HANDLE.wrap.parentNode;
+        })(opts && opts.locate != null ? opts.locate : false);
 
-            var renderDots = function renderDots() {
-                var fregment = document.createDocumentFragment();
-                for (var i = 0; i < data.length; i++) {
-                    dots[i] = document.createElement('li');
-                    dots[i].className = 'islider-dot';
-                    dots[i].setAttribute('index', i);
-                    if (i === HANDLE.slideIndex) {
-                        dots[i].className += ' active';
-                    }
-                    dots[i].onclick = function () {
-                        HANDLE.slideTo(parseInt(this.getAttribute('index'), 10));
-                    };
-                    fregment.appendChild(dots[i]);
-                }
-                dotWrap.innerHTML = '';
-                dotWrap.appendChild(fregment);
-            };
+        var data = HANDLE.data;
+        var dots = [];
+        var dotWrap = document.createElement('ul');
+        dotWrap.className = 'islider-dot-wrap';
 
+        var renderDots = function renderDots() {
+            var fregment = document.createDocumentFragment();
+            for (var i = 0; i < data.length; i++) {
+                dots[i] = document.createElement('li');
+                dots[i].className = 'islider-dot';
+                dots[i].setAttribute('index', i);
+                if (i === HANDLE.slideIndex) {
+                    dots[i].className += ' active';
+                }
+                dots[i].onclick = function () {
+                    HANDLE.slideTo(parseInt(this.getAttribute('index'), 10));
+                };
+                fregment.appendChild(dots[i]);
+            }
+            dotWrap.innerHTML = '';
+            dotWrap.appendChild(fregment);
+        };
+
+        renderDots();
+
+        locate.appendChild(dotWrap);
+
+        HANDLE.on('slideChange', function () {
+            for (var i = 0; i < data.length; i++) {
+                dots[i].className = 'islider-dot';
+                if (i === this.slideIndex) {
+                    dots[i].className += ' active';
+                }
+            }
+        });
+
+        HANDLE.on('reloadData', function () {
+            data = this.data;
+            dots = [];
             renderDots();
-
-            locate.appendChild(dotWrap);
-
-            HANDLE.on('slideChange', function () {
-                if (!HANDLE.isVertical) {
-                    for (var i = 0; i < data.length; i++) {
-                        dots[i].className = 'islider-dot';
-                        if (i === this.slideIndex) {
-                            dots[i].className += ' active';
-                        }
-                    }
-                }
-            });
-
-            HANDLE.on('reloadData', function () {
-                data = this.data;
-                dots = [];
-                renderDots();
-            });
-        }
+        });
     });
 });

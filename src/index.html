@@ -12,21 +12,43 @@
         body {
             margin: 0;
             padding: 0;
-            background: #333;
             overflow: hidden;
         }
 
         #iSlider-wrapper {
             width: 100%;
             height: 100%;
+            overflow: hidden;
         }
 
-        #iSlider-wrapper li {
+        .islider-outer > li {
+            background-color: black;
             overflow: auto;
         }
 
         .islider-btn-outer {
             z-index: 1000;
+        }
+
+        .ro {
+            background: black;
+            height: 100%;
+            width: 100%;
+            color: #ffffff;
+            font-size: 64px;
+        }
+
+        .ro:before {
+            content: '';
+            position: absolute;
+            left: 100px;
+            top: 100px;
+            background: cornflowerblue;
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            border-radius: 100px;
+            width: 100px;
+            height: 100px;
         }
     </style>
 </head>
@@ -59,54 +81,59 @@
 <script src="js/plugins/zoompic.js"></script>
 <script>
     var list = [];
-    for (var i = 1; i <= 3; i++)
-        list.push({content: './resource/imgs/random/' + i + '.jpg'});
-
-
-    for (var i = 4; i <= 9; i++)
+    //    for (var i = 1; i <= 3; i++)
+    //        list.push({content: './resource/imgs/random/' + i + '.jpg'});
+    //
+    //
+    //    for (var i = 4; i <= 9; i++)
+    //        list.push({
+    //            content: '<div style="font-size:1.2em;color:white;"><img src="./resource/imgs/random/' + i + '.jpg"/><br />TEXT' + i + '</div>'
+    //        });
+    //
+    //    list.push({
+    //        content: '<div style="font-size:2em;color:white;text-align: center">HTML<a href="http://baidu.com">Link</a></div>'
+    //    });
+    //
+    //    list.push({
+    //        content: (function () {
+    //            var dom = document.createElement('div');
+    //            dom.innerHTML = 'Element';
+    //            dom.style.cssText = 'font-size:2em;color:rgb(230, 230, 63);';
+    //            return dom;
+    //        })()
+    //    });
+    //
+    //    list.push({
+    //        content: (function () {
+    //            var frag = document.createDocumentFragment();
+    //            var dom = document.createElement('div');
+    //            dom.innerHTML = 'Fragment';
+    //            dom.style.cssText = 'font-size:2em;color:rgb(230, 63, 230);';
+    //            frag.appendChild(dom);
+    //            return frag;
+    //        })()
+    //    });
+    //
+    //    list.push({
+    //        content: document.getElementById('pages')
+    //    });
+    for (var i = 0; i < 10; i++)
         list.push({
-            content: '<div style="font-size:1.2em;color:white;"><img src="./resource/imgs/random/' + i + '.jpg"/><br />TEXT' + i + '</div>'
+            content: '<div class="ro">' + i + '</div>'
         });
-
-    list.push({
-        content: '<div style="font-size:2em;color:white;text-align: center">HTML<a href="http://baidu.com">Link</a></div>'
-    });
-
-    list.push({
-        content: (function () {
-            var dom = document.createElement('div');
-            dom.innerHTML = 'Element';
-            dom.style.cssText = 'font-size:2em;color:rgb(230, 230, 63);';
-            return dom;
-        })()
-    });
-
-    list.push({
-        content: (function () {
-            var frag = document.createDocumentFragment();
-            var dom = document.createElement('div');
-            dom.innerHTML = 'Fragment';
-            dom.style.cssText = 'font-size:2em;color:rgb(230, 63, 230);';
-            frag.appendChild(dom);
-            return frag;
-        })()
-    });
-
-    list.push({
-        content: document.getElementById('pages')
-    });
 
     var islider = new iSlider(
             document.getElementById("(Ō̥̥̥̥̥̥̥ ԑ Ō̥̥̥̥̥̥̥ )"), list, {
 //                data: list,
                 dom: document.getElementById("iSlider-wrapper"),
-                //isVertical: true,
+                isVertical: 1,
                 isLooping: 1,
                 isOverspread: 1,
-                //animateType: 'rotate',
-                delay: 3000,
+//                animateType: 'rotate',
+//                delay: 3000,
                 animateTime: 1000,
-                fixPage: 0,
+                fillSeam: 1,
+//                fixPage: 0,
                 isDebug: 1,
 //                isAutoplay: true,
 //                duration: 5000,

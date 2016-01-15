@@ -1,3 +1,20 @@
+### iSlider 2.0.10
+- [Optimization]Some effects (such as default, rotate) in some browsers, there is a thin seam between the two scenes.
+    - We try to solve, yes, it has been resolved in most cases.
+    - However, this caused some impact on performance, so we use it as a configuration option called "fillSeam", the default value is false, it is disabled. When you need it can be enabled.
+- [Plug-in]button support vertically sliding case.
+- [Plug-in]dot support vertically sliding case.
+
+### iSlider 2.0.9
+- [BUG fix]disperse ghost when rotate and flip
+- [Optimization]animate: remove rotate and flip cover background-color
+- [BUG fix]Background image rendering affect the first frame position
+- Some optimization
+
+### iSlider 2.0.8
+
+- [BUG fix]Fix initPage error, thanks @ronnyKJ
+
 ### iSlider 2.0.7
 
 - [BUG fix]Remove tap event trigger.
