@@ -1,3 +1,11 @@
+### iSlider 2.0.11
+- [Optimization]Links to determine whether the "_blank"
+
+#### Something new
+- Add new callback functions
+    - oninitialize, oninitialized in structural parameters
+    - initialize, initialized on callback register
+
 ### iSlider 2.0.10
 - [Optimization]Some effects (such as default, rotate) in some browsers, there is a thin seam between the two scenes.
     - We try to solve, yes, it has been resolved in most cases.

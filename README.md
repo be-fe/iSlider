@@ -187,7 +187,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
     </tr>
     <tr>
         <td>data</td>
-        <td>{array}</td>
+        <td>{Array}</td>
         <td>
             data list:
             <br>
@@ -209,68 +209,73 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
     </tr>
     <tr>
         <td>duration</td>
-        <td>{number}</td>
+        <td>{Number}</td>
         <td>Sets the duration of each scene during auto-play mode. Unit: millis.</td>
     </tr>
     <tr>
         <td>animateType</td>
-        <td>{string}</td>
+        <td>{String}</td>
         <td>Sets the animation type. Currently it could be one of `default`, `rotate`, `depth`, `flow`, `flip` and `card`</td>
     </tr>
     <tr>
         <td>animateTime</td>
-        <td>{number}</td>
+        <td>{Number}</td>
         <td>Duration of the animation. Unit: millis.</td>
     </tr>
     <tr>
         <td>animateEasing</td>
-        <td>{string}</td>
+        <td>{String}</td>
         <td>Animation easing function. Possible values are `linear`, `ease`, `ease-in`, `ease-out`, `ease-in-out` or customed `cubic-bezier`</td>
     </tr>
     <tr>
         <td>isDebug</td>
-        <td>{boolean}</td>
+        <td>{Boolean}</td>
         <td>If true, more logs will be output. Default: false (disabled)</td>
     </tr>
     <tr>
         <td>isLooping</td>
-        <td>{boolean}</td>
+        <td>{Boolean}</td>
         <td>Turns on/off the loop mode. Default: false (turned off)</td>
     </tr>
     <tr>
         <td>isAutoplay</td>
-        <td>{boolean}</td>
+        <td>{Boolean}</td>
         <td>Turns on/off the auto sliding mode. Default: false (turned off)</td>
     </tr>
     <tr>
         <td>isVertical</td>
-        <td>{boolean}</td>
+        <td>{Boolean}</td>
         <td>Sets vertical/horizontal sliding. Default: false (horizontal)</td>
     </tr>
     <tr>
         <td>isOverspread</td>
-        <td>{boolean}</td>
+        <td>{Boolean}</td>
         <td>Makes the image overspread the whole viewport (as CSS3 `background-size: cover`),
             if the scene mode is image. Default: false (disabled)</td>
     </tr>
     <tr>
+        <td>isTouchable</td>
+        <td>{Boolean}</td>
+        <td>Enable/disable touch events. Default: true (enabled)</td>
+    </tr>
+    <tr>
         <td>initIndex</td>
-        <td>{number}</td>
+        <td>{Number}</td>
         <td>Specifies an index as the default home scene</td>
     </tr>
     <tr>
         <td>fixPage</td>
-        <td>{boolean}</td>
+        <td>{Boolean}</td>
         <td>Whether to disable native scrolling and rebound effect. Default: true (enabled)</td>
     </tr>
     <tr>
         <td>fillSeam</td>
-        <td>{boolean}</td>
+        <td>{Boolean}</td>
         <td>Fill the seam between scenes. Default: false (disabled)</td>
     </tr>
     <tr>
         <td>plugins</td>
-        <td>{array}</td>
+        <td>{Array}</td>
         <td>
             Enables plugins. It could be a simply list of plugin names:
             <pre>['dot', 'button', 'zoompic', ...]</pre>
@@ -285,38 +290,48 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
     </tr>
     <tr>
+        <td>initialize</td>
+        <td>{Function}</td>
+        <td>Gets called on iSlider start initialization (after setting, before render)</td>
+    </tr>
+    <tr>
+        <td>initialized</td>
+        <td>{Function}</td>
+        <td>Gets called on iSlider initialized (after render)</td>
+    </tr>
+    <tr>
         <td>onslide</td>
-        <td>{function}</td>
+        <td>{Function}</td>
         <td>Gets called on sliding</td>
     </tr>
     <tr>
         <td>onslidestart</td>
-        <td>{function}</td>
+        <td>{Function}</td>
         <td>Gets called when the sliding event starts</td>
     </tr>
     <tr>
         <td>onslideend</td>
-        <td>{function}</td>
+        <td>{Function}</td>
         <td>Gets called when the sliding event ends</td>
     </tr>
     <tr>
         <td>onslidechange</td>
-        <td>{function}</td>
+        <td>{Function}</td>
         <td>Gets called when the scene gets changed</td>
     </tr>
     <tr>
         <td>onslidechanged</td>
-        <td>{function}</td>
+        <td>{Function}</td>
         <td>Gets called post scene change (when the transition animation ends)</td>
     </tr>
     <tr>
         <td>onsliderestore</td>
-        <td>{function}</td>
+        <td>{Function}</td>
         <td>Gets called if scene restores</td>
     </tr>
     <tr>
         <td>onsliderestored</td>
-        <td>{function}</td>
+        <td>{Function}</td>
         <td>Gets called post scene restore (when the rollback animation ends)</td>
     </tr>
 </tbody>
@@ -343,9 +358,9 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             extend
         </td>
         <td>
-            [{object} The original Object (Optional)]
+            [{Object} The original Object (Optional)]
             <br>
-            {object} The new Object
+            {Object} The new Object
         </td>
         <td>
             When the length of params is 1, the param object will be extended to iSlider.prototype
@@ -359,9 +374,9 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             regPlugin
         </td>
         <td>
-            {string} Plugin name
+            {String} Plugin name
             <br>
-            {function} Init method for a plugin
+            {Function} Init method for a plugin
         </td>
         <td>
             register plugin
@@ -377,9 +392,9 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             slideTo
         </td>
         <td>
-            {number} index of a scene
+            {Number} index of a scene
             <br>
-            [{object} one-off configuration (optional)]
+            [{Object} one-off configuration (optional)]
         </td>
         <td>
             Slide to the N scene. Using the one-off configuration param, the transition effect
@@ -391,7 +406,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             slideNext
         </td>
         <td>
-            [{object} one-off configuration (optional)]
+            [{Object} one-off configuration (optional)]
         </td>
         <td>
             Slide to the next scene. The one-off configuration can be used to specify the
@@ -403,7 +418,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             slidePrev
         </td>
         <td>
-            [{object} one-off configuration (optional)]
+            [{Object} one-off configuration (optional)]
         </td>
         <td>
             Slide to the previous scene. The one-off configration can be used to specify the
@@ -415,11 +430,11 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             delegate
         </td>
         <td>
-            {string} event name
+            {String} event name
             <br>
-            {string} selector (same syntax as querySelectorAll)
+            {String} selector (same syntax as querySelectorAll)
             <br>
-            {function} event hanlder method
+            {Function} event hanlder method
         </td>
         <td>
             Bind event handler to a node container
@@ -439,11 +454,11 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             unDelegate
         </td>
         <td>
-            {string} event name
+            {String} event name
             <br>
-            {string} selector (same syntax as querySelectorAll)
+            {String} selector (same syntax as querySelectorAll)
             <br>
-            {function} event hanlder method
+            {Function} event hanlder method
         </td>
         <td>
             unBind event handler
@@ -463,14 +478,20 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             on
         </td>
         <td>
-            {string} event name
+            {String} event name
             <br>
-            {function} event handler method
+            {Function} event handler method
         </td>
         <td>
             Register event handler for iSlider events
             <br>
             <ul>
+                <li>
+                    initialize
+                </li>
+                <li>
+                    initialized
+                </li>
                 <li>
                     slide
                 </li>
@@ -506,9 +527,9 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             off
         </td>
         <td>
-            {string} event name
+            {String} event name
             <br>
-            {function} event handler method
+            {Function} event handler method
         </td>
         <td>
             Remove an event handler from the registered handlers for a specified event
@@ -519,7 +540,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             fire
         </td>
         <td>
-            {string} event name
+            {String} event name
         </td>
         <td>
             Trigger an event manually
@@ -568,7 +589,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             loadData
         </td>
         <td>
-            {array} list of data
+            {Array} list of data
         </td>
         <td>
             Loads a list of data

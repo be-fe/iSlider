@@ -1,42 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
     <meta charset="UTF-8">
     <title>iSlider</title>
+    <link rel="stylesheet" href="demo/public/css/font-awesome.min.css">
+    <link rel="stylesheet" href="build/iSlider.min.css"/>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #main {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .logo {
+            height: 100%;
+            width: 100%;
+            background: #3399ff url("thumbnails/iSlider-logo.png") no-repeat 50% 26.666%;
+        }
+
+        .data-plat {
+            display: none;
+        }
+
+        .content {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        .islider-dot-wrap {
+            position: absolute;
+            right: 0;
+            left: auto;
+            margin: 0;
+            margin-top: -21px;
+            top: 50%;
+            width: 30px;
+            height: 42px;
+            padding: 24px 0;
+            color: rgba(255, 255, 255, .25);
+        }
+
+        .islider-dot-wrap:before {
+            content: '...';
+            position: absolute;
+            top: 0;
+            transform: rotate(-90deg) translateY(4px);
+            left: 0;
+        }
+
+        .islider-dot-wrap:after {
+            content: '...';
+            position: absolute;
+            bottom: 0;
+            transform: rotate(-90deg) translateY(4px);
+            left: 0;
+        }
+
+        .islider-dot {
+            background-color: #ffffff;
+            border: none;
+            opacity: .9;
+            height: 8px;
+            width: 8px;
+            display: block;
+            margin: 8px auto;
+        }
+
+        .islider-dot.active {
+            background-color: #ffb360;
+            transition: all 0.5s;
+            box-shadow: 0 0 1px #ffb360;
+            transform: scale(1.5);
+        }
+
+        .next {
+            position: absolute;
+            width: 48px;
+            height: 32px;
+            text-align: center;
+            bottom: 0;
+            left: 50%;
+            margin-left: -24px;
+            color: rgba(255, 255, 255, .4);
+            animation: nextPage 500ms ease infinite alternate;
+        }
+
+        @keyframes nextPage {
+            from {
+                transform: translateY(-5px);
+            }
+            to {
+                transform: translateY(10px);
+            }
+        }
+
+        .enternal {
+            list-style: none;
+            width: 600px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: 100px 0 0 -300px;
+            padding: 0;
+        }
+
+        .enternal li {
+            float: left;
+            width: 200px;
+            text-align: center;
+        }
+
+        .enternal li a {
+            display: block;
+            text-decoration: none;
+            color: #a2ddff;
+        }
+
+        .enternal li i {
+            font-size: 60px;
+        }
+
+        .enternal li p {
+            font-size: 12px;
+        }
+
+        .review {
+            background-color: #5ac3b0;
+            height: 100%;
+            width: 100%;
+            text-align: center;
+        }
+
+        .review p {
+            margin: 0 auto 32px;
+            text-align: center;
+            color: #d1ffec;
+            font-size: 32px;
+        }
+
+        .review p:first-child {
+            padding-top: 12%;
+        }
+
+        .review img {
+            border: 1px solid #ffffff;
+            padding: 5px;
+            width: 240px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 500px) {
+            .enternal {
+                width: 360px;
+                margin: 100px 0 0 -180px;
+            }
+
+            .enternal li {
+                float: left;
+                width: 120px;
+                text-align: center;
+            }
+
+            .enternal li i {
+                font-size: 42px;
+            }
+
+            .enternal li p {
+                font-size: 12px;
+            }
+
+            .review p:first-child {
+                padding-top: 32px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .enternal li i {
+                font-size: 48px;
+            }
+
+            .review p:first-child {
+                padding-top: 64px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<ul>
-    <li>
-        <a href="https://github.com/be-fe/iSlider/blob/master/README.md">Introduction</a>
-    </li>
-    <li>
-        <a href="http://be-fe.github.io/iSlider/demo/">DEMO</a>
-    </li>
-</ul>
-<script src="//be-fe.github.io/iSlider/build/iSlider.min.js"></script>
-<script src="//be-fe.github.io/iSlider/build/iSlider.animate.min.js"></script>
+<div id="main"></div>
+<div class="data-plat">
+    <div class="content">
+        <div class="logo">
+            <ul class="enternal">
+                <li>
+                    <a href="https://github.com/be-fe/iSlider/blob/master/README.md" target="_blank">
+                        <i class="fa fa-cogs"></i>
+
+                        <p>INTRODUCTION</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://be-fe.github.io/iSlider/demo/" target="_blank">
+                        <i class="fa fa-th-list"></i>
+
+                        <p>DEMO</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/be-fe/iSlider" target="_blank">
+                        <i class="fa fa-code"></i>
+
+                        <p>CODE</p>
+                    </a>
+                </li>
+            </ul>
+            <i class="next fa fa-chevron-down"></i>
+        </div>
+    </div>
+    <div class="content">
+        <div class="review">
+            <p>Review in Mobile</p>
+            <img src="thumbnails/qrcode.png">
+        </div>
+    </div>
+</div>
+<script src="demo/public/js/iSlider.js"></script>
+<script src="demo/public/js/iSlider.animate.js"></script>
+<script src="demo/public/js/iSlider.plugin.dot.js"></script>
 <script>
-//    (function ($) {
-//        $('.eux-works-show .slider').each(function () {
-//            var el = $(this);
-//            var list = el.data('thumbnails');
-//            list.forEach(function (v, i) {
-//                list[i] = {
-//                    content: list[i]
-//                };
-//            });
-//            //el.css('height', el.width() * .5);
-//            new iSlider(el.get(0), list, {
-//                isAutoplay: true,
-//                duration: 8000,
-//                isTouchable: false,
-//                isLooping: true,
-//                animateTime: 2000,
-//                animateType: 'fade',
-//                plugins: [['dot', {locate: 'relative'}]]
-//            });
-//        });
-//    })(jQuery);
+    var data = [];
+
+    Array.prototype.slice.call(document.querySelectorAll('.content')).forEach(function (el) {
+        data.push({content: el});
+    });
+
+    function fstyle() {
+        document.body.style.backgroundColor = window.getComputedStyle(this.data[this.slideIndex].content.querySelector(':first-child')).backgroundColor;
+    }
+
+    var ISL = new iSlider(document.getElementById('main'), data, {
+        isLooping: false,
+        isVertical: 1,
+        animateTime: 1000,
+        plugins: [['dot', {locate: 'relative'}]],
+        oninitialized: fstyle
+    });
+
+    ISL.bind('click', '.next', function () {
+        ISL.slideNext();
+    });
+
+    ISL.on('slideChange', fstyle);
 </script>
 </body>
 </html>
