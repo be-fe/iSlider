@@ -285,6 +285,16 @@ var data = [{
         </td>
     </tr>
     <tr>
+        <td>initialize</td>
+        <td>{Function}</td>
+        <td>开始初始化时的回调函数（在调用setting后，渲染之前）</td>
+    </tr>
+    <tr>
+        <td>initialized</td>
+        <td>{Function}</td>
+        <td>完成初始化时的回调函数（渲染之后）</td>
+    </tr>
+    <tr>
         <td>onslide</td>
         <td>{Function}</td>
         <td>手指滑动时的回调函数</td>
@@ -467,6 +477,12 @@ var data = [{
             在iSlider的事件中注册回掉方法
             <br>
             <ul>
+                <li>
+                    initialize
+                </li>
+                <li>
+                    initialized
+                </li>
                 <li>
                     slide
                 </li>

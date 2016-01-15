@@ -164,9 +164,12 @@
         this._setting();
 
         this.fire('initialize');
+
         this._renderWrapper();
         this._initPlugins();
         this._bindHandler();
+
+        this.fire('initialized');
     };
 
     /**
@@ -174,7 +177,7 @@
      * @type {Array}
      * @protected
      */
-    iSlider.EVENTS = 'initialize slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored reloadData reset destroy'.split(' ');
+    iSlider.EVENTS = 'initialize initialized slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored reloadData reset destroy'.split(' ');
 
     /**
      * Easing white list
@@ -572,6 +575,12 @@
         // --------------------------------
         // - Register events
         // --------------------------------
+
+        // Callback function when iSlider start initialization (after setting, before render)
+        this.on('initialize', opts.oninitialize, 1);
+
+        // Callback function when iSlider initialized
+        this.on('initialized', opts.oninitialized, 1);
 
         // Callback function when your finger is moving
         this.on('slide', opts.onslide, 1);

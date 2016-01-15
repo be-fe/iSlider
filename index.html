@@ -244,16 +244,23 @@
         data.push({content: el});
     });
 
+    function fstyle() {
+        document.body.style.backgroundColor = window.getComputedStyle(this.data[this.slideIndex].content.querySelector(':first-child')).backgroundColor;
+    }
+
     var ISL = new iSlider(document.getElementById('main'), data, {
         isLooping: false,
         isVertical: 1,
         animateTime: 1000,
-        plugins: [['dot', {locate: 'relative'}]]
+        plugins: [['dot', {locate: 'relative'}]],
+        oninitialized: fstyle
     });
 
     ISL.bind('click', '.next', function () {
         ISL.slideNext();
     });
+
+    ISL.on('slideChanged', fstyle);
 </script>
 </body>
 </html>

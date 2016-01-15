@@ -290,6 +290,16 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
         </td>
     </tr>
     <tr>
+        <td>initialize</td>
+        <td>{Function}</td>
+        <td>Gets called on iSlider start initialization (after setting, before render)</td>
+    </tr>
+    <tr>
+        <td>initialized</td>
+        <td>{Function}</td>
+        <td>Gets called on iSlider initialized (after render)</td>
+    </tr>
+    <tr>
         <td>onslide</td>
         <td>{Function}</td>
         <td>Gets called on sliding</td>
@@ -476,6 +486,12 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
             Register event handler for iSlider events
             <br>
             <ul>
+                <li>
+                    initialize
+                </li>
+                <li>
+                    initialized
+                </li>
                 <li>
                     slide
                 </li>
