@@ -576,7 +576,7 @@
         // - Register events
         // --------------------------------
 
-        // Callback function when iSlider start initialization
+        // Callback function when iSlider start initialization (after setting, before render)
         this.on('initialize', opts.oninitialize, 1);
 
         // Callback function when iSlider initialized
