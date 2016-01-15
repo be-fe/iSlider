@@ -1,9 +1,9 @@
 {
   "name": "islider.js",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "author": "EUX team",
   "main": "build/iSlider.min.js",
-  "description": "Smooth mobile touch slider for Mobile WebApp, HTML5 App, Hybrid App",
+  "description": "Smooth and high-performance slide web framework. Suitable for PC, Mobile WebApp, HTML5 App, Hybrid App",
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.1",
@@ -18,12 +18,18 @@
   "keywords": [
     "smooth",
     "hybrid",
+    "mobile",
+    "performance",
     "slide",
+    "slider",
     "animate",
     "effect",
     "mobile",
     "iSlider.js",
-    "javascript"
+    "javascript",
+    "lightweight",
+    "plug-in",
+    "easy to expand"
   ],
   "bugs": {
     "url": "https://github.com/BE-FE/iSlider/issues",
