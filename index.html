@@ -24,7 +24,7 @@
         .logo {
             height: 100%;
             width: 100%;
-            background: #3399ff url("thumbnails/iSlider-logo.png") no-repeat 50% 26.666%;
+            background: #3399ff url("//be-fe.github.io/iSlider/thumbnails/iSlider-logo.png") no-repeat 50% 26.666%;
         }
 
         .data-plat {
@@ -317,7 +317,7 @@
     <div class="content">
         <div class="review">
             <p>Review in Mobile</p>
-            <img src="thumbnails/qrcode.png">
+            <img src="//be-fe.github.io/iSlider/thumbnails/qrcode.png">
         </div>
         <i class="next fa fa-chevron-down"></i>
     </div>
@@ -327,6 +327,9 @@
                 <div id="is_in_is"></div>
             </div>
         </div>
+        <audio id="is_in_is_bgm" preload="auto">
+            <source src="//be-fe.github.io/iSlider/thumbnails/saber/knight.mp3" type="audio/mpeg"/>
+        </audio>
     </div>
 </div>
 <script src="demo/public/js/iSlider.js"></script>
@@ -348,7 +351,7 @@
         var data = [];
         for (var i = 0; i < 9; i++) {
             data.push({
-                content: 'http://be-fe.github.io/iSlider/thumbnails/saber/' + i + (i < 7 ? '.jpg' : '.gif')
+                content: '//be-fe.github.io/iSlider/thumbnails/saber/' + i + (i < 7 ? '.jpg' : '.gif')
             });
         }
         var h = new iSlider(document.getElementById('is_in_is'), data, {
@@ -371,6 +374,8 @@
         return h;
     })();
 
+    var IS_IN_IS_BGM = document.getElementById('is_in_is_bgm');
+
     var ISL = new iSlider(document.getElementById('main'), data, {
         isLooping: false,
         isVertical: 1,
@@ -389,7 +394,14 @@
     });
 
     ISL.on('slideChanged', function (i) {
-        (i === this.data.length - 1) && IS_IN_IS.play();
+        if (i === 2) {
+            IS_IN_IS.play();
+            IS_IN_IS_BGM.play();
+        } else {
+            IS_IN_IS.pause();
+            IS_IN_IS_BGM.pause();
+            IS_IN_IS_BGM.currentTime = 0;
+        }
     });
 </script>
 </body>
