@@ -28,7 +28,10 @@
         }
 
         .data-plat {
-            display: none;
+            position: absolute;
+            visibility: hidden;
+            left: -1000%;
+            top: -1000%
         }
 
         .content {
@@ -37,20 +40,20 @@
             width: 100%;
         }
 
-        .islider-dot-wrap {
+        #main > .islider-dot-wrap {
             position: absolute;
             right: 0;
             left: auto;
             margin: 0;
-            margin-top: -21px;
+            margin-top: -26px;
             top: 50%;
             width: 30px;
-            height: 42px;
+            height: 52px;
             padding: 24px 0;
             color: rgba(255, 255, 255, .25);
         }
 
-        .islider-dot-wrap:before {
+        #main > .islider-dot-wrap:before {
             content: '...';
             position: absolute;
             top: 0;
@@ -58,7 +61,7 @@
             left: 0;
         }
 
-        .islider-dot-wrap:after {
+        #main > .islider-dot-wrap:after {
             content: '...';
             position: absolute;
             bottom: 0;
@@ -66,7 +69,7 @@
             left: 0;
         }
 
-        .islider-dot {
+        #main > .islider-dot-wrap > .islider-dot {
             background-color: #ffffff;
             border: none;
             opacity: .9;
@@ -76,7 +79,7 @@
             margin: 8px auto;
         }
 
-        .islider-dot.active {
+        #main > .islider-dot-wrap > .islider-dot.active {
             background-color: #ffb360;
             transition: all 0.5s;
             box-shadow: 0 0 1px #ffb360;
@@ -159,6 +162,94 @@
             margin: 0 auto;
         }
 
+        .is-in-is-wrap {
+            width: 100%;
+            height: 100%;
+            background-color: #4b135e;
+        }
+
+        .is-in-is {
+            position: absolute;
+            width: 640px;
+            height: 400px;
+            left: 50%;
+            top: 50%;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, .5);
+            margin: -210px 0 0 -330px;
+        }
+
+        #is_in_is {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        #is_in_is > .islider-dot-wrap {
+            width: 100%;
+            border-top: 2px solid #000000;
+            background-color: #000000;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-wrap: nowrap;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            height: 12%;
+        }
+
+        #is_in_is > .islider-dot-wrap > .islider-dot {
+            position: relative;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
+            height: 100%;
+            margin: 0;
+            border: 0 none;
+            background-color: rgba(0, 0, 0, 0);
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+
+        #is_in_is > .islider-dot-wrap > .islider-dot:before {
+            content: '';
+            transition: opacity 1.2s;
+            position: absolute;
+            height: 200%;
+            width: 200%;
+            left: 0;
+            top: 0;
+            background-color: #000000;
+            opacity: .8;
+        }
+
+        #is_in_is > .islider-dot-wrap > .islider-dot.active:before {
+            opacity: 0;
+        }
+
+        @media (max-width: 800px) {
+            .enternal li i {
+                font-size: 48px;
+            }
+
+            .review p:first-child {
+                padding-top: 64px;
+            }
+
+            .is-in-is {
+                width: 480px;
+                height: 300px;
+                margin: -160px 0 0 -250px;
+            }
+        }
+
         @media (max-width: 500px) {
             .enternal {
                 width: 360px;
@@ -182,15 +273,11 @@
             .review p:first-child {
                 padding-top: 32px;
             }
-        }
 
-        @media (max-width: 800px) {
-            .enternal li i {
-                font-size: 48px;
-            }
-
-            .review p:first-child {
-                padding-top: 64px;
+            .is-in-is {
+                width: 320px;
+                height: 225px;
+                margin: -122.5px 0 0 -170px;
             }
         }
     </style>
@@ -232,21 +319,57 @@
             <p>Review in Mobile</p>
             <img src="thumbnails/qrcode.png">
         </div>
+        <i class="next fa fa-chevron-down"></i>
+    </div>
+    <div class="content">
+        <div class="is-in-is-wrap">
+            <div class="is-in-is">
+                <div id="is_in_is"></div>
+            </div>
+        </div>
     </div>
 </div>
 <script src="demo/public/js/iSlider.js"></script>
 <script src="demo/public/js/iSlider.animate.js"></script>
 <script src="demo/public/js/iSlider.plugin.dot.js"></script>
 <script>
+
+    function fstyle() {
+        document.body.style.backgroundColor = window.getComputedStyle(this.data[this.slideIndex].content.querySelector(':first-child')).backgroundColor;
+    }
+
     var data = [];
 
     Array.prototype.slice.call(document.querySelectorAll('.content')).forEach(function (el) {
         data.push({content: el});
     });
 
-    function fstyle() {
-        document.body.style.backgroundColor = window.getComputedStyle(this.data[this.slideIndex].content.querySelector(':first-child')).backgroundColor;
-    }
+    var IS_IN_IS = (function () {
+        var data = [];
+        for (var i = 0; i < 9; i++) {
+            data.push({
+                content: 'http://be-fe.github.io/thumbnails/saber/' + i + (i < 7 ? '.jpg' : '.gif')
+            });
+        }
+        var h = new iSlider(document.getElementById('is_in_is'), data, {
+            isAutoplay: 1,
+            isLooping: 1,
+            duration: 5000,
+            animateTime: 2600,
+            isOverspread: 1,
+            animateType: 'fade',
+            plugins: [['dot', {locate: 'relative'}]],
+            oninitialized: function () {
+                [].slice.call(this.wrap.querySelectorAll('.islider-dot')).forEach(function (el, i) {
+                    el.style.backgroundImage = 'url(' + this.data[i].content + ')';
+                }.bind(this));
+            }
+        });
+
+        h.pause();
+
+        return h;
+    })();
 
     var ISL = new iSlider(document.getElementById('main'), data, {
         isLooping: false,
@@ -260,7 +383,14 @@
         ISL.slideNext();
     });
 
-    ISL.on('slideChange', fstyle);
+    ISL.on('slideChange', function () {
+        IS_IN_IS.pause();
+        fstyle.call(this);
+    });
+
+    ISL.on('slideChanged', function (i) {
+        (i === this.data.length - 1) && IS_IN_IS.play();
+    });
 </script>
 </body>
 </html>
