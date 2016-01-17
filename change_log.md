@@ -1,5 +1,7 @@
 ### iSlider 2.0.11
 - [Optimization]Links to determine whether the "_blank"
+- [Optimization]autoplay time sequence optimization, more smoothly, not interfere with touch events
+- [Optimization]Slimming file/directory structure
 
 #### Something new
 - Add new callback functions
