@@ -7,6 +7,7 @@
 - Add new callback functions
     - oninitialize, oninitialized in structural parameters
     - initialize, initialized on callback register
+- Now you can manually specify the container width and height, When a container is not actually in the page.
 
 ### iSlider 2.0.10
 - [Optimization]Some effects (such as default, rotate) in some browsers, there is a thin seam between the two scenes.
