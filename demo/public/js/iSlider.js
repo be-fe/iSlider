@@ -177,7 +177,7 @@
      * @type {Array}
      * @protected
      */
-    iSlider.EVENTS = 'initialize initialized slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored reloadData reset destroy'.split(' ');
+    iSlider.EVENTS = 'initialize initialized slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored loadData reset destroy'.split(' ');
 
     /**
      * Easing white list
@@ -420,14 +420,14 @@
          * @type {Number}
          * @private
          */
-        this.width = this.wrap.clientWidth;
+        this.width = typeof opts.width === 'number' ? opts.width : this.wrap.clientWidth;
 
         /**
          * Wrapper height
          * @type {Number}
          * @private
          */
-        this.height = this.wrap.clientHeight;
+        this.height = typeof opts.height === 'number' ? opts.height : this.wrap.clientHeight;
 
         /**
          * Ratio height:width
@@ -628,7 +628,7 @@
         })();
 
         // Autoplay mode
-        this.delay ? global.setTimeout(this._autoPlay.bind(this), this.delay) : this._autoPlay();
+        this._autoPlay();
     };
 
     /**
@@ -958,6 +958,7 @@
                 }
                 self.fire.apply(self, args);
                 self._renderIntermediateScene();
+                self.play();
             }
             unWatch();
         };
@@ -1040,7 +1041,7 @@
                 this.orientationchangeHandler();
                 break;
             case 'focus':
-                this._autoPlay();
+                this.play();
                 break;
             case 'blur':
                 this.pause();
@@ -1197,8 +1198,6 @@
 
         this.offset.X = this.offset.Y = 0;
 
-        this._autoPlay();
-
         this.fire('slideEnd', evt, this);
     };
 
@@ -1222,8 +1221,8 @@
             this._LSN.resize && global.clearTimeout(this._LSN.resize);
             this._LSN.resize = global.setTimeout(function () {
                 this.reset();
-                this.log('Event: resize');
                 this._LSN.resize && global.clearTimeout(this._LSN.resize);
+                this.log('Event: resize');
             }.bind(this), 500);
         }
     };
@@ -1234,6 +1233,9 @@
      *  @public
      */
     iSliderPrototype.slideTo = function (dataIndex, opts) {
+        if (this.isAutoplay) {
+            this.pause();
+        }
         if (this.locking) {
             return;
         }
@@ -1350,11 +1352,6 @@
             animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
 
             this.fillSeam && this.seamScale(els[i]);
-        }
-
-        // If not looping, stop playing when meet the end of data
-        if (this.isAutoplay && !this.isLooping && this.slideIndex === data.length - 1) {
-            this.pause();
         }
     };
 
@@ -1522,16 +1519,16 @@
 
     /**
      * Find callback function position
-     * @param eventName
-     * @param func
-     * @returns {Number}
+     * @param {String} eventName
+     * @param {Function} func
+     * @returns {Boolean}
      * @public
      */
     iSliderPrototype.has = function (eventName, func) {
         if (eventName in this.events) {
-            return this.events[eventName].indexOf(func);
+            return -1 < this.events[eventName].indexOf(func);
         }
-        return -1;
+        return false;
     };
 
     /**
@@ -1541,9 +1538,11 @@
      * @public
      */
     iSliderPrototype.off = function (eventName, func) {
-        var index = this.has(eventName, func);
-        if (index > -1) {
-            delete this.events[eventName][index];
+        if (eventName in this.events) {
+            var index = this.events[eventName].indexOf(func);
+            if (index > -1) {
+                delete this.events[eventName][index];
+            }
         }
     };
 
@@ -1573,7 +1572,8 @@
         this.pause();
         this._setting();
         this._renderWrapper();
-        this.delay && global.setTimeout(this._autoPlay.bind(this), this.delay);
+        this._autoPlay();
+        this.fire('reset');
     };
 
     /**
@@ -1585,8 +1585,8 @@
         this.slideIndex = initIndex || 0;
         this.data = data;
         this._renderWrapper();
-        this.fire('reloadData');
-        this.delay && global.setTimeout(this._autoPlay.bind(this), this.delay);
+        this._autoPlay();
+        this.fire('loadData');
     };
 
     /**
@@ -1594,15 +1594,7 @@
      * @private
      */
     iSliderPrototype._autoPlay = function () {
-        // enable
-        if (this.isAutoplay) {
-            this.has('slideChanged', this.play) < 0 && this.on('slideChanged', this.play, 1);
-            this.has('slideRestored', this.play) < 0 && this.on('slideRestored', this.play, 1);
-            this.play();
-        } else {
-            this.off('slideChanged', this.play);
-            this.off('slideRestored', this.play);
-        }
+        this.delay > 0 ? global.setTimeout(this.play.bind(this), this.delay) : this.play();
     };
 
     /**
@@ -1610,8 +1602,11 @@
      * @public
      */
     iSliderPrototype.play = function () {
-        this._LSN.autoPlay && global.clearTimeout(this._LSN.autoPlay);
-        this._LSN.autoPlay = global.setTimeout(this.slideNext.bind(this), this.duration);
+        this.pause();
+        // If not looping, stop playing when meet the end of data
+        if (this.isAutoplay && (this.isLooping || this.slideIndex < this.data.length - 1)) {
+            this._LSN.autoPlay = global.setTimeout(this.slideNext.bind(this), this.duration);
+        }
     };
 
     /**

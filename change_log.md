@@ -1,10 +1,13 @@
 ### iSlider 2.0.11
 - [Optimization]Links to determine whether the "_blank"
+- [Optimization]autoplay time sequence optimization, more smoothly, not interfere with touch events
+- [Optimization]Slimming file/directory structure
 
 #### Something new
 - Add new callback functions
     - oninitialize, oninitialized in structural parameters
     - initialize, initialized on callback register
+- Now you can manually specify the container width and height, When a container is not actually in the page.
 
 ### iSlider 2.0.10
 - [Optimization]Some effects (such as default, rotate) in some browsers, there is a thin seam between the two scenes.

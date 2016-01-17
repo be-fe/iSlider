@@ -1,6 +1,6 @@
 # iSlider
 
-![](thumbnails/iSlider-logo.png)
+![](http://be-fe.github.io/iSlider/thumbnails/iSlider-logo.png)
 
 #### [iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
 #### [iSlider DEMO](http://be-fe.github.io/iSlider/demo/index.html)
@@ -21,7 +21,7 @@ Currently, it features:
 
 ## Mobile demo
 
-![](thumbnails/qrcode.png)
+![](http://be-fe.github.io/iSlider/thumbnails/qrcode.png)
 
 Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/index.html)
 

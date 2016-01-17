@@ -86,7 +86,13 @@
             }
         });
 
-        HANDLE.on('reloadData', function () {
+        HANDLE.on('loadData', function () {
+            data = this.data;
+            dots = [];
+            renderDots();
+        });
+
+        HANDLE.on('reset', function () {
             data = this.data;
             dots = [];
             renderDots();
