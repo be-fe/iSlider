@@ -15,6 +15,10 @@
             overflow: hidden;
         }
 
+        body {
+            font-family: sans-serif, Helvetica;
+        }
+
         #main {
             height: 100%;
             width: 100%;
@@ -24,7 +28,7 @@
         .logo {
             height: 100%;
             width: 100%;
-            background: #3399ff url("//be-fe.github.io/iSlider/thumbnails/iSlider-logo.png") no-repeat 50% 26.666%;
+            background: #3399ff url("//be-fe.github.io/iSlider/thumbnails/iSlider-logo.png") no-repeat 50% 20%;
         }
 
         .data-plat {
@@ -45,10 +49,10 @@
             right: 0;
             left: auto;
             margin: 0;
-            margin-top: -26px;
+            margin-top: -40px;
             top: 50%;
             width: 30px;
-            height: 52px;
+            height: 56px;
             padding: 24px 0;
             color: rgba(255, 255, 255, .25);
         }
@@ -113,17 +117,17 @@
 
         .enternal {
             list-style: none;
-            width: 600px;
+            width: 570px;
             position: absolute;
             top: 50%;
             left: 50%;
-            margin: 100px 0 0 -300px;
+            margin: 80px 0 0 -285px;
             padding: 0;
         }
 
         .enternal li {
             float: left;
-            width: 200px;
+            width: 190px;
             text-align: center;
         }
 
@@ -134,7 +138,7 @@
         }
 
         .enternal li i {
-            font-size: 60px;
+            font-size: 54px;
         }
 
         .enternal li p {
@@ -152,9 +156,9 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            margin: -160px 0 0 -160px;
-            height: 320px;
-            width: 320px;
+            height: 240px;
+            width: 240px;
+            margin: -120px 0 0 -120px;
             text-align: center;
             overflow: visible;
         }
@@ -165,17 +169,17 @@
             top: 0;
             left: 50%;
             margin-left: -160px;
-            margin-top: -12px;
+            margin-top: 0;
             text-align: center;
             color: #d1ffec;
-            font-size: 24px;
+            font-size: 16px;
         }
 
         .review img {
             border: 1px solid #ffffff;
             padding: 5px;
-            width: 240px;
-            margin: 32px auto 0;
+            width: 200px;
+            margin: 20px auto 0;
         }
 
         .is-in-is-wrap {
@@ -198,14 +202,24 @@
         .is-in-is > em {
             position: absolute;
             top: 100%;
-            left: 50%;
+            right: 0;
             width: 200px;
-            margin-top: 10px;
-            margin-left: -100px;
+            margin-top: 8px;
             font-style: normal;
             font-size: 12px;
             text-align: center;
-            color: rgba(255, 255, 255, .25);
+            color: rgba(255, 255, 255, .15);
+        }
+
+        .is-in-is > b {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            font-style: normal;
+            font-weight: 100;
+            font-size: 12px;
+            text-align: center;
+            color: rgba(255, 255, 255, .4);
         }
 
         #is_in_is {
@@ -264,12 +278,21 @@
         }
 
         @media (max-width: 800px) {
-            .enternal li i {
-                font-size: 48px;
+            .enternal {
+                width: 450px;
+                margin: 90px 0 0 -225px;
             }
 
-            .review p:first-child {
-                padding-top: 64px;
+            .enternal li {
+                width: 150px;
+            }
+
+            .enternal li i {
+                font-size: 42px;
+            }
+
+            .enternal li p {
+                font-size: 12px;
             }
 
             .is-in-is {
@@ -281,26 +304,20 @@
 
         @media (max-width: 500px) {
             .enternal {
-                width: 360px;
-                margin: 100px 0 0 -180px;
+                width: 330px;
+                margin: 100px 0 0 -165px;
             }
 
             .enternal li {
-                float: left;
-                width: 120px;
-                text-align: center;
+                width: 110px;
             }
 
             .enternal li i {
-                font-size: 42px;
+                font-size: 32px;
             }
 
             .enternal li p {
                 font-size: 12px;
-            }
-
-            .review p:first-child {
-                padding-top: 32px;
             }
 
             .is-in-is {
@@ -357,6 +374,7 @@
             <div class="is-in-is">
                 <div id="is_in_is"></div>
                 <em>吾王劍鋒所指 即吾心之所向</em>
+                <b>NESTED iSlider</b>
             </div>
         </div>
         <audio id="is_in_is_bgm" preload="auto" loop="loop">
