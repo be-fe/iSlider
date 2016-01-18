@@ -180,7 +180,7 @@
      * @type {Array}
      * @protected
      */
-    iSlider.EVENTS = 'initialize initialized initPlugin slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored loadData reset destroy'.split(' ');
+    iSlider.EVENTS = 'initialize initialized pluginInitialize pluginInitialized slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored loadData reset destroy'.split(' ');
 
     /**
      * Easing white list
@@ -585,7 +585,7 @@
         this.on('initialized', opts.oninitialized, 1);
 
         // Callback function when iSlider plugins initialized
-        this.on('initPlugin', opts.oninitplugin, 1);
+        this.on('pluginInitialized', opts.onplugininitialized, 1);
 
         // Callback function when your finger is moving
         this.on('slide', opts.onslide, 1);
@@ -649,7 +649,7 @@
                 && plugins[i].apply(this, config[i]);
             }
         }
-        this.fire('initPlugin');
+        this.fire('pluginInitialized');
     };
 
     /**
@@ -905,7 +905,9 @@
             this.wrap.appendChild(outer);
         }
 
-        this.fire('renderComplete');
+        this.currentEl = this.els[1];
+
+        this.fire('renderComplete', this.slideIndex, this.currentEl, this);
     };
 
     /**
@@ -945,7 +947,6 @@
     iSliderPrototype._watchTransitionEnd = function (time, eventType) {
 
         var self = this;
-        var args = _A(arguments, 1);
         var lsn;
         this.log('Event:', 'watchTransitionEnd::stuck::pile', this.inAnimate);
 
@@ -959,7 +960,7 @@
                 if (eventType === 'slideChanged') {
                     self._changedStyles();
                 }
-                self.fire.apply(self, args);
+                self.fire.call(self, eventType, self.slideIndex, self.currentEl, self);
                 self._renderIntermediateScene();
                 self.play();
             }
@@ -1317,6 +1318,8 @@
                 step = -1;
             }
 
+            this.currentEl = els[1];
+
             if (Math.abs(n) === 1) {
                 this._renderIntermediateScene();
                 this._renderItem(headEl, idx + n);
@@ -1330,7 +1333,7 @@
             // Disperse ghost in the back
             if (-1 < ['rotate', 'flip'].indexOf(animateType)) {
                 headEl.style.visibility = 'hidden';
-                els[1].style.visibility = 'visible';
+                this.currentEl.style.visibility = 'visible';
             }
 
             // Minus squeeze time
@@ -1343,13 +1346,13 @@
                 els.forEach(function (el) {
                     removeClass(el, 'islider-sliding|islider-sliding-focus');
                 });
-                addClass(els[1], 'islider-sliding-focus');
+                addClass(this.currentEl, 'islider-sliding-focus');
                 addClass(headEl, 'islider-sliding');
             }
         }
 
-        this.fire(eventType, this.slideIndex, els[1], this);
-        this._watchTransitionEnd(squeezeTime, eventType + 'd', this.slideIndex, els[1], this);
+        this.fire(eventType, this.slideIndex, this.currentEl, this);
+        this._watchTransitionEnd(squeezeTime, eventType + 'd');
 
         // do the trick animation
         for (var i = 0; i < 3; i++) {
@@ -1560,16 +1563,20 @@
      * @param {*} args
      * @public
      */
-    iSliderPrototype.fire = function (eventName) {
-        this.log('[EVENT FIRE]:', eventName, arguments);
-        if (eventName in this.events) {
-            var funcs = this.events[eventName];
-            for (var i = 0; i < funcs.length; i++) {
-                typeof funcs[i] === 'function'
-                && funcs[i].apply
-                && funcs[i].apply(this, _A(arguments, 1));
+    iSliderPrototype.fire = function (eventNames) {
+        var args = _A(arguments, 1);
+        console.log(eventNames);
+        eventNames.split(/\x20+/).forEach(function (eventName) {
+            this.log('[EVENT FIRE]:', eventName, args);
+            if (eventName in this.events) {
+                var funcs = this.events[eventName];
+                for (var i = 0; i < funcs.length; i++) {
+                    typeof funcs[i] === 'function'
+                    && funcs[i].apply
+                    && funcs[i].apply(this, args);
+                }
             }
-        }
+        }.bind(this));
     };
 
     /**
@@ -1579,9 +1586,13 @@
     iSliderPrototype.reset = function () {
         this.pause();
         //this._setting();
+        this.width = typeof this._opts.width === 'number' ? this._opts.width : this.wrap.clientWidth;
+        this.height = typeof this._opts.height === 'number' ? this._opts.height : this.wrap.clientHeight;
+        this.ratio = this.height / this.width;
+        this.scale = this.isVertical ? this.height : this.width;
         this._renderWrapper();
         this._autoPlay();
-        this.fire('reset');
+        this.fire('reset slideRestored', this.slideIndex, this.currentEl, this);
     };
 
     /**
@@ -1594,7 +1605,7 @@
         this.data = data;
         this._renderWrapper();
         this._autoPlay();
-        this.fire('loadData');
+        this.fire('loadData slideChanged', this.slideIndex, this.currentEl, this);
     };
 
     /**

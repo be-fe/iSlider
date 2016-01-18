@@ -411,7 +411,7 @@
             isOverspread: 1,
             animateType: 'fade',
             plugins: [['dot', {locate: 'relative'}]],
-            oninitplugin: function () {
+            onplugininitialized: function () {
                 [].slice.call(this.wrap.querySelectorAll('.islider-dot')).forEach(function (el, i) {
                     el.style.backgroundImage = 'url(' + this.data[i].content + ')';
                 }.bind(this));
@@ -422,6 +422,17 @@
 
         return h;
     })();
+
+    function IS_IN_IS_Autoplay(i) {
+        if (i === 2) {
+            IS_IN_IS.play();
+            IS_IN_IS_BGM.play();
+        } else {
+            IS_IN_IS.pause();
+            IS_IN_IS_BGM.pause();
+            IS_IN_IS_BGM.currentTime = 0;
+        }
+    }
 
     var IS_IN_IS_BGM = document.getElementById('is_in_is_bgm');
 
@@ -445,16 +456,8 @@
         fstyle.call(this);
     });
 
-    ISL.on('slideChanged', function (i) {
-        if (i === 2) {
-            IS_IN_IS.play();
-            IS_IN_IS_BGM.play();
-        } else {
-            IS_IN_IS.pause();
-            IS_IN_IS_BGM.pause();
-            IS_IN_IS_BGM.currentTime = 0;
-        }
-    });
+    ISL.on('slideChanged', IS_IN_IS_Autoplay);
+    ISL.on('slideRestored', IS_IN_IS_Autoplay);
 </script>
 </body>
 </html>
