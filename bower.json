@@ -30,12 +30,15 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
-    "demo",
-    "karma.conf.js",
-    "node_modules",
-    "*.iml",
     ".idea",
-    "test"
+    "*.iml",
+    "node_modules",
+    "demo",
+    "test",
+    "thumbnails",
+    "karma.conf.js",
+    "gulpfile.js",
+    "index.html"
   ],
   "version": "2.0.11"
 }
