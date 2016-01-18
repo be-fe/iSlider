@@ -1,3 +1,13 @@
+### iSlider 2.0.12
+- [Optimization]Links on fixPage:true add preventDevault
+- [BUG fix]Repair plug-dot Click failure problem
+
+#### Something new
+- Add new option "fingerRecognitionRange" to prevent inadvertently touched
+
+#### iSlider too fat\! Weight Loss complete\!
+![](http://image.tupian114.com/20140714/10390202.jpg)
+
 ### iSlider 2.0.11
 - [Optimization]Links to determine whether the "_blank"
 - [Optimization]autoplay time sequence optimization, more smoothly, not interfere with touch events

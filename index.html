@@ -15,6 +15,10 @@
             overflow: hidden;
         }
 
+        body {
+            font-family: sans-serif, Helvetica;
+        }
+
         #main {
             height: 100%;
             width: 100%;
@@ -24,7 +28,7 @@
         .logo {
             height: 100%;
             width: 100%;
-            background: #3399ff url("//be-fe.github.io/iSlider/thumbnails/iSlider-logo.png") no-repeat 50% 26.666%;
+            background: #3399ff url("//be-fe.github.io/iSlider/thumbnails/iSlider-logo.png") no-repeat 50% 20%;
         }
 
         .data-plat {
@@ -45,10 +49,10 @@
             right: 0;
             left: auto;
             margin: 0;
-            margin-top: -26px;
+            margin-top: -40px;
             top: 50%;
             width: 30px;
-            height: 52px;
+            height: 56px;
             padding: 24px 0;
             color: rgba(255, 255, 255, .25);
         }
@@ -88,13 +92,17 @@
 
         .next {
             position: absolute;
-            width: 48px;
+            width: 64px;
             height: 32px;
+            padding-top: 32px;
             text-align: center;
             bottom: 0;
             left: 50%;
-            margin-left: -24px;
+            margin-left: -32px;
             color: rgba(255, 255, 255, .4);
+        }
+
+        .next:before {
             animation: nextPage 500ms ease infinite alternate;
         }
 
@@ -109,17 +117,17 @@
 
         .enternal {
             list-style: none;
-            width: 600px;
+            width: 570px;
             position: absolute;
             top: 50%;
             left: 50%;
-            margin: 100px 0 0 -300px;
+            margin: 80px 0 0 -285px;
             padding: 0;
         }
 
         .enternal li {
             float: left;
-            width: 200px;
+            width: 190px;
             text-align: center;
         }
 
@@ -130,36 +138,48 @@
         }
 
         .enternal li i {
-            font-size: 60px;
+            font-size: 54px;
         }
 
         .enternal li p {
             font-size: 12px;
         }
 
-        .review {
-            background-color: #5ac3b0;
+        .review-wrap {
+            position: relative;
             height: 100%;
             width: 100%;
+            background-color: #5ac3b0;
+        }
+
+        .review {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 240px;
+            width: 240px;
+            margin: -120px 0 0 -120px;
             text-align: center;
+            overflow: visible;
         }
 
         .review p {
-            margin: 0 auto 32px;
+            position: absolute;
+            width: 320px;
+            top: 0;
+            left: 50%;
+            margin-left: -160px;
+            margin-top: 0;
             text-align: center;
             color: #d1ffec;
-            font-size: 32px;
-        }
-
-        .review p:first-child {
-            padding-top: 12%;
+            font-size: 16px;
         }
 
         .review img {
             border: 1px solid #ffffff;
             padding: 5px;
-            width: 240px;
-            margin: 0 auto;
+            width: 200px;
+            margin: 20px auto 0;
         }
 
         .is-in-is-wrap {
@@ -182,14 +202,23 @@
         .is-in-is > em {
             position: absolute;
             top: 100%;
-            left: 50%;
-            width: 200px;
-            margin-top: 10px;
-            margin-left: -100px;
+            right: 0;
+            margin-top: 4px;
             font-style: normal;
             font-size: 12px;
+            text-align: right;
+            color: rgba(255, 255, 255, .08);
+        }
+
+        .is-in-is > b {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            font-style: normal;
+            font-weight: 100;
+            font-size: 12px;
             text-align: center;
-            color: rgba(255, 255, 255, .25);
+            color: rgba(255, 255, 255, .4);
         }
 
         #is_in_is {
@@ -248,12 +277,21 @@
         }
 
         @media (max-width: 800px) {
-            .enternal li i {
-                font-size: 48px;
+            .enternal {
+                width: 450px;
+                margin: 90px 0 0 -225px;
             }
 
-            .review p:first-child {
-                padding-top: 64px;
+            .enternal li {
+                width: 150px;
+            }
+
+            .enternal li i {
+                font-size: 42px;
+            }
+
+            .enternal li p {
+                font-size: 12px;
             }
 
             .is-in-is {
@@ -265,26 +303,20 @@
 
         @media (max-width: 500px) {
             .enternal {
-                width: 360px;
-                margin: 100px 0 0 -180px;
+                width: 330px;
+                margin: 100px 0 0 -165px;
             }
 
             .enternal li {
-                float: left;
-                width: 120px;
-                text-align: center;
+                width: 110px;
             }
 
             .enternal li i {
-                font-size: 42px;
+                font-size: 32px;
             }
 
             .enternal li p {
                 font-size: 12px;
-            }
-
-            .review p:first-child {
-                padding-top: 32px;
             }
 
             .is-in-is {
@@ -328,9 +360,11 @@
         </div>
     </div>
     <div class="content">
-        <div class="review">
-            <p>Review in Mobile</p>
-            <img src="//be-fe.github.io/iSlider/thumbnails/qrcode-home.png">
+        <div class="review-wrap">
+            <div class="review">
+                <p>Review in Mobile</p>
+                <img src="//be-fe.github.io/iSlider/thumbnails/qrcode-home.png">
+            </div>
         </div>
         <i class="next fa fa-chevron-down"></i>
     </div>
@@ -339,6 +373,7 @@
             <div class="is-in-is">
                 <div id="is_in_is"></div>
                 <em>吾王劍鋒所指 即吾心之所向</em>
+                <b>NESTED iSlider</b>
             </div>
         </div>
         <audio id="is_in_is_bgm" preload="auto" loop="loop">
@@ -376,7 +411,7 @@
             isOverspread: 1,
             animateType: 'fade',
             plugins: [['dot', {locate: 'relative'}]],
-            oninitialized: function () {
+            onplugininitialized: function () {
                 [].slice.call(this.wrap.querySelectorAll('.islider-dot')).forEach(function (el, i) {
                     el.style.backgroundImage = 'url(' + this.data[i].content + ')';
                 }.bind(this));
@@ -387,6 +422,39 @@
 
         return h;
     })();
+
+    var lsn;
+    function IS_IN_IS_Autoplay(i) {
+        if (lsn) {
+            window.clearInterval(lsn);
+        }
+        if (i === 2) {
+            IS_IN_IS.play();
+            IS_IN_IS_BGM.play();
+            lsn = window.setInterval(function () {
+                var volume = IS_IN_IS_BGM.volume;
+                volume += 0.01;
+                if (volume >= 1) {
+                    volume = 1;
+                    window.clearInterval(lsn);
+                }
+                IS_IN_IS_BGM.volume = volume;
+            }, 10);
+        } else {
+            IS_IN_IS.pause();
+            lsn = window.setInterval(function () {
+                var volume = IS_IN_IS_BGM.volume;
+                volume -= 0.01;
+                if (volume <= 0) {
+                    volume = 0;
+                    window.clearInterval(lsn);
+                    IS_IN_IS_BGM.pause();
+                }
+                IS_IN_IS_BGM.volume = volume;
+            }, 10);
+            // IS_IN_IS_BGM.currentTime = 0;
+        }
+    }
 
     var IS_IN_IS_BGM = document.getElementById('is_in_is_bgm');
 
@@ -402,21 +470,16 @@
         ISL.slideNext();
     });
 
-    ISL.on('slideChange', function () {
-        IS_IN_IS.pause();
+    ISL.on('slideStart', function () {
         fstyle.call(this);
     });
 
-    ISL.on('slideChanged', function (i) {
-        if (i === 2) {
-            IS_IN_IS.play();
-            IS_IN_IS_BGM.play();
-        } else {
-            IS_IN_IS.pause();
-            IS_IN_IS_BGM.pause();
-            IS_IN_IS_BGM.currentTime = 0;
-        }
+    ISL.on('slideChange', function () {
+        fstyle.call(this);
     });
+
+    ISL.on('slideChanged', IS_IN_IS_Autoplay);
+    ISL.on('slideRestored', IS_IN_IS_Autoplay);
 </script>
 </body>
 </html>
