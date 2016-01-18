@@ -1164,7 +1164,7 @@
         var absReverseOffset = Math.abs(offset[this.reverseAxis]);
 
         function dispatchLink(el) {
-            if (el.tagName.toLowerCase() === 'a') {
+            if (el.tagName === 'A') {
                 if (el.href) {
                     if (el.getAttribute('target') === '_blank') {
                         window.open(el.href);
@@ -1174,7 +1174,7 @@
                     return false;
                 }
             }
-            else if (el.tagName.toLowerCase() === 'li' && el.className.search(/^islider\-/) > -1) {
+            else if (el.tagName === 'LI' && el.className.search(/^islider\-/) > -1) {
                 return false;
             }
             else {
