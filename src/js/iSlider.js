@@ -1164,21 +1164,23 @@
         var absReverseOffset = Math.abs(offset[this.reverseAxis]);
 
         function dispatchLink(el) {
-            if (el.tagName === 'A') {
-                if (el.href) {
-                    if (el.getAttribute('target') === '_blank') {
-                        window.open(el.href);
-                    } else {
-                        global.location.href = el.href;
+            if (el != null) {
+                if (el.tagName === 'A') {
+                    if (el.href) {
+                        if (el.getAttribute('target') === '_blank') {
+                            window.open(el.href);
+                        } else {
+                            global.location.href = el.href;
+                        }
+                        return false;
                     }
+                }
+                else if (el.tagName === 'LI' && el.className.search(/^islider\-/) > -1) {
                     return false;
                 }
-            }
-            else if (el.tagName === 'LI' && el.className.search(/^islider\-/) > -1) {
-                return false;
-            }
-            else {
-                dispatchLink(el.parentNode);
+                else {
+                    dispatchLink(el.parentNode);
+                }
             }
         }
 
