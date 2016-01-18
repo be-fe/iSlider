@@ -1565,7 +1565,6 @@
      */
     iSliderPrototype.fire = function (eventNames) {
         var args = _A(arguments, 1);
-        console.log(eventNames);
         eventNames.split(/\x20+/).forEach(function (eventName) {
             this.log('[EVENT FIRE]:', eventName, args);
             if (eventName in this.events) {
