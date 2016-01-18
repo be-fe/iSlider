@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>iSlider by BE-FE</title>
     <link rel="stylesheet" href="public/css/index.css">
-    <link rel="stylesheet" href="//highlightjs.org/static/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="//highlightjs.org/static/demo/styles/monokai-sublime.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -58,43 +58,49 @@
                 <a href="#demos">iSlider DEMO</a>
             </h4>
 
-            <p>iSlider is an outstanding, dependecy-free sliding js framework for mobile. 
+            <p>iSlider is an outstanding, dependecy-free sliding js framework for mobile.
                 It is capable of handling any kind of elements, e.g. image, DOM element.
                 It features:
             </p>
             <ul class="task-list">
                 <li>Highly performant, hardware acceleration, least memory usage.</li>
-                <li>Able to customise animations. Built-in animations include default, rotate, depth, flow, flip, card, fade etc.</li>
+                <li>Able to customise animations. Built-in animations include default, rotate, depth, flow, flip, card,
+                    fade etc.
+                </li>
                 <li>You can easily add a callback function (islider.on('eventType', callback))</li>
                 <li>Supports ease-out sliding, looping, auto-sliding, horizontal/vertical sliding</li>
                 <li>Responsive to both mouse events and mobile gestures. Feasible in cross-platform scenarios</li>
                 <li>Pre-loading enabled to enhancement user experience</li>
                 <li>[Plugin] Supports pinch to zoom, in case the image is too huge to view</li>
-                <li>[2.0+] Supports more types of embeded elements. Auto detects the scenario, recognises the image and pre loads.</li>
+                <li>[2.0+] Supports more types of embeded elements. Auto detects the scenario, recognises the image and
+                    pre loads.
+                </li>
                 <li>[2.0+] Better delegate event system, lessen memory usage</li>
             </ul>
             <h2 id="frame">iSlider Architecture</h2>
             <ul>
                 <li>
-                    iSlider.js： iSlider core, which defines class iSlider, binds touch event, implements image pre-loading and 
+                    iSlider.js： iSlider core, which defines class iSlider, binds touch event, implements image
+                    pre-loading and
                     image transitions.
                 </li>
                 <li>
                     iSlider.animate.js： sliding animiation library. At the moment, it supports flip、depth、flow etc.
-                    <a target="_blank" href="./pic_with_animate.html">demo</a>
+                    <a target="_blank" href="./2.X_more-animation.html">demo</a>
                 </li>
                 <li>
                     iSlider.plugin.dot.js： supports page annotations over image, and tap to switch, present with "..."
-                    <a target="_blank" href="./pic_with_dots.html">demo</a>
+                    <a target="_blank" href="./2.X_with-plugins-dot-button.html">demo</a>
                 </li>
                 <li>
-                    iSlider.plugin.button.js： Supports page annotations over image, and tap to switch, present with left/right icons
-                    <a target="_blank" href="./pic_with_button.html">demo</a>
+                    iSlider.plugin.button.js： Supports page annotations over image, and tap to switch, present with
+                    left/right icons
+                    <a target="_blank" href="./2.X_with-plugins-dot-button.html">demo</a>
                 </li>
                 <li>
                     iSlider.plugin.zoompic.js： provides pinching for zooming for element with type of 'pic',
                     supports android and ios' native zooming gestures, and also auto detects the edge.
-                    <a target="_blank" href="./pic_zoom.html">demo地址</a>
+                    <a target="_blank" href="./2.X_with-plugin-zoom.html">demo</a>
                 </li>
             </ul>
         </div>
@@ -119,6 +125,7 @@
                 <button type="button" data-target="./2.X_with-plugin-zoom.html">Picture scaling plug-in</button>
                 <button type="button" data-target="./2.X_with-plugins-dot-button.html">Dot Button plug-in</button>
                 <button type="button" data-target="./2.X_with-plugins-others.html">Custom plug-ins</button>
+                <button type="button" data-target="./music_card.html">Music card</button>
             </div>
             <h3 class="animate-title">demo code</h3>
                 <pre>

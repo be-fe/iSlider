@@ -342,13 +342,13 @@
             </div>
         </div>
         <audio id="is_in_is_bgm" preload="auto" loop="loop">
-            <source src="//be-fe.github.io/iSlider/thumbnails/saber/knight.mp3" type="audio/mpeg"/>
+            <source src="//be-fe.github.io/static/audios/knight.mp3" type="audio/mpeg"/>
         </audio>
     </div>
 </div>
-<script src="demo/public/js/iSlider.js"></script>
-<script src="demo/public/js/iSlider.animate.js"></script>
-<script src="demo/public/js/iSlider.plugin.dot.js"></script>
+<script src="build/iSlider.min.js"></script>
+<script src="build/iSlider.animate.min.js"></script>
+<script src="build/iSlider.plugin.dot.min.js"></script>
 <script>
 
     function fstyle() {
@@ -365,7 +365,7 @@
         var data = [];
         for (var i = 0; i < 9; i++) {
             data.push({
-                content: '//be-fe.github.io/iSlider/thumbnails/saber/' + i + (i < 7 ? '.jpg' : '.gif')
+                content: '//be-fe.github.io/static/images/saber/' + i + (i < 7 ? '.jpg' : '.gif')
             });
         }
         var h = new iSlider(document.getElementById('is_in_is'), data, {

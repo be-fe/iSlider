@@ -121,7 +121,7 @@ tr:nth-child(2n) {
 }
 
 .islider-demo-wrap {
-    background: url('../../imgs/bg_1.png') no-repeat top center;
+    background: url('../../imgs/mob.png') no-repeat top center;
     background-size: 376px auto;
     text-align: center;
     height: 517.5px;
