@@ -88,13 +88,17 @@
 
         .next {
             position: absolute;
-            width: 48px;
+            width: 64px;
             height: 32px;
+            padding-top: 32px;
             text-align: center;
             bottom: 0;
             left: 50%;
-            margin-left: -24px;
+            margin-left: -32px;
             color: rgba(255, 255, 255, .4);
+        }
+
+        .next:before {
             animation: nextPage 500ms ease infinite alternate;
         }
 
@@ -137,29 +141,41 @@
             font-size: 12px;
         }
 
-        .review {
-            background-color: #5ac3b0;
+        .review-wrap {
+            position: relative;
             height: 100%;
             width: 100%;
+            background-color: #5ac3b0;
+        }
+
+        .review {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -160px 0 0 -160px;
+            height: 320px;
+            width: 320px;
             text-align: center;
+            overflow: visible;
         }
 
         .review p {
-            margin: 0 auto 32px;
+            position: absolute;
+            width: 320px;
+            top: 0;
+            left: 50%;
+            margin-left: -160px;
+            margin-top: -12px;
             text-align: center;
             color: #d1ffec;
-            font-size: 32px;
-        }
-
-        .review p:first-child {
-            padding-top: 12%;
+            font-size: 24px;
         }
 
         .review img {
             border: 1px solid #ffffff;
             padding: 5px;
             width: 240px;
-            margin: 0 auto;
+            margin: 32px auto 0;
         }
 
         .is-in-is-wrap {
@@ -328,9 +344,11 @@
         </div>
     </div>
     <div class="content">
-        <div class="review">
-            <p>Review in Mobile</p>
-            <img src="//be-fe.github.io/iSlider/thumbnails/qrcode-home.png">
+        <div class="review-wrap">
+            <div class="review">
+                <p>Review in Mobile</p>
+                <img src="//be-fe.github.io/iSlider/thumbnails/qrcode-home.png">
+            </div>
         </div>
         <i class="next fa fa-chevron-down"></i>
     </div>
@@ -402,8 +420,11 @@
         ISL.slideNext();
     });
 
+    ISL.on('slideStart', function () {
+        fstyle.call(this);
+    });
+
     ISL.on('slideChange', function () {
-        IS_IN_IS.pause();
         fstyle.call(this);
     });
 
