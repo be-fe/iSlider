@@ -170,6 +170,9 @@
         this._bindHandler();
 
         this.fire('initialized');
+
+        // Autoplay mode
+        this._autoPlay();
     };
 
     /**
@@ -177,7 +180,7 @@
      * @type {Array}
      * @protected
      */
-    iSlider.EVENTS = 'initialize initialized slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored loadData reset destroy'.split(' ');
+    iSlider.EVENTS = 'initialize initialized initPlugin slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored loadData reset destroy'.split(' ');
 
     /**
      * Easing white list
@@ -552,18 +555,17 @@
         })();
 
         /**
+         * Finger recognition range, prevent inadvertently touch
+         * @type {Number}
+         */
+        this.fingerRecognitionRange = opts.fingerRecognitionRange > -1 ? parseInt(opts.fingerRecognitionRange) : 10;
+
+        /**
          * is on Moving
          * @type {Boolean}
          * @private
          */
         this.isMoving = false;
-
-        /**
-         * Whether a sliding action, perhaps more consecutive frames
-         * @type {Boolean}
-         * @private
-         */
-        this.isAnimating = false;
 
         /**
          * Init events
@@ -581,6 +583,9 @@
 
         // Callback function when iSlider initialized
         this.on('initialized', opts.oninitialized, 1);
+
+        // Callback function when iSlider plugins initialized
+        this.on('initPlugin', opts.oninitplugin, 1);
 
         // Callback function when your finger is moving
         this.on('slide', opts.onslide, 1);
@@ -626,9 +631,6 @@
                 return {}
             }
         })();
-
-        // Autoplay mode
-        this._autoPlay();
     };
 
     /**
@@ -647,6 +649,7 @@
                 && plugins[i].apply(this, config[i]);
             }
         }
+        this.fire('initPlugin');
     };
 
     /**
@@ -800,8 +803,6 @@
                 // do nothing
                 break;
         }
-
-        this.fire('renderComplete');
     };
 
     /**
@@ -883,10 +884,11 @@
 
         this._changedStyles();
 
-        if (this.fillSeam)
+        if (this.fillSeam) {
             this.els.forEach(function (el, i) {
                 addClass(el, 'islider-sliding' + (i === 1 ? '-focus' : ''));
             });
+        }
 
         // Preload picture [ may be pic :) ]
         global.setTimeout(function () {
@@ -902,6 +904,8 @@
             this.outer = outer;
             this.wrap.appendChild(outer);
         }
+
+        this.fire('renderComplete');
     };
 
     /**
@@ -952,7 +956,6 @@
             self.inAnimate--;
             self.log('Event:', 'watchTransitionEnd::stuck::release', self.inAnimate);
             if (self.inAnimate === 0) {
-                //self.inAnimate = 0;
                 if (eventType === 'slideChanged') {
                     self._changedStyles();
                 }
@@ -967,7 +970,6 @@
             self.els.forEach(function translationEndUnwatchEach(el) {
                 el.removeEventListener(iSlider._transitionEndEvent(), handle);
             });
-            self.isAnimating = false;
         }
 
         if (time > 0) {
@@ -1152,6 +1154,7 @@
         var axis = this.axis;
         var boundary = this.scale / 2;
         var endTime = new Date().getTime();
+        var FRR = this.fingerRecognitionRange;
 
         // a quick slide time must under 300ms
         // a quick slide should also slide at least 14 px
@@ -1161,7 +1164,7 @@
         var absReverseOffset = Math.abs(offset[this.reverseAxis]);
 
         function dispatchLink(el) {
-            if (el.tagName === 'A') {
+            if (el.tagName.toLowerCase() === 'a') {
                 if (el.href) {
                     if (el.getAttribute('target') === '_blank') {
                         window.open(el.href);
@@ -1171,7 +1174,7 @@
                     return false;
                 }
             }
-            else if (el.tagName === 'LI' && el.className.search(/^islider\-/) > -1) {
+            else if (el.tagName.toLowerCase() === 'li' && el.className.search(/^islider\-/) > -1) {
                 return false;
             }
             else {
@@ -1181,6 +1184,8 @@
 
         this.log(boundary, offset[axis], absOffset, absReverseOffset, this);
 
+        this.fire('slideEnd', evt, this);
+
         if (offset[axis] >= boundary && absReverseOffset < absOffset) {
             this.slideTo(this.slideIndex - 1);
         }
@@ -1188,18 +1193,18 @@
             this.slideTo(this.slideIndex + 1);
         }
         else {
-            this.slideTo(this.slideIndex);
+            if (Math.abs(this.offset[this.axis]) >= FRR) {
+                this.slideTo(this.slideIndex);
+            }
         }
 
-        // create tap event if offset < 10
-        if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10 && this.fixPage && evt.target) {
+        // create sim tap event if offset < this.fingerRecognitionRange
+        if (Math.abs(this.offset[this.axis]) < FRR && this.fixPage && evt.target) {
             evt.preventDefault();
             dispatchLink(evt.target);
         }
 
         this.offset.X = this.offset.Y = 0;
-
-        this.fire('slideEnd', evt, this);
     };
 
     /**
@@ -1571,7 +1576,7 @@
      */
     iSliderPrototype.reset = function () {
         this.pause();
-        this._setting();
+        //this._setting();
         this._renderWrapper();
         this._autoPlay();
         this.fire('reset');

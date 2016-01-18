@@ -411,7 +411,7 @@
             isOverspread: 1,
             animateType: 'fade',
             plugins: [['dot', {locate: 'relative'}]],
-            oninitialized: function () {
+            oninitplugin: function () {
                 [].slice.call(this.wrap.querySelectorAll('.islider-dot')).forEach(function (el, i) {
                     el.style.backgroundImage = 'url(' + this.data[i].content + ')';
                 }.bind(this));

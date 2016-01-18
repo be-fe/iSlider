@@ -40,42 +40,21 @@
     'use strict';
 
     iSlider && iSlider.regPlugin('dot', function (opts) {
-        var HANDLE = this;
-        var locate = (function (locate) {
-            if (locate === 'relative') {
-                return HANDLE.wrap;
-            } else if (Boolean(locate.nodeName) && Boolean(locate.nodeType)) {
-                return locate;
-            }
-            return HANDLE.wrap.parentNode;
-        })(opts && opts.locate != null ? opts.locate : false);
 
+
+        var HANDLE = this;
         var data = HANDLE.data;
         var dots = [];
+        var evtHandle = [];
+        var endEvt = HANDLE.deviceEvents.endEvt;
+
         var dotWrap = document.createElement('ul');
         dotWrap.className = 'islider-dot-wrap';
 
-        var renderDots = function renderDots() {
-            var fregment = document.createDocumentFragment();
-            for (var i = 0; i < data.length; i++) {
-                dots[i] = document.createElement('li');
-                dots[i].className = 'islider-dot';
-                dots[i].setAttribute('index', i);
-                if (i === HANDLE.slideIndex) {
-                    dots[i].className += ' active';
-                }
-                dots[i].onclick = function () {
-                    HANDLE.slideTo(parseInt(this.getAttribute('index'), 10));
-                };
-                fregment.appendChild(dots[i]);
-            }
-            dotWrap.innerHTML = '';
-            dotWrap.appendChild(fregment);
-        };
-
         renderDots();
 
-        locate.appendChild(dotWrap);
+        locate(opts && opts.locate != null ? opts.locate : false)
+            .appendChild(dotWrap);
 
         HANDLE.on('slideChange', function () {
             for (var i = 0; i < data.length; i++) {
@@ -88,14 +67,39 @@
 
         HANDLE.on('loadData', function () {
             data = this.data;
-            dots = [];
             renderDots();
-        });
+        }, 1);
 
-        HANDLE.on('reset', function () {
-            data = this.data;
-            dots = [];
-            renderDots();
-        });
+        function renderDots() {
+            var fragment = document.createDocumentFragment();
+            dots.forEach(function (el, i) {
+                el.removeEventListener(endEvt, evtHandle[i], false);
+            });
+            dots = [], evtHandle = [];
+            dotWrap.innerHTML = '';
+            for (var i = 0; i < data.length; i++) {
+                dots[i] = document.createElement('li');
+                dots[i].className = 'islider-dot';
+                dots[i].setAttribute('index', i);
+                if (i === HANDLE.slideIndex) {
+                    dots[i].className += ' active';
+                }
+                evtHandle[i] = function () {
+                    HANDLE.slideTo(parseInt(this.getAttribute('index'), 10));
+                };
+                dots[i].addEventListener(endEvt, evtHandle[i], false);
+                fragment.appendChild(dots[i]);
+            }
+            dotWrap.appendChild(fragment);
+        };
+
+        function locate(locate) {
+            if (locate === 'relative') {
+                return HANDLE.wrap;
+            } else if (Boolean(locate.nodeName) && Boolean(locate.nodeType)) {
+                return locate;
+            }
+            return HANDLE.wrap.parentNode;
+        }
     });
 });
