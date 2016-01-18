@@ -1193,6 +1193,7 @@
 
         // create tap event if offset < 10
         if (Math.abs(this.offset.X) < 10 && Math.abs(this.offset.Y) < 10 && this.fixPage && evt.target) {
+            evt.preventDefault();
             dispatchLink(evt.target);
         }
 
