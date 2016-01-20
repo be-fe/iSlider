@@ -24,38 +24,70 @@
     'use strict';
 
     iSlider && iSlider.regPlugin('BIZone', function (opts) {
-        var zoneSize = opts && opts.size > 0 ? opts.size : 0;
-        var device = this.deviceEvents;
 
-        var range = (function (self) {
-            var doc = self.outer.ownerDocument;
-            var docEl = doc.documentElement;
+        var HANDLE = this;
+        var zoneSize = parseZone(opts.size || 0);
+        var device = this.deviceEvents;
+        var outer = HANDLE.outer;
+
+        var range = initRange();
+
+        function parseZone(sizes) {
+            if (typeof sizes === 'number') {
+                if (sizes < 0) {
+                    sizes = 0;
+                }
+                return [sizes, sizes, sizes, sizes];
+            } else if (sizes instanceof Array) {
+                switch (sizes.length) {
+                    case 4:
+                        return sizes;
+                        break;
+                    case 3:
+                        return [sizes[0], sizes[1], sizes[2], sizes[1]];
+                        break;
+                    case 2:
+                        return [sizes[0], sizes[1], sizes[0], sizes[1]];
+                        break;
+                    case 1:
+                        return [sizes[0], sizes[0], sizes[0], sizes[0]];
+                        break;
+                }
+            }
+
+            return [0, 0, 0, 0];
+        }
+
+        function initRange() {
+            var docEl = outer.ownerDocument.documentElement;
             var box = {top: 0, left: 0};
-            if (typeof self.outer.getBoundingClientRect !== 'undefined') {
-                box = self.outer.getBoundingClientRect();
+            if (typeof outer.getBoundingClientRect !== 'undefined') {
+                box = outer.getBoundingClientRect();
             }
 
             var top = box.top + ( window.pageYOffset || docEl.scrollTop ) - ( docEl.clientTop || 0 );
             var left = box.left + ( window.pageXOffset || docEl.scrollLeft ) - ( docEl.clientLeft || 0 );
 
             return [
-                [
-                    left + zoneSize,
-                    left + self.outer.offsetWidth - zoneSize
-                ],
-                [
-                    top + zoneSize,
-                    top + self.outer.offsetHeight - zoneSize
-                ]
+                top, // top
+                left + outer.offsetWidth, // right
+                top + outer.offsetHeight, // bottom
+                left // left
             ]
-        }(this))[this.isVertical ? 1 : 0];
+        }
 
-        if (zoneSize > 0) {
-            self.on('slide', function (eventName, evt) {
-                var rangeMatch = this.isVertical ? 'Y' : 'X';
-                var pos = device.hasTouch ? evt.targetTouches[0]['page' + rangeMatch] : evt['page' + rangeMatch];
-                if (pos < range[0] || pos > range[1]) {
-                    this.endHandler(new Event(device.endEvt));
+        if (zoneSize.filter(function (i) {
+                return i > 0;
+            }).length > 0) {
+            HANDLE.on('slide', function (evt) {
+                var finger = device.hasTouch ? evt.targetTouches[0] : evt;
+                var pos = [finger.pageY, finger.pageX, finger.pageY, finger.pageX];
+                for (var i = 0; i < 4; i++) {
+                    console.log(Math.abs(pos[i] - range[i]), zoneSize[i])
+                    if (Math.abs(pos[i] - range[i]) < zoneSize[i]) {
+                        this.endHandler(new Event(device.endEvt));
+                        break;
+                    }
                 }
             });
         }
