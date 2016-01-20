@@ -83,7 +83,6 @@
                 var finger = device.hasTouch ? evt.targetTouches[0] : evt;
                 var pos = [finger.pageY, finger.pageX, finger.pageY, finger.pageX];
                 for (var i = 0; i < 4; i++) {
-                    console.log(Math.abs(pos[i] - range[i]), zoneSize[i])
                     if (Math.abs(pos[i] - range[i]) < zoneSize[i]) {
                         this.endHandler(new Event(device.endEvt));
                         break;
