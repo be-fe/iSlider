@@ -1146,7 +1146,6 @@
      *  @protected
      */
     iSliderPrototype.endHandler = function (evt) {
-        console.log('xxxxxxxxxxxxxxxxs', this.isMoving);
         if (!this.isMoving) {
             return;
         }
