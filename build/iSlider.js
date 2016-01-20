@@ -1120,8 +1120,6 @@
 
             evt.preventDefault();
 
-            this.fire('slide', evt, this);
-
             if (!this.isLooping) {
                 if (offset[axis] > 0 && this.slideIndex === 0 || offset[axis] < 0 && this.slideIndex === len - 1) {
                     offset[axis] = this._damping(offset[axis]);
@@ -1137,6 +1135,8 @@
                 // TODO For seams
                 this.fillSeam && this.seamScale(item);
             }
+
+            this.fire('slide', evt, this);
         }
     };
 
@@ -1146,6 +1146,7 @@
      *  @protected
      */
     iSliderPrototype.endHandler = function (evt) {
+        console.log('xxxxxxxxxxxxxxxxs', this.isMoving);
         if (!this.isMoving) {
             return;
         }

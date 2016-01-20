@@ -79,6 +79,7 @@
 <script src="js/plugins/dot.js"></script>
 <script src="js/plugins/button.js"></script>
 <script src="js/plugins/zoompic.js"></script>
+<script src="js/plugins/BIZone.js"></script>
 <script>
     var list = [];
     //    for (var i = 1; i <= 3; i++)
@@ -138,7 +139,12 @@
                 isDebug: 1,
 //                isAutoplay: true,
 //                duration: 5000,
-                plugins: [['dot', {locate: 'relative'}], 'button', ['zoompic', {zoomFactor: 2}]],
+                plugins: [
+                    ['dot', {locate: 'relative'}],
+                    'button',
+                    ['zoompic', {zoomFactor: 2}],
+                    ['BIZone', {'size': 20}]
+                ],
 //                onslide: function () {
 //                    console.debug(arguments)
 //                },

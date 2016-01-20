@@ -108,10 +108,13 @@
     var S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
         isLooping: 1,
         isOverspread: 1,
+        isAutoplay: true,
         animateTime: 800,
         animateType: 'fade',
         fixPage: false
     });
+
+    S.pause();
 </script>
 </body>
 </html>
