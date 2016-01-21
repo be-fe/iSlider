@@ -260,9 +260,13 @@
      * @protected
      */
     iSlider._animateFuncs = {
-        'default': function (dom, axis, scale, i, offset) {
-            dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
-        }
+        'normal': (function () {
+            function normal(dom, axis, scale, i, offset) {
+                dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+            };
+            normal.effect = 'transform';
+            return normal;
+        })()
     };
 
     /**
@@ -486,7 +490,7 @@
          * @type {String}
          * @private
          */
-        this.animateType = opts.animateType in this._animateFuncs ? opts.animateType : 'default';
+        this.animateType = opts.animateType in this._animateFuncs ? opts.animateType : 'normal';
 
         /**
          * @protected
@@ -1146,7 +1150,6 @@
      *  @protected
      */
     iSliderPrototype.endHandler = function (evt) {
-        console.log('xxxxxxxxxxxxxxxxs', this.isMoving);
         if (!this.isMoving) {
             return;
         }
@@ -1297,7 +1300,7 @@
         this.log('Index:' + this.slideIndex);
 
         // keep the right order of items
-        var headEl, tailEl, step;
+        var headEl, tailEl, direction;
 
         // slidechange should render new item
         // and change new item style to fit animation
@@ -1310,13 +1313,13 @@
                 els.push(els.shift());
                 headEl = els[2];
                 tailEl = els[0];
-                step = 1;
+                direction = 1;
             }
             else {
                 els.unshift(els.pop());
                 headEl = els[0];
                 tailEl = els[2];
-                step = -1;
+                direction = -1;
             }
 
             this.currentEl = els[1];
@@ -1325,17 +1328,17 @@
                 this._renderIntermediateScene();
                 this._renderItem(headEl, idx + n);
             } else if (Math.abs(n) > 1) {
-                this._renderItem(headEl, idx + step);
-                this._intermediateScene = [tailEl, idx - step];
+                this._renderItem(headEl, idx + direction);
+                this._intermediateScene = [tailEl, idx - direction];
             }
 
             headEl.style.webkitTransition = 'none';
 
             // Disperse ghost in the back
-            if (-1 < ['rotate', 'flip'].indexOf(animateType)) {
-                headEl.style.visibility = 'hidden';
-                this.currentEl.style.visibility = 'visible';
-            }
+            //if (-1 < ['rotate', 'flip'].indexOf(animateType)) {
+            //    headEl.style.visibility = 'hidden';
+            //    this.currentEl.style.visibility = 'visible';
+            //}
 
             // Minus squeeze time
             squeezeTime = animateTime - squeezeTime;
@@ -1359,9 +1362,9 @@
         for (var i = 0; i < 3; i++) {
             if (els[i] !== headEl) {
                 // TODO: Only applies their effects
-                els[i].style.webkitTransition = 'all ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
+                els[i].style.webkitTransition = (animateFunc.effect || 'all') + ' ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
             }
-            animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
+            animateFunc.call(this, els[i], this.axis, this.scale, i, 0, direction);
 
             this.fillSeam && this.seamScale(els[i]);
         }

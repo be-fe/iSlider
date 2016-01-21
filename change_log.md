@@ -1,3 +1,11 @@
+### iSlider 2.0.14
+- [Optimization][Plug-in]BIZone
+    - plugins: ['BIZone', {size: {VALUE}}]
+    - {VALUE} default is 0, you can also pass an array [top, right, bottom, left], eg: [10, 20] or [10, 0, 0] or [1, 2, 3, 4]. Similar "margin" or "padding".
+
+### iSlider 2.0.13
+- [Optimization]Review demos
+
 ### iSlider 2.0.12
 - [Optimization]Links on fixPage:true add preventDevault
 - [BUG fix]Repair plug-dot Click failure problem
