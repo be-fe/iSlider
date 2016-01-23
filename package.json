@@ -1,6 +1,6 @@
 {
   "name": "islider.js",
-  "version": "2.0.14",
+  "version": "2.1.0",
   "author": "EUX team",
   "main": "build/iSlider.min.js",
   "description": "Smooth and high-performance slide web framework. Suitable for PC, Mobile WebApp, HTML5 App, Hybrid App",
@@ -34,5 +34,6 @@
   "bugs": {
     "url": "https://github.com/BE-FE/iSlider/issues",
     "email": "xieyu33333@gmail.com"
-  }
+  },
+  "license": "MIT"
 }

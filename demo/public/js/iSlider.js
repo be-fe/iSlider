@@ -497,6 +497,19 @@
          */
         this._animateFunc = this._animateFuncs[this.animateType];
 
+        /**
+         * @private
+         */
+        this._animateReverse = (function () {
+            var _ = [];
+            for (var type in this._animateFuncs) {
+                if (this._animateFuncs.hasOwnProperty(type) && this._animateFuncs[type].reverse) {
+                    _.push(type);
+                }
+            }
+            return _;
+        }.bind(this))();
+
         // little trick set, when you chooce tear & vertical same time
         // iSlider overspread mode will be set true autometicly
         if (this.isVertical && this.animateType === 'card') {
@@ -1309,7 +1322,7 @@
             eventType = 'slideRestore';
         } else {
 
-            if ((this.isVertical && (animateType === 'rotate' || animateType === 'flip')) ^ (n > 0)) {
+            if ((this.isVertical && (inArray(animateType, this._animateReverse))) ^ (n > 0)) {
                 els.push(els.shift());
                 headEl = els[2];
                 tailEl = els[0];

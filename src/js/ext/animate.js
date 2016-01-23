@@ -50,6 +50,7 @@
             }
 
             rotate.effect = 'transform';
+            rotate.reverse = true;
             return rotate
         })(),
         // flip
@@ -73,6 +74,7 @@
             }
 
             flip.effect = 'transform';
+            flip.reverse = true;
             return flip
         })(),
         depth: (function () {
@@ -152,6 +154,45 @@
 
             fade.effect = 'opacity';
             return fade;
+        })(),
+        zoomout: (function () {
+            var lsn;
+
+            function zoomout(dom, axis, scale, i, offset) {
+                var z, o, s;
+
+                var oa = offset / scale;
+                switch (i) {
+                    case 0:
+                        lsn && window.clearTimeout(lsn);
+                        o = oa < 1 ? oa : 1;
+                        s = 2 - (0.5 * oa);
+                        z = 2;
+                        var at = parseInt(window.getComputedStyle(dom).transitionDuration) * 1000;
+                        if (at > 0) {
+                            lsn = window.setTimeout(function () {
+                                dom.style.zIndex = 0;
+                            }, at);
+                        }
+                        break;
+                    case 1:
+                        o = 1 - oa;
+                        s = 1 - (0.5 * oa);
+                        z = 1;
+                        break;
+                    case 2:
+                        o = oa > 0 ? oa : 0;
+                        s = 0.5 - (0.5 * oa);
+                        z = 0;
+                        break;
+                }
+                dom.style.cssText += 'z-index:' + z + ';opacity:' + o + ';-webkit-transform: scale(' + s + ');';
+            }
+
+            //what.effect = 'all';
+            //what.effect = 'transform,opacity';
+            zoomout.reverse = true;
+            return zoomout;
         })()
     });
 });

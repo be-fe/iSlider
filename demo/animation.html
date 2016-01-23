@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <title>Animation</title>
+    <link href="./public/css/iSlider.css" rel="stylesheet">
+    <style>
+        body, html {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #333333;
+        }
+
+        #MAIN {
+            list-style: none;
+            padding: 32px 0 0;
+            margin: 0;
+        }
+
+        #MAIN > li {
+            width: 480px;
+            height: 270px;
+            margin: 5px auto 32px;
+            background: #000000 url("//be-fe.github.io/static/images/background/metal-net-black.jpg") no-repeat 50% 50%;
+            background-size: cover;
+            border: 10px solid #202020;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0 5px 5px -1px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 5px 5px -1px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 5px 5px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        .iEl {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        #loadc {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            margin: -48px 0 0 -48px;
+        }
+
+        @media (max-width: 500px) {
+            #MAIN > li {
+                width: 320px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+<canvas id="loadc" height="96" width="96"></canvas>
+<ul id="MAIN"></ul>
+<script type="text/javascript" src="./public/js/queue.js"></script>
+<script type="text/javascript" src="./public/js/iSlider.js"></script>
+<script type="text/javascript" src="./public/js/iSlider.animate.js"></script>
+<script>
+    var LOADC = document.getElementById('loadc');
+    var ctx = LOADC.getContext('2d');
+    var loadStep = 0;
+    var DATA = [];
+    var q = new queue();
+    for (var i = 0; i < 7; i++) {
+        DATA.push({
+            content: '//be-fe.github.io/static/images/saber/' + i + '.jpg'
+        });
+    }
+
+    DATA.forEach(function (d) {
+        q.defer(loadIMG, d.content);
+    });
+
+    q.awaitAll(function () {
+        setTimeout(function () {
+            LOADC.parentNode.removeChild(LOADC);
+            init();
+        }, 1000);
+    });
+
+    loading(loadStep / DATA.length);
+
+    function loading(p) {
+        ctx.clearRect(0, 0, 96, 96);
+
+        ctx.beginPath();
+        ctx.arc(48, 48, 36, 0, 2 * Math.PI, false);
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = "rgba(255,255,255,0.2)";
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(48, 48, 36, 1.5 * Math.PI, (1.5 * Math.PI) + (2 * Math.PI * p), false);
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = "rgba(255,255,255,0.5)";
+        ctx.stroke();
+    }
+
+    function loadIMG(url, cb) {
+        var img = new Image();
+        img.onload = function () {
+            loading(++loadStep / DATA.length);
+            img.onload = null;
+            img = null;
+            cb();
+        };
+        img.src = url;
+    }
+
+    function init() {
+        var mEl = document.getElementById('MAIN');
+        var anims = iSlider._animateFuncs;
+        var iEl, iElWrapper;
+        for (var type in anims) {
+            if (anims.hasOwnProperty(type)) {
+                iElWrapper = document.createElement('li');
+                iEl = document.createElement('div');
+                iEl.className = 'iEl';
+                iElWrapper.appendChild(iEl);
+                mEl.appendChild(iElWrapper);
+                new iSlider(iEl, DATA, {
+                    animateType: type,
+                    isLooping: 1,
+                    isOverspread: 1,
+                    isAutoplay: 1,
+                    animateTime: 2000,
+                    duration: 2000
+                });
+            }
+        }
+    }
+</script>
+</body>
+</html>
