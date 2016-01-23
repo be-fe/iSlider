@@ -23,6 +23,7 @@
         }
 
         #MAIN > li {
+            position: relative;
             width: 480px;
             height: 270px;
             margin: 5px auto 32px;
@@ -41,6 +42,21 @@
             position: relative;
             height: 100%;
             width: 100%;
+        }
+
+        #MAIN > li > p {
+            position: absolute;
+            left: -7px;
+            top: -7px;
+            z-index: 100000;
+            color: #666666;
+            padding: 8px;
+            margin: 0;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            border-radius: 8px;
+            background-color: #202020;
+            text-shadow: 0 1px 1px #000000;
         }
 
         #loadc {
@@ -119,14 +135,17 @@
     function init() {
         var mEl = document.getElementById('MAIN');
         var anims = iSlider._animateFuncs;
-        var iEl, iElWrapper;
+        var iEl, iElWrapper, dEl;
         for (var type in anims) {
             if (anims.hasOwnProperty(type)) {
                 iElWrapper = document.createElement('li');
+                dEl = document.createElement('p');
+                dEl.innerHTML = type;
                 iEl = document.createElement('div');
                 iEl.className = 'iEl';
-                iElWrapper.appendChild(iEl);
                 mEl.appendChild(iElWrapper);
+                iElWrapper.appendChild(iEl);
+                iElWrapper.appendChild(dEl);
                 new iSlider(iEl, DATA, {
                     animateType: type,
                     isLooping: 1,
