@@ -79,7 +79,7 @@
         })(),
         depth: (function () {
 
-            function depth(dom, axis, scale, i, offset) {
+            function depth(dom, axis, scale, i, offset, direct) {
                 var zoomScale = (4 - Math.abs(i - 1)) * 0.18;
                 this.wrap.style.webkitPerspective = scale * 4;
                 dom.style.zIndex = i === 1 ? 1 : 0;
@@ -90,7 +90,7 @@
             return depth;
         })(),
         flow: (function () {
-            function flow(dom, axis, scale, i, offset) {
+            function flow(dom, axis, scale, i, offset, direct) {
                 var absoluteOffset = Math.abs(offset);
                 var rotateDirect = (axis === 'X') ? 'Y' : 'X';
                 var directAmend = (axis === 'X') ? 1 : -1;
@@ -114,27 +114,23 @@
         card: (function () {
             function card(dom, axis, scale, i, offset, direct) {
                 var absoluteOffset = Math.abs(offset);
+                var zoomScale = 1;
+                var z = 1;
 
-                if (i === 1) {
-                    dom.style.zIndex = scale - absoluteOffset;
-                    dom.cur = 1;
-                }
-                else {
-                    if (direct > 0) {
-                        dom.style.zIndex = (1 - i) * absoluteOffset * 1000
-                    } else if (direct < 0) {
-                        dom.style.zIndex = (i - 1) * absoluteOffset * 1000;
-                    } else {
-                        dom.style.zIndex = 0;
+                if (absoluteOffset > 0) {
+                    if (i === 1) {
+                        zoomScale = 1 - 0.2 * Math.abs(i - 1) - Math.abs(0.2 * offset / scale).toFixed(6);
+                        z = 0;
+                    }
+                } else {
+                    if (i !== 1) {
+                        if ((direct > 0 && i === 0) || (direct < 0 && i === 2)) {
+                            zoomScale = 1 - 0.2 * Math.abs(i - 1);
+                        }
+                        z = 0;
                     }
                 }
-
-                if (dom.cur && dom.cur !== i) {
-                    setTimeout(function () {
-                        dom.cur = null;
-                    }, 300);
-                }
-                var zoomScale = dom.cur ? 1 - 0.2 * Math.abs(i - 1) - Math.abs(0.2 * offset / scale).toFixed(6) : 1;
+                dom.style.zIndex = z;
                 dom.style.webkitTransform = 'scale(' + zoomScale + ') translateZ(0) translate' + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
             }
 
@@ -142,7 +138,7 @@
             return card;
         })(),
         fade: (function () {
-            function fade(dom, axis, scale, i, offset) {
+            function fade(dom, axis, scale, i, offset, direct) {
                 dom.style.zIndex = i === 1 ? 1 : 0;
                 offset = Math.abs(offset);
                 if (i === 1) {

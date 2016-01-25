@@ -1147,7 +1147,7 @@
                 var item = this.els[i];
                 item.style.visibility = 'visible';
                 item.style.webkitTransition = 'none';
-                this._animateFunc(item, axis, this.scale, i, offset[axis]);
+                this._animateFunc(item, axis, this.scale, i, offset[axis], offset[axis]);
 
                 // TODO For seams
                 this.fillSeam && this.seamScale(item);
