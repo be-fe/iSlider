@@ -5,6 +5,7 @@
   "main": "build/iSlider.min.js",
   "description": "Smooth and high-performance slide web framework. Suitable for PC, Mobile WebApp, HTML5 App, Hybrid App",
   "devDependencies": {
+    "eslint": "^1.10.3",
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.1",
     "gulp-cssmin": "^0.1.7",

@@ -73,7 +73,7 @@
                 left + outer.offsetWidth, // right
                 top + outer.offsetHeight, // bottom
                 left // left
-            ]
+            ];
         }
 
         if (zoneSize.filter(function (i) {
@@ -90,5 +90,5 @@
                 }
             });
         }
-    })
+    });
 });

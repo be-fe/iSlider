@@ -20,7 +20,7 @@
      */
     function inArray(oElement, aSource) {
         return aSource.indexOf(oElement) > -1;
-    };
+    }
 
     /**
      * Check is array
@@ -29,7 +29,7 @@
      */
     function isArray(o) {
         return Object.prototype.toString.call(o) === '[object Array]';
-    };
+    }
 
     /**
      * Check is object
@@ -38,7 +38,7 @@
      */
     function isObject(o) {
         return Object.prototype.toString.call(o) === '[object Object]';
-    };
+    }
 
     /**
      * @param {HTML Element} obj
@@ -263,7 +263,8 @@
         'normal': (function () {
             function normal(dom, axis, scale, i, offset) {
                 dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
-            };
+            }
+
             normal.effect = 'transform';
             return normal;
         })()
@@ -645,7 +646,7 @@
                 });
                 return config;
             } else {
-                return {}
+                return {};
             }
         })();
     };
@@ -967,7 +968,7 @@
         var lsn;
         this.log('Event:', 'watchTransitionEnd::stuck::pile', this.inAnimate);
 
-        function handle(evt) {
+        function handle(/*evt*/) {
             if (lsn) {
                 global.clearTimeout(lsn);
             }
@@ -982,7 +983,7 @@
                 self.play();
             }
             unWatch();
-        };
+        }
 
         function unWatch() {
             self.els.forEach(function translationEndUnwatchEach(el) {
@@ -1454,7 +1455,7 @@
             this._EventHandle[key] = [
                 [callback],
                 [delegatedEventCallbackHandle]
-            ]
+            ];
         } else {
             this._EventHandle[key][0].push(callback);
             this._EventHandle[key][1].push(delegatedEventCallbackHandle);
@@ -1482,7 +1483,7 @@
             }
         }
 
-        return false
+        return false;
     };
 
     /**
@@ -1508,8 +1509,10 @@
         global.removeEventListener('focus', this);
         global.removeEventListener('blur', this);
 
+        var n;
+
         // Clear delegate events
-        for (var n in this._EventHandle) {
+        for (n in this._EventHandle) {
             var handList = this._EventHandle[n][1];
             for (var i = 0; i < handList.length; i++) {
                 if (typeof handList[i] === 'function') {
@@ -1520,8 +1523,9 @@
         this._EventHandle = null;
 
         // Clear timer
-        for (var n in this._LSN)
+        for (n in this._LSN) {
             this._LSN.hasOwnProperty(n) && this._LSN[n] && global.clearTimeout(this._LSN[n]);
+        }
 
         this._LSN = null;
 
@@ -1726,7 +1730,7 @@
     iSliderPrototype.originScale = function (el) {
         var regex = /([\x20]?scale)([XY]?)\(([^\)]+)\)/;
         el.style.webkitTransform = el.style.webkitTransform.replace(regex, function (sc, res, axis, scale) {
-            var sc = {};
+            sc = {};
             if (axis) {
                 if (scale === '1.001') {
                     return '';
