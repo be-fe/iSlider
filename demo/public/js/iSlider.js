@@ -20,7 +20,7 @@
      */
     function inArray(oElement, aSource) {
         return aSource.indexOf(oElement) > -1;
-    };
+    }
 
     /**
      * Check is array
@@ -29,7 +29,7 @@
      */
     function isArray(o) {
         return Object.prototype.toString.call(o) === '[object Array]';
-    };
+    }
 
     /**
      * Check is object
@@ -38,7 +38,7 @@
      */
     function isObject(o) {
         return Object.prototype.toString.call(o) === '[object Object]';
-    };
+    }
 
     /**
      * @param {HTML Element} obj
@@ -260,9 +260,14 @@
      * @protected
      */
     iSlider._animateFuncs = {
-        'default': function (dom, axis, scale, i, offset) {
-            dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
-        }
+        'normal': (function () {
+            function normal(dom, axis, scale, i, offset) {
+                dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+            }
+
+            normal.effect = 'transform';
+            return normal;
+        })()
     };
 
     /**
@@ -486,12 +491,25 @@
          * @type {String}
          * @private
          */
-        this.animateType = opts.animateType in this._animateFuncs ? opts.animateType : 'default';
+        this.animateType = opts.animateType in this._animateFuncs ? opts.animateType : 'normal';
 
         /**
          * @protected
          */
         this._animateFunc = this._animateFuncs[this.animateType];
+
+        /**
+         * @private
+         */
+        this._animateReverse = (function () {
+            var _ = [];
+            for (var type in this._animateFuncs) {
+                if (this._animateFuncs.hasOwnProperty(type) && this._animateFuncs[type].reverse) {
+                    _.push(type);
+                }
+            }
+            return _;
+        }.bind(this))();
 
         // little trick set, when you chooce tear & vertical same time
         // iSlider overspread mode will be set true autometicly
@@ -628,7 +646,7 @@
                 });
                 return config;
             } else {
-                return {}
+                return {};
             }
         })();
     };
@@ -950,7 +968,7 @@
         var lsn;
         this.log('Event:', 'watchTransitionEnd::stuck::pile', this.inAnimate);
 
-        function handle(evt) {
+        function handle(/*evt*/) {
             if (lsn) {
                 global.clearTimeout(lsn);
             }
@@ -965,7 +983,7 @@
                 self.play();
             }
             unWatch();
-        };
+        }
 
         function unWatch() {
             self.els.forEach(function translationEndUnwatchEach(el) {
@@ -1130,7 +1148,7 @@
                 var item = this.els[i];
                 item.style.visibility = 'visible';
                 item.style.webkitTransition = 'none';
-                this._animateFunc(item, axis, this.scale, i, offset[axis]);
+                this._animateFunc(item, axis, this.scale, i, offset[axis], offset[axis]);
 
                 // TODO For seams
                 this.fillSeam && this.seamScale(item);
@@ -1296,7 +1314,7 @@
         this.log('Index:' + this.slideIndex);
 
         // keep the right order of items
-        var headEl, tailEl, step;
+        var headEl, tailEl, direction;
 
         // slidechange should render new item
         // and change new item style to fit animation
@@ -1305,17 +1323,17 @@
             eventType = 'slideRestore';
         } else {
 
-            if ((this.isVertical && (animateType === 'rotate' || animateType === 'flip')) ^ (n > 0)) {
+            if ((this.isVertical && (inArray(animateType, this._animateReverse))) ^ (n > 0)) {
                 els.push(els.shift());
                 headEl = els[2];
                 tailEl = els[0];
-                step = 1;
+                direction = 1;
             }
             else {
                 els.unshift(els.pop());
                 headEl = els[0];
                 tailEl = els[2];
-                step = -1;
+                direction = -1;
             }
 
             this.currentEl = els[1];
@@ -1324,17 +1342,17 @@
                 this._renderIntermediateScene();
                 this._renderItem(headEl, idx + n);
             } else if (Math.abs(n) > 1) {
-                this._renderItem(headEl, idx + step);
-                this._intermediateScene = [tailEl, idx - step];
+                this._renderItem(headEl, idx + direction);
+                this._intermediateScene = [tailEl, idx - direction];
             }
 
             headEl.style.webkitTransition = 'none';
 
             // Disperse ghost in the back
-            if (-1 < ['rotate', 'flip'].indexOf(animateType)) {
-                headEl.style.visibility = 'hidden';
-                this.currentEl.style.visibility = 'visible';
-            }
+            //if (-1 < ['rotate', 'flip'].indexOf(animateType)) {
+            //    headEl.style.visibility = 'hidden';
+            //    this.currentEl.style.visibility = 'visible';
+            //}
 
             // Minus squeeze time
             squeezeTime = animateTime - squeezeTime;
@@ -1358,9 +1376,9 @@
         for (var i = 0; i < 3; i++) {
             if (els[i] !== headEl) {
                 // TODO: Only applies their effects
-                els[i].style.webkitTransition = 'all ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
+                els[i].style.webkitTransition = (animateFunc.effect || 'all') + ' ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
             }
-            animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
+            animateFunc.call(this, els[i], this.axis, this.scale, i, 0, direction);
 
             this.fillSeam && this.seamScale(els[i]);
         }
@@ -1437,7 +1455,7 @@
             this._EventHandle[key] = [
                 [callback],
                 [delegatedEventCallbackHandle]
-            ]
+            ];
         } else {
             this._EventHandle[key][0].push(callback);
             this._EventHandle[key][1].push(delegatedEventCallbackHandle);
@@ -1465,7 +1483,7 @@
             }
         }
 
-        return false
+        return false;
     };
 
     /**
@@ -1491,8 +1509,10 @@
         global.removeEventListener('focus', this);
         global.removeEventListener('blur', this);
 
+        var n;
+
         // Clear delegate events
-        for (var n in this._EventHandle) {
+        for (n in this._EventHandle) {
             var handList = this._EventHandle[n][1];
             for (var i = 0; i < handList.length; i++) {
                 if (typeof handList[i] === 'function') {
@@ -1503,8 +1523,9 @@
         this._EventHandle = null;
 
         // Clear timer
-        for (var n in this._LSN)
+        for (n in this._LSN) {
             this._LSN.hasOwnProperty(n) && this._LSN[n] && global.clearTimeout(this._LSN[n]);
+        }
 
         this._LSN = null;
 
@@ -1709,7 +1730,7 @@
     iSliderPrototype.originScale = function (el) {
         var regex = /([\x20]?scale)([XY]?)\(([^\)]+)\)/;
         el.style.webkitTransform = el.style.webkitTransform.replace(regex, function (sc, res, axis, scale) {
-            var sc = {};
+            sc = {};
             if (axis) {
                 if (scale === '1.001') {
                     return '';

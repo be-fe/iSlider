@@ -29,7 +29,7 @@
      * Support 3D matrix translate
      * @type {boolean}
      */
-    var has3d = ('WebKitCSSMatrix' in global && 'm11' in new WebKitCSSMatrix());
+    var has3d = ('WebKitCSSMatrix' in global && 'm11' in new global.WebKitCSSMatrix());
 
     /**
      * Min scale
@@ -70,7 +70,7 @@
      * @returns {string}
      */
     function generateTranslate(x, y, z, scale) {
-        return "translate" + (has3d ? "3d(" : "(") + x + "px," + y + (has3d ? "px," + z + "px)" : "px)") + "scale(" + scale + ")";
+        return 'translate' + (has3d ? '3d(' : '(') + x + 'px,' + y + (has3d ? 'px,' + z + 'px)' : 'px)') + 'scale(' + scale + ')';
     }
 
     /**
@@ -93,7 +93,7 @@
      * @returns {string}
      */
     function generateTransformOrigin(x, y) {
-        return x + "px " + y + "px";
+        return x + 'px ' + y + 'px';
     }
 
     /**
@@ -106,7 +106,7 @@
             return {
                 left: touch.pageX,
                 top: touch.pageY
-            }
+            };
         });
     }
 
@@ -147,11 +147,12 @@
             offsetX = par[1] - 0;
             offsetY = par[2] - 0;
         }
-        if (transform == "none") return result;
+        if (transform === 'none') return result;
         var mat3d = transform.match(/^matrix3d\((.+)\)$/);
         var mat2d = transform.match(/^matrix\((.+)\)$/);
+        var str;
         if (mat3d) {
-            var str = mat3d[1].split(', ');
+            str = mat3d[1].split(', ');
             result = {
                 translateX: str[12] - 0,
                 translateY: str[13] - 0,
@@ -163,7 +164,7 @@
                 scaleZ: str[10] - 0
             };
         } else if (mat2d) {
-            var str = mat2d[1].split(', ');
+            str = mat2d[1].split(', ');
             result = {
                 translateX: str[4] - 0,
                 translateY: str[5] - 0,
@@ -186,7 +187,7 @@
         return {
             x: (a.x + b.x) / 2,
             y: (a.y + b.y) / 2
-        }
+        };
     }
 
     /**
@@ -251,12 +252,12 @@
             var device = this.deviceEvents;
             if (device.hasTouch) {
                 if (evt.targetTouches.length === 2) {
-                    node.style.webkitTransitionDuration = "0";
+                    node.style.webkitTransitionDuration = '0';
                     evt.preventDefault();
                     scaleImage(evt);
                     result = 2;
                 } else if (evt.targetTouches.length === 1 && currentScale > 1) {
-                    node.style.webkitTransitionDuration = "0";
+                    node.style.webkitTransitionDuration = '0';
                     evt.preventDefault();
                     moveImage.call(this, evt);
                     result = 1;
@@ -346,7 +347,7 @@
      * @returns {{left: number, top: number}}
      */
     function getPosition(element) {
-        var pos = {"left": 0, "top": 0};
+        var pos = {'left': 0, 'top': 0};
         do {
             pos.top += element.offsetTop || 0;
             pos.left += element.offsetLeft || 0;
@@ -370,7 +371,7 @@
             start: {left: pos.left, top: pos.top},
             end: {left: pos.left + node.clientWidth, top: pos.top + node.clientHeight}
         };
-        var str = tag == 1 ? "left" : "top";
+        var str = tag == 1 ? 'left' : 'top';
         min = viewScope.start[str];
         max = viewScope.end[str];
         return (value >= min && value <= max);
@@ -421,7 +422,7 @@
      * Reset image
      * @param {object} evt
      */
-    function resetImage(evt) {
+    function resetImage(/*evt*/) {
         if (currentScale == 1) return;
         var node = zoomNode, left, top, trans, w, h, pos, start, end, parent, flowTag;
         trans = getComputedTranslate(node);
@@ -477,7 +478,7 @@
         if (h < parent.clientHeight) {
             top = pos.top - (trans.scaleX - 1) * node.clientHeight / 2;
         }
-        node.style.webkitTransitionDuration = "100ms";
+        node.style.webkitTransitionDuration = '100ms';
         node.style.webkitTransform = generateTranslate(trans.translateX + left - start.left, trans.translateY + top - start.top, 0, trans.scaleX);
 
     }
