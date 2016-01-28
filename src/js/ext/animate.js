@@ -51,7 +51,7 @@
 
             rotate.effect = 'transform';
             rotate.reverse = true;
-            return rotate
+            return rotate;
         })(),
         // flip
         flip: (function () {
@@ -75,7 +75,7 @@
 
             flip.effect = 'transform';
             flip.reverse = true;
-            return flip
+            return flip;
         })(),
         depth: (function () {
 

@@ -91,7 +91,7 @@
                 fragment.appendChild(dots[i]);
             }
             dotWrap.appendChild(fragment);
-        };
+        }
 
         function locate(locate) {
             if (locate === 'relative') {
