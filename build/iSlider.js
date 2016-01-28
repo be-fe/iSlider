@@ -1191,6 +1191,7 @@
                         } else {
                             global.location.href = el.href;
                         }
+                        evt.preventDefault();
                         return false;
                     }
                 }
@@ -1221,7 +1222,6 @@
 
         // create sim tap event if offset < this.fingerRecognitionRange
         if (Math.abs(this.offset[this.axis]) < FRR && this.fixPage && evt.target) {
-            evt.preventDefault();
             dispatchLink(evt.target);
         }
 
