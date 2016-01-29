@@ -42,16 +42,12 @@
                 switch (sizes.length) {
                     case 4:
                         return sizes;
-                        break;
                     case 3:
                         return [sizes[0], sizes[1], sizes[2], sizes[1]];
-                        break;
                     case 2:
                         return [sizes[0], sizes[1], sizes[0], sizes[1]];
-                        break;
                     case 1:
                         return [sizes[0], sizes[0], sizes[0], sizes[0]];
-                        break;
                 }
             }
 
@@ -73,7 +69,7 @@
                 left + outer.offsetWidth, // right
                 top + outer.offsetHeight, // bottom
                 left // left
-            ]
+            ];
         }
 
         if (zoneSize.filter(function (i) {
@@ -90,5 +86,5 @@
                 }
             });
         }
-    })
+    });
 });

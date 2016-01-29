@@ -1,3 +1,10 @@
+### iSlider 2.1.1
+- [BUG fix]Repair resize event to lose focus in Android.
+
+### iSlider 2.1.0
+- [Optimization]Fully optimized animation. Animation logic decoupling from iSlider.
+- [New]Add an animation, zoomout.
+
 ### iSlider 2.0.14
 - [Optimization][Plug-in]BIZone
     - plugins: ['BIZone', {size: {VALUE}}]

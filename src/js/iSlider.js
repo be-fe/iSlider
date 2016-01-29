@@ -20,7 +20,7 @@
      */
     function inArray(oElement, aSource) {
         return aSource.indexOf(oElement) > -1;
-    };
+    }
 
     /**
      * Check is array
@@ -29,7 +29,7 @@
      */
     function isArray(o) {
         return Object.prototype.toString.call(o) === '[object Array]';
-    };
+    }
 
     /**
      * Check is object
@@ -38,7 +38,7 @@
      */
     function isObject(o) {
         return Object.prototype.toString.call(o) === '[object Object]';
-    };
+    }
 
     /**
      * @param {HTML Element} obj
@@ -180,15 +180,29 @@
      * @type {Array}
      * @protected
      */
-    iSlider.EVENTS = 'initialize initialized pluginInitialize pluginInitialized slide slideStart slideEnd slideChange slideChanged slideRestore slideRestored loadData reset destroy'.split(' ');
-
+    iSlider.EVENTS = [
+        'initialize',
+        'initialized',
+        'pluginInitialize',
+        'pluginInitialized',
+        'slide',
+        'slideStart',
+        'slideEnd',
+        'slideChange',
+        'slideChanged',
+        'slideRestore',
+        'slideRestored',
+        'loadData',
+        'reset',
+        'destroy'
+    ]
     /**
      * Easing white list
      * @type [Array, RegExp[]]
      * @protected
      */
     iSlider.EASING = [
-        'linear ease ease-in ease-out ease-in-out'.split(' '),
+        ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'],
         /cubic-bezier\(([^\d]*(\d+.?\d*)[^\,]*\,?){4}\)/
     ];
 
@@ -197,14 +211,26 @@
      * @type {Array}
      * @protected
      */
-    iSlider.FIX_PAGE_TAGS = 'SELECT INPUT TEXTAREA BUTTON LABEL'.split(' ');
+    iSlider.FIX_PAGE_TAGS = ['SELECT', 'INPUT', 'TEXTAREA', 'BUTTON', 'LABEL'];
 
     /**
-     * The empty function
+     * @returns {String}
      * @private
      */
-    iSlider.EMPTY_FUNCTION = function () {
-    };
+    iSlider.TRANSITION_END_EVENT = (function () {
+        var el = document.createElement('fakeElement');
+        var transitions = {
+            transition: 'transitionend',
+            OTransition: 'oTransitionEnd',
+            MozTransition: 'transitionend',
+            WebkitTransition: 'webkitTransitionEnd'
+        };
+        for (var t in transitions) {
+            if (transitions.hasOwnProperty(t) && el.style[t] !== undefined) {
+                return transitions[t];
+            }
+        }
+    })();
 
     /**
      * Extend
@@ -260,35 +286,15 @@
      * @protected
      */
     iSlider._animateFuncs = {
-        'default': function (dom, axis, scale, i, offset) {
-            dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
-        }
-    };
+        'normal': (function () {
+            function normal(dom, axis, scale, i, offset) {
+                dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+            }
 
-    /**
-     * @returns {String}
-     * @private
-     */
-    iSlider._transitionEndEvent = (function () {
-        var evtName;
-        return function () {
-            if (evtName) {
-                return evtName;
-            }
-            var el = document.createElement('fakeElement');
-            var transitions = {
-                transition: 'transitionend',
-                OTransition: 'oTransitionEnd',
-                MozTransition: 'transitionend',
-                WebkitTransition: 'webkitTransitionEnd'
-            };
-            for (var t in transitions) {
-                if (transitions.hasOwnProperty(t) && el.style[t] !== undefined) {
-                    return (evtName = transitions[t]);
-                }
-            }
-        };
-    })();
+            normal.effect = 'transform';
+            return normal;
+        })()
+    };
 
     /**
      * This is a alias, conducive to compression
@@ -486,12 +492,25 @@
          * @type {String}
          * @private
          */
-        this.animateType = opts.animateType in this._animateFuncs ? opts.animateType : 'default';
+        this.animateType = opts.animateType in this._animateFuncs ? opts.animateType : 'normal';
 
         /**
          * @protected
          */
         this._animateFunc = this._animateFuncs[this.animateType];
+
+        /**
+         * @private
+         */
+        this._animateReverse = (function () {
+            var _ = [];
+            for (var type in this._animateFuncs) {
+                if (this._animateFuncs.hasOwnProperty(type) && this._animateFuncs[type].reverse) {
+                    _.push(type);
+                }
+            }
+            return _;
+        }.bind(this))();
 
         // little trick set, when you chooce tear & vertical same time
         // iSlider overspread mode will be set true autometicly
@@ -506,13 +525,11 @@
          */
         this.log = opts.isDebug ? function () {
             global.console.log.apply(global.console, arguments);
-        } : iSlider.EMPTY_FUNCTION;
+        } : function () {
+        };
 
         // set Damping function
         this._setUpDamping();
-
-        // stop autoplay when window blur
-        // this._setPlayWhenFocus();
 
         /**
          * animate process time (ms), default: 300ms
@@ -550,7 +567,8 @@
                 hasTouch: hasTouch,
                 startEvt: hasTouch ? 'touchstart' : 'mousedown',
                 moveEvt: hasTouch ? 'touchmove' : 'mousemove',
-                endEvt: hasTouch ? 'touchend' : 'mouseup'
+                endEvt: hasTouch ? 'touchend' : 'mouseup',
+                resizeEvt: 'onorientationchange' in global ? 'orientationchange' : 'resize'
             };
         })();
 
@@ -578,35 +596,42 @@
         // - Register events
         // --------------------------------
 
+        iSlider.EVENTS.forEach(function (eventName) {
+            var fn = opts['on' + eventName.toLowerCase()];
+            if (typeof fn === 'function') {
+                this.on(eventName, fn, 1);
+            }
+        }.bind(this));
+
         // Callback function when iSlider start initialization (after setting, before render)
-        this.on('initialize', opts.oninitialize, 1);
+        // this.on('initialize', opts.oninitialize, 1);
 
         // Callback function when iSlider initialized
-        this.on('initialized', opts.oninitialized, 1);
+        // this.on('initialized', opts.oninitialized, 1);
 
         // Callback function when iSlider plugins initialized
-        this.on('pluginInitialized', opts.onplugininitialized, 1);
+        // this.on('pluginInitialized', opts.onplugininitialized, 1);
 
         // Callback function when your finger is moving
-        this.on('slide', opts.onslide, 1);
+        // this.on('slide', opts.onslide, 1);
 
         // Callback function when your finger touch the screen
-        this.on('slideStart', opts.onslidestart, 1);
+        // this.on('slideStart', opts.onslidestart, 1);
 
         // Callback function when the finger move out of the screen
-        this.on('slideEnd', opts.onslideend, 1);
+        // this.on('slideEnd', opts.onslideend, 1);
 
         // Callback function when slide to next/prev scene
-        this.on('slideChange', opts.onslidechange, 1);
+        // this.on('slideChange', opts.onslidechange, 1);
 
         // Callback function when next/prev scene, while animation has completed
-        this.on('slideChanged', opts.onslidechanged, 1);
+        // this.on('slideChanged', opts.onslidechanged, 1);
 
         // Callback function when restore to the current scene
-        this.on('slideRestore', opts.onsliderestore, 1);
+        // this.on('slideRestore', opts.onsliderestore, 1);
 
         // Callback function when restore to the current scene, while animation has completed
-        this.on('slideRestored', opts.onsliderestored, 1);
+        // this.on('slideRestored', opts.onsliderestored, 1);
 
         // --------------------------------
         // - Plugins
@@ -628,7 +653,7 @@
                 });
                 return config;
             } else {
-                return {}
+                return {};
             }
         })();
     };
@@ -950,7 +975,7 @@
         var lsn;
         this.log('Event:', 'watchTransitionEnd::stuck::pile', this.inAnimate);
 
-        function handle(evt) {
+        function handle(/*evt*/) {
             if (lsn) {
                 global.clearTimeout(lsn);
             }
@@ -965,17 +990,17 @@
                 self.play();
             }
             unWatch();
-        };
+        }
 
         function unWatch() {
             self.els.forEach(function translationEndUnwatchEach(el) {
-                el.removeEventListener(iSlider._transitionEndEvent(), handle);
+                el.removeEventListener(iSlider.TRANSITION_END_EVENT, handle);
             });
         }
 
         if (time > 0) {
             self.els.forEach(function translationEndElsEach(el) {
-                el.addEventListener(iSlider._transitionEndEvent(), handle);
+                el.addEventListener(iSlider.TRANSITION_END_EVENT, handle);
             });
         }
         lsn = global.setTimeout(handle, time);
@@ -988,9 +1013,9 @@
      */
     iSliderPrototype._bindHandler = function () {
         var outer = this.outer;
+        var device = this.deviceEvents;
 
         if (this.isTouchable) {
-            var device = this.deviceEvents;
             if (!device.hasTouch) {
                 outer.style.cursor = 'pointer';
                 // disable drag
@@ -1006,11 +1031,10 @@
             outer.addEventListener(device.endEvt, this);
 
             // Viscous drag adaptation
-            !this.deviceEvents.hasTouch && outer.addEventListener('mouseout', this);
+            !device.hasTouch && outer.addEventListener('mouseout', this);
         }
 
-        global.addEventListener('orientationchange', this);
-        global.addEventListener('resize', this);
+        global.addEventListener(device.resizeEvt, this);
 
         // Fix android device
         global.addEventListener('focus', this, false);
@@ -1040,17 +1064,14 @@
             case 'touchcancel':
                 this.endHandler(evt);
                 break;
-            case 'orientationchange':
-                this.orientationchangeHandler();
+            case device.resizeEvt:
+                this[device.resizeEvt + 'Handler']();
                 break;
             case 'focus':
                 this.play();
                 break;
             case 'blur':
                 this.pause();
-                break;
-            case 'resize':
-                this.resizeHandler();
                 break;
         }
     };
@@ -1130,7 +1151,7 @@
                 var item = this.els[i];
                 item.style.visibility = 'visible';
                 item.style.webkitTransition = 'none';
-                this._animateFunc(item, axis, this.scale, i, offset[axis]);
+                this._animateFunc(item, axis, this.scale, i, offset[axis], offset[axis]);
 
                 // TODO For seams
                 this.fillSeam && this.seamScale(item);
@@ -1169,10 +1190,11 @@
                 if (el.tagName === 'A') {
                     if (el.href) {
                         if (el.getAttribute('target') === '_blank') {
-                            window.open(el.href);
+                            global.open(el.href);
                         } else {
                             global.location.href = el.href;
                         }
+                        evt.preventDefault();
                         return false;
                     }
                 }
@@ -1184,8 +1206,6 @@
                 }
             }
         }
-
-        this.log(boundary, offset[axis], absOffset, absReverseOffset, this);
 
         this.fire('slideEnd', evt, this);
 
@@ -1203,7 +1223,6 @@
 
         // create sim tap event if offset < this.fingerRecognitionRange
         if (Math.abs(this.offset[this.axis]) < FRR && this.fixPage && evt.target) {
-            evt.preventDefault();
             dispatchLink(evt.target);
         }
 
@@ -1296,7 +1315,7 @@
         this.log('Index:' + this.slideIndex);
 
         // keep the right order of items
-        var headEl, tailEl, step;
+        var headEl, tailEl, direction;
 
         // slidechange should render new item
         // and change new item style to fit animation
@@ -1305,17 +1324,17 @@
             eventType = 'slideRestore';
         } else {
 
-            if ((this.isVertical && (animateType === 'rotate' || animateType === 'flip')) ^ (n > 0)) {
+            if ((this.isVertical && (inArray(animateType, this._animateReverse))) ^ (n > 0)) {
                 els.push(els.shift());
                 headEl = els[2];
                 tailEl = els[0];
-                step = 1;
+                direction = 1;
             }
             else {
                 els.unshift(els.pop());
                 headEl = els[0];
                 tailEl = els[2];
-                step = -1;
+                direction = -1;
             }
 
             this.currentEl = els[1];
@@ -1324,17 +1343,17 @@
                 this._renderIntermediateScene();
                 this._renderItem(headEl, idx + n);
             } else if (Math.abs(n) > 1) {
-                this._renderItem(headEl, idx + step);
-                this._intermediateScene = [tailEl, idx - step];
+                this._renderItem(headEl, idx + direction);
+                this._intermediateScene = [tailEl, idx - direction];
             }
 
             headEl.style.webkitTransition = 'none';
 
             // Disperse ghost in the back
-            if (-1 < ['rotate', 'flip'].indexOf(animateType)) {
-                headEl.style.visibility = 'hidden';
-                this.currentEl.style.visibility = 'visible';
-            }
+            //if (-1 < ['rotate', 'flip'].indexOf(animateType)) {
+            //    headEl.style.visibility = 'hidden';
+            //    this.currentEl.style.visibility = 'visible';
+            //}
 
             // Minus squeeze time
             squeezeTime = animateTime - squeezeTime;
@@ -1358,9 +1377,9 @@
         for (var i = 0; i < 3; i++) {
             if (els[i] !== headEl) {
                 // TODO: Only applies their effects
-                els[i].style.webkitTransition = 'all ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
+                els[i].style.webkitTransition = (animateFunc.effect || 'all') + ' ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
             }
-            animateFunc.call(this, els[i], this.axis, this.scale, i, 0);
+            animateFunc.call(this, els[i], this.axis, this.scale, i, 0, direction);
 
             this.fillSeam && this.seamScale(els[i]);
         }
@@ -1437,7 +1456,7 @@
             this._EventHandle[key] = [
                 [callback],
                 [delegatedEventCallbackHandle]
-            ]
+            ];
         } else {
             this._EventHandle[key][0].push(callback);
             this._EventHandle[key][1].push(delegatedEventCallbackHandle);
@@ -1465,7 +1484,7 @@
             }
         }
 
-        return false
+        return false;
     };
 
     /**
@@ -1485,14 +1504,16 @@
             outer.removeEventListener(device.endEvt, this);
 
             // Viscous drag unbind
-            !this.deviceEvents.hasTouch && outer.removeEventListener('mouseout', this);
+            !device.hasTouch && outer.removeEventListener('mouseout', this);
         }
-        global.removeEventListener('orientationchange', this);
+        global.removeEventListener(device.resizeEvt, this);
         global.removeEventListener('focus', this);
         global.removeEventListener('blur', this);
 
+        var n;
+
         // Clear delegate events
-        for (var n in this._EventHandle) {
+        for (n in this._EventHandle) {
             var handList = this._EventHandle[n][1];
             for (var i = 0; i < handList.length; i++) {
                 if (typeof handList[i] === 'function') {
@@ -1503,8 +1524,9 @@
         this._EventHandle = null;
 
         // Clear timer
-        for (var n in this._LSN)
+        for (n in this._LSN) {
             this._LSN.hasOwnProperty(n) && this._LSN[n] && global.clearTimeout(this._LSN[n]);
+        }
 
         this._LSN = null;
 
@@ -1709,7 +1731,7 @@
     iSliderPrototype.originScale = function (el) {
         var regex = /([\x20]?scale)([XY]?)\(([^\)]+)\)/;
         el.style.webkitTransform = el.style.webkitTransform.replace(regex, function (sc, res, axis, scale) {
-            var sc = {};
+            sc = {};
             if (axis) {
                 if (scale === '1.001') {
                     return '';
