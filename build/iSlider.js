@@ -1625,7 +1625,7 @@
         this.slideIndex = initIndex || 0;
         this.data = data;
         this._renderWrapper();
-        this._autoPlay();
+        this._autoPlay(1500);
         this.fire('loadData slideChanged', this.slideIndex, this.currentEl, this);
     };
 
@@ -1633,8 +1633,13 @@
      * auto check to play and bind events
      * @private
      */
-    iSliderPrototype._autoPlay = function () {
-        this.delay > 0 ? global.setTimeout(this.play.bind(this), this.delay) : this.play();
+    iSliderPrototype._autoPlay = function (delay) {
+        if (delay && typeof delay === 'number') {
+             global.setTimeout(this.play.bind(this), delay);
+        }
+        else {
+            this.delay > 0 ? global.setTimeout(this.play.bind(this), this.delay) : this.play();
+        }
     };
 
     /**
