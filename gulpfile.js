@@ -5,11 +5,13 @@ var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
 var rename = require('gulp-rename');
 var clean = require('gulp-clean');
+var babel = require('gulp-babel');
 
 var CONFIG = {
     src: './src',
     demo: './demo/public',
-    build: './build'
+    build: './build',
+    dev: './dev'
 };
 
 gulp.task('clean', function () {
@@ -33,7 +35,7 @@ gulp.task('css', function () {
 });
 
 gulp.task('iSlider', function () {
-    return gulp.src(['src/js/iSlider.js'])
+    return gulp.src([CONFIG.src + '/js/iSlider.js'])
         .pipe(gulp.dest(CONFIG.demo + '/js'))
         .pipe(gulp.dest(CONFIG.build))
         .pipe(uglify())
@@ -44,7 +46,7 @@ gulp.task('iSlider', function () {
 });
 
 gulp.task('externals', function () {
-    return gulp.src(['src/js/ext/*.js'])
+    return gulp.src([CONFIG.src + '/js/ext/*.js'])
         .pipe(rename(function (path) {
             path.basename = "iSlider." + path.basename;
         }))
@@ -58,7 +60,7 @@ gulp.task('externals', function () {
 });
 
 gulp.task('plugins', function () {
-    return gulp.src(['src/js/plugins/*.js'])
+    return gulp.src([CONFIG.src + '/js/plugins/*.js'])
         .pipe(rename(function (path) {
             path.basename = "iSlider.plugin." + path.basename;
         }))
@@ -71,14 +73,22 @@ gulp.task('plugins', function () {
         .pipe(gulp.dest(CONFIG.build));
 });
 
+gulp.task('es6', function () {
+    return gulp.src([CONFIG.src + '/js/plugins/*.es6'])
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(gulp.dest(CONFIG.dev))
+});
+
 gulp.task('js', ['iSlider', 'externals', 'plugins']);
 
 gulp.task('build', ['css', 'js']);
 
 gulp.task('watch', function () {
-    //startServer(8888);
-    gulp.watch(['src/*.js', 'src/plugins/*.js'], ['js']);
-    gulp.watch(['src/*.css'], ['css']);
+    startServer(8888);
+    gulp.watch(['src/**/*.js'], ['js']);
+    gulp.watch(['src/**/*.css'], ['css']);
 });
 
 gulp.task('default', ['build']);
@@ -92,30 +102,5 @@ function startServer(port) {
         root: '.',
         port: port,
         livereload: true
-    });
-}
-
-/**
- * remove AMD code form source code
- */
-function amdClean(opts) {
-    var requirejs = require('requirejs');
-    requirejs.optimize({
-        'findNestedDependencies': true,
-        'baseUrl': './src/',
-        'optimize': 'none',
-        'include': opts.include,
-        'out': opts.outputFile,
-        'onModuleBundleComplete': function (data) {
-            var fs = require('fs'),
-                amdclean = require('amdclean'),
-                outputFile = opts.outputFile;
-
-            fs.writeFileSync(outputFile, amdclean.clean({
-                'filePath': outputFile,
-                'globalModules': opts.globalModules
-            }));
-
-        }
     });
 }
