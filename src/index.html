@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="viewport"
-          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+          content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
     <link rel="stylesheet" href="style/iSlider.css"/>
     <style>
         html, body {
@@ -82,75 +82,67 @@
 <script src="js/plugins/BIZone.js"></script>
 <script>
     var list = [];
-    //    for (var i = 1; i <= 3; i++)
-    //        list.push({content: './resource/imgs/random/' + i + '.jpg'});
-    //
-    //
-    //    for (var i = 4; i <= 9; i++)
-    //        list.push({
-    //            content: '<div style="font-size:1.2em;color:white;"><img src="./resource/imgs/random/' + i + '.jpg"/><br />TEXT' + i + '</div>'
-    //        });
-    //
-    //    list.push({
-    //        content: '<div style="font-size:2em;color:white;text-align: center">HTML<a href="http://baidu.com">Link</a></div>'
-    //    });
-    //
-    //    list.push({
-    //        content: (function () {
-    //            var dom = document.createElement('div');
-    //            dom.innerHTML = 'Element';
-    //            dom.style.cssText = 'font-size:2em;color:rgb(230, 230, 63);';
-    //            return dom;
-    //        })()
-    //    });
-    //
-    //    list.push({
-    //        content: (function () {
-    //            var frag = document.createDocumentFragment();
-    //            var dom = document.createElement('div');
-    //            dom.innerHTML = 'Fragment';
-    //            dom.style.cssText = 'font-size:2em;color:rgb(230, 63, 230);';
-    //            frag.appendChild(dom);
-    //            return frag;
-    //        })()
-    //    });
-    //
-    //    list.push({
-    //        content: document.getElementById('pages')
-    //    });
 
-    //    for (var i = 0; i < 10; i++)
-    //        list.push({
-    //            content: '<div class="ro">' + i + '</div>'
-    //        });
+    list.push({
+        content: '<div style="font-size:2em;color:white;text-align: center">HTML<a href="http://baidu.com">Link</a></div>'
+    });
+
+    list.push({
+        content: (function () {
+            var dom = document.createElement('div');
+            dom.innerHTML = 'Element';
+            dom.style.cssText = 'font-size:2em;color:rgb(230, 230, 63);';
+            return dom;
+        })()
+    });
+
+    list.push({
+        content: (function () {
+            var frag = document.createDocumentFragment();
+            var dom = document.createElement('div');
+            dom.innerHTML = 'Fragment';
+            dom.style.cssText = 'font-size:2em;color:rgb(230, 63, 230);';
+            frag.appendChild(dom);
+            return frag;
+        })()
+    });
+
+    list.push({
+        content: document.getElementById('pages')
+    });
+
+    for (var i = 0; i < 3; i++)
+        list.push({
+            content: '<div class="ro">' + i + '</div>'
+        });
 
     list.push({
         content: '<input type="text" />'
     });
-
-    list.push({
-        content: '<input type="text" />'
-    });
-
-    list.push({
-        content: '<input type="text" />'
-    });
+    //
+    //    list.push({
+    //        content: '<input type="text" />'
+    //    });
+    //
+    //    list.push({
+    //        content: '<input type="text" />'
+    //    });
 
     var islider = new iSlider(
             document.getElementById("(Ō̥̥̥̥̥̥̥ ԑ Ō̥̥̥̥̥̥̥ )"), list, {
 //                data: list,
                 dom: document.getElementById("iSlider-wrapper"),
 //                isVertical: 1,
-                isLooping: 1,
+//                isLooping: 1,
                 isOverspread: 1,
-                animateType: 'rotate',
+//                animateType: 'rotate',
 //                delay: 3000,
-                animateTime: 1000,
+//                animateTime: 10000,
 //                fillSeam: 1,
 //                fixPage: 0,
-//                isDebug: 1,
-//                isAutoplay: true,
-//                duration: 5000,
+                isDebug: 1,
+                isAutoplay: true,
+                duration: 5000,
 //                plugins: [
 //                    ['dot', {locate: 'relative'}],
 //                    'button',

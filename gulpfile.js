@@ -1,10 +1,12 @@
 'use strict';
 
+var fs = require('fs');
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
 var rename = require('gulp-rename');
 var clean = require('gulp-clean');
+var jc = require('json-config-reader');
 
 var CONFIG = {
     src: './src',
@@ -71,51 +73,26 @@ gulp.task('plugins', function () {
         .pipe(gulp.dest(CONFIG.build));
 });
 
+gulp.task('updateVersion', function (cb) {
+    var version = jc.read('package.json').version;
+    fs.writeFileSync('bower.json', new Buffer(fs.readFileSync('bower.json').toString().replace(/\"version\": \"[^\"]+\"/, function () {
+        return '"version": "' + version + '"';
+    })));
+
+    fs.writeFileSync(CONFIG.src + '/js/iSlider.js', new Buffer(fs.readFileSync(CONFIG.src + '/js/iSlider.js').toString().replace(/iSlider\.VERSION = \'[^\']+\'/, function () {
+        return 'iSlider.VERSION = \'' + version + '\'';
+    })));
+
+    cb();
+});
+
 gulp.task('js', ['iSlider', 'externals', 'plugins']);
 
-gulp.task('build', ['css', 'js']);
+gulp.task('build', ['updateVersion', 'css', 'js']);
 
 gulp.task('watch', function () {
     //startServer(8888);
-    gulp.watch(['src/*.js', 'src/plugins/*.js'], ['js']);
-    gulp.watch(['src/*.css'], ['css']);
+    gulp.watch(['src/*.js', 'src/plugins/*.js', 'src/*.css'], ['js', 'css']);
 });
 
 gulp.task('default', ['build']);
-
-/**
- *  start server
- */
-function startServer(port) {
-    var connect = require('gulp-connect');
-    connect.server({
-        root: '.',
-        port: port,
-        livereload: true
-    });
-}
-
-/**
- * remove AMD code form source code
- */
-function amdClean(opts) {
-    var requirejs = require('requirejs');
-    requirejs.optimize({
-        'findNestedDependencies': true,
-        'baseUrl': './src/',
-        'optimize': 'none',
-        'include': opts.include,
-        'out': opts.outputFile,
-        'onModuleBundleComplete': function (data) {
-            var fs = require('fs'),
-                amdclean = require('amdclean'),
-                outputFile = opts.outputFile;
-
-            fs.writeFileSync(outputFile, amdclean.clean({
-                'filePath': outputFile,
-                'globalModules': opts.globalModules
-            }));
-
-        }
-    });
-}
