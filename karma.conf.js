@@ -15,6 +15,7 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
+            'src/style/iSlider.css',
             'src/js/iSlider.js',
             'src/js/ext/*.js',
             'src/js/plugins/*.js',
@@ -29,7 +30,7 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            '**/*.js': ['coverage'],
+            'src/**/*.js': ['coverage'],
         },
 
         // optionally, configure the reporter
@@ -64,7 +65,7 @@ module.exports = function (config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['Chrome', 'PhantomJS'],
+        browsers: ['Chrome'],
 
 
         // Continuous Integration mode
