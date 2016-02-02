@@ -13,6 +13,12 @@
     'use strict';
 
     /**
+     * noop function
+     */
+    function noop() {
+    }
+
+    /**
      * Check in array
      * @param {*} oElement
      * @param {Array} aSource
@@ -145,20 +151,6 @@
          */
         this._opts = opts;
 
-        /**
-         * listener
-         * @type {Object}
-         * @private
-         */
-        this._LSN = {};
-
-        /**
-         * Event handle
-         * @type {{}}
-         * @private
-         */
-        this._EventHandle = {};
-
         opts = null, args = null;
 
         this._setting();
@@ -286,7 +278,7 @@
      * @protected
      */
     iSlider._animateFuncs = {
-        'normal': (function () {
+        normal: (function () {
             function normal(dom, axis, scale, i, offset) {
                 dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
             }
@@ -314,6 +306,10 @@
      */
     iSliderPrototype._setting = function () {
 
+        // --------------------------------
+        // - Status
+        // --------------------------------
+
         /**
          * The plugins
          * @type {Array|{}|*}
@@ -322,7 +318,7 @@
         this._plugins = iSlider.plugins;
 
         /**
-         *
+         * Extend animations
          * @type {{default: Function}|*}
          * @private
          */
@@ -332,13 +328,50 @@
          * @type {Boolean}
          * @private
          */
-        this.holding = false;
+        this._holding = false;
 
         /**
          * @type {Boolean}
          * @private
          */
-        this.locking = false;
+        this._locking = false;
+
+        /**
+         * @type {Array}
+         * @private
+         */
+        this._intermediateScene = null;
+
+        /**
+         * @type {null}
+         * @private
+         */
+        this._transitionEndHandler = null;
+
+        /**
+         * listener
+         * @type {{autoPlay: null, resize: null, transitionEnd: null}}
+         * @private
+         */
+        this._LSN = {
+            autoPlay: null,
+            resize: null,
+            transitionEnd: null
+        };
+
+        /**
+         * current scene element: this.els[1]
+         * @type {null}
+         * @public
+         */
+        this.currentEl = null;
+
+        /**
+         * Event handle
+         * @type {{}}
+         * @private
+         */
+        this._EventHandle = {};
 
         // --------------------------------
         // - Set options
@@ -429,14 +462,14 @@
          * @type {Number}
          * @private
          */
-        this.width = typeof opts.width === 'number' ? opts.width : this.wrap.clientWidth;
+        this.width = typeof opts.width === 'number' ? opts.width : this.wrap.offsetWidth;
 
         /**
          * Wrapper height
          * @type {Number}
          * @private
          */
-        this.height = typeof opts.height === 'number' ? opts.height : this.wrap.clientHeight;
+        this.height = typeof opts.height === 'number' ? opts.height : this.wrap.offsetHeight;
 
         /**
          * Ratio height:width
@@ -502,7 +535,7 @@
         /**
          * @private
          */
-        this._animateReverse = (function () {
+        this._animateReverse = (function animateReverse() {
             var _ = [];
             for (var type in this._animateFuncs) {
                 if (this._animateFuncs.hasOwnProperty(type) && this._animateFuncs[type].reverse) {
@@ -525,8 +558,7 @@
          */
         this.log = opts.isDebug ? function () {
             global.console.log.apply(global.console, arguments);
-        } : function () {
-        };
+        } : noop;
 
         // set Damping function
         this._setUpDamping();
@@ -550,13 +582,6 @@
                 : 'ease';
 
         /**
-         * In slide animation
-         * @type {Number}
-         * @private
-         */
-        this.inAnimate = 0;
-
-        /**
          * Fix touch/mouse events
          * @type {{hasTouch, startEvt, moveEvt, endEvt}}
          * @private
@@ -568,6 +593,7 @@
                 startEvt: hasTouch ? 'touchstart' : 'mousedown',
                 moveEvt: hasTouch ? 'touchmove' : 'mousemove',
                 endEvt: hasTouch ? 'touchend' : 'mouseup',
+                cancelEvt: hasTouch ? 'touchcancel' : 'mouseout',
                 resizeEvt: 'onorientationchange' in global ? 'orientationchange' : 'resize'
             };
         })();
@@ -575,6 +601,7 @@
         /**
          * Finger recognition range, prevent inadvertently touch
          * @type {Number}
+         * @private
          */
         this.fingerRecognitionRange = opts.fingerRecognitionRange > -1 ? parseInt(opts.fingerRecognitionRange) : 10;
 
@@ -598,40 +625,8 @@
 
         iSlider.EVENTS.forEach(function (eventName) {
             var fn = opts['on' + eventName.toLowerCase()];
-            if (typeof fn === 'function') {
-                this.on(eventName, fn, 1);
-            }
+            typeof fn === 'function' && this.on(eventName, fn, 1);
         }.bind(this));
-
-        // Callback function when iSlider start initialization (after setting, before render)
-        // this.on('initialize', opts.oninitialize, 1);
-
-        // Callback function when iSlider initialized
-        // this.on('initialized', opts.oninitialized, 1);
-
-        // Callback function when iSlider plugins initialized
-        // this.on('pluginInitialized', opts.onplugininitialized, 1);
-
-        // Callback function when your finger is moving
-        // this.on('slide', opts.onslide, 1);
-
-        // Callback function when your finger touch the screen
-        // this.on('slideStart', opts.onslidestart, 1);
-
-        // Callback function when the finger move out of the screen
-        // this.on('slideEnd', opts.onslideend, 1);
-
-        // Callback function when slide to next/prev scene
-        // this.on('slideChange', opts.onslidechange, 1);
-
-        // Callback function when next/prev scene, while animation has completed
-        // this.on('slideChanged', opts.onslidechanged, 1);
-
-        // Callback function when restore to the current scene
-        // this.on('slideRestore', opts.onsliderestore, 1);
-
-        // Callback function when restore to the current scene, while animation has completed
-        // this.on('slideRestored', opts.onsliderestored, 1);
 
         // --------------------------------
         // - Plugins
@@ -642,8 +637,8 @@
          * @private
          */
         this.pluginConfig = (function () {
+            var config = {};
             if (isArray(opts.plugins)) {
-                var config = {};
                 opts.plugins.forEach(function pluginConfigEach(plugin) {
                     if (isArray(plugin)) {
                         config[plugin[0]] = plugin.slice(1);
@@ -651,10 +646,8 @@
                         config[plugin] = [];
                     }
                 });
-                return config;
-            } else {
-                return {};
             }
+            return config;
         })();
     };
 
@@ -855,8 +848,6 @@
         this.els.forEach(function changeStypeEach(el, index) {
             removeClass(el, slideStyles.join('|'));
             addClass(el, slideStyles[index]);
-
-            // TODO For seams
             this.fillSeam && this.originScale(el);
         }.bind(this));
     };
@@ -878,7 +869,7 @@
         outer.className = 'islider-outer';
         outer.style.overflow = 'hidden';
         // no need...
-        // outer.style.cssText += 'width:' + this.wrap.offsetWidth + 'px;height:' + this.wrap.offsetHeight + 'px';
+        // outer.style.cssText += 'width:' + this.width + 'px;height:' + this.height + 'px';
 
         // storage li elements, only store 3 elements to reduce memory usage
         /**
@@ -966,45 +957,39 @@
     };
 
     /**
-     * Watch event transitionEnd
+     * watch transition end
      * @private
      */
-    iSliderPrototype._watchTransitionEnd = function (time, eventType) {
+    iSliderPrototype._watchTransitionEnd = function (squeezeTime, eventType) {
 
-        var self = this;
-        var lsn;
-        this.log('Event:', 'watchTransitionEnd::stuck::pile', this.inAnimate);
+        this._unWatchTransitionEnd();
 
-        function handle(/*evt*/) {
-            if (lsn) {
-                global.clearTimeout(lsn);
-            }
-            self.inAnimate--;
-            self.log('Event:', 'watchTransitionEnd::stuck::release', self.inAnimate);
-            if (self.inAnimate === 0) {
+        var handle = [
+            this.currentEl, function () {
+                this._unWatchTransitionEnd();
                 if (eventType === 'slideChanged') {
-                    self._changedStyles();
+                    this._changedStyles();
                 }
-                self.fire.call(self, eventType, self.slideIndex, self.currentEl, self);
-                self._renderIntermediateScene();
-                self.play();
-            }
-            unWatch();
-        }
+                this.fire.call(this, eventType, this.slideIndex, this.currentEl, this);
+                this._renderIntermediateScene();
+                this.play();
+            }.bind(this)
+        ];
 
-        function unWatch() {
-            self.els.forEach(function translationEndUnwatchEach(el) {
-                el.removeEventListener(iSlider.TRANSITION_END_EVENT, handle);
-            });
-        }
+        handle[0].addEventListener(iSlider.TRANSITION_END_EVENT, handle[1]);
+        this._LSN.transitionEnd = global.setTimeout(handle[1], squeezeTime);
+        this._transitionEndHandler = handle;
+    };
 
-        if (time > 0) {
-            self.els.forEach(function translationEndElsEach(el) {
-                el.addEventListener(iSlider.TRANSITION_END_EVENT, handle);
-            });
+    /**
+     * @private
+     */
+    iSliderPrototype._unWatchTransitionEnd = function () {
+        this._LSN.transitionEnd && global.clearTimeout(this._LSN.transitionEnd);
+        if (isArray(this._transitionEndHandler)) {
+            this._transitionEndHandler[0].removeEventListener(iSlider.TRANSITION_END_EVENT, this._transitionEndHandler[1]);
+            this._transitionEndHandler = null;
         }
-        lsn = global.setTimeout(handle, time);
-        self.inAnimate++;
     };
 
     /**
@@ -1060,12 +1045,11 @@
                 this.moveHandler(evt);
                 break;
             case device.endEvt:
-            case 'mouseout': // mouseout event, trigger endEvent
-            case 'touchcancel':
+            case device.cancelEvt: // mouseout, touchcancel event, trigger endEvent
                 this.endHandler(evt);
                 break;
             case device.resizeEvt:
-                this[device.resizeEvt + 'Handler']();
+                this.resizeHandler();
                 break;
             case 'focus':
                 this.play();
@@ -1087,7 +1071,7 @@
                 evt.preventDefault();
             }
         }
-        if (this.holding || this.locking) {
+        if (this._holding || this._locking) {
             return;
         }
         var device = this.deviceEvents;
@@ -1140,22 +1124,19 @@
         if (Math.abs(offset[axis]) - Math.abs(offset[reverseAxis]) > 10) {
 
             evt.preventDefault();
+            this._unWatchTransitionEnd();
 
             if (!this.isLooping) {
                 if (offset[axis] > 0 && this.slideIndex === 0 || offset[axis] < 0 && this.slideIndex === len - 1) {
                     offset[axis] = this._damping(offset[axis]);
                 }
             }
-
-            for (var i = 0; i < 3; i++) {
-                var item = this.els[i];
+            this.els.forEach(function (item, i) {
                 item.style.visibility = 'visible';
                 item.style.webkitTransition = 'none';
                 this._animateFunc(item, axis, this.scale, i, offset[axis], offset[axis]);
-
-                // TODO For seams
                 this.fillSeam && this.seamScale(item);
-            }
+            }.bind(this));
 
             this.fire('slide', evt, this);
         }
@@ -1230,28 +1211,43 @@
     };
 
     /**
-     *  orientationchange callback
-     *  @protected
-     */
-    iSliderPrototype.orientationchangeHandler = function () {
-        global.setTimeout(function () {
-            this.reset();
-            this.log('Event: orientationchange');
-        }.bind(this), 100);
-    };
-
-    /**
      * resize callback
      * @protected
      */
     iSliderPrototype.resizeHandler = function () {
-        if (this.height !== this.wrap.clientHeight || this.width !== this.wrap.clientWidth) {
-            this._LSN.resize && global.clearTimeout(this._LSN.resize);
-            this._LSN.resize = global.setTimeout(function () {
-                this.reset();
-                this._LSN.resize && global.clearTimeout(this._LSN.resize);
-                this.log('Event: resize');
-            }.bind(this), 500);
+        var _L = this._LSN.resize;
+        var startTime = +new Date, _W, _H;
+
+        if (this.deviceEvents.hasTouch) {
+            // Fuck Android
+            _L && global.clearInterval(_L);
+            _L = global.setInterval(function () {
+                if (this.height !== this.wrap.offsetHeight || this.width !== this.wrap.offsetWidth) {
+                    _L && global.clearInterval(_L);
+                    _L = global.setInterval(function () {
+                        if (_W === this.wrap.offsetWidth && _H === this.wrap.offsetHeight) {
+                            _L && global.clearInterval(_L);
+                            this.reset();
+                            this.log('Event: resize');
+                        } else {
+                            _W = this.wrap.offsetWidth, _H = this.wrap.offsetHeight;
+                        }
+                    }.bind(this), 12);
+                } else {
+                    if (+new Date - startTime >= 1000) {
+                        _L && global.clearInterval(_L);
+                    }
+                }
+            }.bind(this), 12);
+        } else {
+            _L && global.clearTimeout(_L);
+            _L = global.setTimeout(function () {
+                if (this.height !== this.wrap.offsetHeight || this.width !== this.wrap.offsetWidth) {
+                    _L && global.clearInterval(_L);
+                    this.reset();
+                    this.log('Event: resize');
+                }
+            }.bind(this), 200);
         }
     };
 
@@ -1261,10 +1257,11 @@
      *  @public
      */
     iSliderPrototype.slideTo = function (dataIndex, opts) {
+        // stop auto play
         if (this.isAutoplay) {
             this.pause();
         }
-        if (this.locking) {
+        if (this._locking) {
             return;
         }
         this.unhold();
@@ -1349,18 +1346,12 @@
 
             headEl.style.webkitTransition = 'none';
 
-            // Disperse ghost in the back
-            //if (-1 < ['rotate', 'flip'].indexOf(animateType)) {
-            //    headEl.style.visibility = 'hidden';
-            //    this.currentEl.style.visibility = 'visible';
-            //}
-
             // Minus squeeze time
             squeezeTime = animateTime - squeezeTime;
 
             eventType = 'slideChange';
 
-            // TODO For seams
+            // For seams
             if (this.fillSeam) {
                 els.forEach(function (el) {
                     removeClass(el, 'islider-sliding|islider-sliding-focus');
@@ -1370,19 +1361,18 @@
             }
         }
 
-        this.fire(eventType, this.slideIndex, this.currentEl, this);
-        this._watchTransitionEnd(squeezeTime, eventType + 'd');
-
         // do the trick animation
         for (var i = 0; i < 3; i++) {
             if (els[i] !== headEl) {
-                // TODO: Only applies their effects
-                els[i].style.webkitTransition = (animateFunc.effect || 'all') + ' ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
+                // Only applies their effects
+                els[i].style.webkitTransition = (animateFunc.effect || 'all') + ' ' + squeezeTime + 'ms ' + this.animateEasing;
             }
             animateFunc.call(this, els[i], this.axis, this.scale, i, 0, direction);
-
             this.fillSeam && this.seamScale(els[i]);
         }
+
+        this._watchTransitionEnd(squeezeTime, eventType + 'd');
+        this.fire(eventType, this.slideIndex, this.currentEl, this);
     };
 
     /**
@@ -1606,9 +1596,10 @@
      */
     iSliderPrototype.reset = function () {
         this.pause();
+        this._unWatchTransitionEnd();
         //this._setting();
-        this.width = typeof this._opts.width === 'number' ? this._opts.width : this.wrap.clientWidth;
-        this.height = typeof this._opts.height === 'number' ? this._opts.height : this.wrap.clientHeight;
+        this.width = typeof this._opts.width === 'number' ? this._opts.width : this.wrap.offsetWidth;
+        this.height = typeof this._opts.height === 'number' ? this._opts.height : this.wrap.offsetHeight;
         this.ratio = this.height / this.width;
         this.scale = this.isVertical ? this.height : this.width;
         this._renderWrapper();
@@ -1622,6 +1613,7 @@
      */
     iSliderPrototype.loadData = function (data, initIndex) {
         this.pause();
+        this._unWatchTransitionEnd();
         this.slideIndex = initIndex || 0;
         this.data = data;
         this._renderWrapper();
@@ -1663,7 +1655,7 @@
      * @public
      */
     iSliderPrototype.hold = function () {
-        this.holding = true;
+        this._holding = true;
     };
 
     /**
@@ -1672,7 +1664,7 @@
      * @public
      */
     iSliderPrototype.unhold = function () {
-        this.holding = false;
+        this._holding = false;
         this.unlock();
     };
 
@@ -1684,7 +1676,7 @@
      */
     iSliderPrototype.lock = function () {
         this.hold();
-        this.locking = true;
+        this._locking = true;
     };
 
     /**
@@ -1692,12 +1684,13 @@
      * @public
      */
     iSliderPrototype.unlock = function () {
-        this.locking = false;
+        this._locking = false;
     };
 
     /**
      * Fill the seam
      * @param {HTML Element} el
+     * @private
      */
     iSliderPrototype.seamScale = function (el) {
         var regex = /scale([XY]?)\(([^\)]+)\)/;
@@ -1725,8 +1718,8 @@
     };
 
     /**
-     *
      * @param {HTML Element} el
+     * @private
      */
     iSliderPrototype.originScale = function (el) {
         var regex = /([\x20]?scale)([XY]?)\(([^\)]+)\)/;
