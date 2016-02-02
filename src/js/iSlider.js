@@ -168,6 +168,12 @@
     };
 
     /**
+     * version
+     * @type {string}
+     */
+    iSlider.VERSION = '2.1.2';
+
+    /**
      * Event white list
      * @type {Array}
      * @protected
@@ -187,7 +193,8 @@
         'loadData',
         'reset',
         'destroy'
-    ]
+    ];
+
     /**
      * Easing white list
      * @type [Array, RegExp[]]
@@ -204,6 +211,16 @@
      * @protected
      */
     iSlider.FIX_PAGE_TAGS = ['SELECT', 'INPUT', 'TEXTAREA', 'BUTTON', 'LABEL'];
+
+    /**
+     * Scene node types
+     * @type {Object}
+     * @protected
+     */
+    iSlider.NODE_TYPE = {
+        node: 'node',
+        pic: 'pic'
+    };
 
     /**
      * @returns {String}
@@ -560,8 +577,36 @@
             global.console.log.apply(global.console, arguments);
         } : noop;
 
-        // set Damping function
-        this._setUpDamping();
+        /**
+         * Enable damping when slider meet the edge
+         * @param distance
+         * @returns {*}
+         * @private
+         */
+        this._damping = (function () {
+
+            var oneIn2 = this.scale >> 1;
+            var oneIn4 = oneIn2 >> 1;
+            var oneIn16 = oneIn4 >> 2;
+
+            return function (distance) {
+
+                var dis = Math.abs(distance);
+                var result;
+
+                if (dis < oneIn2) {
+                    result = dis >> 1;
+                }
+                else if (dis < oneIn2 + oneIn4) {
+                    result = oneIn4 + ((dis - oneIn2) >> 2);
+                }
+                else {
+                    result = oneIn4 + oneIn16 + ((dis - oneIn2 - oneIn4) >> 3);
+                }
+
+                return distance > 0 ? result : -result;
+            }
+        }.bind(this))();
 
         /**
          * animate process time (ms), default: 300ms
@@ -671,39 +716,6 @@
     };
 
     /**
-     * enable damping when slider meet the edge
-     * @private
-     */
-    iSliderPrototype._setUpDamping = function () {
-        var oneIn2 = this.scale >> 1;
-        var oneIn4 = oneIn2 >> 1;
-        var oneIn16 = oneIn4 >> 2;
-
-        /**
-         * init damping function
-         * @param distance
-         * @returns {*}
-         * @private
-         */
-        this._damping = function (distance) {
-            var dis = Math.abs(distance);
-            var result;
-
-            if (dis < oneIn2) {
-                result = dis >> 1;
-            }
-            else if (dis < oneIn2 + oneIn4) {
-                result = oneIn4 + ((dis - oneIn2) >> 2);
-            }
-            else {
-                result = oneIn4 + oneIn16 + ((dis - oneIn2 - oneIn4) >> 3);
-            }
-
-            return distance > 0 ? result : -result;
-        };
-    };
-
-    /**
      * Get item type
      * @param {Number} index
      * @returns {String}
@@ -783,7 +795,7 @@
 
         var type = this._itemType(item);
 
-        this.log('[Render ITEM]:', type, dataIndex, item);
+        this.log('[RENDER]:', type, dataIndex, item);
 
         el.className = 'islider-' + type;
 
@@ -1078,7 +1090,7 @@
         this.isMoving = true;
         this.pause();
 
-        this.log('Event: start');
+        this.log('[EVENT]: start');
         this.fire('slideStart', evt, this);
 
         /**
@@ -1109,7 +1121,7 @@
         if (!this.isMoving) {
             return;
         }
-        this.log('Event: moving');
+        this.log('[EVENT]: moving');
         var device = this.deviceEvents;
         var len = this.data.length;
         var axis = this.axis;
@@ -1131,6 +1143,7 @@
                     offset[axis] = this._damping(offset[axis]);
                 }
             }
+
             this.els.forEach(function (item, i) {
                 item.style.visibility = 'visible';
                 item.style.webkitTransition = 'none';
@@ -1151,7 +1164,7 @@
         if (!this.isMoving) {
             return;
         }
-        this.log('Event: end');
+        this.log('[EVENT]: end');
         this.isMoving = false;
         var offset = this.offset;
         var axis = this.axis;
@@ -1228,7 +1241,7 @@
                         if (_W === this.wrap.offsetWidth && _H === this.wrap.offsetHeight) {
                             _L && global.clearInterval(_L);
                             this.reset();
-                            this.log('Event: resize');
+                            this.log('[EVENT]: resize');
                         } else {
                             _W = this.wrap.offsetWidth, _H = this.wrap.offsetHeight;
                         }
@@ -1245,7 +1258,7 @@
                 if (this.height !== this.wrap.offsetHeight || this.width !== this.wrap.offsetWidth) {
                     _L && global.clearInterval(_L);
                     this.reset();
-                    this.log('Event: resize');
+                    this.log('[EVENT]: resize');
                 }
             }.bind(this), 200);
         }
@@ -1309,7 +1322,7 @@
             }
         }
 
-        this.log('Index:' + this.slideIndex);
+        this.log('[SLIDE TO]: ' + this.slideIndex);
 
         // keep the right order of items
         var headEl, tailEl, direction;
