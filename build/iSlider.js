@@ -216,10 +216,16 @@
      * Scene node types
      * @type {Object}
      * @protected
+     * TODO Prepare for the migration Symbol ES6.
      */
     iSlider.NODE_TYPE = {
+        unknown: 'unknown',
+        empty: 'empty',
+        pic: 'pic',
+        dom: 'dom',
+        html: 'html',
         node: 'node',
-        pic: 'pic'
+        element: 'element'
     };
 
     /**
@@ -729,20 +735,21 @@
             return item.type;
         }
         var content = item.content;
+        var _NT = iSlider.NODE_TYPE;
         var type;
         if (content == null) {
-            type = 'empty';
+            type = _NT.empty;
         } else {
             if (Boolean(content.nodeName) && Boolean(content.nodeType)) {
-                type = 'node';
+                type = _NT.node;
             } else if (typeof content === 'string') {
                 if (isUrl(content)) {
-                    type = 'pic';
+                    type = _NT.pic;
                 } else {
-                    type = 'html';
+                    type = _NT.html;
                 }
             } else {
-                type = 'unknown';
+                type = _NT.unknown;
             }
         }
 
@@ -794,13 +801,14 @@
         }
 
         var type = this._itemType(item);
+        var _NT = iSlider.NODE_TYPE;
 
         this.log('[RENDER]:', type, dataIndex, item);
 
         el.className = 'islider-' + type;
 
         switch (type) {
-            case 'pic':
+            case _NT.pic:
                 if (item.load === 2) {
                     insertImg();
                 }
@@ -815,12 +823,12 @@
                     };
                 }
                 break;
-            case 'dom':
-            case 'html':
+            case _NT.dom:
+            case _NT.html:
                 el.innerHTML = item.content;
                 break;
-            case 'node':
-            case 'element':
+            case _NT.node:
+            case _NT.element:
                 // fragment, create container
                 if (item.content.nodeType === 11) {
                     var entity = document.createElement('div');
