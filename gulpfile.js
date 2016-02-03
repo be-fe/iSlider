@@ -91,8 +91,7 @@ gulp.task('js', ['iSlider', 'externals', 'plugins']);
 gulp.task('build', ['updateVersion', 'css', 'js']);
 
 gulp.task('watch', function () {
-    //startServer(8888);
-    gulp.watch(['src/*.js', 'src/plugins/*.js', 'src/*.css'], ['js', 'css']);
+    gulp.watch([CONFIG.src + '/**/*.js', CONFIG.src + '/*.css'], ['js', 'css']);
 });
 
 gulp.task('default', ['build']);

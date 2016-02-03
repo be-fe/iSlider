@@ -664,6 +664,13 @@
         this.isMoving = false;
 
         /**
+         * is on Sliding
+         * @type {Boolean}
+         * @private
+         */
+        this.isSliding = false;
+
+        /**
          * Init events
          * @type {{}}
          * @private
@@ -993,6 +1000,7 @@
                 this.fire.call(this, eventType, this.slideIndex, this.currentEl, this);
                 this._renderIntermediateScene();
                 this.play();
+                this.isSliding = false;
             }.bind(this)
         ];
 
@@ -1286,6 +1294,7 @@
             return;
         }
         this.unhold();
+        this.isSliding = true;
         var animateTime = this.animateTime;
         var animateType = this.animateType;
         var animateFunc = this._animateFunc;

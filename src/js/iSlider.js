@@ -661,7 +661,14 @@
          * @type {Boolean}
          * @private
          */
-        this.isMoving = false;
+        this.onMoving = false;
+
+        /**
+         * is on Sliding
+         * @type {Boolean}
+         * @private
+         */
+        this.onSliding = false;
 
         /**
          * Init events
@@ -993,6 +1000,7 @@
                 this.fire.call(this, eventType, this.slideIndex, this.currentEl, this);
                 this._renderIntermediateScene();
                 this.play();
+                this.onSliding = false;
             }.bind(this)
         ];
 
@@ -1095,7 +1103,7 @@
             return;
         }
         var device = this.deviceEvents;
-        this.isMoving = true;
+        this.onMoving = true;
         this.pause();
 
         this.log('[EVENT]: start');
@@ -1126,7 +1134,7 @@
      *  @protected
      */
     iSliderPrototype.moveHandler = function (evt) {
-        if (!this.isMoving) {
+        if (!this.onMoving) {
             return;
         }
         this.log('[EVENT]: moving');
@@ -1169,11 +1177,11 @@
      *  @protected
      */
     iSliderPrototype.endHandler = function (evt) {
-        if (!this.isMoving) {
+        if (!this.onMoving) {
             return;
         }
         this.log('[EVENT]: end');
-        this.isMoving = false;
+        this.onMoving = false;
         var offset = this.offset;
         var axis = this.axis;
         var boundary = this.scale / 2;
@@ -1286,6 +1294,7 @@
             return;
         }
         this.unhold();
+        this.onSliding = true;
         var animateTime = this.animateTime;
         var animateType = this.animateType;
         var animateFunc = this._animateFunc;
