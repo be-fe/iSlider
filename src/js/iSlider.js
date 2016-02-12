@@ -1232,13 +1232,13 @@
             this.slideTo(this.slideIndex + 1);
         }
         else {
-            if (Math.abs(this.offset[this.axis]) >= FRR) {
+            if (Math.abs(this.offset[axis]) >= FRR) {
                 this.slideTo(this.slideIndex);
             }
         }
 
         // create sim tap event if offset < this.fingerRecognitionRange
-        if (Math.abs(this.offset[this.axis]) < FRR && this.fixPage && evt.target) {
+        if (Math.abs(this.offset[axis]) < FRR && this.fixPage && evt.target) {
             dispatchLink(evt.target);
         }
 
@@ -1306,10 +1306,12 @@
         var animateFunc = this._animateFunc;
         var data = this.data;
         var els = this.els;
+        var axis = this.axis;
         var idx = dataIndex;
         var n = dataIndex - this.slideIndex;
         var offset = this.offset;
         var eventType;
+        var squeezeTime = 0;
 
         if (typeof opts === 'object') {
             if (opts.animateTime > -1) {
@@ -1322,7 +1324,9 @@
         }
 
         // In the slide process, animate time is squeezed
-        var squeezeTime = offset[this.axis] !== 0 ? Math.abs(offset[this.axis]) / this.scale * animateTime : 0;
+        if (offset[axis] !== 0) {
+            squeezeTime = Math.abs(offset[axis]) / this.scale * animateTime;
+        }
 
         if (Math.abs(n) > 1) {
             this._renderItem(n > 0 ? this.els[2] : this.els[0], idx);
@@ -1403,7 +1407,7 @@
                 // Only applies their effects
                 els[i].style.webkitTransition = (animateFunc.effect || 'all') + ' ' + squeezeTime + 'ms ' + this.animateEasing;
             }
-            animateFunc.call(this, els[i], this.axis, this.scale, i, 0, direction);
+            animateFunc.call(this, els[i], axis, this.scale, i, 0, direction);
             this.fillSeam && this.seamScale(els[i]);
         }
 
