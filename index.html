@@ -390,6 +390,31 @@
         document.body.style.backgroundColor = window.getComputedStyle(this.data[this.slideIndex].content.querySelector(':first-child')).backgroundColor;
     }
 
+    var wt = 0;
+    var wft = 0;
+    function mouseWheelHandle(evt) {
+        var type = evt.type;
+        if (type == 'DOMMouseScroll' || type == 'mousewheel') {
+            evt.delta = (evt.wheelDelta) ? evt.wheelDelta / 120 : -(evt.detail || 0) / 3;
+        }
+        if (evt.timeStamp - wt < 100 && evt.timeStamp - wft < 2000 && Math.abs(evt.delta) < 2) {
+            wt = evt.timeStamp;
+            return;
+        }
+        wt = evt.timeStamp;
+        wft = evt.timeStamp;
+
+        if (!this.isSliding) {
+            if (evt.delta < 0) {
+                this.slideNext();
+            } else if (evt.delta > 0) {
+                this.slidePrev();
+            }
+        }
+    }
+
+    var whellEvt = 'mozHidden' in document ? 'DOMMouseScroll' : 'mousewheel';
+
     var data = [];
 
     Array.prototype.slice.call(document.querySelectorAll('.content')).forEach(function (el) {
@@ -463,7 +488,10 @@
         isVertical: 1,
         animateTime: 1000,
         plugins: [['dot', {locate: 'relative'}]],
-        oninitialized: fstyle
+        oninitialized: function () {
+            fstyle.call(this);
+            this.wrap.addEventListener(whellEvt, mouseWheelHandle.bind(this), false);
+        }
     });
 
     ISL.bind('click', '.next', function () {
@@ -480,6 +508,14 @@
 
     ISL.on('slideChanged', IS_IN_IS_Autoplay);
     ISL.on('slideRestored', IS_IN_IS_Autoplay);
+
+    //    ISL.on('slideChange', function () {
+    //        this.wrap.removeEventListener(whellEvt, mouseWheelHandle.bind(this), false);
+    //    });
+    //
+    //    ISL.on('slideChanged', function () {
+    //        this.wrap.addEventListener(whellEvt, mouseWheelHandle.bind(this), false);
+    //    });
 </script>
 </body>
 </html>
