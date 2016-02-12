@@ -20,12 +20,12 @@
 
     /**
      * Check in array
-     * @param {*} oElement
-     * @param {Array} aSource
+     * @param {*} o
+     * @param {Array} arr
      * @returns {Boolean}
      */
-    function inArray(oElement, aSource) {
-        return aSource.indexOf(oElement) > -1;
+    function inArray(o, arr) {
+        return arr.indexOf(o) > -1;
     }
 
     /**
@@ -47,31 +47,31 @@
     }
 
     /**
-     * @param {HTML Element} obj
+     * @param {HTMLElement} el
      * @param {String} cls
      * @returns {Array|{index: number, input: string}}
      */
-    function hasClass(obj, cls) {
-        return obj.className.match(new RegExp('(\\s|^)(' + cls + ')(\\s|$)'));
+    function hasClass(el, cls) {
+        return el.className.match(new RegExp('(\\s|^)(' + cls + ')(\\s|$)'));
     }
 
     /**
-     * @param {HTML Element} obj
+     * @param {HTMLElement} el
      * @param {String} cls
      */
-    function addClass(obj, cls) {
-        if (!hasClass(obj, cls)) {
-            obj.className += ' ' + cls;
+    function addClass(el, cls) {
+        if (!hasClass(el, cls)) {
+            el.className += ' ' + cls;
         }
     }
 
     /**
-     * @param {HTML Element} obj
+     * @param {HTMLElement} el
      * @param {String} cls
      */
-    function removeClass(obj, cls) {
-        if (hasClass(obj, cls)) {
-            obj.className = obj.className.replace(RegExp('(\\s|^)(' + cls + ')(\\s|$)'), '$3');
+    function removeClass(el, cls) {
+        if (hasClass(el, cls)) {
+            el.className = el.className.replace(RegExp('(\\s|^)(' + cls + ')(\\s|$)'), '$3');
         }
     }
 
@@ -81,19 +81,9 @@
      * @returns {Boolean}
      */
     function isUrl(url) {
-        if (/<\/?[^>]*>/g.test(url))
+        if (/<\/?[^>]*>/.test(url))
             return false;
-
-        var regex = '^' +
-            '(((https|http|ftp|rtsp|mms):)?//)?' +
-            '(([0-9a-z_!~*\'().&=+$%-]+: )?[0-9a-z_!~*\'().&=+$%-]+@)?' +
-            '(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9a-z_!~*\'()-]+.)*([0-9a-z][0-9a-z-]{0,61})?[0-9a-z].[a-z]{2,6})?' +
-            '(:[0-9]{1,4})?' +
-            '([^\?#]+)?' +
-            '(\\\?[^#]+)?' +
-            '(#.+)?' +
-            '$';
-        return new RegExp(regex).test(url);
+        return /^(?:(https|http|ftp|rtsp|mms):)?(\/\/)?(\w+:{0,1}\w*@)?([^\?#:\/]+\.[a-z]+|\d+\.\d+\.\d+\.\d+)?(:[0-9]+)?((?:\.?\/)?([^\?#]*)?(\?[^#]+)?(#.+)?)?$/.test(url);
     }
 
     /**
@@ -111,9 +101,9 @@
     /**
      * @constructor
      *
-     * iSlicer([[{HTML Element} container,] {Array} datalist,] {Object} options)
+     * iSlicer([[{HTMLElement} container,] {Array} datalist,] {Object} options)
      *
-     * @param {HTML Element} container
+     * @param {HTMLElement} container
      * @param {Array} datalist
      * @param {Object} options
      *
@@ -245,6 +235,8 @@
                 return transitions[t];
             }
         }
+
+        return null;
     })();
 
     /**
@@ -293,7 +285,7 @@
     /**
      * animation parmas:
      *
-     * @param {HTML Element} dom 图片的外层<li>容器 Img wrapper
+     * @param {HTMLElement} dom 图片的外层<li>容器 Img wrapper
      * @param {String} axis 动画方向 animate direction
      * @param {Number} scale 容器宽度 Outer wrapper
      * @param {Number} i <li>容器index Img wrapper's index
@@ -391,7 +383,7 @@
 
         /**
          * Event handle
-         * @type {{}}
+         * @type {Object}
          * @private
          */
         this._EventHandle = {};
@@ -404,7 +396,7 @@
 
         /**
          * dom element wrapping content
-         * @type {HTML Element}
+         * @type {HTMLElement}
          * @public
          */
         this.wrap = opts.dom;
@@ -767,7 +759,7 @@
 
     /**
      * render single item html by idx
-     * @param {HTML Element} el ..
+     * @param {HTMLElement} el ..
      * @param {Number} dataIndex  ..
      * @private
      */
@@ -884,7 +876,7 @@
      * @private
      */
     iSliderPrototype._renderWrapper = function () {
-        this.wrap.style.overflow = 'hidden';
+        //this.wrap.style.overflow = 'hidden';
         // initail outer element
         var outer;
         if (this.outer) {
@@ -894,7 +886,7 @@
             outer = document.createElement('ul');
         }
         outer.className = 'islider-outer';
-        outer.style.overflow = 'hidden';
+        //outer.style.overflow = 'hidden';
         // no need...
         // outer.style.cssText += 'width:' + this.width + 'px;height:' + this.height + 'px';
 
@@ -941,7 +933,7 @@
         // append ul to div#canvas
         if (!this.outer) {
             /**
-             * @type {HTML Element}
+             * @type {HTMLElement}
              * @public
              */
             this.outer = outer;
@@ -991,33 +983,41 @@
 
         this._unWatchTransitionEnd();
 
-        var handle = [
-            this.currentEl, function () {
-                this._unWatchTransitionEnd();
-                if (eventType === 'slideChanged') {
-                    this._changedStyles();
-                }
-                this.fire.call(this, eventType, this.slideIndex, this.currentEl, this);
-                this._renderIntermediateScene();
-                this.play();
-                this.onSliding = false;
-            }.bind(this)
-        ];
+        var cb = function () {
+            this._unWatchTransitionEnd();
+            if (eventType === 'slideChanged') {
+                this._changedStyles();
+            }
+            this.fire.call(this, eventType, this.slideIndex, this.currentEl, this);
+            this._renderIntermediateScene();
+            this.play();
+            this.onSliding = false;
+            this.direction = null;
+        }.bind(this);
 
-        handle[0].addEventListener(iSlider.TRANSITION_END_EVENT, handle[1]);
-        this._LSN.transitionEnd = global.setTimeout(handle[1], squeezeTime);
-        this._transitionEndHandler = handle;
+        if (iSlider.TRANSITION_END_EVENT) {
+            this.currentEl.addEventListener(iSlider.TRANSITION_END_EVENT, cb);
+            // keep handler and element
+            this._transitionEndHandler = {el: this.currentEl, handler: cb};
+        } else {
+            this._LSN.transitionEnd = global.setTimeout(cb, squeezeTime);
+        }
     };
 
     /**
+     * unwatch transition end
      * @private
      */
     iSliderPrototype._unWatchTransitionEnd = function () {
-        this._LSN.transitionEnd && global.clearTimeout(this._LSN.transitionEnd);
-        if (isArray(this._transitionEndHandler)) {
-            this._transitionEndHandler[0].removeEventListener(iSlider.TRANSITION_END_EVENT, this._transitionEndHandler[1]);
+        if (this._LSN.transitionEnd) {
+            global.clearTimeout(this._LSN.transitionEnd);
+        }
+        if (this._transitionEndHandler !== null) {
+            this._transitionEndHandler.el.removeEventListener(iSlider.TRANSITION_END_EVENT, this._transitionEndHandler.handler);
             this._transitionEndHandler = null;
         }
+
+        //this.onSliding = false;
     };
 
     /**
@@ -1091,7 +1091,7 @@
     /**
      *  touchstart callback
      *  @param {Object} evt event object
-     *  @protected
+     *  @public
      */
     iSliderPrototype.startHandler = function (evt) {
         if (this.fixPage) {
@@ -1131,7 +1131,7 @@
     /**
      *  touchmove callback
      *  @param {Object} evt event object
-     *  @protected
+     *  @public
      */
     iSliderPrototype.moveHandler = function (evt) {
         if (!this.onMoving) {
@@ -1142,12 +1142,18 @@
         var len = this.data.length;
         var axis = this.axis;
         var reverseAxis = this.reverseAxis;
-        var offset = {
-            X: device.hasTouch ? (evt.targetTouches[0].pageX - this.startX) : (evt.pageX - this.startX),
-            Y: device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY)
-        };
+        var offset = {};
+
+        if (evt.hasOwnProperty('offsetRatio')) {
+            offset[axis] = evt.offsetRatio * this.scale;
+            offset[reverseAxis] = 0;
+        } else {
+            offset.X = device.hasTouch ? (evt.targetTouches[0].pageX - this.startX) : (evt.pageX - this.startX);
+            offset.Y = device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY);
+        }
 
         this.offset = offset;
+        evt.offsetRatio = offset[axis] / this.scale;
 
         if (Math.abs(offset[axis]) - Math.abs(offset[reverseAxis]) > 10) {
 
@@ -1174,7 +1180,7 @@
     /**
      *  touchend callback
      *  @param {Object} evt event object
-     *  @protected
+     *  @public
      */
     iSliderPrototype.endHandler = function (evt) {
         if (!this.onMoving) {
@@ -1241,7 +1247,7 @@
 
     /**
      * resize callback
-     * @protected
+     * @public
      */
     iSliderPrototype.resizeHandler = function () {
         var _L = this._LSN.resize;
@@ -1316,7 +1322,7 @@
         }
 
         // In the slide process, animate time is squeezed
-        var squeezeTime = Math.abs(offset[this.axis]) / this.scale * animateTime;
+        var squeezeTime = offset[this.axis] !== 0 ? Math.abs(offset[this.axis]) / this.scale * animateTime : 0;
 
         if (Math.abs(n) > 1) {
             this._renderItem(n > 0 ? this.els[2] : this.els[0], idx);
@@ -1334,7 +1340,6 @@
                 this.slideIndex = n > 0 ? 0 : data.length - 1;
             }
             else {
-                // this.slideIndex = this.slideIndex;
                 n = 0;
             }
         }
@@ -1356,8 +1361,7 @@
                 headEl = els[2];
                 tailEl = els[0];
                 direction = 1;
-            }
-            else {
+            } else {
                 els.unshift(els.pop());
                 headEl = els[0];
                 tailEl = els[2];
@@ -1389,6 +1393,8 @@
                 addClass(this.currentEl, 'islider-sliding-focus');
                 addClass(headEl, 'islider-sliding');
             }
+
+            this.direction = direction;
         }
 
         // do the trick animation
@@ -1450,10 +1456,13 @@
 
     /**
      *  simple event delegate method
+     *
      *  @param {String} evtType event name
      *  @param {String} selector the simple css selector like jQuery
      *  @param {Function} callback event callback
      *  @public
+     *
+     *  @alias iSliderPrototype.bind
      */
     iSliderPrototype.bind = iSliderPrototype.delegate = function (evtType, selector, callback) {
 
@@ -1490,6 +1499,8 @@
      * @param {String} selector the simple css selector like jQuery
      * @param {Function} callback event callback
      * @public
+     *
+     * @alias iSliderPrototype.unbind
      */
     iSliderPrototype.unbind = iSliderPrototype.unDelegate = function (evtType, selector, callback) {
         var key = evtType + ';' + selector;
@@ -1719,7 +1730,7 @@
 
     /**
      * Fill the seam
-     * @param {HTML Element} el
+     * @param {HTMLElement} el
      * @private
      */
     iSliderPrototype.seamScale = function (el) {
@@ -1748,7 +1759,7 @@
     };
 
     /**
-     * @param {HTML Element} el
+     * @param {HTMLElement} el
      * @private
      */
     iSliderPrototype.originScale = function (el) {
