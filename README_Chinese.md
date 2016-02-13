@@ -162,7 +162,68 @@ var data = [{
 
 一些进阶功能可以参考[WIKI](https://github.com/BE-FE/iSlider/wiki/Notices)
 
-### 下面是iSlider详细的选项配置列表
+## iSlider的配置项
+
+
+#### DOM
+
+- new iSlider(```DOM```, DATA, OPTIONS);
+- {HTMLElement}
+- 容器dom节点
+- 作为第一个参数并不是必须的，会被OPTIONS.dom覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。
+
+#### DATA
+
+- new iSlider(DOM, ```DATA```, OPTIONS);
+- {Array}
+- 数据列表
+- 作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。允许的类型为URLString、HTMLString、HTMLElement、HTMLFragment。
+- *TODO：目前成员为{Object}类型，只支持content属性，在将来会得到更多的扩展，比如配置每一场景的切换效果、等待时间等等*
+- 格式为：
+    ```
+    [{
+        content:'{URLString|HTMLString|HTMLElement|HTMLFragment}',
+    },
+    ...]
+    ```
+
+#### OPTIONS
+
+- new iSlider(DOM, DATA, ```OPTIONS```);
+- {Object}
+- 下面将逐一介绍
+
+
+##### OPTIONS.animateType
+
+- {String}
+- 动画效果
+- 目前支持：default（卷动）、rotate（旋转）、depth、flow、flip、card、fade（渐显/隐）、zoomout（向外/内缩放）
+- 前置条件：载入效果库 iSlider.animate(.min).js
+- 默认：default
+
+
+##### OPTIONS.animateTime
+
+- {Number}
+- 动画效果持续时间
+- 单位：毫秒
+- 默认：1000
+
+
+##### OPTIONS.animateEasing
+- {String}
+- 动画效果曲线
+- 可选 linear、ease、ease-in、ease-out、ease-in-out，甚至cubic-bezier
+- 默认：ease
+
+##### OPTIONS.duration
+
+- {Number}
+- 自动播放时，场景停留时间
+- 每个场景停留时间，结束时会切换至下一场景
+- 单位：毫秒
+- 前置条件：OPTIONS.isAutoplay === ```TRUE```
 
 <table>
 <thead>
@@ -175,28 +236,6 @@ var data = [{
 <tbody>
     <tr>
         <td colspan="3">
-            必要的
-        </td>
-    </tr>
-    <tr>
-        <td>dom</td>
-        <td>{HTML Element}</td>
-        <td>容器节点</td>
-    </tr>
-    <tr>
-        <td>data</td>
-        <td>{Array}</td>
-        <td>
-            数据列表:
-            <br>
-            [{
-                content:'{url|HTML string|element|fragment}',
-            },
-            ...]
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
             配置项
         </td>
     </tr>
@@ -204,26 +243,6 @@ var data = [{
         <td>type (已废弃)</td>
         <td>-</td>
         <td>-</td>
-    </tr>
-    <tr>
-        <td>duration</td>
-        <td>{Number}</td>
-        <td>单位:毫秒，在自动播放模式中，设置每个场景的停留时间</td>
-    </tr>
-    <tr>
-        <td>animateType</td>
-        <td>{String}</td>
-        <td>动画效果，目前支持默认default, rotate, depth, flow, flip and card</td>
-    </tr>
-    <tr>
-        <td>animateTime</td>
-        <td>{Number}</td>
-        <td>单位:毫秒，动画效果持续时间</td>
-    </tr>
-    <tr>
-        <td>animateEasing</td>
-        <td>{String}</td>
-        <td>动画效果曲线，支持linear, ease, ease-in, ease-out, ease-in-out以及自定义的cubic-bezier曲线</td>
     </tr>
     <tr>
         <td>isDebug</td>
