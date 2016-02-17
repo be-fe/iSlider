@@ -162,8 +162,10 @@ var data = [{
 
 一些进阶功能可以参考[WIKI](https://github.com/BE-FE/iSlider/wiki/Notices)
 
-## iSlider的配置项
 
+## iSlider详细说明
+
+### 参数
 
 #### DOM
 
@@ -179,22 +181,25 @@ var data = [{
 - 数据列表
 - 作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。允许的类型为URLString、HTMLString、HTMLElement、HTMLFragment。
 - *TODO：目前成员为{Object}类型，只支持content属性，在将来会得到更多的扩展，比如配置每一场景的切换效果、等待时间等等*
-- 格式为：
-    ```
-    [{
-        content:'{URLString|HTMLString|HTMLElement|HTMLFragment}',
-    },
-    ...]
-    ```
+- 数据格式：
+
+```javascript
+    [
+        {
+            content:'{URLString|HTMLString|HTMLElement|HTMLFragment}',
+        },
+        
+        ...
+    ]
+```
 
 #### OPTIONS
 
 - new iSlider(DOM, DATA, ```OPTIONS```);
 - {Object}
-- 下面将逐一介绍
 
 
-##### OPTIONS.animateType
+##### animateType
 
 - {String}
 - 动画效果
@@ -203,7 +208,7 @@ var data = [{
 - 默认：default
 
 
-##### OPTIONS.animateTime
+##### animateTime
 
 - {Number}
 - 动画效果持续时间
@@ -211,455 +216,390 @@ var data = [{
 - 默认：1000
 
 
-##### OPTIONS.animateEasing
+##### animateEasing
+
 - {String}
 - 动画效果曲线
 - 可选 linear、ease、ease-in、ease-out、ease-in-out，甚至cubic-bezier
 - 默认：ease
 
-##### OPTIONS.duration
+
+##### isAutoplay
+
+- {Boolean}
+- 开启/关闭自动滑动模式
+- 默认：false(关闭)
+
+
+##### duration
 
 - {Number}
 - 自动播放时，场景停留时间
 - 每个场景停留时间，结束时会切换至下一场景
 - 单位：毫秒
-- 前置条件：OPTIONS.isAutoplay === ```TRUE```
+- 前置条件：isAutoplay === ```TRUE```
 
-<table>
-<thead>
-    <tr>
-        <td>选项</td>
-        <td>类型</td>
-        <td>说明</td>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td colspan="3">
-            配置项
-        </td>
-    </tr>
-    <tr>
-        <td>type (已废弃)</td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr>
-        <td>isDebug</td>
-        <td>{Boolean}</td>
-        <td>开启/关闭调试模式，会打印更多日志信息，默认:false (关闭)</td>
-    </tr>
-    <tr>
-        <td>isLooping</td>
-        <td>{Boolean}</td>
-        <td>开启/关闭循环模式，默认:false (关闭)</td>
-    </tr>
-    <tr>
-        <td>isAutoplay</td>
-        <td>{Boolean}</td>
-        <td>开启/关闭自动滑动模式，默认:false (关闭)</td>
-    </tr>
-    <tr>
-        <td>isVertical</td>
-        <td>{Boolean}</td>
-        <td>开启水平/垂直滑动模式，默认:false (关闭)</td>
-    </tr>
-    <tr>
-        <td>isOverspread</td>
-        <td>{Boolean}</td>
-        <td>如果场景为图片模式，是否平铺整个浏览器屏幕(CSS3背景)，默认:false (关闭)</td>
-    </tr>
-    <tr>
-        <td>isTouchable</td>
-        <td>{Boolean}</td>
-        <td>开启/关闭触屏事件. 默认: true (开启)</td>
-    </tr>
-    <tr>
-        <td>initIndex</td>
-        <td>{Number}</td>
-        <td>默认首屏所使用的数据列表索引</td>
-    </tr>
-    <tr>
-        <td>fixPage</td>
-        <td>{Boolean}</td>
-        <td>是否禁用垂直滚动和回弹效果，默认:true (开启)</td>
-    </tr>
-    <tr>
-        <td>fillSeam</td>
-        <td>{Boolean}</td>
-        <td>填补场景间的接缝. Default: false (关闭)</td>
-    </tr>
-    <tr>
-        <td>plugins</td>
-        <td>{Array}</td>
-        <td>
-            启用插件，可为插件名称列表：
-            <pre>['dot', 'button', 'zoompic', ...]</pre>
-            当然，还可以这样写，支持传入更多的插件初始化参数
-            <pre>[..., ['zoompic', {zoomFactor: 2}], ...]</pre>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            事件
-        </td>
-    </tr>
-    <tr>
-        <td>initialize</td>
-        <td>{Function}</td>
-        <td>开始初始化时的回调函数（在调用setting后，渲染之前）</td>
-    </tr>
-    <tr>
-        <td>initialized</td>
-        <td>{Function}</td>
-        <td>完成初始化时的回调函数（渲染之后）</td>
-    </tr>
-    <tr>
-        <td>onslide</td>
-        <td>{Function}</td>
-        <td>手指滑动时的回调函数</td>
-    </tr>
-    <tr>
-        <td>onslidestart</td>
-        <td>{Function}</td>
-        <td>手指触屏时的回调函数</td>
-    </tr>
-    <tr>
-        <td>onslideend</td>
-        <td>{Function}</td>
-        <td>手指离开屏幕时的回调函数</td>
-    </tr>
-    <tr>
-        <td>onslidechange</td>
-        <td>{Function}</td>
-        <td>当场景发生改变时触发的回调函数</td>
-    </tr>
-    <tr>
-        <td>onslidechanged</td>
-        <td>{Function}</td>
-        <td>当场景改变完成(动画完成)时触发的回调函数</td>
-    </tr>
-    <tr>
-        <td>onsliderestore</td>
-        <td>{Function}</td>
-        <td>当场景未发生变化时触发的回调函数</td>
-    </tr>
-    <tr>
-        <td>onsliderestored</td>
-        <td>{Function}</td>
-        <td>当场景未发生变化完成(回弹动画完成)时触发的回调函数</td>
-    </tr>
-</tbody>
-</table>
 
-## iSlider更多功能
+##### isLooping
 
-<table>
-<thead>
-    <tr>
-        <td>方法</td>
-        <td>参数</td>
-        <td>说明</td>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td colspan="3">
-            静态方法
-        </td>
-    </tr>
-    <tr>
-        <td>
-            extend
-        </td>
-        <td>
-            [{Object} 原对象(可选)]
-            <br>
-            {Object} 新对象
-        </td>
-        <td>
-            当参数长度为1时，将参数对象继承到iSlider.prototype
-            <br>
-            当参数长度为2时，将第二个对象继承到第一个
-        </td>
-    </tr>
-    <tr>
-        <td>
-            regPlugin
-        </td>
-        <td>
-            {String} 插件名称
-            <br>
-            {Function} 插件初始化方法
-        </td>
-        <td>
-            注册插件
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            实例方法
-        </td>
-    </tr>
-    <tr>
-        <td>
-            slideTo
-        </td>
-        <td>
-            {Number} 数据列表索引
-            <br>
-            [{Object} 临时配置(可选)]
-        </td>
-        <td>
-            滚动到第n个场景，可以在第二个参数设置配置信息，改变本次滑动的动画效果: animateTime animateType
-        </td>
-    </tr>
-    <tr>
-        <td>
-            slideNext
-        </td>
-        <td>
-            [{Object} 临时配置(可选)]
-        </td>
-        <td>
-            滚动到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
-        </td>
-    </tr>
-    <tr>
-        <td>
-            slidePrev
-        </td>
-        <td>
-            [{Object} 临时配置(可选)]
-        </td>
-        <td>
-            滚动到前一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
-        </td>
-    </tr>
-    <tr>
-        <td>
-            delegate
-        </td>
-        <td>
-            {String} 事件名称
-            <br>
-            {String} 选择器 (querySelectorAll)
-            <br>
-            {Function} 事件响应方法
-        </td>
-        <td>
-            在容器node上绑定代理事件
-        </td>
-    </tr>
-    <tr>
-        <td>
-            bind
-        </td>
-        <td></td>
-        <td>
-            delegate 的别名
-        </td>
-    </tr>
-    <tr>
-        <td>
-            unDelegate
-        </td>
-        <td>
-            {String} 事件名称
-            <br>
-            {String} 选择器 (querySelectorAll)
-            <br>
-            {Function} 事件响应方法
-        </td>
-        <td>
-            解绑事件句柄
-        </td>
-    </tr>
-    <tr>
-        <td>
-            unbind
-        </td>
-        <td></td>
-        <td>
-            unDelegate的别名
-        </td>
-    </tr>
-    <tr>
-        <td>
-            on
-        </td>
-        <td>
-            {String} 事件
-            <br>
-            {Function} 回掉方法
-        </td>
-        <td>
-            在iSlider的事件中注册回掉方法
-            <br>
-            <ul>
-                <li>
-                    initialize
-                </li>
-                <li>
-                    initialized
-                </li>
-                <li>
-                    slide
-                </li>
-                <li>
-                    slideStart
-                </li>
-                <li>
-                    slideEnd
-                </li>
-                <li>
-                    slideChange
-                </li>
-                <li>
-                    slideChanged
-                </li>
-                <li>
-                    slideRestore
-                </li>
-                <li>
-                    slideRestored
-                </li>
-                <li>
-                    reloadData
-                </li>
-                <li>
-                    destroy
-                </li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            off
-        </td>
-        <td>
-            {String} 事件
-            <br>
-            {Function} 回掉方法
-        </td>
-        <td>
-            从iSlider的事件中移除回掉方法
-        </td>
-    </tr>
-    <tr>
-        <td>
-            fire
-        </td>
-        <td>
-            随相应事件变化
-        </td>
-        <td>
-            出发某个事件
-        </td>
-    </tr>
-    <tr>
-        <td>
-            play
-        </td>
-        <td></td>
-        <td>
-            开始自动切换（必须在自动播放模式中）
-        </td>
-    </tr>
-    <tr>
-        <td>
-            pause
-        </td>
-        <td></td>
-        <td>
-            暂停自动切换（必须在自动播放模式中）
-        </td>
-    </tr>
-    <tr>
-        <td>
-            extend
-        </td>
-        <td></td>
-        <td>
-            同iSlider.extend
-        </td>
-    </tr>
-    <tr>
-        <td>
-            regPlugin
-        </td>
-        <td></td>
-        <td>
-            同iSlider.regPlugin，注册的同时会自动加入激活的插件列表中，并自动执行初始化
-        </td>
-    </tr>
-    <tr>
-        <td>
-            loadData
-        </td>
-        <td>
-            {Array} 数据列表
-        </td>
-        <td>
-            载入数据列表
-        </td>
-    </tr>
-    <tr>
-        <td>
-            hold
-        </td>
-        <td></td>
-        <td>
-            当前场景禁止手势
-        </td>
-    </tr>
-    <tr>
-        <td>
-            unhold
-        </td>
-        <td></td>
-        <td>
-            当前场景开启手势，同时解除锁定
-        </td>
-    </tr>
-    <tr>
-        <td>
-            lock
-        </td>
-        <td></td>
-        <td>
-            锁定当前场景，禁用sliceTo, slideNext, slidePrev方法，同时禁止手势
-        </td>
-    </tr>
-    <tr>
-        <td>
-            unlock
-        </td>
-        <td></td>
-        <td>
-            解除锁定
-        </td>
-    </tr>
-    <tr>
-        <td>
-            destroy
-        </td>
-        <td></td>
-        <td>
-            销毁当前iSlider实例，内存释放
-        </td>
-    </tr>
-    <tr>
-        <td>
-            reset
-        </td>
-        <td></td>
-        <td>
-            复位当前iSlider实例
-        </td>
-    </tr>
-</tbody>
-</table>
+- {Boolean}
+- 循环播放模式
+- 默认：false(关闭)
+
+
+##### isVertical
+
+- {Boolean}
+- 垂直滑动模式
+- 默认：false(关闭)
+
+
+##### isOverspread
+
+- {Boolean}
+- 背景平铺
+- 如果场景为图片模式（URL），使用CSS3背景的方式填充场景
+- 默认：false(关闭)
+
+
+##### isTouchable
+
+- {Boolean}
+- 触屏事件
+- 默认：true(开启)
+
+
+##### isDebug
+
+- {Boolean}
+- 开启/关闭调试模式，会打印更多日志信息
+- 默认：false(关闭)
+
+
+##### initIndex
+
+- {Number}
+- 首屏所使用的数据列表索引
+- 默认：0
+
+
+##### fixPage
+
+- {Boolean}
+- 原生事件阻止
+- 场景内屏蔽原生事件的触发，如：滚动、拖拽、缩放等
+    - "A"元素，阻止，移动端建议使用自定义的tap（touch系事件联合判断）
+    - 对表单类元素"SELECT"、"INPUT"、"TEXTAREA"、"BUTTON"、"LABEL"，任何情况下均不进行阻止
+- 默认：true(开启)
+
+
+##### fillSeam
+
+- {Boolean}
+- 填补场景间接缝
+- 在某些系统的浏览器中存在的渲染问题，造成场景间出现一条缝隙，这种情况在场景设置了背景色并且使用**相连**的切换效果时尤为明显。
+- 默认：false(关闭)
+
+
+##### plugins
+
+- {Array}
+- 启用插件并配置初始化参数
+- 传入欲激活的插件名称列表：```['dot', 'button', 'zoompic', ...]```，另外，支持传入初始化参数：```[..., ['zoompic', {zoomFactor: 2}], ...]```
+- 若插件未被载入或不存在则忽略
+
+
+### 事件回调
+
+- {Function}
+- 在初始化时传入，也可通过实例方法"on"进行事件注册。
+- 作为初始化参数时需要以**on**开头且全为小写，绑定时为驼峰命名。
+- 不同的回调方法由于所处场景不同，传入的参数会存在区别。
+
+示例：
+
+```
+var S = new iSlider({..., onslidechanged: callBack, ...});
+// 或者
+S.on('slideChanged', callBack);
+```
+
+#### initialize
+
+- 初始化开始（在调用setting后，渲染之前）
+- 参数：无
+
+
+#### initialized
+
+- 初始化完成时（渲染之后）触发
+- 参数：无
+
+
+#### pluginInitialize (未开启)
+
+- (每个)插件初始化时触发
+- 参数：无
+
+
+#### pluginInitialized
+
+- 全部插件初始化完成时触发
+- 参数：无
+
+
+#### renderComplete
+
+- 当外容器渲染完成时触发
+- reset、loadData触发之前会触发
+- 参数
+    - {Number} 当前数据索引
+    - {HTMLElement} 当前场景元素
+
+
+#### slideStart
+
+- 当手指触屏时触发
+- 参数
+    - {Object} 事件(Event)对象
+        
+        
+#### slide
+
+- 当手指滑动时触发
+- 参数
+    - {Object} 事件(Event)对象
+
+
+#### slideEnd
+
+- {Function}
+- 参数
+    - {Object} 事件(Event)对象
+
+
+#### slideChange
+
+- {Function}
+- 当场景发生改变时触发
+- 参数
+    - {Number} 当前数据索引
+    - {HTMLElement} 当前场景元素
+
+#### slideChanged
+
+- {Function}
+- 当场景改变完成(动画完成)时触发
+- 执行loadData时触发
+- 参数
+    - {Number} 当前数据索引
+    - {HTMLElement} 当前场景元素
+
+
+#### slideRestore
+
+- {Function}
+- 当场景未发生变化(回弹，动画完成)时触发
+- 参数
+    - {Number} 当前数据索引
+    - {HTMLElement} 当前场景元素
+
+
+#### slideRestored
+
+- {Function}
+- 当场景未发生变化完成(回弹动画完成)时触发
+- 执行reset时触发
+- 参数
+    - {Number} 当前数据索引
+    - {HTMLElement} 当前场景元素
+
+
+#### loadData
+
+- {Function}
+- 当数据重置(执行loadData方法)时触发
+- 参数
+    - {Number} 当前数据索引
+    - {HTMLElement} 当前场景元素
+
+
+#### reset
+
+- {Function}
+- 当场景重置(手机屏幕旋转、resize)时触发
+- 参数
+    - {Number} 当前数据索引
+    - {HTMLElement} 当前场景元素
+
+
+#### destroy
+
+- {Function}
+- 当iSlider销毁时触发
+- 参数：无
+
+
+### 静态方法
+
+#### extend
+
+- 当参数长度为1时，将对象继承到iSlider.prototype
+- 当参数长度为2时，将第二个对象继承到第一个
+- 参数：
+    - \[{Object} 原对象\] 或默认为 iSlider.prototype
+    - {Object} 新对象
+    
+#### regPlugin
+
+- 注册插件
+- 参数：
+    - {String} 插件名称
+    - {Function} 插件初始化方法
+
+
+### 实例方法
+
+
+#### slideTo
+
+- 滚动到第n个场景，可以在第二个参数设置配置信息，改变本次滑动的动画效果: animateTime animateType
+- 参数：
+    - {Number} 数据列表索引
+    - [{Object} 临时配置]
+
+
+#### slidePrev
+
+- 滚动到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
+- 参数：
+    - [{Object} 临时配置]
+
+
+#### slidePrev
+
+- 滚动到前一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
+- 参数：
+    - [{Object} 临时配置]
+
+
+#### delegate
+
+- 在容器node上绑定代理事件
+- 参数：
+    - {String} 事件名称
+    - {String} 选择器 (querySelectorAll)
+    - {Function} 事件响应方法
+
+
+#### bind
+
+- delegate 的别名
+
+
+#### unDelegate
+
+- 解绑事件句柄
+- 参数：
+    - {String} 事件名称
+    - {String} 选择器 (querySelectorAll)
+    - {Function} 事件响应方法
+
+
+#### unbind
+
+- unDelegate的别名
+
+
+#### on
+
+- 在iSlider的事件中注册回掉方法
+- 参数：
+    - {String} 事件名
+    - {Function} 回掉方法
+    - \[{Boolean}\] 优先注册，回调事件注册到事件队列的首部，所有在初始化时注册的事件回调均在队列最前，默认：false
+
+
+#### has
+
+- 检测事件回调方法是否已存在
+- 参数：
+    - {String} 事件名
+    - {Function} 回掉方法
+
+
+#### off
+
+- 从iSlider的事件中移除回掉方法
+- 参数：
+    - {String} 事件
+    - {Function} 回掉方法
+
+
+#### fire
+
+- 事件触发
+
+
+#### play
+
+- 开始自动播放
+- 前置条件：isAutoplay === ```TRUE```
+
+
+#### pause
+
+- 暂停自动切换
+- 前置条件：isAutoplay === ```TRUE```
+
+
+#### extend
+
+- 同静态方法extend
+
+
+#### regPlugin
+
+- 同静态方法regPlugin
+- **此方法会注册插件到iSlider实例中，在注册的同时会自动加入激活的插件列表，并自动执行初始化**
+
+
+#### loadData
+
+- 载入数据列表
+- 参数：
+    - {Array} 数据列表
+
+
+#### hold
+
+- 当前场景禁止手势
+
+
+#### unhold
+
+- 当前场景开启手势，同时解除锁定
+
+
+#### lock
+
+- 锁定当前场景，禁用sliceTo, slideNext, slidePrev方法，同时禁止手势
+
+
+#### unlock
+
+- 解除锁定
+
+
+#### destroy
+
+- 销毁当前iSlider实例，释放内存
+
+
+#### reset
+
+- 复位当前iSlider实例
+
 
 ## 联系我们
 对iSlider的使用有任何问题,或者发现bug,欢迎给我们反馈：
