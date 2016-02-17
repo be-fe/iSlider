@@ -173,6 +173,7 @@
         'initialized',
         'pluginInitialize',
         'pluginInitialized',
+        'renderComplete',
         'slide',
         'slideStart',
         'slideEnd',
@@ -283,13 +284,13 @@
     };
 
     /**
-     * animation parmas:
+     * @type {Object}
      *
-     * @param {HTMLElement} dom 图片的外层<li>容器 Img wrapper
-     * @param {String} axis 动画方向 animate direction
-     * @param {Number} scale 容器宽度 Outer wrapper
-     * @param {Number} i <li>容器index Img wrapper's index
-     * @param {Number} offset 滑动距离 move distance
+     * @param {HTMLElement} dom The wrapper <li> element
+     * @param {String} axis Animate direction
+     * @param {Number} scale Outer wrapper
+     * @param {Number} i Wrapper's index
+     * @param {Number} offset Move distance
      * @protected
      */
     iSlider._animateFuncs = {
@@ -321,6 +322,8 @@
      */
     iSliderPrototype._setting = function () {
 
+        var self = this;
+
         // --------------------------------
         // - Status
         // --------------------------------
@@ -330,45 +333,45 @@
          * @type {Array|{}|*}
          * @private
          */
-        this._plugins = iSlider.plugins;
+        self._plugins = iSlider.plugins;
 
         /**
          * Extend animations
          * @type {{default: Function}|*}
          * @private
          */
-        this._animateFuncs = iSlider._animateFuncs;
+        self._animateFuncs = iSlider._animateFuncs;
 
         /**
          * @type {Boolean}
          * @private
          */
-        this._holding = false;
+        self._holding = false;
 
         /**
          * @type {Boolean}
          * @private
          */
-        this._locking = false;
+        self._locking = false;
 
         /**
          * @type {Array}
          * @private
          */
-        this._intermediateScene = null;
+        self._intermediateScene = null;
 
         /**
          * @type {null}
          * @private
          */
-        this._transitionEndHandler = null;
+        self._transitionEndHandler = null;
 
         /**
          * listener
          * @type {{autoPlay: null, resize: null, transitionEnd: null}}
          * @private
          */
-        this._LSN = {
+        self._LSN = {
             autoPlay: null,
             resize: null,
             transitionEnd: null
@@ -379,14 +382,35 @@
          * @type {null}
          * @public
          */
-        this.currentEl = null;
+        self.currentEl = null;
 
         /**
          * Event handle
          * @type {Object}
          * @private
          */
-        this._EventHandle = {};
+        self._EventHandle = {};
+
+        /**
+         * is on Moving
+         * @type {Boolean}
+         * @private
+         */
+        self.onMoving = false;
+
+        /**
+         * is on Sliding
+         * @type {Boolean}
+         * @private
+         */
+        self.onSliding = false;
+
+        /**
+         * animate direction
+         * @type {Number|null}
+         * @private
+         */
+        self.direction = null;
 
         // --------------------------------
         // - Set options
@@ -399,49 +423,49 @@
          * @type {HTMLElement}
          * @public
          */
-        this.wrap = opts.dom;
+        self.wrap = opts.dom;
 
         /**
          * Data list
          * @type {Array}
          * @public
          */
-        this.data = opts.data;
+        self.data = opts.data;
 
         /**
          * default slide direction
          * @type {Boolean}
          * @public
          */
-        this.isVertical = !!opts.isVertical;
+        self.isVertical = !!opts.isVertical;
 
         /**
          * Overspread mode
          * @type {Boolean}
          * @public
          */
-        this.isOverspread = !!opts.isOverspread;
+        self.isOverspread = !!opts.isOverspread;
 
         /**
          * Play time gap
          * @type {Number}
          * @public
          */
-        this.duration = opts.duration || 2000;
+        self.duration = opts.duration || 2000;
 
         /**
          * start from initIndex or 0
          * @type {Number}
          * @public
          */
-        this.initIndex = opts.initIndex > 0 && opts.initIndex <= opts.data.length - 1 ? opts.initIndex : 0;
+        self.initIndex = opts.initIndex > 0 && opts.initIndex <= opts.data.length - 1 ? opts.initIndex : 0;
 
         /**
          * touchstart prevent default to fixPage
          * @type {Boolean}
          * @public
          */
-        this.fixPage = opts.fixPage == null ? true : !!opts.fixPage;
+        self.fixPage = opts.fixPage == null ? true : !!opts.fixPage;
 
         /**
          * Fill seam when render
@@ -449,121 +473,121 @@
          * @type {Boolean}
          * @public
          */
-        this.fillSeam = !!opts.fillSeam;
+        self.fillSeam = !!opts.fillSeam;
 
         /**
          * slideIndex
          * @type {Number}
          * @private
          */
-        this.slideIndex = this.slideIndex || this.initIndex || 0;
+        self.slideIndex = self.slideIndex || self.initIndex || 0;
 
         /**
          * Axis
          * @type {String}
          * @public
          */
-        this.axis = this.isVertical ? 'Y' : 'X';
+        self.axis = self.isVertical ? 'Y' : 'X';
 
         /**
          * reverseAxis
          * @type {String}
          * @private
          */
-        this.reverseAxis = this.axis === 'Y' ? 'X' : 'Y';
+        self.reverseAxis = self.axis === 'Y' ? 'X' : 'Y';
 
         /**
          * Wrapper width
          * @type {Number}
          * @private
          */
-        this.width = typeof opts.width === 'number' ? opts.width : this.wrap.offsetWidth;
+        self.width = typeof opts.width === 'number' ? opts.width : self.wrap.offsetWidth;
 
         /**
          * Wrapper height
          * @type {Number}
          * @private
          */
-        this.height = typeof opts.height === 'number' ? opts.height : this.wrap.offsetHeight;
+        self.height = typeof opts.height === 'number' ? opts.height : self.wrap.offsetHeight;
 
         /**
          * Ratio height:width
          * @type {Number}
          * @private
          */
-        this.ratio = this.height / this.width;
+        self.ratio = self.height / self.width;
 
         /**
          * Scale, size rule
          * @type {Number}
          * @private
          */
-        this.scale = this.isVertical ? this.height : this.width;
+        self.scale = self.isVertical ? self.height : self.width;
 
         /**
          * On slide offset position
          * @type {{X: number, Y: number}}
          * @private
          */
-        this.offset = this.offset || {X: 0, Y: 0};
+        self.offset = self.offset || {X: 0, Y: 0};
 
         /**
          * Enable/disable touch events
          * @type {Boolean}
          * @private
          */
-        this.isTouchable = opts.isTouchable == null ? true : !!opts.isTouchable;
+        self.isTouchable = opts.isTouchable == null ? true : !!opts.isTouchable;
 
         /**
          * looping logic adjust
          * @type {Boolean}
          * @private
          */
-        this.isLooping = opts.isLooping && this.data.length > 1 ? true : false;
+        self.isLooping = opts.isLooping && self.data.length > 1 ? true : false;
 
         /**
          * AutoPlay waitting milsecond to start
          * @type {Number}
          * @private
          */
-        this.delay = opts.delay || 0;
+        self.delay = opts.delay || 0;
 
         /**
          * autoplay logic adjust
          * @type {Boolean}
          * @private
          */
-        this.isAutoplay = opts.isAutoplay && this.data.length > 1 ? true : false;
+        self.isAutoplay = opts.isAutoplay && self.data.length > 1 ? true : false;
 
         /**
          * Animate type
          * @type {String}
          * @private
          */
-        this.animateType = opts.animateType in this._animateFuncs ? opts.animateType : 'normal';
+        self.animateType = opts.animateType in self._animateFuncs ? opts.animateType : 'normal';
 
         /**
          * @protected
          */
-        this._animateFunc = this._animateFuncs[this.animateType];
+        self._animateFunc = self._animateFuncs[self.animateType];
 
         /**
          * @private
          */
-        this._animateReverse = (function animateReverse() {
+        self._animateReverse = (function () {
             var _ = [];
-            for (var type in this._animateFuncs) {
-                if (this._animateFuncs.hasOwnProperty(type) && this._animateFuncs[type].reverse) {
+            for (var type in self._animateFuncs) {
+                if (self._animateFuncs.hasOwnProperty(type) && self._animateFuncs[type].reverse) {
                     _.push(type);
                 }
             }
             return _;
-        }.bind(this))();
+        })();
 
         // little trick set, when you chooce tear & vertical same time
         // iSlider overspread mode will be set true autometicly
-        if (this.isVertical && this.animateType === 'card') {
-            this.isOverspread = true;
+        if (self.isVertical && self.animateType === 'card') {
+            self.isOverspread = true;
         }
 
         /**
@@ -571,7 +595,7 @@
          * @type {Function}
          * @private
          */
-        this.log = opts.isDebug ? function () {
+        self.log = opts.isDebug ? function () {
             global.console.log.apply(global.console, arguments);
         } : noop;
 
@@ -581,9 +605,9 @@
          * @returns {*}
          * @private
          */
-        this._damping = (function () {
+        self._damping = (function () {
 
-            var oneIn2 = this.scale >> 1;
+            var oneIn2 = self.scale >> 1;
             var oneIn4 = oneIn2 >> 1;
             var oneIn16 = oneIn4 >> 2;
 
@@ -604,21 +628,21 @@
 
                 return distance > 0 ? result : -result;
             }
-        }.bind(this))();
+        })();
 
         /**
          * animate process time (ms), default: 300ms
          * @type {Number}
          * @public
          */
-        this.animateTime = opts.animateTime != null && opts.animateTime > -1 ? opts.animateTime : 300;
+        self.animateTime = opts.animateTime != null && opts.animateTime > -1 ? opts.animateTime : 300;
 
         /**
          * animate effects, default: ease
          * @type {String}
          * @public
          */
-        this.animateEasing =
+        self.animateEasing =
             inArray(opts.animateEasing, iSlider.EASING[0])
             || iSlider.EASING[1].test(opts.animateEasing)
                 ? opts.animateEasing
@@ -629,7 +653,7 @@
          * @type {{hasTouch, startEvt, moveEvt, endEvt}}
          * @private
          */
-        this.deviceEvents = (function () {
+        self.deviceEvents = (function () {
             var hasTouch = !!(('ontouchstart' in global) || global.DocumentTouch && document instanceof global.DocumentTouch);
             return {
                 hasTouch: hasTouch,
@@ -646,28 +670,14 @@
          * @type {Number}
          * @private
          */
-        this.fingerRecognitionRange = opts.fingerRecognitionRange > -1 ? parseInt(opts.fingerRecognitionRange) : 10;
-
-        /**
-         * is on Moving
-         * @type {Boolean}
-         * @private
-         */
-        this.onMoving = false;
-
-        /**
-         * is on Sliding
-         * @type {Boolean}
-         * @private
-         */
-        this.onSliding = false;
+        self.fingerRecognitionRange = opts.fingerRecognitionRange > -1 ? parseInt(opts.fingerRecognitionRange) : 10;
 
         /**
          * Init events
          * @type {{}}
          * @private
          */
-        this.events = {};
+        self.events = {};
 
         // --------------------------------
         // - Register events
@@ -675,8 +685,8 @@
 
         iSlider.EVENTS.forEach(function (eventName) {
             var fn = opts['on' + eventName.toLowerCase()];
-            typeof fn === 'function' && this.on(eventName, fn, 1);
-        }.bind(this));
+            typeof fn === 'function' && self.on(eventName, fn, 1);
+        });
 
         // --------------------------------
         // - Plugins
@@ -686,7 +696,7 @@
          * @type {Object}
          * @private
          */
-        this.pluginConfig = (function () {
+        self.pluginConfig = (function () {
             var config = {};
             if (isArray(opts.plugins)) {
                 opts.plugins.forEach(function pluginConfigEach(plugin) {
