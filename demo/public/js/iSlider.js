@@ -1806,6 +1806,7 @@
      *
      * @param {iSlider} target
      * @param {Object} how
+     * @public
      */
     iSliderPrototype.subjectTo = function (target, how) {
         if (!target instanceof iSlider) {
