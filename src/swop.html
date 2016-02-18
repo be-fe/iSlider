@@ -90,20 +90,7 @@
         isTouchable: false
     });
 
-    $N.animateTime = $S.animateTime;
-    $N.isLooping = $S.isLooping;
-
-    $S.on('slideStart', function (evt) {
-        $N.startHandler(evt);
-    });
-
-    $S.on('slide', function (evt) {
-        $N.moveHandler(evt);
-    });
-
-    $S.on('slideEnd', function (evt) {
-        $N.endHandler(evt);
-    });
+    $N.subjectTo($S);
 
     window.addEventListener('keydown', function (evt) {
         switch (evt.keyCode) {
@@ -113,21 +100,6 @@
             case 39:
                 $S.slideNext();
                 break;
-        }
-    });
-
-    $S.on('slideChange', function (i) {
-        var l = this.data.length, d = this.direction;
-        if (d > 0 && (i - $N.slideIndex + l) % l === 1) {
-            $N.slideNext();
-        } else if (d < 0 && (i - $N.slideIndex - l) % l === -1) {
-            $N.slidePrev();
-        }
-    });
-
-    $S.on('slideRestore', function (i) {
-        if ($N.slideIndex !== i) {
-            $N.slideTo(i);
         }
     });
 </script>
