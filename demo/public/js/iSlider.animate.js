@@ -28,10 +28,12 @@
         rotate: (function () {
             function rotate(dom, axis, scale, i, offset, direct) {
                 var rotateDirect = (axis === 'X') ? 'Y' : 'X';
-                // var absoluteOffset = Math.abs(offset);
 
                 if (this.isVertical) {
                     offset = -offset;
+                    if (Math.abs(direct) > 1) {
+                        direct = -direct;
+                    }
                 }
 
                 this.wrap.style.webkitPerspective = scale * 4;
