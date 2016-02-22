@@ -153,7 +153,7 @@ aside .subsection-navigation li {
 }
 
 aside .subsection-navigation li a {
-    padding: 6px 12px;
+    padding: 6px 14px;
 }
 
 @-webkit-keyframes hamburger-top{ 0%{ -webkit-transform: translate3d(0,0,0) rotate(0); } 50%{ -webkit-transform: translate3d(0,8px,0) rotate(0); } 100%{ -webkit-transform: translate3d(0,8px,0) rotate(45deg); }}
@@ -257,15 +257,6 @@ aside .subsection-navigation li a {
 #toggle-box button.active {
     background-color: #0fb748;
 }
-
-/*#options > div, #functions > div {
-    background-color: #fdfdfd;
-    border: 1px solid #eee;
-    margin-top: 5px;
-    padding: 2px;
-    border-radius: 5px;
-}
-*/
 
 #options table {
     width: 100%;
