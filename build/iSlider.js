@@ -1801,6 +1801,52 @@
         }.bind(this));
     };
 
+    /**
+     * Let target islider controls this one
+     *
+     * @param {iSlider} target
+     * @param {Object} how
+     * @public
+     */
+    iSliderPrototype.subjectTo = function (target, how) {
+        if (!target instanceof iSlider) {
+            return;
+        }
+
+        var self = this;
+
+        self.animateTime = target.animateTime;
+        self.isLooping = target.isLooping;
+
+        target.on('slideStart', function (evt) {
+            self.startHandler(evt);
+        });
+
+        target.on('slide', function (evt) {
+            self.moveHandler(evt);
+        });
+
+        target.on('slideEnd', function (evt) {
+            self.endHandler(evt);
+        });
+
+        target.on('slideChange', function (i) {
+            var l = self.data.length;
+            var d = self.direction;
+            if (d > 0 && (i - self.slideIndex + l) % l === 1) {
+                self.slideNext();
+            } else if (d < 0 && (i - self.slideIndex - l) % l === -1) {
+                self.slidePrev();
+            }
+        });
+
+        target.on('slideRestore', function (i) {
+            if (self.slideIndex !== i) {
+                self.slideTo(i);
+            }
+        });
+    };
+
     /* CommonJS */
     if (typeof require === 'function' && typeof module === 'object' && module && typeof exports === 'object' && exports)
         module.exports = iSlider;
