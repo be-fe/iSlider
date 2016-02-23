@@ -145,6 +145,7 @@ aside nav li a {
     display: block;
     color: #000;
     padding: 3px 12px;
+    font-size: 14px;
     text-decoration: none;
     -webkit-transition: background-color 200ms ease-in-out;
     -moz-transition: background-color 200ms ease-in-out;
