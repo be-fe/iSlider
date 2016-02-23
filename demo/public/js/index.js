@@ -22,55 +22,55 @@ function setShowCode(iframe) {
 
 $(document).ready(function () {
     $('.hamburger-menu').click(function (e) {
-        document.body.className = -1 !== document.body.className.indexOf("open-menu") ? "closed-menu": "open-menu";
+        document.body.className = -1 !== document.body.className.indexOf("open-menu") ? "closed-menu" : "open-menu";
     });
 
     var str = '';
-    $("#functions h4").each(function(index, element) {
-        str += '<li><a class="item" href="#'+element.innerText+'">'+element.innerText+'</a></li>'
-    }); 
+    $("#functions h4").each(function (index, element) {
+        str += '<li><a class="item" href="#' + element.id + '">' + element.innerText + '</a></li>'
+    });
     $("#function-tree").html(str);
 
     str = '';
-    $(".options-content h4").each(function(index, element) {
-        str += '<li><a class="item" href="#'+element.innerText+'">'+element.innerText+'</a></li>'
-    }); 
+    $(".options-content h4").each(function (index, element) {
+        str += '<li><a class="item" href="#' + element.id + '">' + element.innerText + '</a></li>'
+    });
     $("#options-param-tree").html(str);
 
     str = '';
-    $("#method-static h4").each(function(index, element) {
-        str += '<li><a class="item" href="#'+element.innerText+'">'+element.innerText+'</a></li>'
-    }); 
+    $("#method-static h4").each(function (index, element) {
+        str += '<li><a class="item" href="#' + element.id + '">' + element.innerText + '</a></li>'
+    });
     $("#method-static-tree").html(str);
 
     str = '';
-    $("#method-example h4").each(function(index, element) {
-        str += '<li><a class="item" href="#'+element.innerText+'">'+element.innerText+'</a></li>'
-    }); 
+    $("#method-example h4").each(function (index, element) {
+        str += '<li><a class="item" href="#' + element.id + '">' + element.innerText + '</a></li>'
+    });
     $("#method-example-tree").html(str);
 
-    $(".tree").each(function(index, element) { 
-        if($(this).next(".node").length>0){ 
-            $(this).addClass("ceng_close"); 
-        } 
+    $(".tree").each(function (index, element) {
+        if ($(this).next(".node").length > 0) {
+            $(this).addClass("ceng_close");
+        }
     });
 
     $('.item').click(function (e) {
-        document.body.className = -1 !== document.body.className.indexOf("open-menu") ? "closed-menu": "open-menu";
+        document.body.className = -1 !== document.body.className.indexOf("open-menu") ? "closed-menu" : "open-menu";
     });
 
-    $(".tree").click(function(e){ 
+    $(".tree").click(function (e) {
         var ul = $(this).next(".node");
-        if (ul.css("display")=="none"){ 
-            ul.slideDown(); 
-            $(this).addClass("ceng_open"); 
-            ul.find(".ceng_close").removeClass("ceng_open"); 
+        if (ul.css("display") == "none") {
+            ul.slideDown();
+            $(this).addClass("ceng_open");
+            ul.find(".ceng_close").removeClass("ceng_open");
         }
-        else { 
-            ul.slideUp(); 
-            $(this).removeClass("ceng_open"); 
-            ul.find(".node").slideUp(); 
-            ul.find(".ceng_close").removeClass("ceng_open"); 
-        } 
-    }); 
+        else {
+            ul.slideUp();
+            $(this).removeClass("ceng_open");
+            ul.find(".node").slideUp();
+            ul.find(".ceng_close").removeClass("ceng_open");
+        }
+    });
 });
