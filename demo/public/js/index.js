@@ -1,10 +1,4 @@
 (function () {
-    var t = document.getElementById("js-toggle-menu");
-
-    t.addEventListener('click', function (e) {
-        // e.stopPropagation();
-        // document.body.className = -1 !== document.body.className.indexOf("open-menu") ? "closed-menu": "open-menu";
-    })
     var hljs = window.hljs;
     var demoCode = $('#demo-code');
     var toggleBox = $('#toggle-box');

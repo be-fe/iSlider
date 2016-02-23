@@ -306,13 +306,20 @@ aside .subsection-navigation li a {
 .node .node{ 
     display:none; 
 } 
-.ceng_close{ 
-    background:url(../../imgs/zd1.gif) left center no-repeat; 
-    padding-left: 15px; 
+.ceng_close::before {
+    content: '+';
+    /*padding-left: 15px; */
+}
+.ceng_open::before {
+    content: '-';
+    font-size: 16px;
+}
+/*.ceng_close { 
+    background:url(../../imgs/zd1.gif) left center no-repeat;
 } 
-.ceng_open{ 
+.ceng_open { 
     background:url(../../imgs/zd.gif) left center no-repeat; 
-} 
+} */
 
 @media only screen and (max-device-width: 600px), screen and (max-width: 600px) {
     p {
