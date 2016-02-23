@@ -1817,6 +1817,7 @@
 
         self.animateTime = target.animateTime;
         self.isLooping = target.isLooping;
+        self.isAutoplay = false;
 
         target.on('slideStart', function (evt) {
             self.startHandler(evt);

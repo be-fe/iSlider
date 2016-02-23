@@ -600,6 +600,23 @@ S.on('slideChanged', callBack);
     - `{Array}` 数据列表
 
 
+#### subjectTo
+
+- 服从于另一个iSlider实例
+- 此iSlider会完全受目标iSlider控制
+- 参数：
+    - `{Object}` 目标
+    - `{Object}` 受控的配置项（未开启）
+
+```javascript
+var IS_1 = new iSlider(dom, data);
+var IS_2 = new iSlider(dom, data);
+
+IS_1.subjectTo(IS_2);
+// 此时IS_1完全受控于IS_2，也就是说对IS_2执行的拖拽、切换、自动播放等行为会同步到IS_1
+```
+
+
 #### hold
 
 - 当前场景禁止手势
