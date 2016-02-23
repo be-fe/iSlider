@@ -347,9 +347,6 @@ aside .subsection-navigation li a {
     #section-content {
         margin-left: 0;
     }
-    section {
-        pointer-events: none;
-    }
     aside {
         width: 250px;
         -webkit-transform: translateX(-250px);

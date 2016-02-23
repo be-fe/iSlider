@@ -21,8 +21,6 @@ function setShowCode(iframe) {
 }
 
 $(document).ready(function () {
-    setShowCode(frameSet.get(0));
-
     $('.hamburger-menu').click(function (e) {
         document.body.className = -1 !== document.body.className.indexOf("open-menu") ? "closed-menu": "open-menu";
     });
