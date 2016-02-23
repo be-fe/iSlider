@@ -1,5 +1,7 @@
 # iSlider
 
+iSlider是一个表现出众，轻量且高性能，无任何库依赖的跨平台滑动控件。它能够处理大多数的滑动场景，提供多种切换动画效果，展示多种类型的场景。
+
 ![](http://be-fe.github.io/iSlider/thumbnails/iSlider-logo.png)
 
 #### [iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
@@ -8,17 +10,19 @@
 #### [iSlider 演示](http://be-fe.github.io/iSlider/demo/index_chinese.html)
 #### [iSlider 动画效果](http://be-fe.github.io/iSlider/demo/animation.html)
 
-iSlider是一个轻量且高性能，无任何库依赖的跨平台滑动控件。
+## 特性
 
-它能够处理大多数的滑动场景，提供多种切换动画效果，展示多种类型的场景。
-
-目前具有以下特性：
-
-- 优秀的性能，更少的内存占用;
-- 丰富的动画效果，可自行扩展;
-- 自动播放，循环播放，水平/垂直滑动等众多参数功能皆可配置;
-- 可以按需加载需要的功能;
-- 多种可设置的回调方法;
+- 优秀的性能，更少的内存占用；
+- 提供丰富的动画切换效果，自带的效果包括 default, rotate, depth, flow, flip, card, fade 等，并且可以进行无限的扩展；
+- 提供丰富的回调触发器，并且添加回调函数极为方便，无论在初始化还是运行过程中；
+- 支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动等众多参数，且功能皆可配置；
+- 自动适配桌面鼠标动作与移动端手势，方便测试与跨平台使用；
+- 支持图片预加载，优秀的用户体验；
+- \[插件\] 提供多种插件，如切换按钮、场景指示器、图片缩放等，提供插件注册、管理等方法方便自定义扩展；
+- \[2.0+\] 可以按需加载需要的功能（效果 或 插件）；
+- \[2.0+\] 支持更多种类的元素置入，自动匹配数据类型，识别图片并进行预加载；
+- \[2.0+\] 更完善的代理事件管理机制，优化内存占用；
+- \[2.0+\] 更加丰富的回调事件，更灵活的事件管理、触发机制；
 
 ## 移动端展示
 
@@ -27,9 +31,25 @@ iSlider是一个轻量且高性能，无任何库依赖的跨平台滑动控件�
 Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/index.html)
 
 ## 获取 iSlider
-- 直接在Github网站进行下载
-- 如果使用bower进行包管理，可以使用 `bower install iSlider`进行安装.
-- 可以使用 `npm install islider.js`
+
+
+#### 从Github克隆到本地
+
+```bash
+git clone https://github.com/be-fe/iSlider.git
+```
+
+#### 使用bower安装.
+
+```bash
+bower install iSlider
+```
+
+#### 使用npm安装
+
+```bash
+npm install islider.js
+```
 
 ## 开始使用 iSlider
 
@@ -37,13 +57,13 @@ Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/
 
 #### 创建一個容器
     
-``` html
+```html
 <div id="iSlider-wrapper"></div>
 ```
 
 #### 准备一些数据
 
-``` javascript
+```javascript
 var data = [
     {content: "imgs/1.jpg"},
     {content: "imgs/2.jpg"},
@@ -53,33 +73,31 @@ var data = [
 
 #### 载入iSlider
 
-``` html
+```html
 <script src="iSlider.min.js"></script>
 ```
 
 #### 初始化一个iSlider
 
-``` javascript
+```javascript
 var islider = new iSlider(document.getElementById('iSlider-wrapper'), data);
 ```
 
 也可以
 
-``` javascript
+```javascript
 var islider = new iSlider({
     dom : document.getElementById('iSlider-wrapper'),
     data : data
 });
 ```
 
-``` javascript
+```javascript
 var islider = new iSlider(document.getElementById('iSlider-wrapper'), data, {
     dom : document.getElementById('iSlider-wrapper'),
     data : data
 });
 ```
-
-***配置对象属性的优先级高于参数***
 
 ### iSlider 扩展
 
@@ -87,12 +105,12 @@ var islider = new iSlider(document.getElementById('iSlider-wrapper'), data, {
 
 **如果您想加入更多效果，可以载入效果扩展库，并在初始化时配置参数，指定animateType**
 
-``` html
+```html
 <script src="iSlider.min.js"></script>
 <script src="iSlider.animate.min.js"></script>
 ```
 
-``` javascript
+```javascript
 var islider = new iSlider({
     dom: document.getElementById("iSlider-wrapper"),
     data: list,
@@ -108,12 +126,12 @@ var islider = new iSlider({
 
 从2.X版本开始，iSlider加入插件注册机制，可以帮助您扩展自己需要的功能
 
-``` html
+```html
 <script src="iSlider.min.js"></script>
 <script src="iSlider.plugin.dot.min.js"></script>
 ```
 
-``` javascript
+```javascript
 var islider = new iSlider({
     dom: document.getElementById("iSlider-wrapper"),
     data: list,
@@ -123,7 +141,7 @@ var islider = new iSlider({
 
 当然还可以为插件的初始化传递更多的自定义参数
 
-``` javascript
+```javascript
 var islider = new iSlider({
     dom: document.getElementById("iSlider-wrapper"),
     data: list,
@@ -131,14 +149,13 @@ var islider = new iSlider({
 });
 ```
 
-
 That's it!
 
 ## 定制您的 iSlider
 
 从2.X版本开始，iSlider将不再需要指定数据的类型“type”，而变化为更加智能的识别方式，您可以在列表中设置多种类型的数据，如图片、HTML、element或fragment
 
-``` javascript
+```javascript
 var data = [{
     'content' : './qrcode.png'  // 图片
 },{
@@ -163,21 +180,21 @@ var data = [{
 一些进阶功能可以参考[WIKI](https://github.com/BE-FE/iSlider/wiki/Notices)
 
 
-## iSlider详细说明
+## iSlider 详细说明
 
 ### 参数
 
 #### DOM
 
 - new iSlider(```DOM```, DATA, OPTIONS);
-- {HTMLElement}
+- `{HTMLElement}`
 - 容器dom节点
 - 作为第一个参数并不是必须的，会被OPTIONS.dom覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。
 
 #### DATA
 
 - new iSlider(DOM, ```DATA```, OPTIONS);
-- {Array}
+- `{Array}`
 - 数据列表
 - 作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。允许的类型为URLString、HTMLString、HTMLElement、HTMLFragment。
 - *TODO：目前成员为{Object}类型，只支持content属性，在将来会得到更多的扩展，比如配置每一场景的切换效果、等待时间等等*
@@ -196,12 +213,24 @@ var data = [{
 #### OPTIONS
 
 - new iSlider(DOM, DATA, ```OPTIONS```);
-- {Object}
+- `{Object}`
+
+
+##### dom
+
+- `{HTMLElement}`
+- 容器dom节点，作用同参数[DOM](#DOM)，若设置此项，DOM会被覆盖。
+
+
+##### data
+
+- `{Array}`
+- 数据列表，作用同参数[DATA](#DATA)，若设置此项，DATA会被覆盖。
 
 
 ##### animateType
 
-- {String}
+- `{String}`
 - 动画效果
 - 目前支持：default（卷动）、rotate（旋转）、depth、flow、flip、card、fade（渐显/隐）、zoomout（向外/内缩放）
 - 前置条件：载入效果库 iSlider.animate(.min).js
@@ -210,7 +239,7 @@ var data = [{
 
 ##### animateTime
 
-- {Number}
+- `{Number}`
 - 动画效果持续时间
 - 单位：毫秒
 - 默认：1000
@@ -218,7 +247,7 @@ var data = [{
 
 ##### animateEasing
 
-- {String}
+- `{String}`
 - 动画效果曲线
 - 可选 linear、ease、ease-in、ease-out、ease-in-out，甚至cubic-bezier
 - 默认：ease
@@ -226,14 +255,14 @@ var data = [{
 
 ##### isAutoplay
 
-- {Boolean}
+- `{Boolean}`
 - 开启/关闭自动滑动模式
 - 默认：false(关闭)
 
 
 ##### duration
 
-- {Number}
+- `{Number}`
 - 自动播放时，场景停留时间
 - 每个场景停留时间，结束时会切换至下一场景
 - 单位：毫秒
@@ -242,21 +271,21 @@ var data = [{
 
 ##### isLooping
 
-- {Boolean}
+- `{Boolean}`
 - 循环播放模式
 - 默认：false(关闭)
 
 
 ##### isVertical
 
-- {Boolean}
+- `{Boolean}`
 - 垂直滑动模式
 - 默认：false(关闭)
 
 
 ##### isOverspread
 
-- {Boolean}
+- `{Boolean}`
 - 背景平铺
 - 如果场景为图片模式（URL），使用CSS3背景的方式填充场景
 - 默认：false(关闭)
@@ -264,28 +293,28 @@ var data = [{
 
 ##### isTouchable
 
-- {Boolean}
+- `{Boolean}`
 - 触屏事件
 - 默认：true(开启)
 
 
 ##### isDebug
 
-- {Boolean}
+- `{Boolean}`
 - 开启/关闭调试模式，会打印更多日志信息
 - 默认：false(关闭)
 
 
 ##### initIndex
 
-- {Number}
+- `{Number}`
 - 首屏所使用的数据列表索引
 - 默认：0
 
 
 ##### fixPage
 
-- {Boolean}
+- `{Boolean}`
 - 原生事件阻止
 - 场景内屏蔽原生事件的触发，如：滚动、拖拽、缩放等
     - "A"元素，阻止，移动端建议使用自定义的tap（touch系事件联合判断）
@@ -295,7 +324,7 @@ var data = [{
 
 ##### fillSeam
 
-- {Boolean}
+- `{Boolean}`
 - 填补场景间接缝
 - 在某些系统的浏览器中存在的渲染问题，造成场景间出现一条缝隙，这种情况在场景设置了背景色并且使用**相连**的切换效果时尤为明显。
 - 默认：false(关闭)
@@ -303,7 +332,7 @@ var data = [{
 
 ##### plugins
 
-- {Array}
+- `{Array}`
 - 启用插件并配置初始化参数
 - 传入欲激活的插件名称列表：```['dot', 'button', 'zoompic', ...]```，另外，支持传入初始化参数：```[..., ['zoompic', {zoomFactor: 2}], ...]```
 - 若插件未被载入或不存在则忽略
@@ -311,7 +340,7 @@ var data = [{
 
 ### 事件回调
 
-- {Function}
+- `{Function}`
 - 在初始化时传入，也可通过实例方法"on"进行事件注册。
 - 作为初始化参数时需要以**on**开头且全为小写，绑定时为驼峰命名。
 - 不同的回调方法由于所处场景不同，传入的参数会存在区别。
@@ -353,89 +382,89 @@ S.on('slideChanged', callBack);
 - 当外容器渲染完成时触发
 - reset、loadData触发之前会触发
 - 参数
-    - {Number} 当前数据索引
-    - {HTMLElement} 当前场景元素
+    - `{Number}` 当前数据索引
+    - `{HTMLElement}` 当前场景元素
 
 
 #### slideStart
 
 - 当手指触屏时触发
 - 参数
-    - {Object} 事件(Event)对象
+    - `{Object}` 事件(Event)对象
         
         
 #### slide
 
 - 当手指滑动时触发
 - 参数
-    - {Object} 事件(Event)对象
+    - `{Object}` 事件(Event)对象
 
 
 #### slideEnd
 
-- {Function}
+- `{Function}`
 - 参数
-    - {Object} 事件(Event)对象
+    - `{Object}` 事件(Event)对象
 
 
 #### slideChange
 
-- {Function}
+- `{Function}`
 - 当场景发生改变时触发
 - 参数
-    - {Number} 当前数据索引
-    - {HTMLElement} 当前场景元素
+    - `{Number}` 当前数据索引
+    - `{HTMLElement}` 当前场景元素
 
 #### slideChanged
 
-- {Function}
+- `{Function}`
 - 当场景改变完成(动画完成)时触发
 - 执行loadData时触发
 - 参数
-    - {Number} 当前数据索引
-    - {HTMLElement} 当前场景元素
+    - `{Number}` 当前数据索引
+    - `{HTMLElement}` 当前场景元素
 
 
 #### slideRestore
 
-- {Function}
+- `{Function}`
 - 当场景未发生变化(回弹，动画完成)时触发
 - 参数
-    - {Number} 当前数据索引
-    - {HTMLElement} 当前场景元素
+    - `{Number}` 当前数据索引
+    - `{HTMLElement}` 当前场景元素
 
 
 #### slideRestored
 
-- {Function}
+- `{Function}`
 - 当场景未发生变化完成(回弹动画完成)时触发
 - 执行reset时触发
 - 参数
-    - {Number} 当前数据索引
-    - {HTMLElement} 当前场景元素
+    - `{Number}` 当前数据索引
+    - `{HTMLElement}` 当前场景元素
 
 
 #### loadData
 
-- {Function}
+- `{Function}`
 - 当数据重置(执行loadData方法)时触发
 - 参数
-    - {Number} 当前数据索引
-    - {HTMLElement} 当前场景元素
+    - `{Number}` 当前数据索引
+    - `{HTMLElement}` 当前场景元素
 
 
 #### reset
 
-- {Function}
+- `{Function}`
 - 当场景重置(手机屏幕旋转、resize)时触发
 - 参数
-    - {Number} 当前数据索引
-    - {HTMLElement} 当前场景元素
+    - `{Number}` 当前数据索引
+    - `{HTMLElement}` 当前场景元素
 
 
 #### destroy
 
-- {Function}
+- `{Function}`
 - 当iSlider销毁时触发
 - 参数：无
 
@@ -447,15 +476,15 @@ S.on('slideChanged', callBack);
 - 当参数长度为1时，将对象继承到iSlider.prototype
 - 当参数长度为2时，将第二个对象继承到第一个
 - 参数：
-    - \[{Object} 原对象\] 或默认为 iSlider.prototype
-    - {Object} 新对象
+    - \[`{Object}` 原对象\] 或默认为 iSlider.prototype
+    - `{Object}` 新对象
     
 #### regPlugin
 
 - 注册插件
 - 参数：
-    - {String} 插件名称
-    - {Function} 插件初始化方法
+    - `{String}` 插件名称
+    - `{Function}` 插件初始化方法
 
 
 ### 实例方法
@@ -465,31 +494,31 @@ S.on('slideChanged', callBack);
 
 - 滚动到第n个场景，可以在第二个参数设置配置信息，改变本次滑动的动画效果: animateTime animateType
 - 参数：
-    - {Number} 数据列表索引
-    - [{Object} 临时配置]
+    - `{Number}` 数据列表索引
+    - \[`{Object}` 临时配置\]
 
 
 #### slidePrev
 
 - 滚动到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
 - 参数：
-    - [{Object} 临时配置]
+    - \[`{Object}` 临时配置\]
 
 
 #### slidePrev
 
 - 滚动到前一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
 - 参数：
-    - [{Object} 临时配置]
+    - \[`{Object}` 临时配置\]
 
 
 #### delegate
 
 - 在容器node上绑定代理事件
 - 参数：
-    - {String} 事件名称
-    - {String} 选择器 (querySelectorAll)
-    - {Function} 事件响应方法
+    - `{String}` 事件名称
+    - `{String}` 选择器 (querySelectorAll)
+    - `{Function}` 事件响应方法
 
 
 #### bind
@@ -501,9 +530,9 @@ S.on('slideChanged', callBack);
 
 - 解绑事件句柄
 - 参数：
-    - {String} 事件名称
-    - {String} 选择器 (querySelectorAll)
-    - {Function} 事件响应方法
+    - `{String}` 事件名称
+    - `{String}` 选择器 (querySelectorAll)
+    - `{Function}` 事件响应方法
 
 
 #### unbind
@@ -515,25 +544,25 @@ S.on('slideChanged', callBack);
 
 - 在iSlider的事件中注册回掉方法
 - 参数：
-    - {String} 事件名
-    - {Function} 回掉方法
-    - \[{Boolean}\] 优先注册，回调事件注册到事件队列的首部，所有在初始化时注册的事件回调均在队列最前，默认：false
+    - `{String}` 事件名
+    - `{Function}` 回掉方法
+    - \[`{Boolean}`\] 优先注册，回调事件注册到事件队列的首部，所有在初始化时注册的事件回调均在队列最前，默认：false
 
 
 #### has
 
 - 检测事件回调方法是否已存在
 - 参数：
-    - {String} 事件名
-    - {Function} 回掉方法
+    - `{String}` 事件名
+    - `{Function}` 回掉方法
 
 
 #### off
 
 - 从iSlider的事件中移除回掉方法
 - 参数：
-    - {String} 事件
-    - {Function} 回掉方法
+    - `{String}` 事件
+    - `{Function}` 回掉方法
 
 
 #### fire
@@ -568,7 +597,7 @@ S.on('slideChanged', callBack);
 
 - 载入数据列表
 - 参数：
-    - {Array} 数据列表
+    - `{Array}` 数据列表
 
 
 #### hold
