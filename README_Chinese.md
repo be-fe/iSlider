@@ -169,18 +169,18 @@ That's it!
 
 ##### BIZone
 
-触控点边缘脱离识别区，虽然已经加入的mouseout和touchcancel的边缘处理，但是对于某些应用里，自定义的顶部（底部）菜单栏依然无能为力。识别区的意义在于可以主动的设置这些区域达到触摸脱离的效果。
+触控点边缘脱离识别区，虽然已经加入了mouseout和touchcancel的边缘处理，但是对于某些应用里，自定义的顶部（底部）菜单栏依然无能为力。识别区的意义在于可以主动的设置这些区域达到触摸脱离的效果。
 
 
-## 定制您的 iSlider
+## 场景数据
 
-从2.X版本开始，iSlider将不再需要指定数据的类型“type”，而变化为更加智能的识别方式，您可以在列表中设置多种类型的数据，如图片、HTML、element或fragment
+从2.X版本开始，iSlider将不再需要指定数据的类型“type”，而变化为更加智能的识别方式，您可以在列表中设置多种类型的数据，如图片、HTML、element、fragment、node
 
 ```javascript
 var data = [{
     'content' : './qrcode.png'  // 图片
 },{
-    'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>' // HTML
+    'content' : '<div><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome</p><div>' // HTML字符串
 },{
     'content' : (function () { // element
             var dom = document.createElement('div');
@@ -195,6 +195,8 @@ var data = [{
             frag.appendChild(dom);
             return frag;
         })()
+},{
+     'content' : document.getElementById('node') // node节点
 }];
 ```
 
