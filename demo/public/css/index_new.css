@@ -82,6 +82,20 @@ table code {
     border-radius: 4px;
 }
 
+.title {
+    margin: .5em 0 0;
+    padding-left: 2rem;
+    font-size: 2em;
+    padding-top: 0;
+}
+
+.divider {
+    height: 1px;
+    margin: 7px 0;
+    overflow: hidden;
+    background: rgba(0,0,0,0.07);
+}
+
 aside {
     position: fixed;
     height: 100%;
@@ -130,7 +144,7 @@ aside nav li {
 aside nav li a {
     display: block;
     color: #000;
-    padding: 10px 12px;
+    padding: 3px 12px;
     text-decoration: none;
     -webkit-transition: background-color 200ms ease-in-out;
     -moz-transition: background-color 200ms ease-in-out;
@@ -140,10 +154,6 @@ aside nav li a {
 
 aside nav li a:hover {
     background-color: #eee;
-}
-
-aside nav li a.tree:hover {
-    background-color: #fafafa;
 }
 
 aside .subsection-navigation li {
@@ -306,13 +316,12 @@ aside .subsection-navigation li a {
 .node .node{ 
     display:none; 
 } 
-.ceng_close{ 
-    background:url(../../imgs/zd1.gif) left center no-repeat; 
-    padding-left: 15px; 
-} 
-.ceng_open{ 
-    background:url(../../imgs/zd.gif) left center no-repeat; 
-} 
+.ceng_close::after {
+    content: '+';
+}
+.ceng_open::after {
+    content: '-';
+}
 
 @media only screen and (max-device-width: 600px), screen and (max-width: 600px) {
     p {
@@ -337,6 +346,9 @@ aside .subsection-navigation li a {
     }
     #section-content {
         margin-left: 0;
+    }
+    section {
+        pointer-events: none;
     }
     aside {
         width: 250px;

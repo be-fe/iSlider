@@ -219,13 +219,13 @@ var data = [{
 ##### dom
 
 - `{HTMLElement}`
-- 容器dom节点，作用同参数[DOM](#DOM)，若设置此项，DOM会被覆盖。
+- 容器dom节点，作用同参数[DOM](#dom)，若设置此项，DOM会被覆盖。
 
 
 ##### data
 
 - `{Array}`
-- 数据列表，作用同参数[DATA](#DATA)，若设置此项，DATA会被覆盖。
+- 数据列表，作用同参数[DATA](#data)，若设置此项，DATA会被覆盖。
 
 
 ##### animateType

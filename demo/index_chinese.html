@@ -19,6 +19,8 @@
         <li></li>
     </ul>
     <nav>
+        <h2 class="title">iSlider Demo</h2>
+        <div class="divider"></div>
         <ul class="node">
             <li id="link-intro">
                 <a href="#intro" class="tree">概要</a>
@@ -61,18 +63,13 @@
                 <a href="#options" class="tree">初始化</a>
                 <ul class="subsection-navigation node">
                     <li>
-                        <a href="#options-must" class="tree">必要的</a>
-                        <ul id="options-must-tree" class="node">
-                            <li>
-                                <a href="#dom" class="item">DOM</a>
-                            </li>
-                            <li>
-                                <a href="#data" class="item">DATA</a>
-                            </li>
-                        </ul>
+                        <a href="#dom" class="item">DOM</a>
                     </li>
                     <li>
-                        <a href="#options-param" class="tree">配置项</a>
+                        <a href="#data" class="item">DATA</a>
+                    </li>
+                    <li>
+                        <a href="#options-param" class="tree">OPTIONS</a>
                         <ul id="options-param-tree" class="node"></ul>
                     </li>
                 </ul>
@@ -203,7 +200,6 @@
         </div>
 
         <div id="options">
-
             <h2>初始化</h2>
             <p>
                 <code>new iSlider(<a href="#dom">DOM</a>, <a href="#data">DATA</a>, <a href="#option">OPTIONS</a>)</code>
@@ -244,75 +240,72 @@
                     </tr>
                 </table>
             </div>
-            <div id="options-must">
-                <h3>必要的</h3>
-                <dd id="dom">
-                    <dt>
-                        <div class="nameContainer paramContainer">
-                            <h4 class="name">
-                                DOM
-                                <span class="paramType">
-                                    {HTMLElement}
-                                </span>
-                            </h4>
-                            
-                        </div>
-                    </dt>
-                    <dt>
-                        <div class="description">
-                            <p>释义: 容器dom节点</p>
-                        </div>
-                        <dl class="details">
-                            <p>作为第一个参数并不是必须的，会被OPTIONS.dom覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。</p>
-                        </dl>
-                    </dt>
-                </dd>
-                <dd id="data">
-                    <dt>
-                        <div class="nameContainer paramContainer">
-                            <h4 class="name">
-                                DATA
-                                <span class="paramType">
-                                    {Array}
-                                </span>
-                            </h4>
-                        </div>
-                    </dt>
-                    <dt>
-                        <div class="description">
-                            <p>释义: 数据列表</p>
-                        </div>
-                        <dl class="details">
-                            <p>作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。允许的类型为URLString、HTMLString、HTMLElement、HTMLFragment。</p>
-                            <p>
-                                TODO：目前成员为{Object}类型，只支持content属性，在将来会得到更多的扩展，比如配置每一场景的切换效果、等待时间等等
-                            </p>
-                            <p>数据格式:</p>
-                            <pre class="highlight">
-                            <code>
-                                <span class="p">[</span>
-                                    <span class="p">{</span>
-                                        <span class="na">content</span><span class="p">:</span><span class="s1">'{URLString|HTMLString|HTMLElement|HTMLFragment}'</span><span class="p">,</span>
-                                    <span class="p">},</span>
-                                    <span class="p">...</span>
-                                <span class="p">]</span>
-                            </code>
-                            </pre>
-                        </dl>
-                    </dt>
-                </dd>
-            </div>
+            <dd id="dom">
+                <dt>
+                    <div class="nameContainer paramContainer">
+                        <h4 class="name">
+                            DOM
+                            <span class="paramType">
+                                {HTMLElement}
+                            </span>
+                        </h4>
+                        
+                    </div>
+                </dt>
+                <dt>
+                    <div class="description">
+                        <p>释义: 容器dom节点</p>
+                    </div>
+                    <dl class="details">
+                        <p>作为第一个参数并不是必须的，会被OPTIONS.dom覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。</p>
+                    </dl>
+                </dt>
+            </dd>
+            <dd id="data">
+                <dt>
+                    <div class="nameContainer paramContainer">
+                        <h4 class="name">
+                            DATA
+                            <span class="paramType">
+                                {Array}
+                            </span>
+                        </h4>
+                    </div>
+                </dt>
+                <dt>
+                    <div class="description">
+                        <p>释义: 数据列表</p>
+                    </div>
+                    <dl class="details">
+                        <p>作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。允许的类型为URLString、HTMLString、HTMLElement、HTMLFragment。</p>
+                        <p>
+                            TODO：目前成员为{Object}类型，只支持content属性，在将来会得到更多的扩展，比如配置每一场景的切换效果、等待时间等等
+                        </p>
+                        <p>数据格式:</p>
+                        <pre class="highlight">
+                        <code>
+<span class="p">[</span>
+    <span class="p">{</span>
+        <span class="na">content</span><span class="p">:</span><span class="s1">'{URLString|HTMLString|HTMLElement|HTMLFragment}'</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">...</span>
+<span class="p">]</span>
+                        </code>
+                        </pre>
+                    </dl>
+                </dt>
+            </dd>
             <div id="options-param" class="options-content">
-                <h3>配置项</h3>
                 <dd id="option">
                     <dt>
                         <div>
-                            <h5 class="name">
+                            <h3 class="name">
                                 OPTIONS
-                            </h5>
-                            <span class="paramType">
-                                {Object}
-                            </span>
+                                <span class="paramType">
+                                    {Object}
+                                </span>
+                            </h3>
+                            
                         </div>
                     </dt>
                     <dt>
@@ -321,7 +314,40 @@
                         </dl>
                     </dt>
                 </dd>
-
+                <dd id="DOM">
+                    <dt>
+                        <div class="nameContainer paramContainer">
+                            <h4 class="name">
+                                DOM
+                            </h4>
+                            <span class="paramType">
+                                {HTMLElement}
+                            </span>
+                        </div>
+                    </dt>
+                    <dt>
+                        <div class="description">
+                            <p>容器dom节点，作用同参数<a href="#dom">DOM</a>，若设置此项，DOM会被覆盖</p>
+                        </div>
+                    </dt>
+                </dd>
+                <dd id="DATA">
+                    <dt>
+                        <div class="nameContainer paramContainer">
+                            <h4 class="name">
+                                DATA
+                            </h4>
+                            <span class="paramType">
+                                {Array}
+                            </span>
+                        </div>
+                    </dt>
+                    <dt>
+                        <div class="description">
+                            <p>数据列表，作用同参数<a href="#data">DATA</a>，若设置此项，DATA会被覆盖。</p>
+                        </div>
+                    </dt>
+                </dd>
                 <dd id="animateType">
                     <dt>
                         <div class="nameContainer paramContainer">
