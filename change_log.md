@@ -1,5 +1,7 @@
 ### iSlider 2.1.3
 - [Optimization]Local variable references.
+- [Optimization]isMoving => onMoving
+- [Optimization][EXT]animation
 
 #### Something new
 - Add new method "[subjectTo](https://github.com/BE-FE/iSlider/blob/master/README.md#subjectto)"
