@@ -90,7 +90,7 @@ aside {
     left: 0;
     top: 0;
     width: 250px;
-    /*border-right: 5px solid #5b90bf;*/
+    border-right: 5px solid #5b90bf;
     z-index: 10;
     -webkit-transition: -webkit-transform 200ms ease-in-out;
     -moz-transition: -moz-transform 200ms ease-in-out;
