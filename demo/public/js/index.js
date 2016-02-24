@@ -27,25 +27,25 @@ $(document).ready(function () {
 
     var str = '';
     $("#functions h4").each(function(index, element) {
-        str += '<li><a class="item" href="#'+element.innerText+'">'+element.innerText+'</a></li>'
+        str += '<li><a class="item" href="#'+element.textContent.trim()+'">'+element.textContent.trim()+'</a></li>'
     }); 
     $("#function-tree").html(str);
 
     str = '';
     $(".options-content h4").each(function(index, element) {
-        str += '<li><a class="item" href="#'+element.innerText+'">'+element.innerText+'</a></li>'
+        str += '<li><a class="item" href="#'+element.textContent.trim()+'">'+element.textContent.trim()+'</a></li>'
     }); 
     $("#options-param-tree").html(str);
 
     str = '';
     $("#method-static h4").each(function(index, element) {
-        str += '<li><a class="item" href="#'+element.innerText+'">'+element.innerText+'</a></li>'
+        str += '<li><a class="item" href="#'+element.textContent.trim()+'">'+element.textContent.trim()+'</a></li>'
     }); 
     $("#method-static-tree").html(str);
 
     str = '';
     $("#method-example h4").each(function(index, element) {
-        str += '<li><a class="item" href="#'+element.innerText+'">'+element.innerText+'</a></li>'
+        str += '<li><a class="item" href="#'+element.textContent.trim()+'">'+element.textContent.trim()+'</a></li>'
     }); 
     $("#method-example-tree").html(str);
 
