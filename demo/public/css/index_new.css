@@ -79,7 +79,7 @@ code {
 
 .divider {
     height: 1px;
-    margin: 7px 0;
+    margin-top: 7px;
     overflow: hidden;
     background: rgba(0,0,0,0.07);
 }
