@@ -30,18 +30,13 @@ h2 {
 h3 {
     clear: both;
     font-size: 22px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     padding-top: 32px;
 }
 
-ul {
-  padding-left: 20px;
-}
-
 ul li {
-  color: #566076;
-  margin-bottom: 12px;
-  line-height: 22px;
+    color: #566076;
+    line-height: 22px;
 }
 
 table {
@@ -73,7 +68,7 @@ code {
     font-size: 14px;
 }
 
-table code {
+#options code, #functions code, #methods code {
     padding: 2px 4px;
     font-size: 90%;
     color: #c7254e;
@@ -82,20 +77,12 @@ table code {
     border-radius: 4px;
 }
 
-.title {
-    margin: .5em 0 0;
-    padding-left: 2rem;
-    font-size: 2em;
-    padding-top: 0;
-}
-
 .divider {
     height: 1px;
     margin: 7px 0;
     overflow: hidden;
     background: rgba(0,0,0,0.07);
 }
-
 aside {
     position: fixed;
     height: 100%;
@@ -103,7 +90,7 @@ aside {
     left: 0;
     top: 0;
     width: 250px;
-    border-right: 5px solid #5b90bf;
+    /*border-right: 5px solid #5b90bf;*/
     z-index: 10;
     -webkit-transition: -webkit-transform 200ms ease-in-out;
     -moz-transition: -moz-transform 200ms ease-in-out;
@@ -111,13 +98,13 @@ aside {
     transition: -webkit-transform 200ms ease-in-out,-moz-transform 200ms ease-in-out,-o-transform 200ms ease-in-out,transform 200ms ease-in-out;
 }
 
-aside .hamburger-menu {
+aside #hamburger-menu {
     display: none;
     cursor: pointer;
     padding: 10px;
 }
 
-aside .hamburger-menu li {
+aside #hamburger-menu li {
     list-style: none;
     height: 4px;
     margin-bottom: 4px;
@@ -127,43 +114,6 @@ aside .hamburger-menu li {
     -moz-transition: -moz-transform 400ms ease-out;
     -o-transition: -o-transform 400ms ease-out;
     transition: -webkit-transform 400ms ease-out,-moz-transform 400ms ease-out,-o-transform 400ms ease-out,transform 400ms ease-out;
-}
-
-aside > nav {
-    height: 100%;
-    padding-bottom: 20px;
-    overflow: auto;
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
-
-aside nav li {
-    display: block;
-}
-
-aside nav li a {
-    display: block;
-    color: #000;
-    padding: 3px 12px;
-    text-decoration: none;
-    -webkit-transition: background-color 200ms ease-in-out;
-    -moz-transition: background-color 200ms ease-in-out;
-    -o-transition: background-color 200ms ease-in-out;
-    transition: background-color 200ms ease-in-out;
-}
-
-aside nav li a:hover {
-    background-color: #eee;
-}
-
-aside .subsection-navigation li {
-    font-size: 12px;
-    margin-left: 12px;
-    /*border-left: 1px solid #2b303b;*/
-}
-
-aside .subsection-navigation li a {
-    padding: 0;
 }
 
 @-webkit-keyframes hamburger-top{ 0%{ -webkit-transform: translate3d(0,0,0) rotate(0); } 50%{ -webkit-transform: translate3d(0,8px,0) rotate(0); } 100%{ -webkit-transform: translate3d(0,8px,0) rotate(45deg); }}
@@ -203,7 +153,7 @@ aside .subsection-navigation li a {
     padding: 0 20px;
 }
 
-#section-content a{
+#section-content a {
     color: #C30000;
 }
 
@@ -211,9 +161,14 @@ aside .subsection-navigation li a {
     text-decoration: underline;
 }
 
+#section-content ul li {
+    margin-bottom: 12px;
+}
+
 #section-content ul {
     list-style: initial;
     line-height: 1.5em;
+    padding-left: 20px;
 }
 
 #section-content p {
@@ -228,6 +183,7 @@ aside .subsection-navigation li a {
 
 .animate-title {
     text-align: center;
+    text-decoration: none;
 }
 
 .islider-demo-wrap {
@@ -276,51 +232,37 @@ aside .subsection-navigation li a {
 #options table th {
     padding: 3px 3px;
 }
+
 #options table td {
     vertical-align: top;
     padding: 5px 3px;
 }
 
-#options .nameContainer, #method .nameContainer, #functions .nameContainer {
+#options h3, #functions h3{
     position: relative;
     margin-top: 20px;
-    padding-top: 5px;
-    border-top: 1px solid #e1e1e1;
-    color: gray;
-}
-
-#options .nameContainer.paramContainer, #method .nameContainer.paramContainer, #functions .nameContainer.paramContainer {
+    padding-top: 10px;
     border-top: 1px dashed #e1e1e1;
 }
-
-#options .nameContainer h4, #method .nameContainer h4, #functions .nameContainer h4 {
-    /*margin-right: 150px;*/
-    line-height: 1.3;
-    font-weight: bold;
-    font-size: 1em;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: inline-block;
-}
-
-#options span.paramType, #method span.paramType, #functions span.paramType {
-    display: inline-block;
-    border-radius: 3px;
-    font-size: 0.7em;
-    padding: 2px 4px;
-    margin-left: 3px;
-    background-color: transparent;
+#options h4, #functions h4, #methods h4 {
+    position: relative;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px dashed #e1e1e1;
     color: gray;
 }
 
-.node .node{ 
-    display:none; 
-} 
-.ceng_close::after {
-    content: '+';
+#options code, #functions code, #methods code {
+    font-family: 'source-code-pro', monospace;
+    font-size: 14px;
 }
-.ceng_open::after {
-    content: '-';
+
+#options .options, #methods .methods-static, #methods .methods-example {
+    margin-left: 12px;
+}
+
+#options .options ul, #methods .methods-static ul, #methods .methods-example ul {
+    margin-top: 5px;
 }
 
 @media only screen and (max-device-width: 600px), screen and (max-width: 600px) {
@@ -355,7 +297,7 @@ aside .subsection-navigation li a {
         -ms-transform: translateX(-250px);
         transform: translateX(-250px);
     }
-    aside .hamburger-menu {
+    aside #hamburger-menu {
         display: block;
         position: absolute;
         width: 40px;
@@ -371,37 +313,37 @@ aside .subsection-navigation li a {
         -ms-transform: translateX(250px);
         transform: translateX(250px);
     }
-    .open-menu aside .hamburger-menu li {
+    .open-menu aside #hamburger-menu li {
         -webkit-animation: hamburger-middle 400ms ease-out forwards;
         -moz-animation: hamburger-middle 400ms ease-out forwards;
         -o-animation: hamburger-middle 400ms ease-out forwards;
         animation: hamburger-middle 400ms ease-out forwards;
     }
-    .closed-menu aside .hamburger-menu li {
+    .closed-menu aside #hamburger-menu li {
         -webkit-animation: hamburger-middle-reverse 400ms ease-out forwards;
         -moz-animation: hamburger-middle-reverse 400ms ease-out forwards;
         -o-animation: hamburger-middle-reverse 400ms ease-out forwards;
         animation: hamburger-middle-reverse 400ms ease-out forwards;
     }
-    .open-menu aside .hamburger-menu li:first-child {
+    .open-menu aside #hamburger-menu li:first-child {
         -webkit-animation: hamburger-top 400ms ease-out forwards;
         -moz-animation: hamburger-top 400ms ease-out forwards;
         -o-animation: hamburger-top 400ms ease-out forwards;
         animation: hamburger-top 400ms ease-out forwards;
     }
-    .closed-menu aside .hamburger-menu li:first-child {
+    .closed-menu aside #hamburger-menu li:first-child {
         -webkit-animation: hamburger-top-reverse 400ms ease-out forwards;
         -moz-animation: hamburger-top-reverse 400ms ease-out forwards;
         -o-animation: hamburger-top-reverse 400ms ease-out forwards;
         animation: hamburger-top-reverse 400ms ease-out forwards;
     }
-    .open-menu aside .hamburger-menu li:last-child {
+    .open-menu aside #hamburger-menu li:last-child {
         -webkit-animation: hamburger-bottom 400ms ease-out forwards;
         -moz-animation: hamburger-bottom 400ms ease-out forwards;
         -o-animation: hamburger-bottom 400ms ease-out forwards;
         animation: hamburger-bottom 400ms ease-out forwards;
     }
-    .closed-menu aside .hamburger-menu li:last-child {
+    .closed-menu aside #hamburger-menu li:last-child {
         -webkit-animation: hamburger-bottom-reverse 400ms ease-out forwards;
         -moz-animation: hamburger-bottom-reverse 400ms ease-out forwards;
         -o-animation: hamburger-bottom-reverse 400ms ease-out forwards;
@@ -414,4 +356,101 @@ aside .subsection-navigation li a {
         -ms-transform: translateX(0);
         transform: translateX(0);
     }
+}
+
+#menu {
+    min-width: 250px;
+    height: 100%;
+    background: #5b90bf;
+    overflow: auto;
+}
+
+#menu-title {
+    width: 100%;
+    height: 50px;
+    padding-left: 22px;
+    color: #fafafa;
+}
+
+#menu-title a {
+    text-decoration: none;
+}
+#menu ul li {
+    width: 100%;
+    display: block;
+}
+
+#menu > ul > li > a {
+    border-bottom: solid 1px #5b90bf;
+    border-bottom-color: #5ba0bf;
+    position: relative;
+}
+
+#menu-list li > .submenu{
+    display: none;
+}
+
+#menu-list li.active > .submenu{
+    display: block;
+}
+
+#menu .submenu-indicator {
+    float: right;
+    right: 22px;
+    line-height: 19px;
+    font-size: 20px;
+    -o-transition: transform .3s linear;
+    -moz-transition: transform .3s linear;
+    -webkit-transition: transform .3s linear;
+    -ms-transition: transform .3s linear;
+}
+
+#menu li.active > a > .submenu-indicator {
+    -ms-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+#menu-list a {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding: 14px 22px;
+    float: left;
+    text-decoration: none;
+    color: #fff;
+    font-size: 13px;
+    -o-transition: color .2s linear,background .2s linear;
+    -moz-transition: color .2s linear,background .2s linear;
+    -webkit-transition: color .2s linear,background .2s linear;
+    transition: color .2s linear,background .2s linear;
+}
+
+#menu ul ul.submenu {
+    width: 100%;
+    position: static;
+}
+
+#menu ul ul.submenu li a {
+    width: 100%;
+    font-size: 11px;
+    background: #5b9abf;
+    border-left: solid 6px transparent;
+    -o-transition: border .2s linear;
+    -moz-transition: border .2s linear;
+    -webkit-transition: border .2s linear;
+    transition: border .2s linear;
+}
+
+#menu ul ul.submenu>li>ul.submenu>li>a {
+    padding-left: 45px;
+}
+
+#menu ul ul.submenu li:hover>a {
+    border-left-color: #3e82da
+}
+
+#menu>ul>li:hover>a {
+    background: #3e82da
 }
