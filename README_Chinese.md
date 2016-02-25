@@ -32,7 +32,6 @@ Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/
 
 ## 获取 iSlider
 
-
 #### 从Github克隆到本地
 
 ```bash
@@ -53,7 +52,7 @@ npm install islider.js
 
 ## 开始使用 iSlider
 
-使用iSlider最简单的办法是查阅我们提供的简易例子，请浏览demo文件夹中的内容。
+使用iSlider最简单的办法是查阅我们提供的简易例子，请浏览[DEMO](https://github.com/be-fe/iSlider/tree/master/demo)文件夹中的内容。
 
 #### 创建一個容器
     
@@ -171,7 +170,6 @@ That's it!
 
 触控点边缘脱离识别区，虽然已经加入了mouseout和touchcancel的边缘处理，但是对于某些应用里，自定义的顶部（底部）菜单栏依然无能为力。识别区的意义在于可以主动的设置这些区域达到触摸脱离的效果。
 
-
 ## 场景数据
 
 从2.X版本开始，iSlider将不再需要指定数据的类型“type”，而变化为更加智能的识别方式，您可以在列表中设置多种类型的数据，如图片、HTML、element、fragment、node
@@ -196,16 +194,15 @@ var data = [{
             return frag;
         })()
 },{
-     'content' : document.getElementById('node') // node节点
+     'content' : document.getElementById('node') // selectors
 }];
 ```
 
 一些进阶功能可以参考[WIKI](https://github.com/BE-FE/iSlider/wiki/Notices)
 
-
 ## iSlider 详细说明
 
-### 参数
+### 配置参数
 
 #### DOM
 
@@ -224,13 +221,12 @@ var data = [{
 - 数据格式：
 
 ```javascript
-    [
-        {
-            content:'{URLString|HTMLString|HTMLElement|HTMLFragment}',
-        },
-        
-        ...
-    ]
+[
+    {
+        content:'{URLString|HTMLString|HTMLElement|HTMLFragment}',
+    },
+    ...
+]
 ```
 
 #### OPTIONS
@@ -257,7 +253,7 @@ var data = [{
 - 动画效果
 - 目前支持：default（卷动）、rotate（旋转）、depth、flow、flip、card、fade（渐显/隐）、zoomout（向外/内缩放）
 - 前置条件：载入效果库 iSlider.animate(.min).js
-- 默认：default
+- 默认："default"
 
 
 ##### animateTime
@@ -425,7 +421,7 @@ S.on('slideChanged', callBack);
 
 #### slideEnd
 
-- `{Function}`
+- 当手指离开时触发
 - 参数
     - `{Object}` 事件(Event)对象
 
