@@ -18,11 +18,11 @@ iSlider is an outstanding performance, lightweight, high-performance, no library
 - Easy to configure, e.g. Slide the dampening effect of the cycle, automatic sliding effect, horizontal / vertical sliding, etc.
 - Automatic matching the desktop mouse movements or gestures mobile device, cross-platform easy to use;
 - Support for image pre-loaded, excellent user experience;
-- \ [Plugin \] Offers a variety of plug-ins, such as a toggle button, the scene indicator, image scaling, etc., to provide plug-in registration, management and other methods to facilitate custom extension;
-- \ [2.0+ \] Can be loaded on demand function (effect or plug-in) required;
-- \ [2.0+ \] Support more kinds of elements placed automatically match the data type, image recognition and pre-loaded;
-- \ [2.0+ \] Better delegated event management mechanism, optimize memory usage;
-- \ [2.0+ \] Richer callback events, event management more flexible trigger mechanisms;
+- \[Plugin\] Offers a variety of plug-ins, such as a toggle button, the scene indicator, image scaling, etc., to provide plug-in registration, management and other methods to facilitate custom extension;
+- \[2.0+\] Can be loaded on demand function (effect or plug-in) required;
+- \[2.0+\] Support more kinds of elements placed automatically match the data type, image recognition and pre-loaded;
+- \[2.0+\] Better delegated event management mechanism, optimize memory usage;
+- \[2.0+\] Richer callback events, event management more flexible trigger mechanisms;
 
 ## Mobile demo
 
@@ -495,7 +495,7 @@ S.on('slideChanged', callBack);
 - When the parameter length is 1, the object inheritance to iSlider.prototype
 - When the parameter length is 2, the second to the first object inheritance
 - Parameters:
-    - \ [ `{Object}` original object \] or default iSlider.prototype
+    - \[`{Object}` original object\] or default iSlider.prototype
     - `{Object}` new object
     
 #### regPlugin
@@ -514,21 +514,21 @@ S.on('slideChanged', callBack);
 - Switch to the N-th scene, you can set the configuration information in a second parameter, this change slide animation: animateTime animateType
 - Parameters:
     - `{Number}` data list index
-    - \ [ `{Object}` temporary configuration \]
+    - \[`{Object}` temporary configuration\]
 
 
 #### slidePrev
 
 - Switch to the next scene, you can set the configuration information, change this slide animation: animateTime animateType
 - Parameters:
-    - \ [ `{Object}` temporary configuration \]
+    - \[`{Object}` temporary configuration\]
 
 
 #### slidePrev
 
 - Switch to the previous scene, you can set the configuration information, change this slide animation: animateTime animateType
 - Parameters:
-    - \ [ `{Object}` temporary configuration \]
+    - \[`{Object}` temporary configuration\]
 
 
 #### delegate
