@@ -511,7 +511,7 @@ S.on('slideChanged', callBack);
 
 #### slideTo
 
-- 滚动到第n个场景，可以在第二个参数设置配置信息，改变本次滑动的动画效果: animateTime animateType
+- 切换到第n个场景，可以在第二个参数设置配置信息，改变本次滑动的动画效果: animateTime animateType
 - 参数：
     - `{Number}` 数据列表索引
     - \[`{Object}` 临时配置\]
@@ -519,14 +519,14 @@ S.on('slideChanged', callBack);
 
 #### slidePrev
 
-- 滚动到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
+- 切换到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
 - 参数：
     - \[`{Object}` 临时配置\]
 
 
 #### slidePrev
 
-- 滚动到前一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
+- 切换到前一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
 - 参数：
     - \[`{Object}` 临时配置\]
 
@@ -603,18 +603,18 @@ S.on('slideChanged', callBack);
 
 #### extend
 
-- 同静态方法extend
+- 同静态方法中的"extend"
 
 
 #### regPlugin
 
-- 同静态方法regPlugin
+- 同静态方法"regPlugin"
 - **此方法会注册插件到iSlider实例中，在注册的同时会自动加入激活的插件列表，并自动执行初始化**
 
 
 #### loadData
 
-- 载入数据列表
+- 载入新的数据列表
 - 参数：
     - `{Array}` 数据列表
 

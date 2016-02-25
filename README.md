@@ -488,182 +488,182 @@ S.on('slideChanged', callBack);
 - Parameters: None
 
 
-### 静态方法
+### Static methods
 
 #### extend
 
-- 当参数长度为1时，将对象继承到iSlider.prototype
-- 当参数长度为2时，将第二个对象继承到第一个
-- 参数：
-    - \[`{Object}` 原对象\] 或默认为 iSlider.prototype
-    - `{Object}` 新对象
+- When the parameter length is 1, the object inheritance to iSlider.prototype
+- When the parameter length is 2, the second to the first object inheritance
+- Parameters:
+    - \ [ `{Object}` original object \] or default iSlider.prototype
+    - `{Object}` new object
     
 #### regPlugin
 
-- 注册插件
-- 参数：
-    - `{String}` 插件名称
-    - `{Function}` 插件初始化方法
+- Register the plug-in
+- Parameters:
+    - `{String}` plug-in name
+    - `{Function}` plug-in initialization method
 
 
-### 实例方法
+### Instance methods
 
 
 #### slideTo
 
-- 滚动到第n个场景，可以在第二个参数设置配置信息，改变本次滑动的动画效果: animateTime animateType
-- 参数：
-    - `{Number}` 数据列表索引
-    - \[`{Object}` 临时配置\]
+- Switch to the N-th scene, you can set the configuration information in a second parameter, this change slide animation: animateTime animateType
+- Parameters:
+    - `{Number}` data list index
+    - \ [ `{Object}` temporary configuration \]
 
 
 #### slidePrev
 
-- 滚动到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
-- 参数：
-    - \[`{Object}` 临时配置\]
+- Switch to the next scene, you can set the configuration information, change this slide animation: animateTime animateType
+- Parameters:
+    - \ [ `{Object}` temporary configuration \]
 
 
 #### slidePrev
 
-- 滚动到前一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
-- 参数：
-    - \[`{Object}` 临时配置\]
+- Switch to the previous scene, you can set the configuration information, change this slide animation: animateTime animateType
+- Parameters:
+    - \ [ `{Object}` temporary configuration \]
 
 
 #### delegate
 
-- 在容器node上绑定代理事件
-- 参数：
-    - `{String}` 事件名称
-    - `{String}` 选择器 (querySelectorAll)
-    - `{Function}` 事件响应方法
+- Binding delegate event on the container node
+- Parameters:
+    - `{String}` event name
+    - `{String}` selector (querySelectorAll)
+    - `{Function}` incident response method
 
 
 #### bind
 
-- delegate 的别名
+- delegate alias
 
 
 #### unDelegate
 
-- 解绑事件句柄
-- 参数：
-    - `{String}` 事件名称
-    - `{String}` 选择器 (querySelectorAll)
-    - `{Function}` 事件响应方法
+- Unbundling delegate event handler
+- Parameters:
+    - `{String}` event name
+    - `{String}` selector (querySelectorAll)
+    - `{Function}` incident response method
 
 
 #### unbind
 
-- unDelegate的别名
+- UnDelegate alias
 
 
 #### on
 
-- 在iSlider的事件中注册回掉方法
-- 参数：
-    - `{String}` 事件名
-    - `{Function}` 回掉方法
-    - \[`{Boolean}`\] 优先注册，回调事件注册到事件队列的首部，所有在初始化时注册的事件回调均在队列最前，默认：false
+- In the event of registered iSlider the callback method
+- Parameters:
+    - `{String}` event name
+    - `{Function}` back off method
+    - \[`{Boolean}`\] priority registration, callback events registered to the header event queue during initialization event callbacks are registered in the queue before the default: false
 
 
 #### has
 
-- 检测事件回调方法是否已存在
-- 参数：
-    - `{String}` 事件名
-    - `{Function}` 回掉方法
+- Detecting an event callback method already exists
+- Parameters:
+    - `{String}` event name
+    - `{Function}` back off method
 
 
 #### off
 
-- 从iSlider的事件中移除回掉方法
-- 参数：
-    - `{String}` 事件
-    - `{Function}` 回掉方法
+- Remove the callback method from iSlider events
+- Parameters:
+    - `{String}` event
+    - `{Function}` back off method
 
 
 #### fire
 
-- 事件触发
+- Event Trigger
 
 
 #### play
 
-- 开始自动播放
-- 前置条件：isAutoplay === ```TRUE```
+- Start Auto Play
+- Precondition: isAutoplay === ```TRUE```
 
 
 #### pause
 
-- 暂停自动切换
-- 前置条件：isAutoplay === ```TRUE```
+- Pause automatic switching
+- Precondition: isAutoplay === ```TRUE```
 
 
 #### extend
 
-- 同静态方法extend
+- Same with static method "extend"
 
 
 #### regPlugin
 
-- 同静态方法regPlugin
-- **此方法会注册插件到iSlider实例中，在注册的同时会自动加入激活的插件列表，并自动执行初始化**
-
+- Same with the static method "regPlugin"
+- ** This method will register the plug to iSlider instance, registered at the same time are automatically added to the list of active plug-ins, and automatically performs initialization.**
 
 #### loadData
 
-- 载入数据列表
-- 参数：
-    - `{Array}` 数据列表
+- Loading new Datasheets
+- Parameters:
+    - `{Array}` Datasheets
 
 
 #### subjectTo
 
-- 服从于另一个iSlider实例
-- 此iSlider会完全受目标iSlider控制
-- 参数：
-    - `{Object}` 目标
-    - `{Object}` 受控的配置项（未开启）
+- Subject to another instance of Slider
+- This Slider completely controlled by the target iSlider
+- Parameters:
+    - `{Object}` target
+    - `{Object}` controlled configuration item (Not Enabled)
 
 ```javascript
 var IS_1 = new iSlider(dom, data);
 var IS_2 = new iSlider(dom, data);
 
 IS_1.subjectTo(IS_2);
-// 此时IS_1完全受控于IS_2，也就是说对IS_2执行的拖拽、切换、自动播放等行为会同步到IS_1
+// At this point IS_1 fully controlled IS_2, that is to say on the drag, switching, auto-play and other acts performed IS_2 synced to IS_1
 ```
 
 
 #### hold
 
-- 当前场景禁止手势
+- Prohibit the current scene gesture
 
 
 #### unhold
 
-- 当前场景开启手势，同时解除锁定
+- The current scene to open gestures while unlocked
 
 
 #### lock
 
-- 锁定当前场景，禁用sliceTo, slideNext, slidePrev方法，同时禁止手势
+- Lock the current scene, disable sliceTo, slideNext, slidePrev method, while prohibiting gesture
 
 
 #### unlock
 
-- 解除锁定
+- Unlock
 
 
 #### destroy
 
-- 销毁当前iSlider实例，释放内存
+- Destruction of the current iSlider instance, freeing memory
 
 
 #### reset
 
-- 复位当前iSlider实例
+- Reset the current iSlider instance
+
 
 ## Contact us
 Any feedback is most welcome if you have any question regarding iSlider or any bug is found:
