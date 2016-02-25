@@ -20,12 +20,12 @@
 
     /**
      * Check in array
-     * @param {*} oElement
-     * @param {Array} aSource
+     * @param {*} o
+     * @param {Array} arr
      * @returns {Boolean}
      */
-    function inArray(oElement, aSource) {
-        return aSource.indexOf(oElement) > -1;
+    function inArray(o, arr) {
+        return arr.indexOf(o) > -1;
     }
 
     /**
@@ -47,31 +47,31 @@
     }
 
     /**
-     * @param {HTML Element} obj
+     * @param {HTMLElement} el
      * @param {String} cls
      * @returns {Array|{index: number, input: string}}
      */
-    function hasClass(obj, cls) {
-        return obj.className.match(new RegExp('(\\s|^)(' + cls + ')(\\s|$)'));
+    function hasClass(el, cls) {
+        return el.className.match(new RegExp('(\\s|^)(' + cls + ')(\\s|$)'));
     }
 
     /**
-     * @param {HTML Element} obj
+     * @param {HTMLElement} el
      * @param {String} cls
      */
-    function addClass(obj, cls) {
-        if (!hasClass(obj, cls)) {
-            obj.className += ' ' + cls;
+    function addClass(el, cls) {
+        if (!hasClass(el, cls)) {
+            el.className += ' ' + cls;
         }
     }
 
     /**
-     * @param {HTML Element} obj
+     * @param {HTMLElement} el
      * @param {String} cls
      */
-    function removeClass(obj, cls) {
-        if (hasClass(obj, cls)) {
-            obj.className = obj.className.replace(RegExp('(\\s|^)(' + cls + ')(\\s|$)'), '$3');
+    function removeClass(el, cls) {
+        if (hasClass(el, cls)) {
+            el.className = el.className.replace(RegExp('(\\s|^)(' + cls + ')(\\s|$)'), '$3');
         }
     }
 
@@ -81,19 +81,9 @@
      * @returns {Boolean}
      */
     function isUrl(url) {
-        if (/<\/?[^>]*>/g.test(url))
+        if (/<\/?[^>]*>/.test(url))
             return false;
-
-        var regex = '^' +
-            '(((https|http|ftp|rtsp|mms):)?//)?' +
-            '(([0-9a-z_!~*\'().&=+$%-]+: )?[0-9a-z_!~*\'().&=+$%-]+@)?' +
-            '(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9a-z_!~*\'()-]+.)*([0-9a-z][0-9a-z-]{0,61})?[0-9a-z].[a-z]{2,6})?' +
-            '(:[0-9]{1,4})?' +
-            '([^\?#]+)?' +
-            '(\\\?[^#]+)?' +
-            '(#.+)?' +
-            '$';
-        return new RegExp(regex).test(url);
+        return /^(?:(https|http|ftp|rtsp|mms):)?(\/\/)?(\w+:{0,1}\w*@)?([^\?#:\/]+\.[a-z]+|\d+\.\d+\.\d+\.\d+)?(:[0-9]+)?((?:\.?\/)?([^\?#]*)?(\?[^#]+)?(#.+)?)?$/.test(url);
     }
 
     /**
@@ -111,9 +101,9 @@
     /**
      * @constructor
      *
-     * iSlicer([[{HTML Element} container,] {Array} datalist,] {Object} options)
+     * iSlicer([[{HTMLElement} container,] {Array} datalist,] {Object} options)
      *
-     * @param {HTML Element} container
+     * @param {HTMLElement} container
      * @param {Array} datalist
      * @param {Object} options
      *
@@ -171,7 +161,7 @@
      * version
      * @type {string}
      */
-    iSlider.VERSION = '2.1.2';
+    iSlider.VERSION = '2.1.3';
 
     /**
      * Event white list
@@ -183,6 +173,7 @@
         'initialized',
         'pluginInitialize',
         'pluginInitialized',
+        'renderComplete',
         'slide',
         'slideStart',
         'slideEnd',
@@ -245,6 +236,8 @@
                 return transitions[t];
             }
         }
+
+        return null;
     })();
 
     /**
@@ -291,13 +284,13 @@
     };
 
     /**
-     * animation parmas:
+     * @type {Object}
      *
-     * @param {HTML Element} dom 图片的外层<li>容器 Img wrapper
-     * @param {String} axis 动画方向 animate direction
-     * @param {Number} scale 容器宽度 Outer wrapper
-     * @param {Number} i <li>容器index Img wrapper's index
-     * @param {Number} offset 滑动距离 move distance
+     * @param {HTMLElement} dom The wrapper <li> element
+     * @param {String} axis Animate direction
+     * @param {Number} scale Outer wrapper
+     * @param {Number} i Wrapper's index
+     * @param {Number} offset Move distance
      * @protected
      */
     iSlider._animateFuncs = {
@@ -329,6 +322,8 @@
      */
     iSliderPrototype._setting = function () {
 
+        var self = this;
+
         // --------------------------------
         // - Status
         // --------------------------------
@@ -338,45 +333,45 @@
          * @type {Array|{}|*}
          * @private
          */
-        this._plugins = iSlider.plugins;
+        self._plugins = iSlider.plugins;
 
         /**
          * Extend animations
          * @type {{default: Function}|*}
          * @private
          */
-        this._animateFuncs = iSlider._animateFuncs;
+        self._animateFuncs = iSlider._animateFuncs;
 
         /**
          * @type {Boolean}
          * @private
          */
-        this._holding = false;
+        self._holding = false;
 
         /**
          * @type {Boolean}
          * @private
          */
-        this._locking = false;
+        self._locking = false;
 
         /**
          * @type {Array}
          * @private
          */
-        this._intermediateScene = null;
+        self._intermediateScene = null;
 
         /**
          * @type {null}
          * @private
          */
-        this._transitionEndHandler = null;
+        self._transitionEndHandler = null;
 
         /**
          * listener
          * @type {{autoPlay: null, resize: null, transitionEnd: null}}
          * @private
          */
-        this._LSN = {
+        self._LSN = {
             autoPlay: null,
             resize: null,
             transitionEnd: null
@@ -387,14 +382,35 @@
          * @type {null}
          * @public
          */
-        this.currentEl = null;
+        self.currentEl = null;
 
         /**
          * Event handle
-         * @type {{}}
+         * @type {Object}
          * @private
          */
-        this._EventHandle = {};
+        self._EventHandle = {};
+
+        /**
+         * is on Moving
+         * @type {Boolean}
+         * @private
+         */
+        self.onMoving = false;
+
+        /**
+         * is on Sliding
+         * @type {Boolean}
+         * @private
+         */
+        self.onSliding = false;
+
+        /**
+         * animate direction
+         * @type {Number|null}
+         * @private
+         */
+        self.direction = null;
 
         // --------------------------------
         // - Set options
@@ -404,52 +420,52 @@
 
         /**
          * dom element wrapping content
-         * @type {HTML Element}
+         * @type {HTMLElement}
          * @public
          */
-        this.wrap = opts.dom;
+        self.wrap = opts.dom;
 
         /**
          * Data list
          * @type {Array}
          * @public
          */
-        this.data = opts.data;
+        self.data = opts.data;
 
         /**
          * default slide direction
          * @type {Boolean}
          * @public
          */
-        this.isVertical = !!opts.isVertical;
+        self.isVertical = !!opts.isVertical;
 
         /**
          * Overspread mode
          * @type {Boolean}
          * @public
          */
-        this.isOverspread = !!opts.isOverspread;
+        self.isOverspread = !!opts.isOverspread;
 
         /**
          * Play time gap
          * @type {Number}
          * @public
          */
-        this.duration = opts.duration || 2000;
+        self.duration = opts.duration || 2000;
 
         /**
          * start from initIndex or 0
          * @type {Number}
          * @public
          */
-        this.initIndex = opts.initIndex > 0 && opts.initIndex <= opts.data.length - 1 ? opts.initIndex : 0;
+        self.initIndex = opts.initIndex > 0 && opts.initIndex <= opts.data.length - 1 ? opts.initIndex : 0;
 
         /**
          * touchstart prevent default to fixPage
          * @type {Boolean}
          * @public
          */
-        this.fixPage = opts.fixPage == null ? true : !!opts.fixPage;
+        self.fixPage = opts.fixPage == null ? true : !!opts.fixPage;
 
         /**
          * Fill seam when render
@@ -457,121 +473,121 @@
          * @type {Boolean}
          * @public
          */
-        this.fillSeam = !!opts.fillSeam;
+        self.fillSeam = !!opts.fillSeam;
 
         /**
          * slideIndex
          * @type {Number}
          * @private
          */
-        this.slideIndex = this.slideIndex || this.initIndex || 0;
+        self.slideIndex = self.slideIndex || self.initIndex || 0;
 
         /**
          * Axis
          * @type {String}
          * @public
          */
-        this.axis = this.isVertical ? 'Y' : 'X';
+        self.axis = self.isVertical ? 'Y' : 'X';
 
         /**
          * reverseAxis
          * @type {String}
          * @private
          */
-        this.reverseAxis = this.axis === 'Y' ? 'X' : 'Y';
+        self.reverseAxis = self.axis === 'Y' ? 'X' : 'Y';
 
         /**
          * Wrapper width
          * @type {Number}
          * @private
          */
-        this.width = typeof opts.width === 'number' ? opts.width : this.wrap.offsetWidth;
+        self.width = typeof opts.width === 'number' ? opts.width : self.wrap.offsetWidth;
 
         /**
          * Wrapper height
          * @type {Number}
          * @private
          */
-        this.height = typeof opts.height === 'number' ? opts.height : this.wrap.offsetHeight;
+        self.height = typeof opts.height === 'number' ? opts.height : self.wrap.offsetHeight;
 
         /**
          * Ratio height:width
          * @type {Number}
          * @private
          */
-        this.ratio = this.height / this.width;
+        self.ratio = self.height / self.width;
 
         /**
          * Scale, size rule
          * @type {Number}
          * @private
          */
-        this.scale = this.isVertical ? this.height : this.width;
+        self.scale = self.isVertical ? self.height : self.width;
 
         /**
          * On slide offset position
          * @type {{X: number, Y: number}}
          * @private
          */
-        this.offset = this.offset || {X: 0, Y: 0};
+        self.offset = self.offset || {X: 0, Y: 0};
 
         /**
          * Enable/disable touch events
          * @type {Boolean}
          * @private
          */
-        this.isTouchable = opts.isTouchable == null ? true : !!opts.isTouchable;
+        self.isTouchable = opts.isTouchable == null ? true : !!opts.isTouchable;
 
         /**
          * looping logic adjust
          * @type {Boolean}
          * @private
          */
-        this.isLooping = opts.isLooping && this.data.length > 1 ? true : false;
+        self.isLooping = opts.isLooping && self.data.length > 1 ? true : false;
 
         /**
          * AutoPlay waitting milsecond to start
          * @type {Number}
          * @private
          */
-        this.delay = opts.delay || 0;
+        self.delay = opts.delay || 0;
 
         /**
          * autoplay logic adjust
          * @type {Boolean}
          * @private
          */
-        this.isAutoplay = opts.isAutoplay && this.data.length > 1 ? true : false;
+        self.isAutoplay = opts.isAutoplay && self.data.length > 1 ? true : false;
 
         /**
          * Animate type
          * @type {String}
          * @private
          */
-        this.animateType = opts.animateType in this._animateFuncs ? opts.animateType : 'normal';
+        self.animateType = opts.animateType in self._animateFuncs ? opts.animateType : 'normal';
 
         /**
          * @protected
          */
-        this._animateFunc = this._animateFuncs[this.animateType];
+        self._animateFunc = self._animateFuncs[self.animateType];
 
         /**
          * @private
          */
-        this._animateReverse = (function animateReverse() {
+        self._animateReverse = (function () {
             var _ = [];
-            for (var type in this._animateFuncs) {
-                if (this._animateFuncs.hasOwnProperty(type) && this._animateFuncs[type].reverse) {
+            for (var type in self._animateFuncs) {
+                if (self._animateFuncs.hasOwnProperty(type) && self._animateFuncs[type].reverse) {
                     _.push(type);
                 }
             }
             return _;
-        }.bind(this))();
+        })();
 
         // little trick set, when you chooce tear & vertical same time
         // iSlider overspread mode will be set true autometicly
-        if (this.isVertical && this.animateType === 'card') {
-            this.isOverspread = true;
+        if (self.isVertical && self.animateType === 'card') {
+            self.isOverspread = true;
         }
 
         /**
@@ -579,7 +595,7 @@
          * @type {Function}
          * @private
          */
-        this.log = opts.isDebug ? function () {
+        self.log = opts.isDebug ? function () {
             global.console.log.apply(global.console, arguments);
         } : noop;
 
@@ -589,9 +605,9 @@
          * @returns {*}
          * @private
          */
-        this._damping = (function () {
+        self._damping = (function () {
 
-            var oneIn2 = this.scale >> 1;
+            var oneIn2 = self.scale >> 1;
             var oneIn4 = oneIn2 >> 1;
             var oneIn16 = oneIn4 >> 2;
 
@@ -612,21 +628,21 @@
 
                 return distance > 0 ? result : -result;
             }
-        }.bind(this))();
+        })();
 
         /**
          * animate process time (ms), default: 300ms
          * @type {Number}
          * @public
          */
-        this.animateTime = opts.animateTime != null && opts.animateTime > -1 ? opts.animateTime : 300;
+        self.animateTime = opts.animateTime != null && opts.animateTime > -1 ? opts.animateTime : 300;
 
         /**
          * animate effects, default: ease
          * @type {String}
          * @public
          */
-        this.animateEasing =
+        self.animateEasing =
             inArray(opts.animateEasing, iSlider.EASING[0])
             || iSlider.EASING[1].test(opts.animateEasing)
                 ? opts.animateEasing
@@ -637,7 +653,7 @@
          * @type {{hasTouch, startEvt, moveEvt, endEvt}}
          * @private
          */
-        this.deviceEvents = (function () {
+        self.deviceEvents = (function () {
             var hasTouch = !!(('ontouchstart' in global) || global.DocumentTouch && document instanceof global.DocumentTouch);
             return {
                 hasTouch: hasTouch,
@@ -654,21 +670,14 @@
          * @type {Number}
          * @private
          */
-        this.fingerRecognitionRange = opts.fingerRecognitionRange > -1 ? parseInt(opts.fingerRecognitionRange) : 10;
-
-        /**
-         * is on Moving
-         * @type {Boolean}
-         * @private
-         */
-        this.isMoving = false;
+        self.fingerRecognitionRange = opts.fingerRecognitionRange > -1 ? parseInt(opts.fingerRecognitionRange) : 10;
 
         /**
          * Init events
          * @type {{}}
          * @private
          */
-        this.events = {};
+        self.events = {};
 
         // --------------------------------
         // - Register events
@@ -676,8 +685,8 @@
 
         iSlider.EVENTS.forEach(function (eventName) {
             var fn = opts['on' + eventName.toLowerCase()];
-            typeof fn === 'function' && this.on(eventName, fn, 1);
-        }.bind(this));
+            typeof fn === 'function' && self.on(eventName, fn, 1);
+        });
 
         // --------------------------------
         // - Plugins
@@ -687,7 +696,7 @@
          * @type {Object}
          * @private
          */
-        this.pluginConfig = (function () {
+        self.pluginConfig = (function () {
             var config = {};
             if (isArray(opts.plugins)) {
                 opts.plugins.forEach(function pluginConfigEach(plugin) {
@@ -760,7 +769,7 @@
 
     /**
      * render single item html by idx
-     * @param {HTML Element} el ..
+     * @param {HTMLElement} el ..
      * @param {Number} dataIndex  ..
      * @private
      */
@@ -877,7 +886,7 @@
      * @private
      */
     iSliderPrototype._renderWrapper = function () {
-        this.wrap.style.overflow = 'hidden';
+        //this.wrap.style.overflow = 'hidden';
         // initail outer element
         var outer;
         if (this.outer) {
@@ -887,7 +896,7 @@
             outer = document.createElement('ul');
         }
         outer.className = 'islider-outer';
-        outer.style.overflow = 'hidden';
+        //outer.style.overflow = 'hidden';
         // no need...
         // outer.style.cssText += 'width:' + this.width + 'px;height:' + this.height + 'px';
 
@@ -934,7 +943,7 @@
         // append ul to div#canvas
         if (!this.outer) {
             /**
-             * @type {HTML Element}
+             * @type {HTMLElement}
              * @public
              */
             this.outer = outer;
@@ -984,32 +993,41 @@
 
         this._unWatchTransitionEnd();
 
-        var handle = [
-            this.currentEl, function () {
-                this._unWatchTransitionEnd();
-                if (eventType === 'slideChanged') {
-                    this._changedStyles();
-                }
-                this.fire.call(this, eventType, this.slideIndex, this.currentEl, this);
-                this._renderIntermediateScene();
-                this.play();
-            }.bind(this)
-        ];
+        var cb = function () {
+            this._unWatchTransitionEnd();
+            if (eventType === 'slideChanged') {
+                this._changedStyles();
+            }
+            this.fire.call(this, eventType, this.slideIndex, this.currentEl, this);
+            this._renderIntermediateScene();
+            this.play();
+            this.onSliding = false;
+            this.direction = null;
+        }.bind(this);
 
-        handle[0].addEventListener(iSlider.TRANSITION_END_EVENT, handle[1]);
-        this._LSN.transitionEnd = global.setTimeout(handle[1], squeezeTime);
-        this._transitionEndHandler = handle;
+        if (iSlider.TRANSITION_END_EVENT) {
+            this.currentEl.addEventListener(iSlider.TRANSITION_END_EVENT, cb);
+            // keep handler and element
+            this._transitionEndHandler = {el: this.currentEl, handler: cb};
+        } else {
+            this._LSN.transitionEnd = global.setTimeout(cb, squeezeTime);
+        }
     };
 
     /**
+     * unwatch transition end
      * @private
      */
     iSliderPrototype._unWatchTransitionEnd = function () {
-        this._LSN.transitionEnd && global.clearTimeout(this._LSN.transitionEnd);
-        if (isArray(this._transitionEndHandler)) {
-            this._transitionEndHandler[0].removeEventListener(iSlider.TRANSITION_END_EVENT, this._transitionEndHandler[1]);
+        if (this._LSN.transitionEnd) {
+            global.clearTimeout(this._LSN.transitionEnd);
+        }
+        if (this._transitionEndHandler !== null) {
+            this._transitionEndHandler.el.removeEventListener(iSlider.TRANSITION_END_EVENT, this._transitionEndHandler.handler);
             this._transitionEndHandler = null;
         }
+
+        //this.onSliding = false;
     };
 
     /**
@@ -1083,7 +1101,7 @@
     /**
      *  touchstart callback
      *  @param {Object} evt event object
-     *  @protected
+     *  @public
      */
     iSliderPrototype.startHandler = function (evt) {
         if (this.fixPage) {
@@ -1095,7 +1113,7 @@
             return;
         }
         var device = this.deviceEvents;
-        this.isMoving = true;
+        this.onMoving = true;
         this.pause();
 
         this.log('[EVENT]: start');
@@ -1123,10 +1141,10 @@
     /**
      *  touchmove callback
      *  @param {Object} evt event object
-     *  @protected
+     *  @public
      */
     iSliderPrototype.moveHandler = function (evt) {
-        if (!this.isMoving) {
+        if (!this.onMoving) {
             return;
         }
         this.log('[EVENT]: moving');
@@ -1134,12 +1152,18 @@
         var len = this.data.length;
         var axis = this.axis;
         var reverseAxis = this.reverseAxis;
-        var offset = {
-            X: device.hasTouch ? (evt.targetTouches[0].pageX - this.startX) : (evt.pageX - this.startX),
-            Y: device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY)
-        };
+        var offset = {};
+
+        if (evt.hasOwnProperty('offsetRatio')) {
+            offset[axis] = evt.offsetRatio * this.scale;
+            offset[reverseAxis] = 0;
+        } else {
+            offset.X = device.hasTouch ? (evt.targetTouches[0].pageX - this.startX) : (evt.pageX - this.startX);
+            offset.Y = device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY);
+        }
 
         this.offset = offset;
+        evt.offsetRatio = offset[axis] / this.scale;
 
         if (Math.abs(offset[axis]) - Math.abs(offset[reverseAxis]) > 10) {
 
@@ -1166,14 +1190,14 @@
     /**
      *  touchend callback
      *  @param {Object} evt event object
-     *  @protected
+     *  @public
      */
     iSliderPrototype.endHandler = function (evt) {
-        if (!this.isMoving) {
+        if (!this.onMoving) {
             return;
         }
         this.log('[EVENT]: end');
-        this.isMoving = false;
+        this.onMoving = false;
         var offset = this.offset;
         var axis = this.axis;
         var boundary = this.scale / 2;
@@ -1218,13 +1242,13 @@
             this.slideTo(this.slideIndex + 1);
         }
         else {
-            if (Math.abs(this.offset[this.axis]) >= FRR) {
+            if (Math.abs(this.offset[axis]) >= FRR) {
                 this.slideTo(this.slideIndex);
             }
         }
 
         // create sim tap event if offset < this.fingerRecognitionRange
-        if (Math.abs(this.offset[this.axis]) < FRR && this.fixPage && evt.target) {
+        if (Math.abs(this.offset[axis]) < FRR && this.fixPage && evt.target) {
             dispatchLink(evt.target);
         }
 
@@ -1233,7 +1257,7 @@
 
     /**
      * resize callback
-     * @protected
+     * @public
      */
     iSliderPrototype.resizeHandler = function () {
         var _L = this._LSN.resize;
@@ -1286,15 +1310,18 @@
             return;
         }
         this.unhold();
+        this.onSliding = true;
         var animateTime = this.animateTime;
         var animateType = this.animateType;
         var animateFunc = this._animateFunc;
         var data = this.data;
         var els = this.els;
+        var axis = this.axis;
         var idx = dataIndex;
         var n = dataIndex - this.slideIndex;
         var offset = this.offset;
         var eventType;
+        var squeezeTime = 0;
 
         if (typeof opts === 'object') {
             if (opts.animateTime > -1) {
@@ -1307,7 +1334,9 @@
         }
 
         // In the slide process, animate time is squeezed
-        var squeezeTime = Math.abs(offset[this.axis]) / this.scale * animateTime;
+        if (offset[axis] !== 0) {
+            squeezeTime = Math.abs(offset[axis]) / this.scale * animateTime;
+        }
 
         if (Math.abs(n) > 1) {
             this._renderItem(n > 0 ? this.els[2] : this.els[0], idx);
@@ -1325,7 +1354,6 @@
                 this.slideIndex = n > 0 ? 0 : data.length - 1;
             }
             else {
-                // this.slideIndex = this.slideIndex;
                 n = 0;
             }
         }
@@ -1347,8 +1375,7 @@
                 headEl = els[2];
                 tailEl = els[0];
                 direction = 1;
-            }
-            else {
+            } else {
                 els.unshift(els.pop());
                 headEl = els[0];
                 tailEl = els[2];
@@ -1380,6 +1407,8 @@
                 addClass(this.currentEl, 'islider-sliding-focus');
                 addClass(headEl, 'islider-sliding');
             }
+
+            this.direction = direction;
         }
 
         // do the trick animation
@@ -1388,7 +1417,7 @@
                 // Only applies their effects
                 els[i].style.webkitTransition = (animateFunc.effect || 'all') + ' ' + squeezeTime + 'ms ' + this.animateEasing;
             }
-            animateFunc.call(this, els[i], this.axis, this.scale, i, 0, direction);
+            animateFunc.call(this, els[i], axis, this.scale, i, 0, direction);
             this.fillSeam && this.seamScale(els[i]);
         }
 
@@ -1441,10 +1470,13 @@
 
     /**
      *  simple event delegate method
+     *
      *  @param {String} evtType event name
      *  @param {String} selector the simple css selector like jQuery
      *  @param {Function} callback event callback
      *  @public
+     *
+     *  @alias iSliderPrototype.bind
      */
     iSliderPrototype.bind = iSliderPrototype.delegate = function (evtType, selector, callback) {
 
@@ -1481,6 +1513,8 @@
      * @param {String} selector the simple css selector like jQuery
      * @param {Function} callback event callback
      * @public
+     *
+     * @alias iSliderPrototype.unbind
      */
     iSliderPrototype.unbind = iSliderPrototype.unDelegate = function (evtType, selector, callback) {
         var key = evtType + ';' + selector;
@@ -1710,7 +1744,7 @@
 
     /**
      * Fill the seam
-     * @param {HTML Element} el
+     * @param {HTMLElement} el
      * @private
      */
     iSliderPrototype.seamScale = function (el) {
@@ -1739,7 +1773,7 @@
     };
 
     /**
-     * @param {HTML Element} el
+     * @param {HTMLElement} el
      * @private
      */
     iSliderPrototype.originScale = function (el) {
@@ -1765,6 +1799,53 @@
                 return 'scale(' + sc.X + ', ' + sc.Y + ')';
             }
         }.bind(this));
+    };
+
+    /**
+     * Let target islider controls this one
+     *
+     * @param {iSlider} target
+     * @param {Object} how
+     * @public
+     */
+    iSliderPrototype.subjectTo = function (target, how) {
+        if (!target instanceof iSlider) {
+            return;
+        }
+
+        var self = this;
+
+        self.animateTime = target.animateTime;
+        self.isLooping = target.isLooping;
+        self.isAutoplay = false;
+
+        target.on('slideStart', function (evt) {
+            self.startHandler(evt);
+        });
+
+        target.on('slide', function (evt) {
+            self.moveHandler(evt);
+        });
+
+        target.on('slideEnd', function (evt) {
+            self.endHandler(evt);
+        });
+
+        target.on('slideChange', function (i) {
+            var l = self.data.length;
+            var d = self.direction;
+            if (d > 0 && (i - self.slideIndex + l) % l === 1) {
+                self.slideNext();
+            } else if (d < 0 && (i - self.slideIndex - l) % l === -1) {
+                self.slidePrev();
+            }
+        });
+
+        target.on('slideRestore', function (i) {
+            if (self.slideIndex !== i) {
+                self.slideTo(i);
+            }
+        });
     };
 
     /* CommonJS */

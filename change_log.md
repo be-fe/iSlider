@@ -1,3 +1,12 @@
+### iSlider 2.1.3
+- [Optimization]Local variable references.
+- [Optimization]isMoving => onMoving
+- [Optimization][EXT]animation
+
+#### Something new
+- Add new method "[subjectTo](https://github.com/BE-FE/iSlider/blob/master/README.md#subjectto)"
+
+
 ### iSlider 2.1.2
 - [Optimization]orientationChange and resize distinction => resizeEvt, according to whether the mobile device.
 - [Optimization]Merge "leaving" event, mouseout and touchcancel.
