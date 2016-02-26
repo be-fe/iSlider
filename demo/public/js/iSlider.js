@@ -161,7 +161,7 @@
      * version
      * @type {string}
      */
-    iSlider.VERSION = '2.1.2';
+    iSlider.VERSION = '2.1.3';
 
     /**
      * Event white list
@@ -1817,6 +1817,7 @@
 
         self.animateTime = target.animateTime;
         self.isLooping = target.isLooping;
+        self.isAutoplay = false;
 
         target.on('slideStart', function (evt) {
             self.startHandler(evt);
