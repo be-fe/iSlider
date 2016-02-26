@@ -399,10 +399,11 @@
         if (type == 'DOMMouseScroll' || type == 'mousewheel') {
             evt.delta = (evt.wheelDelta) ? evt.wheelDelta / 120 : -(evt.detail || 0) / 3;
         }
-        if (evt.timeStamp - wt < 100 && evt.timeStamp - wft < 2000 && Math.abs(evt.delta) < 2) {
+        if (evt.timeStamp - wt < 100 && evt.timeStamp - wft < 2000) {
             wt = evt.timeStamp;
             return;
         }
+
         wt = evt.timeStamp;
         wft = evt.timeStamp;
 
