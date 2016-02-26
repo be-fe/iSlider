@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>iSlider by BE-FE</title>
-    <link rel="stylesheet" href="public/css/index_new.css">
+    <link rel="stylesheet" href="public/css/index.css">
     <link rel="stylesheet" href="//highlightjs.org/static/demo/styles/zenburn.css">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,12 +20,12 @@
     </ul>
     <div id="menu">
         <div id="menu-title">
-            <h2><a href="#">iSlider Demo</a></h2>
+            <h2><a href="./">iSlider Demo</a></h2>
         </div>
         <div class="divider"></div>
         <ul id="menu-list">
             <li>
-                <a href="#frame">Home<span class="submenu-indicator">+</span></a>
+                <a href="#frame">Home</a>
                 <ul class="submenu">
                     <li>
                         <a href="#intro-detail">介绍</a>
@@ -36,7 +36,7 @@
                 </ul>
             </li>
             <li>
-                <a href="#intro">结构说明<span class="submenu-indicator">+</span></a>
+                <a href="#intro">结构说明</a>
                 <ul class="submenu">
                     <li>
                         <a href="#frame-iSlider" class="item">iSlider.js</a>
@@ -62,17 +62,13 @@
                 <a href="#code">Demo代码</a>
             </li>
             <li>
-                <a href="#options">
-                    初始化
-                    <span class="submenu-indicator">+</span>
-                </a>
+                <a href="#options">初始化</a>
                 <ul class="submenu">
                     <li><a href="#DOM">DOM</a></li>
                     <li><a href="#DATA">DATA</a></li>
                     <li>
                         <a href="#OPTIONS">
                             OPTIONS
-                            <span class="submenu-indicator">+</span>
                         </a>
                         <ul class="submenu" id="options-param-tree">
                         </ul>
@@ -80,27 +76,22 @@
                 </ul>
             </li>
             <li>
-                <a href="#" class="">
-                    事件
-                    <span class="submenu-indicator">+</span>
-                </a>
+                <a href="#" class="">事件</a>
                 <ul class="submenu" id="function-tree">
                 </ul>
             </li>
             <li>
-                <a href="#" class="">方法<span class="submenu-indicator">+</span></a>
+                <a href="#" class="">方法</a>
                 <ul class="submenu">
                     <li>
                         <a href="#" class="">
                             静态方法
-                            <span class="submenu-indicator">+</span>
                         </a>
                         <ul class="submenu" id="method-static-tree"></ul>
                     </li>
                     <li>
                         <a href="#" class="">
                             实例方法
-                            <span class="submenu-indicator">+</span>
                         </a>
                         <ul class="submenu" id="method-example-tree"></ul>
                     </li>
@@ -132,6 +123,7 @@
                 </a>
                 iSlider
             </h1>
+
             <p>
                 <a href="http://be-fe.github.io/iSlider/demo/index.html">iSlider English Demo page</a>
                 <br>
@@ -141,6 +133,7 @@
             <h2>概要</h2>
 
             <h3 id="intro-detail">介绍</h3>
+
             <p>iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。</p>
 
             <h3 id="intro-good">特性</h3>
@@ -186,7 +179,9 @@
 
         <div id="demo">
             <h2>iSlider 示例</h2>
+
             <p>若是PC，请打开webkit浏览器进行测试</p>
+
             <h3 class="animate-title">动画效果</h3>
 
             <div class="islider-demo-wrap">
@@ -215,9 +210,12 @@
 
         <div id="options">
             <h2>初始化</h2>
+
             <p>
-                <code>new iSlider(<a href="#DOM">DOM</a>, <a href="#DATA">DATA</a>, <a href="#OPTIONS">OPTIONS</a>)</code>
+                <code>new iSlider(<a href="#DOM">DOM</a>, <a href="#DATA">DATA</a>, <a
+                        href="#OPTIONS">OPTIONS</a>)</code>
             </p>
+
             <div class="description">
                 <table class="params">
                     <tr>
@@ -225,7 +223,7 @@
                         <th>Type</th>
                         <th class="last">Description</th>
                     </tr>
-                    <tr> 
+                    <tr>
                         <td class="name"><code>DOM</code></td>
                         <td class="type">
                             <span class="param-type">dom</span>
@@ -234,7 +232,7 @@
                             容器dom节点
                         </td>
                     </tr>
-                    <tr> 
+                    <tr>
                         <td class="name"><code>DATA</code></td>
                         <td class="type">
                             <span class="param-type">Array</span>
@@ -243,7 +241,7 @@
                             数据列表
                         </td>
                     </tr>
-                    <tr> 
+                    <tr>
                         <td class="name"><code>OPTIONS</code></td>
                         <td class="type">
                             <span class="param-type">Object</span>
@@ -256,32 +254,39 @@
             </div>
 
             <h3 id="DOM">DOM</h3>
+
             <p>释义: 容器dom节点</p>
+
             <p>类型:<code>{HTMLElement}</code></p>
+
             <p>描述: 作为第一个参数并不是必须的，会被OPTIONS.dom覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。</p>
 
             <h3 id="DATA">DATA</h3>
+
             <p>释义: 数据列表</p>
+
             <p>类型: <code>{Array}</code></p>
-            <p>描述: 作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。允许的类型为URLString、HTMLString、HTMLElement、HTMLFragment。</p>
+
+            <p>描述:
+                作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。允许的类型为URLString、HTMLString、HTMLElement、HTMLFragment。</p>
+
             <p>TODO：目前成员为{Object}类型，只支持content属性，在将来会得到更多的扩展，比如配置每一场景的切换效果、等待时间等等。</p>
+
             <p>数据格式:
-                <pre class="highlight">
-                    <code>
-                        <span class="p">[</span>
-                            <span class="p">{</span>
-                                <span class="na">content</span><span class="p">:</span><span class="s1">'{URLString|HTMLString|HTMLElement|HTMLFragment}'</span><span class="p">,</span>
-                            <span class="p">},</span>
-                            <span class="p">...</span>
-                        <span class="p">]</span>
-                    </code>
-                </pre>
+                <pre class="highlight">[
+    {
+        content: '{URLString|HTMLString|HTMLElement|HTMLFragment}'
+    },
+    ...
+]</pre>
             </p>
 
             <h3 id="OPTIONS">OPTIONS</h3>
+
             <p>类型: <code>{Object}</code></p>
+
             <p>描述: 作为第一个参数并不是必须的，会被<code>OPTIONS.dom</code> 覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。</p>
-            
+
             <div class="options">
                 <h4 id="dom">dom</h4>
                 <ul>
@@ -299,7 +304,9 @@
                 <ul>
                     <li><code>{String}</code></li>
                     <li>动画效果</li>
-                    <li>目前支持：<code>default</code>（卷动）、<code>rotate</code>（旋转）、<code>depth</code>、<code>flow</code>、<code>flip</code>、<code>card</code>、<code>fade</code>（渐显/隐）、<code>zoomout</code>（向外/内缩放）</li>
+                    <li>
+                        目前支持：<code>default</code>（卷动）、<code>rotate</code>（旋转）、<code>depth</code>、<code>flow</code>、<code>flip</code>、<code>card</code>、<code>fade</code>（渐显/隐）、<code>zoomout</code>（向外/内缩放）
+                    </li>
                     <li>前置条件：载入效果库 iSlider.animate(.min).js</li>
                     <li>默认：<code>default</code></li>
                 </ul>
@@ -316,7 +323,8 @@
                 <ul>
                     <li><code>{String}</code></li>
                     <li>动画效果曲线</li>
-                    <li>可选 <code>linear</code>、<code>ease</code>、<code>ease-in</code>、<code>ease-out</code>、<code>ease-in-out</code>，甚至<code>cubic-bezier</code></li>
+                    <li>可选 <code>linear</code>、<code>ease</code>、<code>ease-in</code>、<code>ease-out</code>、<code>ease-in-out</code>，甚至<code>cubic-bezier</code>
+                    </li>
                     <li>默认：<code>ease</code></li>
                 </ul>
 
@@ -388,7 +396,8 @@
                         <ul>
                             <li>“A”元素，阻止，移动端建议使用自定义的tap（touch系事件联合判断）</li>
                             <li>对表单类元素”SELECT”、”INPUT”、”TEXTAREA”
-                                、”BUTTON”、”LABEL”，任何情况下均不进行阻止</li>
+                                、”BUTTON”、”LABEL”，任何情况下均不进行阻止
+                            </li>
                         </ul>
                     </li>
                     <li>默认：<code>true</code>(开启)</li>
@@ -406,7 +415,8 @@
                 <ul>
                     <li><code>{Array}</code></li>
                     <li>启用插件并配置初始化参数</li>
-                    <li>传入欲激活的插件名称列表：<code>['dot', 'button', 'zoompic', ...]</code>，另外，支持传入初始化参数：<code>[..., ['zoompic', {zoomFactor: 2}], ...]</code></li>
+                    <li>传入欲激活的插件名称列表：<code>['dot', 'button', 'zoompic', ...]</code>，另外，支持传入初始化参数：<code>[..., ['zoompic',
+                        {zoomFactor: 2}], ...]</code></li>
                     <li>若插件未被载入或不存在则忽略</li>
                 </ul>
             </div>
@@ -414,14 +424,19 @@
 
         <div id="functions">
             <h2>事件</h2>
+
             <p></p>
+
             <p>在初始化时传入，也可通过实例方法”on”进行事件注册。</p>
+
             <p>作为初始化参数时需要以<strong>on</strong>开头且全为小写，绑定时为驼峰命名。</p>
+
             <p>不同的回调方法由于所处场景不同，传入的参数会存在区别。</p>
+
             <p>示例：</p>
             <pre class="highlight">
                 <code>var S = new iSlider({..., onslidechanged: callBack, ...});
-                S.on('slideChanged', callBack);</code>
+                    S.on('slideChanged', callBack);</code>
             </pre>
 
             <h3 id="initialize">initialize</h3>
@@ -429,7 +444,7 @@
                 <li>初始化开始（在调用setting后，渲染之前）</li>
                 <li>参数：无</li>
             </ul>
-            
+
             <h3 id="initialized">initialized</h3>
             <ul>
                 <li>初始化完成时（渲染之后）触发</li>
@@ -492,7 +507,7 @@
                         <li><code>{Object}</code>事件(Event)对象</li>
                     </ul>
                 </li>
-            </ul>        
+            </ul>
 
             <h3 id="slideChange">slideChange</h3>
             <ul>
@@ -568,6 +583,7 @@
             <h2>实例方法</h2>
 
             <h3 id="methods-static">静态方法</h3>
+
             <div class="methods-static">
                 <h4 id="extend">extend</h4>
                 <ul>
@@ -580,7 +596,7 @@
                         </ul>
                     </li>
                 </ul>
-                
+
                 <h4 id="regPlugin">regPlugin</h4>
                 <ul>
                     <li>注册插件</li>
@@ -594,6 +610,7 @@
             </div>
 
             <h3 id="methods-example">实例方法</h3>
+
             <div class="methods-example">
                 <h4 id="slideTo">slideTo</h4>
                 <ul>
@@ -601,8 +618,8 @@
                     <li>可以在第二个参数设置配置信息，改变本次滑动的动画效果: <code>animateTime</code> <code>animateType</code></li>
                     <li>参数：
                         <ul>
-                        <li><code>{Number}</code>数据列表索引</li>
-                        <li>[<code>{Object}</code>临时配置]</li>
+                            <li><code>{Number}</code>数据列表索引</li>
+                            <li>[<code>{Object}</code>临时配置]</li>
                         </ul>
                     </li>
                 </ul>
@@ -659,7 +676,8 @@
                         <ul>
                             <li><code>{String}</code>事件名</li>
                             <li><code>{Function}</code>回调方法</li>
-                            <li>[<code>{Boolean}</code>] 优先注册，回调事件注册到事件队列的首部，所有在初始化时注册的事件回调均在队列最前，默认：<code>false</code></li>
+                            <li>[<code>{Boolean}</code>] 优先注册，回调事件注册到事件队列的首部，所有在初始化时注册的事件回调均在队列最前，默认：<code>false</code>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -734,7 +752,9 @@
 
                 <h4 id="lock">lock</h4>
                 <ul>
-                    <li>锁定当前场景，禁用<code><a href="#sliceTo">sliceTo</a></code>, <code><a href="#slideNext">slideNext</a></code>, <code><a href="#slidePrev">slidePrev</a></code>方法，同时禁止手势</li>
+                    <li>锁定当前场景，禁用<code><a href="#sliceTo">sliceTo</a></code>, <code><a
+                            href="#slideNext">slideNext</a></code>, <code><a href="#slidePrev">slidePrev</a></code>方法，同时禁止手势
+                    </li>
                 </ul>
 
                 <h4 id="unlock">unlock</h4>
@@ -755,9 +775,8 @@
         </div>
     </div>
 </section>
-<!-- <script src="//cdn.bootcss.com/jquery/1.11.2/jquery.js"></script> -->
 <script src="//cdn.jsdelivr.net/highlight.js/8.9.1/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<script src="./public/js/index_new.js"></script>
+<script src="./public/js/index.js"></script>
 </body>
 </html>

@@ -7,7 +7,7 @@
   "devDependencies": {
     "eslint": "^1.10.3",
     "fs": "0.0.2",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-clean": "^0.3.1",
     "gulp-cssmin": "^0.1.7",
     "gulp-rename": "^1.2.2",
