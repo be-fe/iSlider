@@ -61,6 +61,10 @@ tree.addEventListener('click', function (e) {
 
 [
     [
+        document.querySelectorAll('#frame h4'),
+        document.querySelector('#intro-tree')
+    ],
+    [
         document.querySelectorAll('.options h4'),
         document.querySelector('#options-param-tree')
     ],
@@ -81,7 +85,6 @@ tree.addEventListener('click', function (e) {
         Array.prototype.forEach.call(cf[0], function (el) {
             o.push('<li><a class="item" href="#' + el.getAttribute('id') + '">' + el.textContent + '</a></li>');
         });
-        console.log(cf[0], cf[1]);
         cf[1].innerHTML = o.join('');
     });
 

@@ -71,7 +71,7 @@ code {
 #options code, #functions code, #methods code {
     padding: 2px 4px;
     font-size: 90%;
-    color: #c7254e;
+    color: #337AB7;
     white-space: nowrap;
     background-color: #f9f2f4;
     border-radius: 4px;
@@ -465,7 +465,7 @@ aside #hamburger-menu li {
 }
 
 #section-content a {
-    color: #C30000;
+    color: #3DAB99;
 }
 
 #section-content a:hover {
@@ -534,6 +534,10 @@ aside #hamburger-menu li {
 
 #toggle-box button.active {
     background-color: #0fb748;
+}
+
+#frame h4 {
+    margin-bottom: 6px;
 }
 
 #options table {
@@ -700,6 +704,10 @@ aside #hamburger-menu li {
     border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
+#menu-title h2 i {
+    visibility: hidden;
+}
+
 #menu-title a {
     text-decoration: none;
 }
@@ -733,11 +741,11 @@ aside #hamburger-menu li {
     -ms-transform: rotate(-45deg);
     -o-transform: rotate(-45deg);
     transform: rotate(-45deg);
-    /*-webkit-transition: transform .15s linear;*/
-    /*-moz-transition: transform .15s linear;*/
-    /*-ms-transition: transform .15s linear;*/
-    /*-o-transition: transform .15s linear;*/
-    /*transition: transform .15s linear;*/
+    -webkit-transition: transform .15s linear;
+    -moz-transition: transform .15s linear;
+    -ms-transition: transform .15s linear;
+    -o-transition: transform .15s linear;
+    transition: transform .15s linear;
 }
 
 #menu .submenu-indicator:before {
@@ -745,8 +753,8 @@ aside #hamburger-menu li {
     color: rgba(255, 255, 255, 0.5);
     position: absolute;
     font-size: 12px;
-    left: 5px;
-    top: -2px;
+    left: 6px;
+    top: -3px;
 }
 
 #menu li.active > a > .submenu-indicator {

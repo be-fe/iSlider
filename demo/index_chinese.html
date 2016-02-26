@@ -20,7 +20,7 @@
     </ul>
     <div id="menu">
         <div id="menu-title">
-            <h2><a href="./">iSlider Demo</a></h2>
+            <h2>iSlider Demo</h2>
         </div>
         <div class="divider"></div>
         <ul id="menu-list">
@@ -37,23 +37,7 @@
             </li>
             <li>
                 <a href="#intro">结构说明</a>
-                <ul class="submenu">
-                    <li>
-                        <a href="#frame-iSlider" class="item">iSlider.js</a>
-                    </li>
-                    <li>
-                        <a href="#frame-iSlider-animate" class="item">iSlider.animate.js</a>
-                    </li>
-                    <li>
-                        <a href="#frame-iSlider-plugin-dot" class="item">iSlider.plugin.dot.js</a>
-                    </li>
-                    <li>
-                        <a href="#frame-iSlider-plugin-button" class="item">iSlider.plugin.button.js</a>
-                    </li>
-                    <li>
-                        <a href="#frame-iSlider-plugin-zoompic" class="item">iSlider.plugin.zoompic.js</a>
-                    </li>
-                </ul>
+                <ul id="intro-tree" class="submenu"></ul>
             </li>
             <li>
                 <a href="#demo">Demo示例</a>
@@ -154,27 +138,40 @@
 
         <div id="frame">
             <h3>iSlider 结构说明</h3>
-            <ul>
-                <li id="frame-iSlider">
-                    iSlider.js： iSlider核心代码库,定义iSlider类，绑定touch事件，图片预加载逻辑，以及图片翻页逻辑
-                </li>
-                <li id="frame-iSlider-animate">
-                    iSlider.animate.js： islider滑动效果库，目前支持flip、depth、flow等翻页效果。
-                    <a target="_blank" href="./2.X_more-animation.html">demo地址</a>
-                </li>
-                <li id="frame-iSlider-plugin-dot">
-                    iSlider.plugin.dot.js： 支持在图片上添加页码标示，支持点击翻页，以...展示。
-                    <a target="_blank" href="./2.X_with-plugins-dot-button.html">demo地址</a>
-                </li>
-                <li id="frame-iSlider-plugin-button">
-                    iSlider.plugin.button.js： 支持在图片上添加页码标示，支持点击翻页，以左右图标展示。
-                    <a target="_blank" href="./2.X_with-plugins-dot-button.html">demo地址</a>
-                </li>
-                <li id="frame-iSlider-plugin-zoompic">
-                    iSlider.plugin.zoompic.js： 针对type为pic类型的滑动元素提供的手势缩放功能，支持android和ios中手势缩放功能，同时支持边缘检测。
-                    <a target="_blank" href="./2.X_with-plugin-zoom.html">demo地址</a>
-                </li>
-            </ul>
+            <h4 id="frame-iSlider">iSlider.js</h4>
+
+            <p>
+                iSlider核心代码库,定义iSlider类，绑定touch事件，图片预加载逻辑，以及图片翻页逻辑
+            </p>
+            <h4 id="frame-iSlider-animate">iSlider.animate.js</h4>
+
+            <p>
+                islider滑动效果库，目前支持flip、depth、flow等翻页效果。
+                <a target="_blank" href="./2.X_more-animation.html">demo地址</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-dot">iSlider.plugin.dot.js</h4>
+
+            <p>
+                支持在图片上添加页码标示，支持点击翻页，以...展示。
+                <a target="_blank" href="./2.X_with-plugins-dot-button.html">demo地址</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-button">iSlider.plugin.button.js</h4>
+
+            <p>
+                支持在图片上添加页码标示，支持点击翻页，以左右图标展示。
+                <a target="_blank" href="./2.X_with-plugins-dot-button.html">demo地址</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-zoompic">iSlider.plugin.zoompic.js</h4>
+
+            <p>
+                针对type为pic类型的滑动元素提供的手势缩放功能，支持android和ios中手势缩放功能，同时支持边缘检测。
+                <a target="_blank" href="./2.X_with-plugin-zoom.html">demo地址</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-bizone">iSlider.plugin.BIZone.js</h4>
+
+            <p>
+                触控点边缘脱离识别区，虽然已经加入了mouseout和touchcancel的边缘处理，但是对于某些应用里，自定义的顶部（底部）菜单栏依然无能为力。识别区的意义在于可以主动的设置这些区域达到触摸脱离的效果。
+            </p>
         </div>
 
         <div id="demo">

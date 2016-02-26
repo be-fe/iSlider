@@ -267,6 +267,18 @@
         }
     };
 
+    iSlider.deviceEvents = (function () {
+        var hasTouch = !!(('ontouchstart' in global) || global.DocumentTouch && document instanceof global.DocumentTouch);
+        return {
+            hasTouch: hasTouch,
+            startEvt: hasTouch ? 'touchstart' : 'mousedown',
+            moveEvt: hasTouch ? 'touchmove' : 'mousemove',
+            endEvt: hasTouch ? 'touchend' : 'mouseup',
+            cancelEvt: hasTouch ? 'touchcancel' : 'mouseout',
+            resizeEvt: 'onorientationchange' in global ? 'orientationchange' : 'resize'
+        };
+    })();
+
     /**
      * Plugins
      * @type {{}}
@@ -653,17 +665,7 @@
          * @type {{hasTouch, startEvt, moveEvt, endEvt}}
          * @private
          */
-        self.deviceEvents = (function () {
-            var hasTouch = !!(('ontouchstart' in global) || global.DocumentTouch && document instanceof global.DocumentTouch);
-            return {
-                hasTouch: hasTouch,
-                startEvt: hasTouch ? 'touchstart' : 'mousedown',
-                moveEvt: hasTouch ? 'touchmove' : 'mousemove',
-                endEvt: hasTouch ? 'touchend' : 'mouseup',
-                cancelEvt: hasTouch ? 'touchcancel' : 'mouseout',
-                resizeEvt: 'onorientationchange' in global ? 'orientationchange' : 'resize'
-            };
-        })();
+        self.deviceEvents = iSlider.deviceEvents;
 
         /**
          * Finger recognition range, prevent inadvertently touch
