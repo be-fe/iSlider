@@ -331,13 +331,21 @@ var data = [{
 - 默认：0
 
 
+##### fingerRecognitionRange
+
+- `{Number}`
+- 误触识别范围，大于范围值的touchMove被视为有效滑动距离
+- 默认：10(px)
+
+
 ##### fixPage
 
-- `{Boolean}`
+- `{Boolean|Array|String}`
 - 原生事件阻止
 - 场景内屏蔽原生事件的触发，如：滚动、拖拽、缩放等
     - "A"元素，阻止，移动端建议使用自定义的tap（touch系事件联合判断）
     - 对表单类元素"SELECT"、"INPUT"、"TEXTAREA"、"BUTTON"、"LABEL"，任何情况下均不进行阻止
+    - *排除策略：若参数类型为字符串（规则，querySelector选择器字符串）或数组(多个规则)，此选项为开启状态(true)并排除复合规则的元素，与`iSlider.FIX_PAGE_TAGS`相同对待
 - 默认：true(开启)
 
 
@@ -486,6 +494,47 @@ S.on('slideChanged', callBack);
 - `{Function}`
 - 当iSlider销毁时触发
 - 参数：无
+
+
+### 常量
+
+#### VERSION
+
+- `{String}`
+- 版本号
+
+#### EVENTS
+
+- `{Array}`
+- 事件回调列表
+
+#### EASING
+
+- `{Array}`
+- 动画效果（easing）规则列表
+    - 0: `{Array}` `['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out']`
+    - 1: `{Regexp}` 贝塞尔曲线公式，同CSS3中的写法
+
+#### FIX_PAGE_TAGS
+
+- `{Array}`
+- 对应fixPage的表单元素白名单
+
+#### NODE_TYPE
+
+- `{Array}`
+- 场景类型
+
+#### TRANSITION_END_EVENT
+
+- `{String}`
+- 动画效果结束事件名
+
+#### DEVICE_EVENTS
+
+- `{Object}`
+- `{{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}`
+- 根据设备所匹配的事件
 
 
 ### 静态方法

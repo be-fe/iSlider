@@ -343,6 +343,13 @@ such as the configuration of each scene transitions, waiting time, etc. *
 - Default: 0
 
 
+##### fingerRecognitionRange
+
+- `{Number}`
+- 误触识别范围，大于范围值的touchMove被视为有效滑动距离
+- 默认：10(px)
+
+
 ##### fixPage
 
 - `{Boolean}`
@@ -350,6 +357,7 @@ such as the configuration of each scene transitions, waiting time, etc. *
 - In the original scene shield trigger event, such as: scroll, drag, zoom, etc.
     - "A" elements to prevent the mobile terminal is recommended to use tap (touch-based event jointly judgment) custom
     - Of the form element "SELECT", "INPUT", "TEXTAREA", "BUTTON", "LABEL", under any circumstances be blocked
+    - *排除策略：若参数类型为字符串（规则，querySelector选择器字符串）或数组(多个规则)，此选项为开启状态(true)并排除复合规则的元素，与`iSlider.FIX_PAGE_TAGS`相同对待
 - Default: true (Enabled)
 
 
@@ -500,7 +508,48 @@ S.on('slideChanged', callBack);
 - Parameters: None
 
 
-### Static methods
+### 常量
+
+#### VERSION
+
+- `{String}`
+- 版本号
+
+#### EVENTS
+
+- `{Array}`
+- 事件回调列表
+
+#### EASING
+
+- `{Array}`
+- 动画效果（easing）规则列表
+    - 0: `{Array}` `['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out']`
+    - 1: `{Regexp}` 贝塞尔曲线公式，同CSS3中的写法
+
+#### FIX_PAGE_TAGS
+
+- `{Array}`
+- 对应fixPage的表单元素白名单
+
+#### NODE_TYPE
+
+- `{Array}`
+- 场景类型
+
+#### TRANSITION_END_EVENT
+
+- `{String}`
+- 动画效果结束事件名
+
+#### DEVICE_EVENTS
+
+- `{Object}`
+- `{{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}`
+- 根据设备所匹配的事件
+
+
+### 静态方法
 
 #### extend
 
@@ -622,6 +671,7 @@ S.on('slideChanged', callBack);
 
 - Same with the static method "regPlugin"
 - ** This method will register the plug to iSlider instance, registered at the same time are automatically added to the list of active plug-ins, and automatically performs initialization.**
+
 
 #### loadData
 
