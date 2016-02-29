@@ -224,10 +224,12 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 #### DATA (`Optional`, `default: OPTIONS.data`)
 
 - new iSlider(DOM, ```DATA```, OPTIONS);
-- `{Array}`
-- Datasheets
-- Allowed types URLString, HTMLString, HTMLElement, HTMLFragment.
-- * TODO: currently a member of the type `{Object}`, which only supports content property 
+- `[{content: {type: $TYPE }}, ...]`
+- Data list
+- Though it's not required, the second param is also recommended.
+- Allowed types: URLString, HTMLString, HTMLElement, HTMLFragment.
+- * TODO:  Currently, each member in the array is of type `{content: {type: $TYPE}}`
+currently a member of the type `{Object}`, which only supports content property 
 in the future will get more extensions, 
 such as the configuration of each scene transitions, waiting time, etc. *
 - Data format:
