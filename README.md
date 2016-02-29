@@ -1,6 +1,8 @@
 # iSlider
 
-iSlider is an outstanding performance, lightweight, high-performance, no library dependencies cross-platform slide controller. It can help handling most sliding effects, offering dozens of transition animation, and presenting various scenarios.
+iSlider is a lightweight, high-performant, no library dependencies 
+cross-platform slide controller. It can help handling most sliding effects, offering dozens 
+of transition animations, and presenting various scenarios.
 
 ![](http://be-fe.github.io/iSlider/thumbnails/iSlider-logo.png)
 
@@ -12,17 +14,23 @@ iSlider is an outstanding performance, lightweight, high-performance, no library
 
 ## Features
 
-- Outstanding performance, less memory required;
-- Various animation effects, including effects comes default, rotate, depth, flow, flip, card, fade, etc., and capability of adding custom animations;
-- Provide rich callback trigger, add the callback function is extremely convenient, regardless of initialization or during operation;
-- Easy to configure, e.g. Slide the dampening effect of the cycle, automatic sliding effect, horizontal / vertical sliding, etc.
-- Automatic matching the desktop mouse movements or gestures mobile device, cross-platform easy to use;
-- Support for image pre-loaded, excellent user experience;
-- \[Plugin\] Offers a variety of plug-ins, such as a toggle button, the scene indicator, image scaling, etc., to provide plug-in registration, management and other methods to facilitate custom extension;
-- \[2.0+\] Can be loaded on demand function (effect or plug-in) required;
-- \[2.0+\] Support more kinds of elements placed automatically match the data type, image recognition and pre-loaded;
-- \[2.0+\] Better delegated event management mechanism, optimize memory usage;
-- \[2.0+\] Richer callback events, event management more flexible trigger mechanisms;
+- Outstanding performance, less memory usage;
+- Various animation effects, including effects such as `default`, `rotate`, `depth`, `flow`, `flip`, `card`, 
+`fade`, etc., and capability of adding custom animations;
+- Provide rich callback trigger. Adding a callback function is easy, 
+regardless of initialization or during operation;
+- Easy to configure, e.g. Slide the dampening effect of the cycle, automatic sliding effect, 
+horizontal / vertical sliding, etc.
+- Automatic matching the desktop mouse movements or gestures on mobile device. Easy to test and use cross platforms;
+- Supports for image pre-loaded, excellent user experience;
+- \[Plugin\] Offers a variety of plug-ins, such as a toggle button, the scene indicator, 
+image scaling, etc. Provides plug-in registration, management and other methods to facilitate 
+custom extension;
+- \[2.0+\] Can be loaded on demand (effect or plug-in);
+- \[2.0+\] Supports more types of elements. Automatically matches the data type.
+Capable of image recognition and pre-loading;
+- \[2.0+\] Better delegated event management mechanism, optimized memory usage;
+- \[2.0+\] Enriched callback events, more flexible event management and trigger mechanisms;
 
 ## Mobile demo
 
@@ -52,7 +60,8 @@ npm install islider.js
 
 ## Started iSlider
 
-Use Slider easiest way is to consult our examples, please visit the [DEMO](https://github.com/be-fe/iSlider/tree/master/demo) folder content.
+The easiest way of getting started is to consult our examples, please visit 
+the [DEMOs](https://github.com/be-fe/iSlider/tree/master/demo).
 
 #### Creating a container
 
@@ -82,7 +91,7 @@ var data = [
 var islider = new iSlider(document.getElementById('iSlider-wrapper'), data);
 ```
 
-you can also
+Or, 
 
 ``` javascript
 var islider = new iSlider({
@@ -102,7 +111,8 @@ var islider = new iSlider(document.getElementById('iSlider-wrapper'), data, {
 
 #### Animations
 
-**If you want more effects, you can load the animation effect extensions, set up the configuration when initializing iSlider and specify `animationType`.**
+**If you want more effects, you can load the animation effect extensions, 
+set up the configuration when initializing iSlider and specify `animationType`.**
 
 ``` html
 <script src="iSlider.min.js"></script>
@@ -138,7 +148,7 @@ var islider = new iSlider({
 });
 ```
 
-You can surely pass in more customed params to the extension initialize method.
+You can also pass in more custom params to the extension initialize method.
 
 ``` javascript
 var islider = new iSlider({
@@ -154,7 +164,7 @@ That's it!
 
 ##### Button
 
-Scene toggle button. Switch to the front (upper) or after (below) a scene.
+Scene toggle button. For switching to the previous (left/up) or next (right/down) scene of the current scene.
 
 ##### Dot
 
@@ -202,22 +212,24 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 
 ## iSlider details
 
-### Configuration parameters
+### Configurations
 
-#### DOM
+#### DOM (`Optional`, `OPTIONS.dom`)
 
 - new iSlider(```DOM```, DATA, OPTIONS);
 - `{HTMLElement}`
-- Container dom node
-- As the first parameter is not required, it will be overwritten OPTIONS.dom, but it is necessary, it can make you more convenient to use iSlider.
+- DOM Container 
+- Though the first parameter is not required, it is highly recommended, as setting a DOM container can make it more convenient to use iSlider.
 
-#### DATA
+#### DATA (`Optional`, `default: OPTIONS.data`)
 
 - new iSlider(DOM, ```DATA```, OPTIONS);
 - `{Array}`
 - Datasheets
-- As the second parameter is not required, it will be overwritten OPTIONS.data, but it is necessary, it can make you more convenient to use iSlider. Allowed types URLString, HTMLString, HTMLElement, HTMLFragment.
-- * TODO: currently a member of the type `{Object}`, which only supports content property in the future will get more extensions, such as the configuration of each scene transitions, waiting time, etc. *
+- Allowed types URLString, HTMLString, HTMLElement, HTMLFragment.
+- * TODO: currently a member of the type `{Object}`, which only supports content property 
+in the future will get more extensions, 
+such as the configuration of each scene transitions, waiting time, etc. *
 - Data format:
 
 ```javascript
