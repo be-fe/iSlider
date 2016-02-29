@@ -99,6 +99,28 @@
     }
 
     /**
+     * Whether this node in rule
+     *
+     * @param {HTMLElement} target
+     * @param {Array} rule
+     * @returns {boolean}
+     */
+    function isItself(target, rule) {
+        if (isArray(rule)) {
+            var parent = target.parentNode;
+            for (var i = 0; i < rule.length; i++) {
+                try {
+                    if (parent.querySelector(rule[i]) === target) {
+                        return true;
+                    }
+                } catch (e) {
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * @constructor
      *
      * iSlicer([[{HTMLElement} container,] {Array} datalist,] {Object} options)
@@ -161,7 +183,7 @@
      * version
      * @type {string}
      */
-    iSlider.VERSION = '2.1.3';
+    iSlider.VERSION = '2.1.4';
 
     /**
      * Event white list
@@ -241,6 +263,22 @@
     })();
 
     /**
+     * Event match depending on the browser supported
+     * @type {{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}
+     */
+    iSlider.DEVICE_EVENTS = (function () {
+        var hasTouch = !!(('ontouchstart' in global) || global.DocumentTouch && document instanceof global.DocumentTouch);
+        return {
+            hasTouch: hasTouch,
+            startEvt: hasTouch ? 'touchstart' : 'mousedown',
+            moveEvt: hasTouch ? 'touchmove' : 'mousemove',
+            endEvt: hasTouch ? 'touchend' : 'mouseup',
+            cancelEvt: hasTouch ? 'touchcancel' : 'mouseout',
+            resizeEvt: 'onorientationchange' in global ? 'orientationchange' : 'resize'
+        };
+    })();
+
+    /**
      * Extend
      * @public
      */
@@ -266,18 +304,6 @@
             }
         }
     };
-
-    iSlider.deviceEvents = (function () {
-        var hasTouch = !!(('ontouchstart' in global) || global.DocumentTouch && document instanceof global.DocumentTouch);
-        return {
-            hasTouch: hasTouch,
-            startEvt: hasTouch ? 'touchstart' : 'mousedown',
-            moveEvt: hasTouch ? 'touchmove' : 'mousemove',
-            endEvt: hasTouch ? 'touchend' : 'mouseup',
-            cancelEvt: hasTouch ? 'touchcancel' : 'mouseout',
-            resizeEvt: 'onorientationchange' in global ? 'orientationchange' : 'resize'
-        };
-    })();
 
     /**
      * Plugins
@@ -477,7 +503,16 @@
          * @type {Boolean}
          * @public
          */
-        self.fixPage = opts.fixPage == null ? true : !!opts.fixPage;
+        self.fixPage = (function () {
+            var fp = opts.fixPage;
+            if (fp === false || fp === 0) {
+                return false;
+            }
+            if (isArray(fp) && fp.length > 0 || typeof fp === 'string' && fp !== '') {
+                return [].concat(fp);
+            }
+            return true;
+        })();
 
         /**
          * Fill seam when render
@@ -665,7 +700,7 @@
          * @type {{hasTouch, startEvt, moveEvt, endEvt}}
          * @private
          */
-        self.deviceEvents = iSlider.deviceEvents;
+        self.deviceEvents = iSlider.DEVICE_EVENTS;
 
         /**
          * Finger recognition range, prevent inadvertently touch
@@ -1107,7 +1142,7 @@
      */
     iSliderPrototype.startHandler = function (evt) {
         if (this.fixPage) {
-            if (iSlider.FIX_PAGE_TAGS.indexOf(evt.target.tagName) < 0) {
+            if (iSlider.FIX_PAGE_TAGS.indexOf(evt.target.tagName.toUpperCase()) < 0 && !isItself(evt.target, this.fixPage)) {
                 evt.preventDefault();
             }
         }
