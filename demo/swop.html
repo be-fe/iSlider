@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <title>S.W.O.P</title>
+    <link href="./public/css/iSlider.css" rel="stylesheet">
+    <style>
+        body, html {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            overflow: hidden;
+            background-color: #333333;
+        }
+
+        .fork {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            overflow: hidden;
+        }
+
+        #S {
+            z-index: 1;
+            font-size: 5em;
+            color: #ffffff;
+        }
+
+        #N {
+            z-index: 0;
+        }
+
+        #N li > div {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="fork" id="S"></div>
+<div class="fork" id="N"></div>
+<script type="text/javascript" src="./public/js/iSlider.js"></script>
+<script type="text/javascript" src="./public/js/iSlider.animate.js"></script>
+<script id="show-code">
+    var $S = new iSlider(document.getElementById('S'), [
+        {
+            content: 'This is the first scene',
+            type: 'dom'
+        }, {
+            content: '2',
+            type: 'dom'
+        }, {
+            content: '3',
+            type: 'dom'
+        }, {
+            content: '4',
+            type: 'dom'
+        }, {
+            content: '5',
+            type: 'dom'
+        }
+    ], {
+        isLooping: 1,
+        animateType: 'rotate',
+        animateTime: 1000
+    });
+
+
+    var $N = new iSlider(document.getElementById('N'), [
+        {
+            content: '<div style="background-color: #006600"></div>'
+        }, {
+            content: '<div style="background-color: #ae7a43"></div>'
+        }, {
+            content: '<div style="background-color: #386c87"></div>'
+        }, {
+            content: '<div style="background-color: #891b17"></div>'
+        }, {
+            content: '<div style="background-color: #3a7dac"></div>'
+        }
+    ], {
+        animateType: 'zoomout',
+        isLooping: 1,
+        isTouchable: false
+    });
+
+    $N.subjectTo($S);
+
+    window.addEventListener('keydown', function (evt) {
+        switch (evt.keyCode) {
+            case 37:
+                $S.slidePrev();
+                break;
+            case 39:
+                $S.slideNext();
+                break;
+        }
+    });
+</script>
+</body>
+</html>

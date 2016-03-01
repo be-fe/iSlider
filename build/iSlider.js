@@ -13,13 +13,19 @@
     'use strict';
 
     /**
+     * noop function
+     */
+    function noop() {
+    }
+
+    /**
      * Check in array
-     * @param {*} oElement
-     * @param {Array} aSource
+     * @param {*} o
+     * @param {Array} arr
      * @returns {Boolean}
      */
-    function inArray(oElement, aSource) {
-        return aSource.indexOf(oElement) > -1;
+    function inArray(o, arr) {
+        return arr.indexOf(o) > -1;
     }
 
     /**
@@ -41,31 +47,31 @@
     }
 
     /**
-     * @param {HTML Element} obj
+     * @param {HTMLElement} el
      * @param {String} cls
      * @returns {Array|{index: number, input: string}}
      */
-    function hasClass(obj, cls) {
-        return obj.className.match(new RegExp('(\\s|^)(' + cls + ')(\\s|$)'));
+    function hasClass(el, cls) {
+        return el.className.match(new RegExp('(\\s|^)(' + cls + ')(\\s|$)'));
     }
 
     /**
-     * @param {HTML Element} obj
+     * @param {HTMLElement} el
      * @param {String} cls
      */
-    function addClass(obj, cls) {
-        if (!hasClass(obj, cls)) {
-            obj.className += ' ' + cls;
+    function addClass(el, cls) {
+        if (!hasClass(el, cls)) {
+            el.className += ' ' + cls;
         }
     }
 
     /**
-     * @param {HTML Element} obj
+     * @param {HTMLElement} el
      * @param {String} cls
      */
-    function removeClass(obj, cls) {
-        if (hasClass(obj, cls)) {
-            obj.className = obj.className.replace(RegExp('(\\s|^)(' + cls + ')(\\s|$)'), '$3');
+    function removeClass(el, cls) {
+        if (hasClass(el, cls)) {
+            el.className = el.className.replace(RegExp('(\\s|^)(' + cls + ')(\\s|$)'), '$3');
         }
     }
 
@@ -75,19 +81,9 @@
      * @returns {Boolean}
      */
     function isUrl(url) {
-        if (/<\/?[^>]*>/g.test(url))
+        if (/<\/?[^>]*>/.test(url))
             return false;
-
-        var regex = '^' +
-            '(((https|http|ftp|rtsp|mms):)?//)?' +
-            '(([0-9a-z_!~*\'().&=+$%-]+: )?[0-9a-z_!~*\'().&=+$%-]+@)?' +
-            '(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9a-z_!~*\'()-]+.)*([0-9a-z][0-9a-z-]{0,61})?[0-9a-z].[a-z]{2,6})?' +
-            '(:[0-9]{1,4})?' +
-            '([^\?#]+)?' +
-            '(\\\?[^#]+)?' +
-            '(#.+)?' +
-            '$';
-        return new RegExp(regex).test(url);
+        return /^(?:(https|http|ftp|rtsp|mms):)?(\/\/)?(\w+:{0,1}\w*@)?([^\?#:\/]+\.[a-z]+|\d+\.\d+\.\d+\.\d+)?(:[0-9]+)?((?:\.?\/)?([^\?#]*)?(\?[^#]+)?(#.+)?)?$/.test(url);
     }
 
     /**
@@ -103,11 +99,33 @@
     }
 
     /**
+     * Whether this node in rule
+     *
+     * @param {HTMLElement} target
+     * @param {Array} rule
+     * @returns {boolean}
+     */
+    function isItself(target, rule) {
+        if (isArray(rule)) {
+            var parent = target.parentNode;
+            for (var i = 0; i < rule.length; i++) {
+                try {
+                    if (parent.querySelector(rule[i]) === target) {
+                        return true;
+                    }
+                } catch (e) {
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * @constructor
      *
-     * iSlicer([[{HTML Element} container,] {Array} datalist,] {Object} options)
+     * iSlicer([[{HTMLElement} container,] {Array} datalist,] {Object} options)
      *
-     * @param {HTML Element} container
+     * @param {HTMLElement} container
      * @param {Array} datalist
      * @param {Object} options
      *
@@ -145,20 +163,6 @@
          */
         this._opts = opts;
 
-        /**
-         * listener
-         * @type {Object}
-         * @private
-         */
-        this._LSN = {};
-
-        /**
-         * Event handle
-         * @type {{}}
-         * @private
-         */
-        this._EventHandle = {};
-
         opts = null, args = null;
 
         this._setting();
@@ -176,6 +180,12 @@
     };
 
     /**
+     * version
+     * @type {string}
+     */
+    iSlider.VERSION = '2.1.4';
+
+    /**
      * Event white list
      * @type {Array}
      * @protected
@@ -185,6 +195,7 @@
         'initialized',
         'pluginInitialize',
         'pluginInitialized',
+        'renderComplete',
         'slide',
         'slideStart',
         'slideEnd',
@@ -195,7 +206,8 @@
         'loadData',
         'reset',
         'destroy'
-    ]
+    ];
+
     /**
      * Easing white list
      * @type [Array, RegExp[]]
@@ -214,6 +226,22 @@
     iSlider.FIX_PAGE_TAGS = ['SELECT', 'INPUT', 'TEXTAREA', 'BUTTON', 'LABEL'];
 
     /**
+     * Scene node types
+     * @type {Object}
+     * @protected
+     * TODO Prepare for the migration Symbol ES6.
+     */
+    iSlider.NODE_TYPE = {
+        unknown: 'unknown',
+        empty: 'empty',
+        pic: 'pic',
+        dom: 'dom',
+        html: 'html',
+        node: 'node',
+        element: 'element'
+    };
+
+    /**
      * @returns {String}
      * @private
      */
@@ -230,6 +258,24 @@
                 return transitions[t];
             }
         }
+
+        return null;
+    })();
+
+    /**
+     * Event match depending on the browser supported
+     * @type {{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}
+     */
+    iSlider.DEVICE_EVENTS = (function () {
+        var hasTouch = !!(('ontouchstart' in global) || global.DocumentTouch && document instanceof global.DocumentTouch);
+        return {
+            hasTouch: hasTouch,
+            startEvt: hasTouch ? 'touchstart' : 'mousedown',
+            moveEvt: hasTouch ? 'touchmove' : 'mousemove',
+            endEvt: hasTouch ? 'touchend' : 'mouseup',
+            cancelEvt: hasTouch ? 'touchcancel' : 'mouseout',
+            resizeEvt: 'onorientationchange' in global ? 'orientationchange' : 'resize'
+        };
     })();
 
     /**
@@ -276,17 +322,17 @@
     };
 
     /**
-     * animation parmas:
+     * @type {Object}
      *
-     * @param {HTML Element} dom 图片的外层<li>容器 Img wrapper
-     * @param {String} axis 动画方向 animate direction
-     * @param {Number} scale 容器宽度 Outer wrapper
-     * @param {Number} i <li>容器index Img wrapper's index
-     * @param {Number} offset 滑动距离 move distance
+     * @param {HTMLElement} dom The wrapper <li> element
+     * @param {String} axis Animate direction
+     * @param {Number} scale Outer wrapper
+     * @param {Number} i Wrapper's index
+     * @param {Number} offset Move distance
      * @protected
      */
     iSlider._animateFuncs = {
-        'normal': (function () {
+        normal: (function () {
             function normal(dom, axis, scale, i, offset) {
                 dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
             }
@@ -314,31 +360,95 @@
      */
     iSliderPrototype._setting = function () {
 
+        var self = this;
+
+        // --------------------------------
+        // - Status
+        // --------------------------------
+
         /**
          * The plugins
          * @type {Array|{}|*}
          * @private
          */
-        this._plugins = iSlider.plugins;
+        self._plugins = iSlider.plugins;
 
         /**
-         *
+         * Extend animations
          * @type {{default: Function}|*}
          * @private
          */
-        this._animateFuncs = iSlider._animateFuncs;
+        self._animateFuncs = iSlider._animateFuncs;
 
         /**
          * @type {Boolean}
          * @private
          */
-        this.holding = false;
+        self._holding = false;
 
         /**
          * @type {Boolean}
          * @private
          */
-        this.locking = false;
+        self._locking = false;
+
+        /**
+         * @type {Array}
+         * @private
+         */
+        self._intermediateScene = null;
+
+        /**
+         * @type {null}
+         * @private
+         */
+        self._transitionEndHandler = null;
+
+        /**
+         * listener
+         * @type {{autoPlay: null, resize: null, transitionEnd: null}}
+         * @private
+         */
+        self._LSN = {
+            autoPlay: null,
+            resize: null,
+            transitionEnd: null
+        };
+
+        /**
+         * current scene element: this.els[1]
+         * @type {null}
+         * @public
+         */
+        self.currentEl = null;
+
+        /**
+         * Event handle
+         * @type {Object}
+         * @private
+         */
+        self._EventHandle = {};
+
+        /**
+         * is on Moving
+         * @type {Boolean}
+         * @private
+         */
+        self.onMoving = false;
+
+        /**
+         * is on Sliding
+         * @type {Boolean}
+         * @private
+         */
+        self.onSliding = false;
+
+        /**
+         * animate direction
+         * @type {Number|null}
+         * @private
+         */
+        self.direction = null;
 
         // --------------------------------
         // - Set options
@@ -348,52 +458,61 @@
 
         /**
          * dom element wrapping content
-         * @type {HTML Element}
+         * @type {HTMLElement}
          * @public
          */
-        this.wrap = opts.dom;
+        self.wrap = opts.dom;
 
         /**
          * Data list
          * @type {Array}
          * @public
          */
-        this.data = opts.data;
+        self.data = opts.data;
 
         /**
          * default slide direction
          * @type {Boolean}
          * @public
          */
-        this.isVertical = !!opts.isVertical;
+        self.isVertical = !!opts.isVertical;
 
         /**
          * Overspread mode
          * @type {Boolean}
          * @public
          */
-        this.isOverspread = !!opts.isOverspread;
+        self.isOverspread = !!opts.isOverspread;
 
         /**
          * Play time gap
          * @type {Number}
          * @public
          */
-        this.duration = opts.duration || 2000;
+        self.duration = opts.duration || 2000;
 
         /**
          * start from initIndex or 0
          * @type {Number}
          * @public
          */
-        this.initIndex = opts.initIndex > 0 && opts.initIndex <= opts.data.length - 1 ? opts.initIndex : 0;
+        self.initIndex = opts.initIndex > 0 && opts.initIndex <= opts.data.length - 1 ? opts.initIndex : 0;
 
         /**
          * touchstart prevent default to fixPage
          * @type {Boolean}
          * @public
          */
-        this.fixPage = opts.fixPage == null ? true : !!opts.fixPage;
+        self.fixPage = (function () {
+            var fp = opts.fixPage;
+            if (fp === false || fp === 0) {
+                return false;
+            }
+            if (isArray(fp) && fp.length > 0 || typeof fp === 'string' && fp !== '') {
+                return [].concat(fp);
+            }
+            return true;
+        })();
 
         /**
          * Fill seam when render
@@ -401,121 +520,121 @@
          * @type {Boolean}
          * @public
          */
-        this.fillSeam = !!opts.fillSeam;
+        self.fillSeam = !!opts.fillSeam;
 
         /**
          * slideIndex
          * @type {Number}
          * @private
          */
-        this.slideIndex = this.slideIndex || this.initIndex || 0;
+        self.slideIndex = self.slideIndex || self.initIndex || 0;
 
         /**
          * Axis
          * @type {String}
          * @public
          */
-        this.axis = this.isVertical ? 'Y' : 'X';
+        self.axis = self.isVertical ? 'Y' : 'X';
 
         /**
          * reverseAxis
          * @type {String}
          * @private
          */
-        this.reverseAxis = this.axis === 'Y' ? 'X' : 'Y';
+        self.reverseAxis = self.axis === 'Y' ? 'X' : 'Y';
 
         /**
          * Wrapper width
          * @type {Number}
          * @private
          */
-        this.width = typeof opts.width === 'number' ? opts.width : this.wrap.clientWidth;
+        self.width = typeof opts.width === 'number' ? opts.width : self.wrap.offsetWidth;
 
         /**
          * Wrapper height
          * @type {Number}
          * @private
          */
-        this.height = typeof opts.height === 'number' ? opts.height : this.wrap.clientHeight;
+        self.height = typeof opts.height === 'number' ? opts.height : self.wrap.offsetHeight;
 
         /**
          * Ratio height:width
          * @type {Number}
          * @private
          */
-        this.ratio = this.height / this.width;
+        self.ratio = self.height / self.width;
 
         /**
          * Scale, size rule
          * @type {Number}
          * @private
          */
-        this.scale = this.isVertical ? this.height : this.width;
+        self.scale = self.isVertical ? self.height : self.width;
 
         /**
          * On slide offset position
          * @type {{X: number, Y: number}}
          * @private
          */
-        this.offset = this.offset || {X: 0, Y: 0};
+        self.offset = self.offset || {X: 0, Y: 0};
 
         /**
          * Enable/disable touch events
          * @type {Boolean}
          * @private
          */
-        this.isTouchable = opts.isTouchable == null ? true : !!opts.isTouchable;
+        self.isTouchable = opts.isTouchable == null ? true : !!opts.isTouchable;
 
         /**
          * looping logic adjust
          * @type {Boolean}
          * @private
          */
-        this.isLooping = opts.isLooping && this.data.length > 1 ? true : false;
+        self.isLooping = opts.isLooping && self.data.length > 1 ? true : false;
 
         /**
          * AutoPlay waitting milsecond to start
          * @type {Number}
          * @private
          */
-        this.delay = opts.delay || 0;
+        self.delay = opts.delay || 0;
 
         /**
          * autoplay logic adjust
          * @type {Boolean}
          * @private
          */
-        this.isAutoplay = opts.isAutoplay && this.data.length > 1 ? true : false;
+        self.isAutoplay = opts.isAutoplay && self.data.length > 1 ? true : false;
 
         /**
          * Animate type
          * @type {String}
          * @private
          */
-        this.animateType = opts.animateType in this._animateFuncs ? opts.animateType : 'normal';
+        self.animateType = opts.animateType in self._animateFuncs ? opts.animateType : 'normal';
 
         /**
          * @protected
          */
-        this._animateFunc = this._animateFuncs[this.animateType];
+        self._animateFunc = self._animateFuncs[self.animateType];
 
         /**
          * @private
          */
-        this._animateReverse = (function () {
+        self._animateReverse = (function () {
             var _ = [];
-            for (var type in this._animateFuncs) {
-                if (this._animateFuncs.hasOwnProperty(type) && this._animateFuncs[type].reverse) {
+            for (var type in self._animateFuncs) {
+                if (self._animateFuncs.hasOwnProperty(type) && self._animateFuncs[type].reverse) {
                     _.push(type);
                 }
             }
             return _;
-        }.bind(this))();
+        })();
 
         // little trick set, when you chooce tear & vertical same time
         // iSlider overspread mode will be set true autometicly
-        if (this.isVertical && this.animateType === 'card') {
-            this.isOverspread = true;
+        if (self.isVertical && self.animateType === 'card') {
+            self.isOverspread = true;
         }
 
         /**
@@ -523,74 +642,79 @@
          * @type {Function}
          * @private
          */
-        this.log = opts.isDebug ? function () {
+        self.log = opts.isDebug ? function () {
             global.console.log.apply(global.console, arguments);
-        } : function () {
-        };
+        } : noop;
 
-        // set Damping function
-        this._setUpDamping();
+        /**
+         * Enable damping when slider meet the edge
+         * @param distance
+         * @returns {*}
+         * @private
+         */
+        self._damping = (function () {
+
+            var oneIn2 = self.scale >> 1;
+            var oneIn4 = oneIn2 >> 1;
+            var oneIn16 = oneIn4 >> 2;
+
+            return function (distance) {
+
+                var dis = Math.abs(distance);
+                var result;
+
+                if (dis < oneIn2) {
+                    result = dis >> 1;
+                }
+                else if (dis < oneIn2 + oneIn4) {
+                    result = oneIn4 + ((dis - oneIn2) >> 2);
+                }
+                else {
+                    result = oneIn4 + oneIn16 + ((dis - oneIn2 - oneIn4) >> 3);
+                }
+
+                return distance > 0 ? result : -result;
+            }
+        })();
 
         /**
          * animate process time (ms), default: 300ms
          * @type {Number}
          * @public
          */
-        this.animateTime = opts.animateTime != null && opts.animateTime > -1 ? opts.animateTime : 300;
+        self.animateTime = opts.animateTime != null && opts.animateTime > -1 ? opts.animateTime : 300;
 
         /**
          * animate effects, default: ease
          * @type {String}
          * @public
          */
-        this.animateEasing =
+        self.animateEasing =
             inArray(opts.animateEasing, iSlider.EASING[0])
             || iSlider.EASING[1].test(opts.animateEasing)
                 ? opts.animateEasing
                 : 'ease';
 
         /**
-         * In slide animation
-         * @type {Number}
-         * @private
-         */
-        this.inAnimate = 0;
-
-        /**
          * Fix touch/mouse events
          * @type {{hasTouch, startEvt, moveEvt, endEvt}}
          * @private
          */
-        this.deviceEvents = (function () {
-            var hasTouch = !!(('ontouchstart' in global) || global.DocumentTouch && document instanceof global.DocumentTouch);
-            return {
-                hasTouch: hasTouch,
-                startEvt: hasTouch ? 'touchstart' : 'mousedown',
-                moveEvt: hasTouch ? 'touchmove' : 'mousemove',
-                endEvt: hasTouch ? 'touchend' : 'mouseup',
-                resizeEvt: 'onorientationchange' in global ? 'orientationchange' : 'resize'
-            };
-        })();
+        self.deviceEvents = iSlider.DEVICE_EVENTS;
 
         /**
          * Finger recognition range, prevent inadvertently touch
          * @type {Number}
-         */
-        this.fingerRecognitionRange = opts.fingerRecognitionRange > -1 ? parseInt(opts.fingerRecognitionRange) : 10;
-
-        /**
-         * is on Moving
-         * @type {Boolean}
          * @private
          */
-        this.isMoving = false;
+        self.fingerRecognitionRange = opts.fingerRecognitionRange > -1 ? parseInt(opts.fingerRecognitionRange) : 10;
 
         /**
          * Init events
          * @type {{}}
          * @private
          */
-        this.events = {};
+        self.events = {};
 
         // --------------------------------
         // - Register events
@@ -598,40 +722,8 @@
 
         iSlider.EVENTS.forEach(function (eventName) {
             var fn = opts['on' + eventName.toLowerCase()];
-            if (typeof fn === 'function') {
-                this.on(eventName, fn, 1);
-            }
-        }.bind(this));
-
-        // Callback function when iSlider start initialization (after setting, before render)
-        // this.on('initialize', opts.oninitialize, 1);
-
-        // Callback function when iSlider initialized
-        // this.on('initialized', opts.oninitialized, 1);
-
-        // Callback function when iSlider plugins initialized
-        // this.on('pluginInitialized', opts.onplugininitialized, 1);
-
-        // Callback function when your finger is moving
-        // this.on('slide', opts.onslide, 1);
-
-        // Callback function when your finger touch the screen
-        // this.on('slideStart', opts.onslidestart, 1);
-
-        // Callback function when the finger move out of the screen
-        // this.on('slideEnd', opts.onslideend, 1);
-
-        // Callback function when slide to next/prev scene
-        // this.on('slideChange', opts.onslidechange, 1);
-
-        // Callback function when next/prev scene, while animation has completed
-        // this.on('slideChanged', opts.onslidechanged, 1);
-
-        // Callback function when restore to the current scene
-        // this.on('slideRestore', opts.onsliderestore, 1);
-
-        // Callback function when restore to the current scene, while animation has completed
-        // this.on('slideRestored', opts.onsliderestored, 1);
+            typeof fn === 'function' && self.on(eventName, fn, 1);
+        });
 
         // --------------------------------
         // - Plugins
@@ -641,9 +733,9 @@
          * @type {Object}
          * @private
          */
-        this.pluginConfig = (function () {
+        self.pluginConfig = (function () {
+            var config = {};
             if (isArray(opts.plugins)) {
-                var config = {};
                 opts.plugins.forEach(function pluginConfigEach(plugin) {
                     if (isArray(plugin)) {
                         config[plugin[0]] = plugin.slice(1);
@@ -651,10 +743,8 @@
                         config[plugin] = [];
                     }
                 });
-                return config;
-            } else {
-                return {};
             }
+            return config;
         })();
     };
 
@@ -678,39 +768,6 @@
     };
 
     /**
-     * enable damping when slider meet the edge
-     * @private
-     */
-    iSliderPrototype._setUpDamping = function () {
-        var oneIn2 = this.scale >> 1;
-        var oneIn4 = oneIn2 >> 1;
-        var oneIn16 = oneIn4 >> 2;
-
-        /**
-         * init damping function
-         * @param distance
-         * @returns {*}
-         * @private
-         */
-        this._damping = function (distance) {
-            var dis = Math.abs(distance);
-            var result;
-
-            if (dis < oneIn2) {
-                result = dis >> 1;
-            }
-            else if (dis < oneIn2 + oneIn4) {
-                result = oneIn4 + ((dis - oneIn2) >> 2);
-            }
-            else {
-                result = oneIn4 + oneIn16 + ((dis - oneIn2 - oneIn4) >> 3);
-            }
-
-            return distance > 0 ? result : -result;
-        };
-    };
-
-    /**
      * Get item type
      * @param {Number} index
      * @returns {String}
@@ -724,20 +781,21 @@
             return item.type;
         }
         var content = item.content;
+        var _NT = iSlider.NODE_TYPE;
         var type;
         if (content == null) {
-            type = 'empty';
+            type = _NT.empty;
         } else {
             if (Boolean(content.nodeName) && Boolean(content.nodeType)) {
-                type = 'node';
+                type = _NT.node;
             } else if (typeof content === 'string') {
                 if (isUrl(content)) {
-                    type = 'pic';
+                    type = _NT.pic;
                 } else {
-                    type = 'html';
+                    type = _NT.html;
                 }
             } else {
-                type = 'unknown';
+                type = _NT.unknown;
             }
         }
 
@@ -748,7 +806,7 @@
 
     /**
      * render single item html by idx
-     * @param {HTML Element} el ..
+     * @param {HTMLElement} el ..
      * @param {Number} dataIndex  ..
      * @private
      */
@@ -789,13 +847,14 @@
         }
 
         var type = this._itemType(item);
+        var _NT = iSlider.NODE_TYPE;
 
-        this.log('[Render ITEM]:', type, dataIndex, item);
+        this.log('[RENDER]:', type, dataIndex, item);
 
         el.className = 'islider-' + type;
 
         switch (type) {
-            case 'pic':
+            case _NT.pic:
                 if (item.load === 2) {
                     insertImg();
                 }
@@ -810,12 +869,12 @@
                     };
                 }
                 break;
-            case 'dom':
-            case 'html':
+            case _NT.dom:
+            case _NT.html:
                 el.innerHTML = item.content;
                 break;
-            case 'node':
-            case 'element':
+            case _NT.node:
+            case _NT.element:
                 // fragment, create container
                 if (item.content.nodeType === 11) {
                     var entity = document.createElement('div');
@@ -855,8 +914,6 @@
         this.els.forEach(function changeStypeEach(el, index) {
             removeClass(el, slideStyles.join('|'));
             addClass(el, slideStyles[index]);
-
-            // TODO For seams
             this.fillSeam && this.originScale(el);
         }.bind(this));
     };
@@ -866,7 +923,7 @@
      * @private
      */
     iSliderPrototype._renderWrapper = function () {
-        this.wrap.style.overflow = 'hidden';
+        //this.wrap.style.overflow = 'hidden';
         // initail outer element
         var outer;
         if (this.outer) {
@@ -876,9 +933,9 @@
             outer = document.createElement('ul');
         }
         outer.className = 'islider-outer';
-        outer.style.overflow = 'hidden';
+        //outer.style.overflow = 'hidden';
         // no need...
-        // outer.style.cssText += 'width:' + this.wrap.offsetWidth + 'px;height:' + this.wrap.offsetHeight + 'px';
+        // outer.style.cssText += 'width:' + this.width + 'px;height:' + this.height + 'px';
 
         // storage li elements, only store 3 elements to reduce memory usage
         /**
@@ -923,7 +980,7 @@
         // append ul to div#canvas
         if (!this.outer) {
             /**
-             * @type {HTML Element}
+             * @type {HTMLElement}
              * @public
              */
             this.outer = outer;
@@ -966,45 +1023,48 @@
     };
 
     /**
-     * Watch event transitionEnd
+     * watch transition end
      * @private
      */
-    iSliderPrototype._watchTransitionEnd = function (time, eventType) {
+    iSliderPrototype._watchTransitionEnd = function (squeezeTime, eventType) {
 
-        var self = this;
-        var lsn;
-        this.log('Event:', 'watchTransitionEnd::stuck::pile', this.inAnimate);
+        this._unWatchTransitionEnd();
 
-        function handle(/*evt*/) {
-            if (lsn) {
-                global.clearTimeout(lsn);
+        var cb = function () {
+            this._unWatchTransitionEnd();
+            if (eventType === 'slideChanged') {
+                this._changedStyles();
             }
-            self.inAnimate--;
-            self.log('Event:', 'watchTransitionEnd::stuck::release', self.inAnimate);
-            if (self.inAnimate === 0) {
-                if (eventType === 'slideChanged') {
-                    self._changedStyles();
-                }
-                self.fire.call(self, eventType, self.slideIndex, self.currentEl, self);
-                self._renderIntermediateScene();
-                self.play();
-            }
-            unWatch();
+            this.fire.call(this, eventType, this.slideIndex, this.currentEl, this);
+            this._renderIntermediateScene();
+            this.play();
+            this.onSliding = false;
+            this.direction = null;
+        }.bind(this);
+
+        if (iSlider.TRANSITION_END_EVENT) {
+            this.currentEl.addEventListener(iSlider.TRANSITION_END_EVENT, cb);
+            // keep handler and element
+            this._transitionEndHandler = {el: this.currentEl, handler: cb};
+        } else {
+            this._LSN.transitionEnd = global.setTimeout(cb, squeezeTime);
+        }
+    };
+
+    /**
+     * unwatch transition end
+     * @private
+     */
+    iSliderPrototype._unWatchTransitionEnd = function () {
+        if (this._LSN.transitionEnd) {
+            global.clearTimeout(this._LSN.transitionEnd);
+        }
+        if (this._transitionEndHandler !== null) {
+            this._transitionEndHandler.el.removeEventListener(iSlider.TRANSITION_END_EVENT, this._transitionEndHandler.handler);
+            this._transitionEndHandler = null;
         }
 
-        function unWatch() {
-            self.els.forEach(function translationEndUnwatchEach(el) {
-                el.removeEventListener(iSlider.TRANSITION_END_EVENT, handle);
-            });
-        }
-
-        if (time > 0) {
-            self.els.forEach(function translationEndElsEach(el) {
-                el.addEventListener(iSlider.TRANSITION_END_EVENT, handle);
-            });
-        }
-        lsn = global.setTimeout(handle, time);
-        self.inAnimate++;
+        //this.onSliding = false;
     };
 
     /**
@@ -1060,12 +1120,11 @@
                 this.moveHandler(evt);
                 break;
             case device.endEvt:
-            case 'mouseout': // mouseout event, trigger endEvent
-            case 'touchcancel':
+            case device.cancelEvt: // mouseout, touchcancel event, trigger endEvent
                 this.endHandler(evt);
                 break;
             case device.resizeEvt:
-                this[device.resizeEvt + 'Handler']();
+                this.resizeHandler();
                 break;
             case 'focus':
                 this.play();
@@ -1079,22 +1138,22 @@
     /**
      *  touchstart callback
      *  @param {Object} evt event object
-     *  @protected
+     *  @public
      */
     iSliderPrototype.startHandler = function (evt) {
         if (this.fixPage) {
-            if (iSlider.FIX_PAGE_TAGS.indexOf(evt.target.tagName) < 0) {
+            if (iSlider.FIX_PAGE_TAGS.indexOf(evt.target.tagName.toUpperCase()) < 0 && !isItself(evt.target, this.fixPage)) {
                 evt.preventDefault();
             }
         }
-        if (this.holding || this.locking) {
+        if (this._holding || this._locking) {
             return;
         }
         var device = this.deviceEvents;
-        this.isMoving = true;
+        this.onMoving = true;
         this.pause();
 
-        this.log('Event: start');
+        this.log('[EVENT]: start');
         this.fire('slideStart', evt, this);
 
         /**
@@ -1119,27 +1178,34 @@
     /**
      *  touchmove callback
      *  @param {Object} evt event object
-     *  @protected
+     *  @public
      */
     iSliderPrototype.moveHandler = function (evt) {
-        if (!this.isMoving) {
+        if (!this.onMoving) {
             return;
         }
-        this.log('Event: moving');
+        this.log('[EVENT]: moving');
         var device = this.deviceEvents;
         var len = this.data.length;
         var axis = this.axis;
         var reverseAxis = this.reverseAxis;
-        var offset = {
-            X: device.hasTouch ? (evt.targetTouches[0].pageX - this.startX) : (evt.pageX - this.startX),
-            Y: device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY)
-        };
+        var offset = {};
+
+        if (evt.hasOwnProperty('offsetRatio')) {
+            offset[axis] = evt.offsetRatio * this.scale;
+            offset[reverseAxis] = 0;
+        } else {
+            offset.X = device.hasTouch ? (evt.targetTouches[0].pageX - this.startX) : (evt.pageX - this.startX);
+            offset.Y = device.hasTouch ? (evt.targetTouches[0].pageY - this.startY) : (evt.pageY - this.startY);
+        }
 
         this.offset = offset;
+        evt.offsetRatio = offset[axis] / this.scale;
 
         if (Math.abs(offset[axis]) - Math.abs(offset[reverseAxis]) > 10) {
 
             evt.preventDefault();
+            this._unWatchTransitionEnd();
 
             if (!this.isLooping) {
                 if (offset[axis] > 0 && this.slideIndex === 0 || offset[axis] < 0 && this.slideIndex === len - 1) {
@@ -1147,15 +1213,12 @@
                 }
             }
 
-            for (var i = 0; i < 3; i++) {
-                var item = this.els[i];
+            this.els.forEach(function (item, i) {
                 item.style.visibility = 'visible';
                 item.style.webkitTransition = 'none';
                 this._animateFunc(item, axis, this.scale, i, offset[axis], offset[axis]);
-
-                // TODO For seams
                 this.fillSeam && this.seamScale(item);
-            }
+            }.bind(this));
 
             this.fire('slide', evt, this);
         }
@@ -1164,14 +1227,14 @@
     /**
      *  touchend callback
      *  @param {Object} evt event object
-     *  @protected
+     *  @public
      */
     iSliderPrototype.endHandler = function (evt) {
-        if (!this.isMoving) {
+        if (!this.onMoving) {
             return;
         }
-        this.log('Event: end');
-        this.isMoving = false;
+        this.log('[EVENT]: end');
+        this.onMoving = false;
         var offset = this.offset;
         var axis = this.axis;
         var boundary = this.scale / 2;
@@ -1216,13 +1279,13 @@
             this.slideTo(this.slideIndex + 1);
         }
         else {
-            if (Math.abs(this.offset[this.axis]) >= FRR) {
+            if (Math.abs(this.offset[axis]) >= FRR) {
                 this.slideTo(this.slideIndex);
             }
         }
 
         // create sim tap event if offset < this.fingerRecognitionRange
-        if (Math.abs(this.offset[this.axis]) < FRR && this.fixPage && evt.target) {
+        if (Math.abs(this.offset[axis]) < FRR && this.fixPage && evt.target) {
             dispatchLink(evt.target);
         }
 
@@ -1230,28 +1293,43 @@
     };
 
     /**
-     *  orientationchange callback
-     *  @protected
-     */
-    iSliderPrototype.orientationchangeHandler = function () {
-        global.setTimeout(function () {
-            this.reset();
-            this.log('Event: orientationchange');
-        }.bind(this), 100);
-    };
-
-    /**
      * resize callback
-     * @protected
+     * @public
      */
     iSliderPrototype.resizeHandler = function () {
-        if (this.height !== this.wrap.clientHeight || this.width !== this.wrap.clientWidth) {
-            this._LSN.resize && global.clearTimeout(this._LSN.resize);
-            this._LSN.resize = global.setTimeout(function () {
-                this.reset();
-                this._LSN.resize && global.clearTimeout(this._LSN.resize);
-                this.log('Event: resize');
-            }.bind(this), 500);
+        var _L = this._LSN.resize;
+        var startTime = +new Date, _W, _H;
+
+        if (this.deviceEvents.hasTouch) {
+            // Fuck Android
+            _L && global.clearInterval(_L);
+            _L = global.setInterval(function () {
+                if (this.height !== this.wrap.offsetHeight || this.width !== this.wrap.offsetWidth) {
+                    _L && global.clearInterval(_L);
+                    _L = global.setInterval(function () {
+                        if (_W === this.wrap.offsetWidth && _H === this.wrap.offsetHeight) {
+                            _L && global.clearInterval(_L);
+                            this.reset();
+                            this.log('[EVENT]: resize');
+                        } else {
+                            _W = this.wrap.offsetWidth, _H = this.wrap.offsetHeight;
+                        }
+                    }.bind(this), 12);
+                } else {
+                    if (+new Date - startTime >= 1000) {
+                        _L && global.clearInterval(_L);
+                    }
+                }
+            }.bind(this), 12);
+        } else {
+            _L && global.clearTimeout(_L);
+            _L = global.setTimeout(function () {
+                if (this.height !== this.wrap.offsetHeight || this.width !== this.wrap.offsetWidth) {
+                    _L && global.clearInterval(_L);
+                    this.reset();
+                    this.log('[EVENT]: resize');
+                }
+            }.bind(this), 200);
         }
     };
 
@@ -1261,22 +1339,26 @@
      *  @public
      */
     iSliderPrototype.slideTo = function (dataIndex, opts) {
+        // stop auto play
         if (this.isAutoplay) {
             this.pause();
         }
-        if (this.locking) {
+        if (this._locking) {
             return;
         }
         this.unhold();
+        this.onSliding = true;
         var animateTime = this.animateTime;
         var animateType = this.animateType;
         var animateFunc = this._animateFunc;
         var data = this.data;
         var els = this.els;
+        var axis = this.axis;
         var idx = dataIndex;
         var n = dataIndex - this.slideIndex;
         var offset = this.offset;
         var eventType;
+        var squeezeTime = 0;
 
         if (typeof opts === 'object') {
             if (opts.animateTime > -1) {
@@ -1289,7 +1371,9 @@
         }
 
         // In the slide process, animate time is squeezed
-        var squeezeTime = Math.abs(offset[this.axis]) / this.scale * animateTime;
+        if (offset[axis] !== 0) {
+            squeezeTime = Math.abs(offset[axis]) / this.scale * animateTime;
+        }
 
         if (Math.abs(n) > 1) {
             this._renderItem(n > 0 ? this.els[2] : this.els[0], idx);
@@ -1307,12 +1391,11 @@
                 this.slideIndex = n > 0 ? 0 : data.length - 1;
             }
             else {
-                // this.slideIndex = this.slideIndex;
                 n = 0;
             }
         }
 
-        this.log('Index:' + this.slideIndex);
+        this.log('[SLIDE TO]: ' + this.slideIndex);
 
         // keep the right order of items
         var headEl, tailEl, direction;
@@ -1329,8 +1412,7 @@
                 headEl = els[2];
                 tailEl = els[0];
                 direction = 1;
-            }
-            else {
+            } else {
                 els.unshift(els.pop());
                 headEl = els[0];
                 tailEl = els[2];
@@ -1349,18 +1431,12 @@
 
             headEl.style.webkitTransition = 'none';
 
-            // Disperse ghost in the back
-            //if (-1 < ['rotate', 'flip'].indexOf(animateType)) {
-            //    headEl.style.visibility = 'hidden';
-            //    this.currentEl.style.visibility = 'visible';
-            //}
-
             // Minus squeeze time
             squeezeTime = animateTime - squeezeTime;
 
             eventType = 'slideChange';
 
-            // TODO For seams
+            // For seams
             if (this.fillSeam) {
                 els.forEach(function (el) {
                     removeClass(el, 'islider-sliding|islider-sliding-focus');
@@ -1368,21 +1444,22 @@
                 addClass(this.currentEl, 'islider-sliding-focus');
                 addClass(headEl, 'islider-sliding');
             }
-        }
 
-        this.fire(eventType, this.slideIndex, this.currentEl, this);
-        this._watchTransitionEnd(squeezeTime, eventType + 'd');
+            this.direction = direction;
+        }
 
         // do the trick animation
         for (var i = 0; i < 3; i++) {
             if (els[i] !== headEl) {
-                // TODO: Only applies their effects
-                els[i].style.webkitTransition = (animateFunc.effect || 'all') + ' ' + (squeezeTime / 1000) + 's ' + this.animateEasing;
+                // Only applies their effects
+                els[i].style.webkitTransition = (animateFunc.effect || 'all') + ' ' + squeezeTime + 'ms ' + this.animateEasing;
             }
-            animateFunc.call(this, els[i], this.axis, this.scale, i, 0, direction);
-
+            animateFunc.call(this, els[i], axis, this.scale, i, 0, direction);
             this.fillSeam && this.seamScale(els[i]);
         }
+
+        this._watchTransitionEnd(squeezeTime, eventType + 'd');
+        this.fire(eventType, this.slideIndex, this.currentEl, this);
     };
 
     /**
@@ -1430,10 +1507,13 @@
 
     /**
      *  simple event delegate method
+     *
      *  @param {String} evtType event name
      *  @param {String} selector the simple css selector like jQuery
      *  @param {Function} callback event callback
      *  @public
+     *
+     *  @alias iSliderPrototype.bind
      */
     iSliderPrototype.bind = iSliderPrototype.delegate = function (evtType, selector, callback) {
 
@@ -1470,6 +1550,8 @@
      * @param {String} selector the simple css selector like jQuery
      * @param {Function} callback event callback
      * @public
+     *
+     * @alias iSliderPrototype.unbind
      */
     iSliderPrototype.unbind = iSliderPrototype.unDelegate = function (evtType, selector, callback) {
         var key = evtType + ';' + selector;
@@ -1606,9 +1688,10 @@
      */
     iSliderPrototype.reset = function () {
         this.pause();
+        this._unWatchTransitionEnd();
         //this._setting();
-        this.width = typeof this._opts.width === 'number' ? this._opts.width : this.wrap.clientWidth;
-        this.height = typeof this._opts.height === 'number' ? this._opts.height : this.wrap.clientHeight;
+        this.width = typeof this._opts.width === 'number' ? this._opts.width : this.wrap.offsetWidth;
+        this.height = typeof this._opts.height === 'number' ? this._opts.height : this.wrap.offsetHeight;
         this.ratio = this.height / this.width;
         this.scale = this.isVertical ? this.height : this.width;
         this._renderWrapper();
@@ -1622,6 +1705,7 @@
      */
     iSliderPrototype.loadData = function (data, initIndex) {
         this.pause();
+        this._unWatchTransitionEnd();
         this.slideIndex = initIndex || 0;
         this.data = data;
         this._renderWrapper();
@@ -1663,7 +1747,7 @@
      * @public
      */
     iSliderPrototype.hold = function () {
-        this.holding = true;
+        this._holding = true;
     };
 
     /**
@@ -1672,7 +1756,7 @@
      * @public
      */
     iSliderPrototype.unhold = function () {
-        this.holding = false;
+        this._holding = false;
         this.unlock();
     };
 
@@ -1684,7 +1768,7 @@
      */
     iSliderPrototype.lock = function () {
         this.hold();
-        this.locking = true;
+        this._locking = true;
     };
 
     /**
@@ -1692,12 +1776,13 @@
      * @public
      */
     iSliderPrototype.unlock = function () {
-        this.locking = false;
+        this._locking = false;
     };
 
     /**
      * Fill the seam
-     * @param {HTML Element} el
+     * @param {HTMLElement} el
+     * @private
      */
     iSliderPrototype.seamScale = function (el) {
         var regex = /scale([XY]?)\(([^\)]+)\)/;
@@ -1725,8 +1810,8 @@
     };
 
     /**
-     *
-     * @param {HTML Element} el
+     * @param {HTMLElement} el
+     * @private
      */
     iSliderPrototype.originScale = function (el) {
         var regex = /([\x20]?scale)([XY]?)\(([^\)]+)\)/;
@@ -1751,6 +1836,53 @@
                 return 'scale(' + sc.X + ', ' + sc.Y + ')';
             }
         }.bind(this));
+    };
+
+    /**
+     * Let target islider controls this one
+     *
+     * @param {iSlider} target
+     * @param {Object} how
+     * @public
+     */
+    iSliderPrototype.subjectTo = function (target, how) {
+        if (!target instanceof iSlider) {
+            return;
+        }
+
+        var self = this;
+
+        self.animateTime = target.animateTime;
+        self.isLooping = target.isLooping;
+        self.isAutoplay = false;
+
+        target.on('slideStart', function (evt) {
+            self.startHandler(evt);
+        });
+
+        target.on('slide', function (evt) {
+            self.moveHandler(evt);
+        });
+
+        target.on('slideEnd', function (evt) {
+            self.endHandler(evt);
+        });
+
+        target.on('slideChange', function (i) {
+            var l = self.data.length;
+            var d = self.direction;
+            if (d > 0 && (i - self.slideIndex + l) % l === 1) {
+                self.slideNext();
+            } else if (d < 0 && (i - self.slideIndex - l) % l === -1) {
+                self.slidePrev();
+            }
+        });
+
+        target.on('slideRestore', function (i) {
+            if (self.slideIndex !== i) {
+                self.slideTo(i);
+            }
+        });
     };
 
     /* CommonJS */

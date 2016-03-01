@@ -1,3 +1,28 @@
+### iSlider 2.1.4
+- [Optimization]Options fixPage support policy "exclusion list", it allows you to trigger default event for the specific element.
+
+### iSlider 2.1.3
+- [Optimization]Local variable references.
+- [Optimization]isMoving => onMoving
+- [Optimization][EXT]animation
+
+#### Something new
+- Add new method "[subjectTo](https://github.com/BE-FE/iSlider/blob/master/README.md#subjectto)"
+
+
+### iSlider 2.1.2
+- [Optimization]orientationChange and resize distinction => resizeEvt, according to whether the mobile device.
+- [Optimization]Merge "leaving" event, mouseout and touchcancel.
+- [Optimization]When iSlider is set to autoplay, flip phone screen or resize the window at this point, autoplay can not be paused! (especially Android (#‵′)!!!)
+    - A lot of optimization... lots and lots
+    - Reconstruction of continuous sliding queuing mechanism, change it to the event handler maintenance.
+    - Peeling methods
+    - Every effort to ensure the performance, although it is only a special place in time.
+    - Reconstruction of the resizeEvt method.
+
+### iSlider 2.1.1
+- [BUG fix]Repair resize event to lose focus in Android.
+
 ### iSlider 2.1.0
 - [Optimization]Fully optimized animation. Animation logic decoupling from iSlider.
 - [New]Add an animation, zoomout.

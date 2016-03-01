@@ -1,18 +1,31 @@
 {
   "name": "islider.js",
-  "version": "2.1.0",
+  "version": "2.1.4",
   "author": "EUX team",
   "main": "build/iSlider.min.js",
   "description": "Smooth and high-performance slide web framework. Suitable for PC, Mobile WebApp, HTML5 App, Hybrid App",
   "devDependencies": {
     "babel-preset-es2015": "^6.3.13",
     "eslint": "^1.10.3",
-    "gulp": "^3.9.0",
+    "fs": "0.0.2",
+    "gulp": "^3.9.1",
     "gulp-babel": "^6.1.1",
     "gulp-clean": "^0.3.1",
     "gulp-cssmin": "^0.1.7",
+    "gulp-load-plugins": "^1.2.0",
     "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.5.1"
+    "gulp-uglify": "^1.5.1",
+    "json-config-reader": "^2.0.1",
+    "karma": "^0.13.21",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-coverage": "^0.5.3",
+    "karma-mocha": "^0.2.2",
+    "mocha": "^2.4.5",
+    "require-dir": "^0.3.0"
+  },
+  "scripts": {
+    "test": "karma start",
+    "build": "gulp"
   },
   "repository": {
     "type": "git",

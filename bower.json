@@ -38,7 +38,8 @@
     "thumbnails",
     "karma.conf.js",
     "gulpfile.js",
-    "index.html"
+    "index.html",
+    "gulp"
   ],
-  "version": "2.1.0"
+  "version": "2.1.4"
 }
