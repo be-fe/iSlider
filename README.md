@@ -218,7 +218,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 - Data list
 - Though it's not required, the second param is also recommended.
 - Allowed types: URLString, HTMLString, HTMLElement, HTMLFragment.
-- *TODO:  Currently, each member in the array is of type `{content: {type: $TYPE}}` currently a member of the type `{Object}`, which only supports content property in the future will get more extensions, such as the configuration of each scene transitions, waiting time, etc.*
+- *TODO:  Currently, each of the member in the array is type of `{Object}`, which only supports content property, in the future, it will get more extensions, such as the configuration of the effect about each scene transitions, wait time, etc.*
 - Data format:
 
 ```javascript
@@ -239,13 +239,13 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 ##### dom
 
 - `{HTMLElement}`
-- Container dom node, with the role of the parameter [DOM](#dom), if this setting, DOM will be overwritten.
+- dom node which is used as Container, same as the role of the parameter [DOM] (#dom), if this has been setted, DOM will be overwritten.
 
 
 ##### data
 
 - `{Array}`
-- A list of data, with the role of the parameter [DATA](#data), if this setting, DATA will be overwritten.
+- A list of data, same as the role of the parameter [DATA] (#data), if this has been setted, DATA will be overwritten.
 
 
 ##### animateType
@@ -253,7 +253,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 - `{String}`
 - Animation
 - Currently supports: default (scrolling), rotate (rotation), depth, flow, flip, card, fade (fade in / hidden), (outside / inside zoom) zoomout
-- Precondition: Loading Effects library iSlider.animate(.min).js
+- Precondition: Loading library iSlider.animate(.min).js which is used for effects
 - Default: "default"
 
 
@@ -269,7 +269,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 
 - `{String}`
 - Animation curve
-- Optional linear, ease, ease-in, ease-out, ease-in-out, even cubic-bezier
+- Options: linear, ease, ease-in, ease-out, ease-in-out, even cubic-bezier
 - Default: ease
 
 
@@ -283,8 +283,8 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 ##### duration
 
 - `{Number}`
-- Automatic playback scene dwell time
-- Residence time of each scene, it switches to the next scene at the end of
+- Suspending time of scene when it's playback automatically
+- Suspending time of each scene, it switches to the next scene when it is ended
 - Unit: ms
 - Precondition: isAutoplay === ```TRUE```
 
@@ -307,7 +307,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 
 - `{Boolean}`
 - Background Tile
-- If the scene is picture mode (URL), use the CSS3 backgrounds populate scenes
+- If the scene is picture mode (URL), use the CSS3 backgrounds ways to filling the scenes
 - Default: false (Disabled)
 
 
@@ -321,40 +321,40 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 ##### isDebug
 
 - `{Boolean}`
-- On / off debug mode, the log will print more information
+- On / off debug mode, it will print more information about the log
 - Default: false (Disabled)
 
 
 ##### initIndex
 
 - `{Number}`
-- Fold data used list index
+- Index of the list which is used for the first screen 
 - Default: 0
 
 
 ##### fingerRecognitionRange
 
 - `{Number}`
-- Inadvertently recognition range, touchMove greater than the range of values, it is considered effective sliding distance
-- 默认：10(px)
+- The scope of wrong touch, if it's bigger than the value of scope, the touchMove will be treat as an effective distance of slide
+- Default：10(px)
 
 
 ##### fixPage
 
 - `{Boolean|Array|String}`
-- Native event stop
-- In the original scene shield trigger event, such as: scroll, drag, zoom, etc.
-    - "A" elements to prevent the mobile terminal is recommended to use tap (touch-based event jointly judgment) custom
-    - Of the form element "SELECT", "INPUT", "TEXTAREA", "BUTTON", "LABEL", under any circumstances be blocked
-    - * Excludes strategy: if the parameters of type string (rules, querySelector string) or an array (multiple rule), this option is turned on (true) and exclusion rules composite elements, the same as `iSlider.FIX_PAGE_TAGS`
+- Prevent native event
+- Prevent to trigger the event in the scene shield, such as: scroll, drag, zoom, etc.
+    - "A" elements, prevented, the mobile terminal is recommended to use user-defined tap (touch-based event jointly judgment)
+    - For the form element "SELECT", "INPUT", "TEXTAREA", "BUTTON", "LABEL", in any situations it will not to be prevented
+    - *Exclude strategies：if the type of param is string（rule，querySelector selector string）or Array(mutiple regulations)，this option is in opening status(true)and exlude elements with composite regulations, treat as`iSlider.FIX_PAGE_TAGS`
 - Default: true (Enabled)
 
 
 ##### fillSeam
 
 - `{Boolean}`
-- To fill the joints between scenes
-- Rendering problems on some systems browsers, resulting in a gap between scenes appear, in this case the scene and set the background color to use when connected ** ** switching effect is particularly evident.
+- To fill the gaps between scenes
+- There is some rendering problems in the browser of some systems, resulting in a gap between scenes, this situation is particularly evident when the scene had setted the background color and use ** ** for connected.
 - Default: false (Disabled)
 
 
@@ -362,16 +362,16 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 
 - `{Array}`
 - Enable plug-ins and configure the initialization parameters
-- A list of names incoming To activate plugins: ```['dot', 'button', 'zoompic', ...]```, in addition, support incoming initialization parameters: ```[..., ['zoompic', {zoomFactor: 2}], ...]```
-- If the plug does not exist or is not loaded ignored
+- Incomming a name list of plugins which would be actived: ```['dot', 'button', 'zoompic', ...]```, in addition, it's support incoming initialization parameters: ```[..., ['zoompic', {zoomFactor: 2}], ...]```
+- It will be ignored if the plug-in does not exist or is not loaded 
 
 
 ### Event callbacks
 
 - `{Function}`
-- At initialization passed, by way of example the method can also be "on" for event registration.
-- As the initialization parameter needed **on** at the beginning and to all lowercase for hump naming binding.
-- Due to the different callback method in which different scenes, there will be differences between the incoming parameters.
+- Incomming at initialization, it can also registrat event by way of living example with method "on".
+- As the initialization parameter it's needed to beginning with **on** and it would to be lowercase, Camel-Case would be used for binding.
+- Due to the different scenes,callback method should be different , there will be different between the incoming parameters.
 
 Example:
 
@@ -395,20 +395,20 @@ S.on('slideChanged', callBack);
 
 #### pluginInitialize (Not Enabled)
 
-- (Each) widget initialization
+- (Each)Be triggered at initialization
 - Parameters: None
 
 
 #### pluginInitialized
 
-- All plug-in initialization is complete
+- Be triggered when all plug-in initialization is complete
 - Parameters: None
 
 
 #### renderComplete
 
-- Rendering is completed when the outer container
-- Before reset, loadData will trigger
+- Be triggered when the outer container is rendered completely
+- Be triggered before reset, loadData 
 - Parameters
     - `{Number}` current data index
     - `{HTMLElement}` current scene elements
@@ -416,29 +416,29 @@ S.on('slideChanged', callBack);
 
 #### slideStart
 
-- When the finger touch screen
+- Be triggered when the finger touching screen
 - Parameters
-    - `{Object}` Event
+    - `{Object}` Event object
         
         
 #### slide
 
-- When the finger sliding
+- Be triggered when the finger is sliding
 - Parameters
-    - `{Object}` Event
+    - `{Object}` Event object
 
 
 #### slideEnd
 
-- When the finger lifted
+- Be triggered when the finger has lifted
 - Parameters
-    - `{Object}` Event
+    - `{Object}` Event object
 
 
 #### slideChange
 
 - `{Function}`
-- When the scene changes
+- Be triggered when the scene changes
 - Parameters
     - `{Number}` current data index
     - `{HTMLElement}` current scene elements
@@ -446,8 +446,8 @@ S.on('slideChanged', callBack);
 #### slideChanged
 
 - `{Function}`
-- When the scene change is completed (the animation is complete)
-- When executive loadData
+- Be triggered when the changing of scene is completed (the animation is completed)
+- Be triggered when executing loadData
 - Parameters
     - `{Number}` current data index
     - `{HTMLElement}` current scene elements
@@ -456,7 +456,7 @@ S.on('slideChanged', callBack);
 #### slideRestore
 
 - `{Function}`
-- When the scene has not changed (rebound, animation is complete)
+- Be triggered when the scene has not changed (rebound, animation is completed)
 - Parameters
     - `{Number}` current data index
     - `{HTMLElement}` current scene elements
@@ -465,8 +465,8 @@ S.on('slideChanged', callBack);
 #### slideRestored
 
 - `{Function}`
-- When the scene has not changed is completed (Rebound animation is complete)
-- When performing reset
+- Be triggered when the scene is changing and it's not completed (Rebound animation is completed)
+- Be triggered when performing reset
 - Parameters
     - `{Number}` current data index
     - `{HTMLElement}` current scene elements
@@ -475,7 +475,7 @@ S.on('slideChanged', callBack);
 #### loadData
 
 - `{Function}`
-- When data is reset (execution loadData method)
+- Be triggered when data is reset (execution loadData method)
 - Parameters
     - `{Number}` current data index
     - `{HTMLElement}` current scene elements
@@ -484,7 +484,7 @@ S.on('slideChanged', callBack);
 #### reset
 
 - `{Function}`
-- When the scene reset (phone screen rotate, resize)
+- Be triggered when the scene reset (phone screen rotate, resize)
 - Parameters
     - `{Number}` current data index
     - `{HTMLElement}` current scene elements
@@ -493,36 +493,36 @@ S.on('slideChanged', callBack);
 #### destroy
 
 - `{Function}`
-- When iSlider destruction
+- Be triggered when iSlider destruction
 - Parameters: None
 
 
-### 常量
+### Constant
 
 #### VERSION
 
 - `{String}`
-- Version number
+- Version
 
 
 #### EVENTS
 
 - `{Array}`
-- Event callback list
+- The list of events callback
 
 
 #### EASING
 
 - `{Array}`
-- Animation（easing）list
+- Animation effect（easing）regulation lists
     - 0: `{Array}` `['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out']`
-    - 1: `{Regexp}` Bezier curve formula, the same with CSS3
+    - 1: `{Regexp}` Bézier curve expressions, writting same as the CSS3
 
 
 #### FIX_PAGE_TAGS
 
 - `{Array}`
-- FixPage pass whitelist
+- The white list which is matched the fixPage form
 
 
 #### NODE_TYPE
@@ -534,22 +534,22 @@ S.on('slideChanged', callBack);
 #### TRANSITION_END_EVENT
 
 - `{String}`
-- Event name in animation ends
+- The name of Animation's ending
 
 
 #### DEVICE_EVENTS
 
 - `{Object}`
 - `{{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}`
-- Device event
+- According to the event which the divices matched
 
 
 ### Static Method
 
 #### extend
 
-- When the parameter length is 1, the object inheritance to iSlider.prototype
-- When the parameter length is 2, the second to the first object inheritance
+- When the parameter's length is equal to 1, the object will inherit iSlider.prototype
+- When the parameter's length is equal to 2, the second object will inherit the first
 - Parameters:
     - \[`{Object}` original object\] or default iSlider.prototype
     - `{Object}` new object
@@ -567,7 +567,7 @@ S.on('slideChanged', callBack);
 
 #### slideTo
 
-- Switch to the N-th scene, you can set the configuration information in a second parameter, this change slide animation: animateTime animateType
+- Switch to the N-th scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType
 - Parameters:
     - `{Number}` data list index
     - \[`{Object}` temporary configuration\]
@@ -575,14 +575,14 @@ S.on('slideChanged', callBack);
 
 #### slidePrev
 
-- Switch to the next scene, you can set the configuration information, change this slide animation: animateTime animateType
+- Switch to the next scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType
 - Parameters:
     - \[`{Object}` temporary configuration\]
 
 
 #### slidePrev
 
-- Switch to the previous scene, you can set the configuration information, change this slide animation: animateTime animateType
+- Switch to the previous scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType
 - Parameters:
     - \[`{Object}` temporary configuration\]
 
@@ -617,16 +617,16 @@ S.on('slideChanged', callBack);
 
 #### on
 
-- In the event of registered iSlider the callback method
+- To register the callback method in the event of iSlider 
 - Parameters:
     - `{String}` event name
     - `{Function}` back off method
-    - \[`{Boolean}`\] priority registration, callback events registered to the header event queue during initialization event callbacks are registered in the queue before the default: false
+    - \[`{Boolean}`\] priority registration, callback events registered to the header of the event queue, the event callback is always be the fisrt which is registered at the initialization, Default: false
 
 
 #### has
 
-- Detecting an event callback method already exists
+- Detecting the event callback method is already exists
 - Parameters:
     - `{String}` event name
     - `{Function}` back off method
@@ -659,13 +659,13 @@ S.on('slideChanged', callBack);
 
 #### extend
 
-- Same with static method "extend"
+- Same as static method "extend"
 
 
 #### regPlugin
 
-- Same with the static method "regPlugin"
-- ** This method will register the plug to iSlider instance, registered at the same time are automatically added to the list of active plug-ins, and automatically performs initialization.**
+- Same as the static method "regPlugin"
+- ** This method will be registered the plug-in into the iSlider instance,It will add an active list of plug-in automatically when registeration and performs initialization automatically.**
 
 
 #### loadData
@@ -677,8 +677,8 @@ S.on('slideChanged', callBack);
 
 #### subjectTo
 
-- Subject to another instance of Slider
-- This Slider completely controlled by the target iSlider
+- Subject to another Slider instance
+- This Slider will completely controlled by the target iSlider
 - Parameters:
     - `{Object}` target
     - `{Object}` controlled configuration item (Not Enabled)
@@ -688,7 +688,7 @@ var IS_1 = new iSlider(dom, data);
 var IS_2 = new iSlider(dom, data);
 
 IS_1.subjectTo(IS_2);
-// At this point IS_1 fully controlled IS_2, that is to say on the drag, switching, auto-play and other acts performed IS_2 synced to IS_1
+// At this time IS_1 if fully controlled by IS_2, that is to say the drag, switching, auto-play and other acts performed on IS_2 would synced to IS_1
 ```
 
 
@@ -699,12 +699,12 @@ IS_1.subjectTo(IS_2);
 
 #### unhold
 
-- The current scene to open gestures while unlocked
+- The current scene to open gestures, and trigger "unlocked" at the same time
 
 
 #### lock
 
-- Lock the current scene, disable sliceTo, slideNext, slidePrev method, while prohibiting gesture
+- Lock the current scene, disabled method of sliceTo, slideNext, slidePrev, while prohibiting gesture
 
 
 #### unlock
@@ -723,7 +723,7 @@ IS_1.subjectTo(IS_2);
 
 
 ## Contact us
-Any feedback is most welcome if you have any question regarding iSlider or any bug is found:
+If you have any questions or find any bugs about iSlider, we will be appreciated for your feedback:
 [Commit a feedback](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
 
 ## License (MIT)
