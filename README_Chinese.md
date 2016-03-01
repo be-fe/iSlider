@@ -216,7 +216,8 @@ var data = [{
 - new iSlider(DOM, ```DATA```, OPTIONS);
 - `{Array}`
 - 数据列表
-- 作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。允许的类型为URLString、HTMLString、HTMLElement、HTMLFragment。
+- 作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。
+- 允许的类型：URLString、HTMLString、HTMLElement、HTMLFragment。
 - *TODO：目前成员为{Object}类型，只支持content属性，在将来会得到更多的扩展，比如配置每一场景的切换效果、等待时间等等*
 - 数据格式：
 
@@ -503,10 +504,12 @@ S.on('slideChanged', callBack);
 - `{String}`
 - 版本号
 
+
 #### EVENTS
 
 - `{Array}`
 - 事件回调列表
+
 
 #### EASING
 
@@ -515,20 +518,24 @@ S.on('slideChanged', callBack);
     - 0: `{Array}` `['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out']`
     - 1: `{Regexp}` 贝塞尔曲线公式，同CSS3中的写法
 
+
 #### FIX_PAGE_TAGS
 
 - `{Array}`
 - 对应fixPage的表单元素白名单
+
 
 #### NODE_TYPE
 
 - `{Array}`
 - 场景类型
 
+
 #### TRANSITION_END_EVENT
 
 - `{String}`
 - 动画效果结束事件名
+
 
 #### DEVICE_EVENTS
 

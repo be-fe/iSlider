@@ -1,8 +1,6 @@
 # iSlider
 
-iSlider is a lightweight, high-performant, no library dependencies 
-cross-platform slide controller. It can help handling most sliding effects, offering dozens 
-of transition animations, and presenting various scenarios.
+iSlider is a lightweight, high-performant, no library dependencies cross-platform slide controller. It can help handling most sliding effects, offering dozens of transition animations, and presenting various scenarios.
 
 ![](http://be-fe.github.io/iSlider/thumbnails/iSlider-logo.png)
 
@@ -15,20 +13,14 @@ of transition animations, and presenting various scenarios.
 ## Features
 
 - Outstanding performance, less memory usage;
-- Various animation effects, including effects such as `default`, `rotate`, `depth`, `flow`, `flip`, `card`, 
-`fade`, etc., and capability of adding custom animations;
-- Provide rich callback trigger. Adding a callback function is easy, 
-regardless of initialization or during operation;
-- Easy to configure, e.g. Slide the dampening effect of the cycle, automatic sliding effect, 
-horizontal / vertical sliding, etc.
+- Various animation effects, including effects such as `default`, `rotate`, `depth`, `flow`, `flip`, `card`, `fade`, etc., and capability of adding custom animations;
+- Provide rich callback trigger. Adding a callback function is easy, regardless of initialization or during operation;
+- Easy to configure, e.g. Slide the dampening effect of the cycle, automatic sliding effect, horizontal / vertical sliding, etc.
 - Automatic matching the desktop mouse movements or gestures on mobile device. Easy to test and use cross platforms;
 - Supports for image pre-loaded, excellent user experience;
-- \[Plugin\] Offers a variety of plug-ins, such as a toggle button, the scene indicator, 
-image scaling, etc. Provides plug-in registration, management and other methods to facilitate 
-custom extension;
+- \[Plugin\] Offers a variety of plug-ins, such as a toggle button, the scene indicator, image scaling, etc. Provides plug-in registration, management and other methods to facilitate custom extension;
 - \[2.0+\] Can be loaded on demand (effect or plug-in);
-- \[2.0+\] Supports more types of elements. Automatically matches the data type.
-Capable of image recognition and pre-loading;
+- \[2.0+\] Supports more types of elements. Automatically matches the data type. Capable of image recognition and pre-loading;
 - \[2.0+\] Better delegated event management mechanism, optimized memory usage;
 - \[2.0+\] Enriched callback events, more flexible event management and trigger mechanisms;
 
@@ -60,8 +52,7 @@ npm install islider.js
 
 ## Started iSlider
 
-The easiest way of getting started is to consult our examples, please visit 
-the [DEMOs](https://github.com/be-fe/iSlider/tree/master/demo).
+The easiest way of getting started is to consult our examples, please visit the [DEMOs](https://github.com/be-fe/iSlider/tree/master/demo).
 
 #### Creating a container
 
@@ -111,8 +102,7 @@ var islider = new iSlider(document.getElementById('iSlider-wrapper'), data, {
 
 #### Animations
 
-**If you want more effects, you can load the animation effect extensions, 
-set up the configuration when initializing iSlider and specify `animationType`.**
+**If you want more effects, you can load the animation effect extensions, set up the configuration when initializing iSlider and specify `animationType`.**
 
 ``` html
 <script src="iSlider.min.js"></script>
@@ -224,14 +214,11 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 #### DATA (`Optional`, `default: OPTIONS.data`)
 
 - new iSlider(DOM, ```DATA```, OPTIONS);
-- `[{content: {type: $TYPE }}, ...]`
+- `{Array}`
 - Data list
 - Though it's not required, the second param is also recommended.
 - Allowed types: URLString, HTMLString, HTMLElement, HTMLFragment.
-- * TODO:  Currently, each member in the array is of type `{content: {type: $TYPE}}`
-currently a member of the type `{Object}`, which only supports content property 
-in the future will get more extensions, 
-such as the configuration of each scene transitions, waiting time, etc. *
+- *TODO:  Currently, each member in the array is of type `{content: {type: $TYPE}}` currently a member of the type `{Object}`, which only supports content property in the future will get more extensions, such as the configuration of each scene transitions, waiting time, etc.*
 - Data format:
 
 ```javascript
@@ -252,13 +239,13 @@ such as the configuration of each scene transitions, waiting time, etc. *
 ##### dom
 
 - `{HTMLElement}`
-- Container dom node, with the role of the parameter [DOM] (#dom), if this setting, DOM will be overwritten.
+- Container dom node, with the role of the parameter [DOM](#dom), if this setting, DOM will be overwritten.
 
 
 ##### data
 
 - `{Array}`
-- A list of data, with the role of the parameter [DATA] (#data), if this setting, DATA will be overwritten.
+- A list of data, with the role of the parameter [DATA](#data), if this setting, DATA will be overwritten.
 
 
 ##### animateType
@@ -348,18 +335,18 @@ such as the configuration of each scene transitions, waiting time, etc. *
 ##### fingerRecognitionRange
 
 - `{Number}`
-- 误触识别范围，大于范围值的touchMove被视为有效滑动距离
+- Inadvertently recognition range, touchMove greater than the range of values, it is considered effective sliding distance
 - 默认：10(px)
 
 
 ##### fixPage
 
-- `{Boolean}`
+- `{Boolean|Array|String}`
 - Native event stop
 - In the original scene shield trigger event, such as: scroll, drag, zoom, etc.
     - "A" elements to prevent the mobile terminal is recommended to use tap (touch-based event jointly judgment) custom
     - Of the form element "SELECT", "INPUT", "TEXTAREA", "BUTTON", "LABEL", under any circumstances be blocked
-    - *排除策略：若参数类型为字符串（规则，querySelector选择器字符串）或数组(多个规则)，此选项为开启状态(true)并排除复合规则的元素，与`iSlider.FIX_PAGE_TAGS`相同对待
+    - * Excludes strategy: if the parameters of type string (rules, querySelector string) or an array (multiple rule), this option is turned on (true) and exclusion rules composite elements, the same as `iSlider.FIX_PAGE_TAGS`
 - Default: true (Enabled)
 
 
@@ -515,43 +502,49 @@ S.on('slideChanged', callBack);
 #### VERSION
 
 - `{String}`
-- 版本号
+- Version number
+
 
 #### EVENTS
 
 - `{Array}`
-- 事件回调列表
+- Event callback list
+
 
 #### EASING
 
 - `{Array}`
-- 动画效果（easing）规则列表
+- Animation（easing）list
     - 0: `{Array}` `['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out']`
-    - 1: `{Regexp}` 贝塞尔曲线公式，同CSS3中的写法
+    - 1: `{Regexp}` Bezier curve formula, the same with CSS3
+
 
 #### FIX_PAGE_TAGS
 
 - `{Array}`
-- 对应fixPage的表单元素白名单
+- FixPage pass whitelist
+
 
 #### NODE_TYPE
 
 - `{Array}`
-- 场景类型
+- Scene type
+
 
 #### TRANSITION_END_EVENT
 
 - `{String}`
-- 动画效果结束事件名
+- Event name in animation ends
+
 
 #### DEVICE_EVENTS
 
 - `{Object}`
 - `{{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}`
-- 根据设备所匹配的事件
+- Device event
 
 
-### 静态方法
+### Static Method
 
 #### extend
 
