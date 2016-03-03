@@ -574,17 +574,8 @@ aside #hamburger-menu li {
     color: #494949;
 }
 
-#options ul > code, #functions ul > code, #methods ul > code, #constant ul > code {
-    font-family: 'source-code-pro', monospace;
-    font-size: 14px;
-}
-
 #options .options, #methods .static-methods, #methods .instance-methods {
     margin-left: 12px;
-}
-
-#options .options ul, #methods ul, #functions ul, #constant ul {
-    /*margin-top: 5px;*/
 }
 
 @media only screen and (max-device-width: 600px), screen and (max-width: 600px) {
