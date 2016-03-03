@@ -25,7 +25,7 @@
         <div class="divider"></div>
         <ul id="menu-list">
             <li>
-                <a href="#frame">Home</a>
+                <a href="#">概要</a>
                 <ul class="submenu">
                     <li>
                         <a href="#intro-detail">介绍</a>
@@ -36,7 +36,7 @@
                 </ul>
             </li>
             <li>
-                <a href="#intro">结构说明</a>
+                <a href="#frame">结构说明</a>
                 <ul id="intro-tree" class="submenu"></ul>
             </li>
             <li>
@@ -152,7 +152,7 @@
 
             <p>
                 islider滑动效果库，目前支持flip、depth、flow等翻页效果。
-                <a target="_blank" href="./2.X_more-animation.html">demo地址</a>
+                <a target="_blank" href="./animation.html">demo地址</a>
             </p>
             <h4 id="frame-iSlider-plugin-dot">iSlider.plugin.dot.js</h4>
 
@@ -274,12 +274,12 @@
                 <li><em>TODO：目前成员为{Object}类型，只支持content属性，在将来会得到更多的扩展，比如配置每一场景的切换效果、等待时间等等</em></li>
                 <li>数据格式：</li>
             </ul>
-                <pre class="highlight">[
+                <pre class="highlight"><code>[
     {
         content: '{URLString|HTMLString|HTMLElement|HTMLFragment}'
     },
     ...
-]</pre>
+]</code></pre>
             </p>
 
             <h3 id="OPTIONS">OPTIONS</h3>
@@ -455,8 +455,7 @@
             <p>示例：</p>
             <pre class="highlight">
                 <code>var S = new iSlider({..., onslidechanged: callBack, ...});
-                    S.on('slideChanged', callBack);</code>
-            </pre>
+S.on('slideChanged', callBack);</code></pre>
 
             <h4 id="initialize">initialize</h4>
 
@@ -687,19 +686,25 @@
             <div class="static-methods">
                 <h4 id="extend">extend</h4>
                 <ul>
-                    <li>When the parameter’s length is equal to 1, the object will inherit iSlider.prototype</li>
-                    <li>When the parameter’s length is equal to 2, the second object will inherit the first</li>
-                    <li>Parameters:
-                    - [<code>{Object}</code> original object] or default iSlider.prototype
-                    - <code>{Object}</code> new object</li>
+                    <li>当参数长度为1时，将对象继承到<code>iSlider.prototype</code></li>
+                    <li>当参数长度为2时，将第二个对象继承到第一个</li>
+                    <li>参数：
+                        <ul>
+                            <li>[<code>{Object}</code>原对象] 或默认为 <code>iSlider.prototype</code></li>
+                            <li><code>{Object}</code>新对象</li>
+                        </ul>
+                    </li>
                 </ul>
 
                 <h4 id="regplugin">regPlugin</h4>
                 <ul>
-                    <li>Register the plug-in</li>
-                    <li>Parameters:
-                    - <code>{String}</code> plug-in name
-                    - <code>{Function}</code> plug-in initialization method</li>
+                    <li>注册插件</li>
+                    <li>参数：
+                        <ul>
+                            <li><code>{String}</code>插件名称</li>
+                            <li><code>{Function}</code>插件初始化方法</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
 
@@ -871,14 +876,9 @@
                         </ul>
                     </li>
                 </ul>
-                <pre>
-                    <code>
-                        var IS_1 = new iSlider(dom, data);<br>
-                        var IS_2 = new iSlider(dom, data);<br>
-                        IS_1.subjectTo(IS_2); // At this time IS_1 if fully controlled by IS_2, that is to say the drag, switching, auto-play and other acts performed on IS_2 would synced to IS_1
-                    </code>
-                </pre>
-               
+                <pre><code>var IS_1 = new iSlider(dom, data);
+var IS_2 = new iSlider(dom, data);
+IS_1.subjectTo(IS_2); // At this time IS_1 if fully controlled by IS_2, that is to say the drag, switching, auto-play and other acts performed on IS_2 would synced to IS_1</code></pre>
 
                 <h4 id="hold">hold</h4>
 

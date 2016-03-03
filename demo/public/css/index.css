@@ -68,7 +68,7 @@ code {
     font-size: 14px;
 }
 
-#options code, #functions code, #methods code, #constant code {
+#options ul code, #functions ul code, #methods ul code, #constant ul code {
     padding: 2px 4px;
     font-size: 90%;
     color: #337AB7;
@@ -530,6 +530,7 @@ aside #hamburger-menu li {
     line-height: 25px;
     font-size: 14px;
     margin: 5px 10px;
+    padding: 0 5px;
 }
 
 #toggle-box button.active {
@@ -569,7 +570,7 @@ aside #hamburger-menu li {
     color: gray;
 }
 
-#options code, #functions code, #methods code, #constant code {
+#options ul > code, #functions ul > code, #methods ul > code, #constant ul > code {
     font-family: 'source-code-pro', monospace;
     font-size: 14px;
 }
