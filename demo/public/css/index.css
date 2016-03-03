@@ -68,7 +68,8 @@ code {
 }
 
 ul code,
-p code {
+p code,
+table code {
     padding: 2px 4px;
     color: #337AB7;
     white-space: nowrap;
@@ -570,7 +571,7 @@ aside #hamburger-menu li {
     margin-top: 16px;
     padding: 12px 0;
     border-top: 1px dotted #dddddd;
-    color: #808080;
+    color: #494949;
 }
 
 #options ul > code, #functions ul > code, #methods ul > code, #constant ul > code {
@@ -706,6 +707,11 @@ aside #hamburger-menu li {
     padding-left: 22px;
     color: #fafafa;
     border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+#menu-title h2 {
+    padding-top: 10px;
+    margin-bottom: 10px;
 }
 
 #menu-title h2 i {
