@@ -344,8 +344,8 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 - `{Boolean|Array|String}`
 - Prevent native event
 - Prevent to trigger the event in the scene shield, such as: scroll, drag, zoom, etc.
-    - "A" elements, prevented, the mobile terminal is recommended to use user-defined tap (touch-based event jointly judgment)
-    - For the form element "SELECT", "INPUT", "TEXTAREA", "BUTTON", "LABEL", in any situations it will not to be prevented
+    - "A" elements, prevented, the mobile terminal is recommended to use user-defined tap (touch-based event jointly judgment)
+    - For the form element "SELECT", "INPUT", "TEXTAREA", "BUTTON", "LABEL", in any situations it will not to be prevented
     - *Exclude strategies：if the type of param is string（rule，querySelector selector string）or Array(mutiple regulations)，this option is in opening status(true)and exlude elements with composite regulations, treat as`iSlider.FIX_PAGE_TAGS`
 - Default: true (Enabled)
 
@@ -410,15 +410,15 @@ S.on('slideChanged', callBack);
 - Be triggered when the outer container is rendered completely
 - Be triggered before reset, loadData 
 - Parameters
-    - `{Number}` current data index
-    - `{HTMLElement}` current scene elements
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
 
 
 #### slideStart
 
 - Be triggered when the finger touching screen
 - Parameters
-    - `{Object}` Event object
+    - `{Object}` Event object
         
         
 #### slide
@@ -440,8 +440,8 @@ S.on('slideChanged', callBack);
 - `{Function}`
 - Be triggered when the scene changes
 - Parameters
-    - `{Number}` current data index
-    - `{HTMLElement}` current scene elements
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
 
 #### slideChanged
 
@@ -449,8 +449,8 @@ S.on('slideChanged', callBack);
 - Be triggered when the changing of scene is completed (the animation is completed)
 - Be triggered when executing loadData
 - Parameters
-    - `{Number}` current data index
-    - `{HTMLElement}` current scene elements
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
 
 
 #### slideRestore
@@ -458,8 +458,8 @@ S.on('slideChanged', callBack);
 - `{Function}`
 - Be triggered when the scene has not changed (rebound, animation is completed)
 - Parameters
-    - `{Number}` current data index
-    - `{HTMLElement}` current scene elements
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
 
 
 #### slideRestored
@@ -468,8 +468,8 @@ S.on('slideChanged', callBack);
 - Be triggered when the scene is changing and it's not completed (Rebound animation is completed)
 - Be triggered when performing reset
 - Parameters
-    - `{Number}` current data index
-    - `{HTMLElement}` current scene elements
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
 
 
 #### loadData
@@ -477,8 +477,8 @@ S.on('slideChanged', callBack);
 - `{Function}`
 - Be triggered when data is reset (execution loadData method)
 - Parameters
-    - `{Number}` current data index
-    - `{HTMLElement}` current scene elements
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
 
 
 #### reset
@@ -486,8 +486,8 @@ S.on('slideChanged', callBack);
 - `{Function}`
 - Be triggered when the scene reset (phone screen rotate, resize)
 - Parameters
-    - `{Number}` current data index
-    - `{HTMLElement}` current scene elements
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
 
 
 #### destroy
@@ -544,56 +544,56 @@ S.on('slideChanged', callBack);
 - According to the event which the divices matched
 
 
-### Static Method
+### Static Methods
 
 #### extend
 
 - When the parameter's length is equal to 1, the object will inherit iSlider.prototype
 - When the parameter's length is equal to 2, the second object will inherit the first
 - Parameters:
-    - \[`{Object}` original object\] or default iSlider.prototype
-    - `{Object}` new object
+    - \[`{Object}` original object\] or default iSlider.prototype
+    - `{Object}` new object
     
 #### regPlugin
 
 - Register the plug-in
 - Parameters:
-    - `{String}` plug-in name
-    - `{Function}` plug-in initialization method
+    - `{String}` plug-in name
+    - `{Function}` plug-in initialization method
 
 
-### Instance methods
+### Instance Methods
 
 
 #### slideTo
 
 - Switch to the N-th scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType
 - Parameters:
-    - `{Number}` data list index
-    - \[`{Object}` temporary configuration\]
+    - `{Number}` data list index
+    - \[`{Object}` temporary configuration\]
 
 
 #### slidePrev
 
 - Switch to the next scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType
 - Parameters:
-    - \[`{Object}` temporary configuration\]
+    - \[`{Object}` temporary configuration\]
 
 
 #### slidePrev
 
 - Switch to the previous scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType
 - Parameters:
-    - \[`{Object}` temporary configuration\]
+    - \[`{Object}` temporary configuration\]
 
 
 #### delegate
 
 - Binding delegate event on the container node
 - Parameters:
-    - `{String}` event name
-    - `{String}` selector (querySelectorAll)
-    - `{Function}` incident response method
+    - `{String}` event name
+    - `{String}` selector (querySelectorAll)
+    - `{Function}` incident response method
 
 
 #### bind
@@ -605,9 +605,9 @@ S.on('slideChanged', callBack);
 
 - Unbundling delegate event handler
 - Parameters:
-    - `{String}` event name
-    - `{String}` selector (querySelectorAll)
-    - `{Function}` incident response method
+    - `{String}` event name
+    - `{String}` selector (querySelectorAll)
+    - `{Function}` incident response method
 
 
 #### unbind
@@ -619,25 +619,25 @@ S.on('slideChanged', callBack);
 
 - To register the callback method in the event of iSlider 
 - Parameters:
-    - `{String}` event name
-    - `{Function}` back off method
-    - \[`{Boolean}`\] priority registration, callback events registered to the header of the event queue, the event callback is always be the fisrt which is registered at the initialization, Default: false
+    - `{String}` event name
+    - `{Function}` back off method
+    - \[`{Boolean}`\] priority registration, callback events registered to the header of the event queue, the event callback is always be the fisrt which is registered at the initialization, Default: false
 
 
 #### has
 
 - Detecting the event callback method is already exists
 - Parameters:
-    - `{String}` event name
-    - `{Function}` back off method
+    - `{String}` event name
+    - `{Function}` back off method
 
 
 #### off
 
 - Remove the callback method from iSlider events
 - Parameters:
-    - `{String}` event
-    - `{Function}` back off method
+    - `{String}` event
+    - `{Function}` back off method
 
 
 #### fire
@@ -672,7 +672,7 @@ S.on('slideChanged', callBack);
 
 - Loading new Datasheets
 - Parameters:
-    - `{Array}` Datasheets
+    - `{Array}` Datasheets
 
 
 #### subjectTo

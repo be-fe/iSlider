@@ -6,6 +6,10 @@ var frameSet = document.getElementById('frameset');
 var hamburgerMenu = document.getElementById('hamburger-menu');
 var tree = document.getElementById('menu');
 
+window.onload = function () {
+    setShowCode(frameSet);
+};
+
 frameSet.addEventListener('load', function () {
     setShowCode(this);
 });
@@ -69,16 +73,20 @@ tree.addEventListener('click', function (e) {
         document.querySelector('#options-param-tree')
     ],
     [
-        document.querySelectorAll('#functions h3'),
+        document.querySelectorAll('#functions h4'),
         document.querySelector('#function-tree')
     ],
     [
-        document.querySelectorAll('.methods-static h4'),
-        document.querySelector('#method-static-tree')
+        document.querySelectorAll('#constant h4'),
+        document.querySelector('#constant-tree')
     ],
     [
-        document.querySelectorAll('.methods-example h4'),
-        document.querySelector('#method-example-tree')
+        document.querySelectorAll('.static-methods h4'),
+        document.querySelector('#static-methods-tree')
+    ],
+    [
+        document.querySelectorAll('.instance-methods h4'),
+        document.querySelector('#instance-methods-tree')
     ]
 ].forEach(function (cf) {
         var o = [];
@@ -98,27 +106,3 @@ Array.prototype.forEach.call(document.querySelectorAll('#menu ul'), function (el
         target.appendChild(plus);
     }
 });
-
-//var str = '';
-//Array.prototype.forEach.call(document.getElementsByClassName('options')[0].getElementsByTagName('h4'), function (el) {
-//    str += '<li><a class="item" href="#' + el.getAttribute('id') + '">' + el.textContent + '</a></li>'
-//});
-//document.getElementById('options-param-tree').innerHTML = str;
-//
-//str = '';
-//Array.prototype.forEach.call(document.getElementById('functions').getElementsByTagName('h3'), function (el) {
-//    str += '<li><a class="item" href="#' + el.getAttribute('id') + '">' + el.textContent + '</a></li>'
-//});
-//document.getElementById('function-tree').innerHTML = str;
-//
-//str = '';
-//Array.prototype.forEach.call(document.getElementsByClassName('methods-static')[0].getElementsByTagName('h4'), function (el) {
-//    str += '<li><a class="item" href="#' + el.getAttribute('id') + '">' + el.textContent + '</a></li>'
-//});
-//document.getElementById('method-static-tree').innerHTML = str;
-//
-//str = '';
-//Array.prototype.forEach.call(document.getElementsByClassName('methods-example')[0].getElementsByTagName('h4'), function (el) {
-//    str += '<li><a class="item" href="#' + el.getAttribute('id') + '">' + el.textContent + '</a></li>'
-//});
-//document.getElementById('method-example-tree').innerHTML = str;

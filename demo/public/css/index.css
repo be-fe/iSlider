@@ -68,7 +68,7 @@ code {
     font-size: 14px;
 }
 
-#options code, #functions code, #methods code {
+#options code, #functions code, #methods code, #constant code {
     padding: 2px 4px;
     font-size: 90%;
     color: #337AB7;
@@ -554,14 +554,14 @@ aside #hamburger-menu li {
     padding: 5px 3px;
 }
 
-#options h3, #functions h3 {
+/*#options h3, #functions h3, #constant h3{
     position: relative;
     margin-top: 20px;
     padding-top: 10px;
     border-top: 1px dashed #e1e1e1;
-}
+}*/
 
-#options h4, #functions h4, #methods h4 {
+#options h4, #functions h4, #methods h4, #constant h4{
     position: relative;
     margin-top: 16px;
     padding-top: 12px;
@@ -569,16 +569,16 @@ aside #hamburger-menu li {
     color: gray;
 }
 
-#options code, #functions code, #methods code {
+#options code, #functions code, #methods code, #constant code {
     font-family: 'source-code-pro', monospace;
     font-size: 14px;
 }
 
-#options .options, #methods .methods-static, #methods .methods-example {
+#options .options, #methods .static-methods, #methods .instance-methods {
     margin-left: 12px;
 }
 
-#options .options ul, #methods .methods-static ul, #methods .methods-example ul {
+#options .options ul, #methods ul, #functions ul, #constant ul{
     margin-top: 5px;
 }
 
