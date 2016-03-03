@@ -267,7 +267,8 @@
      * @type {{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}
      */
     iSlider.DEVICE_EVENTS = (function () {
-        var hasTouch = !!(('ontouchstart' in global) || global.DocumentTouch && document instanceof global.DocumentTouch);
+        // IOS desktop has touch events, make them busting
+        var hasTouch = !!(('ontouchstart' in global && !/Mac OS X /.test(global.navigator.userAgent)) || global.DocumentTouch && document instanceof global.DocumentTouch);
         return {
             hasTouch: hasTouch,
             startEvt: hasTouch ? 'touchstart' : 'mousedown',

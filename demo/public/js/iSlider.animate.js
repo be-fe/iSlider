@@ -48,7 +48,9 @@
                 dom.style.zIndex = i === 1 ? 1 : 0;
 
                 dom.style.cssText += '-webkit-backface-visibility:hidden; -webkit-transform-style:preserve-3d; position:absolute;';
-                dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 0.9153 * 90 * (offset / scale + i - 1) + 'deg) translateZ(' + ( scale / 2) + 'px) scale(0.875)';
+                // TODO: overflow... I dont understand why there are many differences between ios and desktop. Maybe they have different interpretations of Perspective
+                // dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 0.9153 * 90 * (offset / scale + i - 1) + 'deg) translateZ(' + ( scale / 2) + 'px) scale(0.875)';
+                dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ(' + (0.889 * scale / 2) + 'px) scale(0.889)';
             }
 
             rotate.effect = 'transform';

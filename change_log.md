@@ -1,6 +1,7 @@
 ### iSlider 2.1.4
 - [Optimization]Options fixPage support policy "exclusion list", it allows you to trigger default event for the specific element.
 - [Optimization]readme & demo pages
+- [Optimization]IOS desktop has touch events, make them busting.
 
 ### iSlider 2.1.3
 - [Optimization]Local variable references.
