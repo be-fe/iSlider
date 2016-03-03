@@ -25,7 +25,7 @@
         <div class="divider"></div>
         <ul id="menu-list">
             <li>
-                <a href="#frame">Summary</a>
+                <a href="#">Summary</a>
                 <ul class="submenu">
                     <li>
                         <a href="#intro-detail">Detail</a>
@@ -36,7 +36,7 @@
                 </ul>
             </li>
             <li>
-                <a href="#intro">Structure</a>
+                <a href="#frame">Structure</a>
                 <ul id="intro-tree" class="submenu"></ul>
             </li>
             <li>
@@ -60,7 +60,7 @@
                 </ul>
             </li>
             <li>
-                <a href="#" class="">Functions</a>
+                <a href="#" class="">Event Callback</a>
                 <ul class="submenu" id="function-tree">
                 </ul>
             </li>
@@ -152,7 +152,7 @@
 
             <p>
                 sliding animiation library. At the moment, it supports flip、depth、flow etc.
-                <a target="_blank" href="./2.X_more-animation.html">demo</a>
+                <a target="_blank" href="./animation.html">demo</a>
             </p>
             <h4 id="frame-iSlider-plugin-dot">iSlider.plugin.dot.js</h4>
 
@@ -275,12 +275,12 @@
                 <li><em>TODO:   Currently, each of the member in the array is type of <code>{Object}</code>, which only supports content property, in the future, it will get more extensions, such as the configuration of the effect about each scene transitions, wait time, etc.</em></li>
                 <li>Data format:</li>
             </ul>
-                <pre class="highlight">[
+                <pre class="highlight"><code>[
     {
         content: '{URLString|HTMLString|HTMLElement|HTMLFragment}'
     },
     ...
-]</pre>
+]</code></pre>
             </p>
 
             <h3 id="OPTIONS">OPTIONS</h3>
@@ -454,10 +454,8 @@
             <p>Due to the different scenes,callback method should be different , there will be different between the incoming parameters.</p>
 
             <p>Example:</p>
-            <pre class="highlight">
-                <code>var S = new iSlider({..., onslidechanged: callBack, ...});
-                    S.on('slideChanged', callBack);</code>
-            </pre>
+            <pre class="highlight"><code>var S = new iSlider({..., onslidechanged: callBack, ...});
+S.on('slideChanged', callBack);</code></pre>
             <h4 id="initialize">initialize</h4>
 
             <ul>
@@ -875,15 +873,9 @@
                         </ul>
                     </li>
                 </ul>
-
-                <pre>
-                    <code>
-                        var IS_1 = new iSlider(dom, data);<br>
-                        var IS_2 = new iSlider(dom, data);<br>
-                        IS_1.subjectTo(IS_2); // At this time IS_1 if fully controlled by IS_2, that is to say the drag, switching, auto-play and other acts performed on IS_2 would synced to IS_1
-                    </code>
-                </pre>
-
+                <pre><code>var IS_1 = new iSlider(dom, data);
+var IS_2 = new iSlider(dom, data);
+IS_1.subjectTo(IS_2); // At this time IS_1 if fully controlled by IS_2, that is to say the drag, switching, auto-play and other acts performed on IS_2 would synced to IS_1</code></pre>
                 <h4 id="hold">hold</h4>
 
                 <ul>
