@@ -110,7 +110,7 @@
             var parent = target.parentNode;
             for (var i = 0; i < rule.length; i++) {
                 try {
-                    if (parent.querySelector(rule[i]) === target) {
+                    if (Array.prototype.slice.call(parent.querySelectorAll(rule[i])).indexOf(target) > -1) {
                         return true;
                     }
                 } catch (e) {
