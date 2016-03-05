@@ -88,7 +88,11 @@
     //    });
 
     list.push({
-        content: '<div style="font-size:2em;color:white;text-align: center">HTML<a href="http://baidu.com">Link</a></div>'
+        content: '' +
+        '<div style="font-size:2em;color:white;text-align: center">' +
+        '<span x="ooxx">HTML(<em>For test</em>)</span>' +
+        '<a href="http://baidu.com">Link</a>' +
+        '</div>'
     });
 
     list.push({
@@ -147,7 +151,7 @@
 //                delay: 3000,
                 animateTime: 1000,
 //                fillSeam: 1,
-                fixPage: false,
+                fixPage: ['[x="ooxx"]', 'div'],
                 isDebug: 1,
 //                isAutoplay: true,
                 duration: 5000,

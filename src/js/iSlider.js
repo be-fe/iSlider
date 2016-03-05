@@ -99,28 +99,6 @@
     }
 
     /**
-     * Whether this node in rule
-     *
-     * @param {HTMLElement} target
-     * @param {Array} rule
-     * @returns {boolean}
-     */
-    function isItself(target, rule) {
-        if (isArray(rule)) {
-            var parent = target.parentNode;
-            for (var i = 0; i < rule.length; i++) {
-                try {
-                    if (Array.prototype.slice.call(parent.querySelectorAll(rule[i])).indexOf(target) > -1) {
-                        return true;
-                    }
-                } catch (e) {
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
      * @constructor
      *
      * iSlicer([[{HTMLElement} container,] {Array} datalist,] {Object} options)
@@ -510,7 +488,7 @@
                 return false;
             }
             if (isArray(fp) && fp.length > 0 || typeof fp === 'string' && fp !== '') {
-                return [].concat(fp);
+                return [].concat(fp).toString();
             }
             return true;
         })();
@@ -1142,10 +1120,8 @@
      *  @public
      */
     iSliderPrototype.startHandler = function (evt) {
-        if (this.fixPage) {
-            if (iSlider.FIX_PAGE_TAGS.indexOf(evt.target.tagName.toUpperCase()) < 0 && !isItself(evt.target, this.fixPage)) {
-                evt.preventDefault();
-            }
+        if (this.fixPage && iSlider.FIX_PAGE_TAGS.indexOf(evt.target.tagName.toUpperCase()) < 0 && !this._isItself(evt.target)) {
+            evt.preventDefault();
         }
         if (this._holding || this._locking) {
             return;
@@ -1838,6 +1814,43 @@
             }
         }.bind(this));
     };
+
+
+    /**
+     * Whether this node in rule
+     *
+     * @param {HTMLElement} target
+     * @param {Array} rule
+     * @returns {boolean}
+     */
+    iSliderPrototype._isItself = function (target) {
+        var rule = this.fixPage;
+        if (typeof rule === 'string') {
+            //get dom path
+            var path = [], parent = target, selector;
+            while (!hasClass(parent, 'islider-outer') && parent !== this.wrap) {
+                path.push(parent);
+                parent = parent.parentNode;
+            }
+            parent = path.pop();
+
+            if (path.length) {
+                try {
+                    selector = Array.prototype.slice.call(parent.querySelectorAll(rule));
+                    if (selector.length) {
+                        for (var i = 0; i < path.length; i++) {
+                            if (selector.indexOf(path[i]) > -1) {
+                                return true;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Let target islider controls this one
