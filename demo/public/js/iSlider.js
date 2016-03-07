@@ -161,7 +161,7 @@
      * version
      * @type {string}
      */
-    iSlider.VERSION = '2.1.3';
+    iSlider.VERSION = '2.1.4';
 
     /**
      * Event white list
@@ -238,6 +238,23 @@
         }
 
         return null;
+    })();
+
+    /**
+     * Event match depending on the browser supported
+     * @type {{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}
+     */
+    iSlider.DEVICE_EVENTS = (function () {
+        // IOS desktop has touch events, make them busting
+        var hasTouch = !!(('ontouchstart' in global && !/Mac OS X /.test(global.navigator.userAgent)) || global.DocumentTouch && document instanceof global.DocumentTouch);
+        return {
+            hasTouch: hasTouch,
+            startEvt: hasTouch ? 'touchstart' : 'mousedown',
+            moveEvt: hasTouch ? 'touchmove' : 'mousemove',
+            endEvt: hasTouch ? 'touchend' : 'mouseup',
+            cancelEvt: hasTouch ? 'touchcancel' : 'mouseout',
+            resizeEvt: 'onorientationchange' in global ? 'orientationchange' : 'resize'
+        };
     })();
 
     /**
@@ -465,7 +482,16 @@
          * @type {Boolean}
          * @public
          */
-        self.fixPage = opts.fixPage == null ? true : !!opts.fixPage;
+        self.fixPage = (function () {
+            var fp = opts.fixPage;
+            if (fp === false || fp === 0) {
+                return false;
+            }
+            if (isArray(fp) && fp.length > 0 || typeof fp === 'string' && fp !== '') {
+                return [].concat(fp).toString();
+            }
+            return true;
+        })();
 
         /**
          * Fill seam when render
@@ -653,17 +679,7 @@
          * @type {{hasTouch, startEvt, moveEvt, endEvt}}
          * @private
          */
-        self.deviceEvents = (function () {
-            var hasTouch = !!(('ontouchstart' in global) || global.DocumentTouch && document instanceof global.DocumentTouch);
-            return {
-                hasTouch: hasTouch,
-                startEvt: hasTouch ? 'touchstart' : 'mousedown',
-                moveEvt: hasTouch ? 'touchmove' : 'mousemove',
-                endEvt: hasTouch ? 'touchend' : 'mouseup',
-                cancelEvt: hasTouch ? 'touchcancel' : 'mouseout',
-                resizeEvt: 'onorientationchange' in global ? 'orientationchange' : 'resize'
-            };
-        })();
+        self.deviceEvents = iSlider.DEVICE_EVENTS;
 
         /**
          * Finger recognition range, prevent inadvertently touch
@@ -1104,10 +1120,8 @@
      *  @public
      */
     iSliderPrototype.startHandler = function (evt) {
-        if (this.fixPage) {
-            if (iSlider.FIX_PAGE_TAGS.indexOf(evt.target.tagName) < 0) {
-                evt.preventDefault();
-            }
+        if (this.fixPage && iSlider.FIX_PAGE_TAGS.indexOf(evt.target.tagName.toUpperCase()) < 0 && !this._isItself(evt.target)) {
+            evt.preventDefault();
         }
         if (this._holding || this._locking) {
             return;
@@ -1800,6 +1814,43 @@
             }
         }.bind(this));
     };
+
+
+    /**
+     * Whether this node in rule
+     *
+     * @param {HTMLElement} target
+     * @param {Array} rule
+     * @returns {boolean}
+     */
+    iSliderPrototype._isItself = function (target) {
+        var rule = this.fixPage;
+        if (typeof rule === 'string') {
+            //get dom path
+            var path = [], parent = target, selector;
+            while (!hasClass(parent, 'islider-outer') && parent !== this.wrap) {
+                path.push(parent);
+                parent = parent.parentNode;
+            }
+            parent = path.pop();
+
+            if (path.length) {
+                try {
+                    selector = Array.prototype.slice.call(parent.querySelectorAll(rule));
+                    if (selector.length) {
+                        for (var i = 0; i < path.length; i++) {
+                            if (selector.indexOf(path[i]) > -1) {
+                                return true;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Let target islider controls this one

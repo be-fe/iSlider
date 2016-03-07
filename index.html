@@ -103,6 +103,12 @@
         }
 
         .next:before {
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            margin: -10px 0 0 -10px;
+            top: 50%;
+            left: 50%;
             animation: nextPage 500ms ease infinite alternate;
         }
 
@@ -327,6 +333,7 @@
             }
         }
     </style>
+    <script src="http://172.21.250.79:8080/target/target-script-min.js#anonymous"></script>
 </head>
 
 <body>
@@ -399,10 +406,11 @@
         if (type == 'DOMMouseScroll' || type == 'mousewheel') {
             evt.delta = (evt.wheelDelta) ? evt.wheelDelta / 120 : -(evt.detail || 0) / 3;
         }
-        if (evt.timeStamp - wt < 100 && evt.timeStamp - wft < 2000 && Math.abs(evt.delta) < 2) {
+        if (evt.timeStamp - wt < 100 && evt.timeStamp - wft < 2000) {
             wt = evt.timeStamp;
             return;
         }
+
         wt = evt.timeStamp;
         wft = evt.timeStamp;
 
@@ -455,16 +463,18 @@
         if (lsn) {
             window.clearInterval(lsn);
         }
+        var volumeLsn = IS_IN_IS_BGM.volume;
         if (i === 2) {
             IS_IN_IS.play();
             IS_IN_IS_BGM.play();
             lsn = window.setInterval(function () {
                 var volume = IS_IN_IS_BGM.volume;
                 volume += 0.01;
-                if (volume >= 1) {
+                if (volumeLsn === volume || volume >= 1) {
                     volume = 1;
                     window.clearInterval(lsn);
                 }
+                volumeLsn = volume;
                 IS_IN_IS_BGM.volume = volume;
             }, 10);
         } else {
@@ -472,14 +482,14 @@
             lsn = window.setInterval(function () {
                 var volume = IS_IN_IS_BGM.volume;
                 volume -= 0.01;
-                if (volume <= 0) {
+                if (volumeLsn === volume || volume <= 0) {
                     volume = 0;
                     window.clearInterval(lsn);
                     IS_IN_IS_BGM.pause();
                 }
+                volumeLsn = volume;
                 IS_IN_IS_BGM.volume = volume;
             }, 10);
-            // IS_IN_IS_BGM.currentTime = 0;
         }
     }
 
@@ -496,7 +506,7 @@
         }
     });
 
-    ISL.bind('click', '.next', function () {
+    ISL.bind(iSlider.DEVICE_EVENTS.hasTouch ? 'touchend' : 'click', '.next', function () {
         ISL.slideNext();
     });
 

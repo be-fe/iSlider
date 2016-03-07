@@ -23,8 +23,8 @@
         }
 
         .islider-outer > li {
-            overflow: auto;
-            background: rgba(0, 0, 0, .5);
+            background-color: #999999;
+            -webkit-overflow-scrolling: touch;
         }
 
         .islider-btn-outer {
@@ -83,8 +83,16 @@
 <script>
     var list = [];
 
+    //    list.push({
+    //        content: '../thumbnails/iSlider-logo.png'
+    //    });
+
     list.push({
-        content: '<div style="font-size:2em;color:white;text-align: center">HTML<a href="http://baidu.com">Link</a></div>'
+        content: '' +
+        '<div style="font-size:2em;color:white;text-align: center">' +
+        '<span x="ooxx">HTML(<em>For test</em>)</span>' +
+        '<a href="http://baidu.com">Link</a>' +
+        '</div>'
     });
 
     list.push({
@@ -113,7 +121,7 @@
 
     for (var i = 0; i < 3; i++)
         list.push({
-            content: '<div class="ro">' + i + '</div>'
+            content: '<div data-active="true" class="ro">' + i + '</div>'
         });
 
     list.push({
@@ -137,15 +145,15 @@
 //                data: list,
                 dom: document.getElementById("iSlider-wrapper"),
 //                isVertical: 1,
-//                isLooping: 1,
-                isOverspread: 1,
-//                animateType: 'rotate',
+                isLooping: 1,
+//                isOverspread: 1,
+                animateType: 'rotate',
 //                delay: 3000,
-//                animateTime: 10000,
+                animateTime: 1000,
 //                fillSeam: 1,
-//                fixPage: 0,
+                fixPage: ['[x="ooxx"]', 'div'],
                 isDebug: 1,
-                isAutoplay: true,
+//                isAutoplay: true,
                 duration: 5000,
 //                plugins: [
 //                    ['dot', {locate: 'relative'}],

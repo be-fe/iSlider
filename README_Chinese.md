@@ -32,7 +32,6 @@ Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/
 
 ## 获取 iSlider
 
-
 #### 从Github克隆到本地
 
 ```bash
@@ -53,7 +52,7 @@ npm install islider.js
 
 ## 开始使用 iSlider
 
-使用iSlider最简单的办法是查阅我们提供的简易例子，请浏览demo文件夹中的内容。
+使用iSlider最简单的办法是查阅我们提供的简易例子，请浏览[DEMO](https://github.com/be-fe/iSlider/tree/master/demo)文件夹中的内容。
 
 #### 创建一個容器
     
@@ -171,7 +170,6 @@ That's it!
 
 触控点边缘脱离识别区，虽然已经加入了mouseout和touchcancel的边缘处理，但是对于某些应用里，自定义的顶部（底部）菜单栏依然无能为力。识别区的意义在于可以主动的设置这些区域达到触摸脱离的效果。
 
-
 ## 场景数据
 
 从2.X版本开始，iSlider将不再需要指定数据的类型“type”，而变化为更加智能的识别方式，您可以在列表中设置多种类型的数据，如图片、HTML、element、fragment、node
@@ -196,16 +194,15 @@ var data = [{
             return frag;
         })()
 },{
-     'content' : document.getElementById('node') // node节点
+     'content' : document.getElementById('node') // selectors
 }];
 ```
 
 一些进阶功能可以参考[WIKI](https://github.com/BE-FE/iSlider/wiki/Notices)
 
-
 ## iSlider 详细说明
 
-### 参数
+### 配置参数
 
 #### DOM
 
@@ -219,18 +216,18 @@ var data = [{
 - new iSlider(DOM, ```DATA```, OPTIONS);
 - `{Array}`
 - 数据列表
-- 作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。允许的类型为URLString、HTMLString、HTMLElement、HTMLFragment。
+- 作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。
+- 允许的类型：URLString、HTMLString、HTMLElement、HTMLFragment。
 - *TODO：目前成员为{Object}类型，只支持content属性，在将来会得到更多的扩展，比如配置每一场景的切换效果、等待时间等等*
 - 数据格式：
 
 ```javascript
-    [
-        {
-            content:'{URLString|HTMLString|HTMLElement|HTMLFragment}',
-        },
-        
-        ...
-    ]
+[
+    {
+        content:'{URLString|HTMLString|HTMLElement|HTMLFragment}',
+    },
+    ...
+]
 ```
 
 #### OPTIONS
@@ -257,7 +254,7 @@ var data = [{
 - 动画效果
 - 目前支持：default（卷动）、rotate（旋转）、depth、flow、flip、card、fade（渐显/隐）、zoomout（向外/内缩放）
 - 前置条件：载入效果库 iSlider.animate(.min).js
-- 默认：default
+- 默认："default"
 
 
 ##### animateTime
@@ -335,13 +332,21 @@ var data = [{
 - 默认：0
 
 
+##### fingerRecognitionRange
+
+- `{Number}`
+- 误触识别范围，大于范围值的touchMove被视为有效滑动距离
+- 默认：10(px)
+
+
 ##### fixPage
 
-- `{Boolean}`
+- `{Boolean|Array|String}`
 - 原生事件阻止
 - 场景内屏蔽原生事件的触发，如：滚动、拖拽、缩放等
     - "A"元素，阻止，移动端建议使用自定义的tap（touch系事件联合判断）
     - 对表单类元素"SELECT"、"INPUT"、"TEXTAREA"、"BUTTON"、"LABEL"，任何情况下均不进行阻止
+    - *排除策略：若参数类型为字符串（规则，querySelector选择器字符串）或数组(多个规则)，此选项为开启状态(true)并排除复合规则的元素，与`iSlider.FIX_PAGE_TAGS`相同对待
 - 默认：true(开启)
 
 
@@ -425,7 +430,7 @@ S.on('slideChanged', callBack);
 
 #### slideEnd
 
-- `{Function}`
+- 当手指离开时触发
 - 参数
     - `{Object}` 事件(Event)对象
 
@@ -492,6 +497,53 @@ S.on('slideChanged', callBack);
 - 参数：无
 
 
+### 常量
+
+#### VERSION
+
+- `{String}`
+- 版本号
+
+
+#### EVENTS
+
+- `{Array}`
+- 事件回调列表
+
+
+#### EASING
+
+- `{Array}`
+- 动画效果（easing）规则列表
+    - 0: `{Array}` `['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out']`
+    - 1: `{Regexp}` 贝塞尔曲线公式，同CSS3中的写法
+
+
+#### FIX_PAGE_TAGS
+
+- `{Array}`
+- 对应fixPage的表单元素白名单
+
+
+#### NODE_TYPE
+
+- `{Array}`
+- 场景类型
+
+
+#### TRANSITION_END_EVENT
+
+- `{String}`
+- 动画效果结束事件名
+
+
+#### DEVICE_EVENTS
+
+- `{Object}`
+- `{{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}`
+- 根据设备所匹配的事件
+
+
 ### 静态方法
 
 #### extend
@@ -515,7 +567,7 @@ S.on('slideChanged', callBack);
 
 #### slideTo
 
-- 滚动到第n个场景，可以在第二个参数设置配置信息，改变本次滑动的动画效果: animateTime animateType
+- 切换到第n个场景，可以在第二个参数设置配置信息，改变本次滑动的动画效果: animateTime animateType
 - 参数：
     - `{Number}` 数据列表索引
     - \[`{Object}` 临时配置\]
@@ -523,14 +575,14 @@ S.on('slideChanged', callBack);
 
 #### slidePrev
 
-- 滚动到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
+- 切换到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
 - 参数：
     - \[`{Object}` 临时配置\]
 
 
 #### slidePrev
 
-- 滚动到前一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
+- 切换到前一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
 - 参数：
     - \[`{Object}` 临时配置\]
 
@@ -607,18 +659,18 @@ S.on('slideChanged', callBack);
 
 #### extend
 
-- 同静态方法extend
+- 同静态方法中的"extend"
 
 
 #### regPlugin
 
-- 同静态方法regPlugin
+- 同静态方法"regPlugin"
 - **此方法会注册插件到iSlider实例中，在注册的同时会自动加入激活的插件列表，并自动执行初始化**
 
 
 #### loadData
 
-- 载入数据列表
+- 载入新的数据列表
 - 参数：
     - `{Array}` 数据列表
 

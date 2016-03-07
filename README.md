@@ -1,5 +1,7 @@
 # iSlider
 
+iSlider is a lightweight, high-performant, no library dependencies cross-platform slide controller. It can help handling most sliding effects, offering dozens of transition animations, and presenting various scenarios.
+
 ![](http://be-fe.github.io/iSlider/thumbnails/iSlider-logo.png)
 
 #### [iSlider English README](https://github.com/BE-FE/iSlider/blob/master/README.md)
@@ -8,17 +10,19 @@
 #### [iSlider 演示](http://be-fe.github.io/iSlider/demo/index_chinese.html)
 #### [iSlider animation](http://be-fe.github.io/iSlider/demo/animation.html)
 
-iSlider is a light-weight, high performance, dependency free, yet cross-platform plugin.
+## Features
 
-It can help handling most sliding effects, offering dozens of transition animation, and presenting various scenarios.
-
-Currently, it features:
-
-- Outstanding performance, less memory required
-- Various animation effects, and capability of adding custom animations
-- Easy to configure, e.g. Auto-play, looping, vertical/horizontal sliding etc.
-- Ability to load features on demand
-- Numbers of configurable callbacks
+- Outstanding performance, less memory usage;
+- Various animation effects, including effects such as `default`, `rotate`, `depth`, `flow`, `flip`, `card`, `fade`, etc., and capability of adding custom animations;
+- Provide rich callback trigger. Adding a callback function is easy, regardless of initialization or during operation;
+- Easy to configure, e.g. Slide the dampening effect of the cycle, automatic sliding effect, horizontal / vertical sliding, etc.
+- Automatic matching the desktop mouse movements or gestures on mobile device. Easy to test and use cross platforms;
+- Supports for image pre-loaded, excellent user experience;
+- \[Plugin\] Offers a variety of plug-ins, such as a toggle button, the scene indicator, image scaling, etc. Provides plug-in registration, management and other methods to facilitate custom extension;
+- \[2.0+\] Can be loaded on demand (effect or plug-in);
+- \[2.0+\] Supports more types of elements. Automatically matches the data type. Capable of image recognition and pre-loading;
+- \[2.0+\] Better delegated event management mechanism, optimized memory usage;
+- \[2.0+\] Enriched callback events, more flexible event management and trigger mechanisms;
 
 ## Mobile demo
 
@@ -26,17 +30,29 @@ Currently, it features:
 
 Demo [http://be-fe.github.io/iSlider/index.html](http://be-fe.github.io/iSlider/index.html)
 
-## Installation
+## Get iSlider
 
-You can either:
+#### Clone from Github
 
-- Download directly from Github
-- Run `bower install iSlider` if bower is used
-- Run `npm install islider.js`
+```bash
+git clone https://github.com/be-fe/iSlider.git
+```
 
-## Get started
+#### Use bower installation
 
-The easiest way to get your hands dirty is to have a try the cases that we offer. Please refer to the folder `demo/` for more information.
+```bash
+bower install iSlider
+```
+
+## Use npm installation
+
+```bash
+npm install islider.js
+```
+
+## Started iSlider
+
+The easiest way of getting started is to consult our examples, please visit the [DEMOs](https://github.com/be-fe/iSlider/tree/master/demo).
 
 #### Creating a container
 
@@ -66,7 +82,7 @@ var data = [
 var islider = new iSlider(document.getElementById('iSlider-wrapper'), data);
 ```
 
-you can also
+Or, 
 
 ``` javascript
 var islider = new iSlider({
@@ -81,8 +97,6 @@ var islider = new iSlider(document.getElementById('iSlider-wrapper'), data, {
     data : data
 });
 ```
-
-***Options properties precedence over parameters***
 
 ### Extending iSlider
 
@@ -124,7 +138,7 @@ var islider = new iSlider({
 });
 ```
 
-You can surely pass in more customed params to the extension initialize method.
+You can also pass in more custom params to the extension initialize method.
 
 ``` javascript
 var islider = new iSlider({
@@ -134,12 +148,31 @@ var islider = new iSlider({
 });
 ```
 
-
 That's it!
 
-## Customise your iSlider
+#### Official Plugins
 
-From 2.x, iSlider no longer requires `type` to specify the data type. It can now detect wisely, so that you can easily use various types of data, e.g. images, HTML elements or fragments.
+##### Button
+
+Scene toggle button. For switching to the previous (left/up) or next (right/down) scene of the current scene.
+
+##### Dot
+
+Scene indicator, the current location and switch to a scene function
+
+##### Zoompic
+
+Mobile image scaling, image in non-background mode by double-clicking on the image or two fingers to enlarge, to amplify the effect of the preview.
+
+- Known issues: must restore the default size by double-clicking, double that currently can not be reduced to its default state
+
+##### BIZone
+
+Touch points from the edge of the area to identify, although has joined edge processing mouseout and touchcancel, but for some applications, the definition from the top (bottom) menu bar remains powerless. Meaning that it can take the initiative to identify areas of these regions is set to touch on detachment.
+
+## Scene data
+
+From 2.x, iSlider no longer requires `type` to specify the data type. It can now detect wisely, so that you can easily use various types of data, e.g. images, HTML elements, fragments or selectors.
 
 ``` javascript
 var data = [{
@@ -160,502 +193,537 @@ var data = [{
             frag.appendChild(dom);
             return frag;
         })()
+}{
+      'content' : document.getElementById('node') // selectors
 }];
 ```
 
 To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE/iSlider/wiki/Notices)
 
-### Detailed explanation of the configuration options
+## iSlider details
 
-<table>
-<thead>
-    <tr>
-        <td>Option</td>
-        <td>Type</td>
-        <td>Explanation</td>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td colspan="3">
-            Required
-        </td>
-    </tr>
-    <tr>
-        <td>dom</td>
-        <td>{HTML Element}</td>
-        <td>Container node</td>
-    </tr>
-    <tr>
-        <td>data</td>
-        <td>{Array}</td>
-        <td>
-            data list:
-            <br>
-            [{
-                content:'{url|HTML string|element|fragment}',
-            },
-            ...]
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            Options
-        </td>
-    </tr>
-    <tr>
-        <td>type (obsolete)</td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr>
-        <td>duration</td>
-        <td>{Number}</td>
-        <td>Sets the duration of each scene during auto-play mode. Unit: millis.</td>
-    </tr>
-    <tr>
-        <td>animateType</td>
-        <td>{String}</td>
-        <td>Sets the animation type. Currently it could be one of `default`, `rotate`, `depth`, `flow`, `flip` and `card`</td>
-    </tr>
-    <tr>
-        <td>animateTime</td>
-        <td>{Number}</td>
-        <td>Duration of the animation. Unit: millis.</td>
-    </tr>
-    <tr>
-        <td>animateEasing</td>
-        <td>{String}</td>
-        <td>Animation easing function. Possible values are `linear`, `ease`, `ease-in`, `ease-out`, `ease-in-out` or customed `cubic-bezier`</td>
-    </tr>
-    <tr>
-        <td>isDebug</td>
-        <td>{Boolean}</td>
-        <td>If true, more logs will be output. Default: false (disabled)</td>
-    </tr>
-    <tr>
-        <td>isLooping</td>
-        <td>{Boolean}</td>
-        <td>Turns on/off the loop mode. Default: false (turned off)</td>
-    </tr>
-    <tr>
-        <td>isAutoplay</td>
-        <td>{Boolean}</td>
-        <td>Turns on/off the auto sliding mode. Default: false (turned off)</td>
-    </tr>
-    <tr>
-        <td>isVertical</td>
-        <td>{Boolean}</td>
-        <td>Sets vertical/horizontal sliding. Default: false (horizontal)</td>
-    </tr>
-    <tr>
-        <td>isOverspread</td>
-        <td>{Boolean}</td>
-        <td>Makes the image overspread the whole viewport (as CSS3 `background-size: cover`),
-            if the scene mode is image. Default: false (disabled)</td>
-    </tr>
-    <tr>
-        <td>isTouchable</td>
-        <td>{Boolean}</td>
-        <td>Enable/disable touch events. Default: true (enabled)</td>
-    </tr>
-    <tr>
-        <td>initIndex</td>
-        <td>{Number}</td>
-        <td>Specifies an index as the default home scene</td>
-    </tr>
-    <tr>
-        <td>fixPage</td>
-        <td>{Boolean}</td>
-        <td>Whether to disable native scrolling and rebound effect. Default: true (enabled)</td>
-    </tr>
-    <tr>
-        <td>fillSeam</td>
-        <td>{Boolean}</td>
-        <td>Fill the seam between scenes. Default: false (disabled)</td>
-    </tr>
-    <tr>
-        <td>plugins</td>
-        <td>{Array}</td>
-        <td>
-            Enables plugins. It could be a simply list of plugin names:
-            <pre>['dot', 'button', 'zoompic', ...]</pre>
-            <br>
-            Or, it could be a more complex list which can also contain init params for plugins:
-            <pre>[..., ['zoompic', {zoomFactor: 2}], ...]</pre>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            Events
-        </td>
-    </tr>
-    <tr>
-        <td>initialize</td>
-        <td>{Function}</td>
-        <td>Gets called on iSlider start initialization (after setting, before render)</td>
-    </tr>
-    <tr>
-        <td>initialized</td>
-        <td>{Function}</td>
-        <td>Gets called on iSlider initialized (after render)</td>
-    </tr>
-    <tr>
-        <td>onslide</td>
-        <td>{Function}</td>
-        <td>Gets called on sliding</td>
-    </tr>
-    <tr>
-        <td>onslidestart</td>
-        <td>{Function}</td>
-        <td>Gets called when the sliding event starts</td>
-    </tr>
-    <tr>
-        <td>onslideend</td>
-        <td>{Function}</td>
-        <td>Gets called when the sliding event ends</td>
-    </tr>
-    <tr>
-        <td>onslidechange</td>
-        <td>{Function}</td>
-        <td>Gets called when the scene gets changed</td>
-    </tr>
-    <tr>
-        <td>onslidechanged</td>
-        <td>{Function}</td>
-        <td>Gets called post scene change (when the transition animation ends)</td>
-    </tr>
-    <tr>
-        <td>onsliderestore</td>
-        <td>{Function}</td>
-        <td>Gets called if scene restores</td>
-    </tr>
-    <tr>
-        <td>onsliderestored</td>
-        <td>{Function}</td>
-        <td>Gets called post scene restore (when the rollback animation ends)</td>
-    </tr>
-</tbody>
-</table>
+### Configurations
 
-## More of iSlider
+#### DOM (`Optional`, `OPTIONS.dom`)
 
-<table>
-<thead>
-    <tr>
-        <td>Methods</td>
-        <td>Params</td>
-        <td>Explanation</td>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td colspan="3">
-            Static methods
-        </td>
-    </tr>
-    <tr>
-        <td>
-            extend
-        </td>
-        <td>
-            [{Object} The original Object (Optional)]
-            <br>
-            {Object} The new Object
-        </td>
-        <td>
-            When the length of params is 1, the param object will be extended to iSlider.prototype
-            <br>
-            When the length is 2, use the second object as the param object, and extend all it's methods
-            to the first object.
-        </td>
-    </tr>
-    <tr>
-        <td>
-            regPlugin
-        </td>
-        <td>
-            {String} Plugin name
-            <br>
-            {Function} Init method for a plugin
-        </td>
-        <td>
-            register plugin
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            Instance methods
-        </td>
-    </tr>
-    <tr>
-        <td>
-            slideTo
-        </td>
-        <td>
-            {Number} index of a scene
-            <br>
-            [{Object} one-off configuration (optional)]
-        </td>
-        <td>
-            Slide to the N scene. Using the one-off configuration param, the transition effect
-            for this particular slide can be specified. i.e. animateTime, animateType
-        </td>
-    </tr>
-    <tr>
-        <td>
-            slideNext
-        </td>
-        <td>
-            [{Object} one-off configuration (optional)]
-        </td>
-        <td>
-            Slide to the next scene. The one-off configuration can be used to specify the
-            transition effect. i.e. animateTime, animateType
-        </td>
-    </tr>
-    <tr>
-        <td>
-            slidePrev
-        </td>
-        <td>
-            [{Object} one-off configuration (optional)]
-        </td>
-        <td>
-            Slide to the previous scene. The one-off configration can be used to specify the
-            transition effect. i.e. animateTime, animateType
-        </td>
-    </tr>
-    <tr>
-        <td>
-            delegate
-        </td>
-        <td>
-            {String} event name
-            <br>
-            {String} selector (same syntax as querySelectorAll)
-            <br>
-            {Function} event hanlder method
-        </td>
-        <td>
-            Bind event handler to a node container
-        </td>
-    </tr>
-    <tr>
-        <td>
-            bind
-        </td>
-        <td></td>
-        <td>
-            Alias of delegate
-        </td>
-    </tr>
-    <tr>
-        <td>
-            unDelegate
-        </td>
-        <td>
-            {String} event name
-            <br>
-            {String} selector (same syntax as querySelectorAll)
-            <br>
-            {Function} event hanlder method
-        </td>
-        <td>
-            unBind event handler
-        </td>
-    </tr>
-    <tr>
-        <td>
-            unbind
-        </td>
-        <td></td>
-        <td>
-            Alias of unDelegate
-        </td>
-    </tr>
-    <tr>
-        <td>
-            on
-        </td>
-        <td>
-            {String} event name
-            <br>
-            {Function} event handler method
-        </td>
-        <td>
-            Register event handler for iSlider events
-            <br>
-            <ul>
-                <li>
-                    initialize
-                </li>
-                <li>
-                    initialized
-                </li>
-                <li>
-                    slide
-                </li>
-                <li>
-                    slideStart
-                </li>
-                <li>
-                    slideEnd
-                </li>
-                <li>
-                    slideChange
-                </li>
-                <li>
-                    slideChanged
-                </li>
-                <li>
-                    slideRestore
-                </li>
-                <li>
-                    slideRestored
-                </li>
-                <li>
-                    reloadData
-                </li>
-                <li>
-                    destroy
-                </li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            off
-        </td>
-        <td>
-            {String} event name
-            <br>
-            {Function} event handler method
-        </td>
-        <td>
-            Remove an event handler from the registered handlers for a specified event
-        </td>
-    </tr>
-    <tr>
-        <td>
-            fire
-        </td>
-        <td>
-            {String} event name
-        </td>
-        <td>
-            Trigger an event manually
-        </td>
-    </tr>
-    <tr>
-        <td>
-            play
-        </td>
-        <td></td>
-        <td>
-            Start auto-play (auto-play mode must be specified)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            pause
-        </td>
-        <td></td>
-        <td>
-            Stop auto-play (auto-play mode must be specified)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            extend
-        </td>
-        <td></td>
-        <td>
-            Equivalent to iSlider.extend
-        </td>
-    </tr>
-    <tr>
-        <td>
-            regPlugin
-        </td>
-        <td></td>
-        <td>
-            Equivalent to iSlider.regPlugin.
-            Once registered, the plugin will be added to the active plugin list,
-            and be initialized automatically.
-        </td>
-    </tr>
-    <tr>
-        <td>
-            loadData
-        </td>
-        <td>
-            {Array} list of data
-        </td>
-        <td>
-            Loads a list of data
-        </td>
-    </tr>
-    <tr>
-        <td>
-            hold
-        </td>
-        <td></td>
-        <td>
-            Prevents the scene from any gesture
-        </td>
-    </tr>
-    <tr>
-        <td>
-            unhold
-        </td>
-        <td></td>
-        <td>
-            Resumes and allows gesture on the current scene
-        </td>
-    </tr>
-    <tr>
-        <td>
-            lock
-        </td>
-        <td></td>
-        <td>
-            Locks the current scene, disables `slideTo`, `slideNext` and `slidePrev` and also
-            disable all gestures.
-        </td>
-    </tr>
-    <tr>
-        <td>
-            unlock
-        </td>
-        <td></td>
-        <td>
-            Unlocks the scene
-        </td>
-    </tr>
-    <tr>
-        <td>
-            destroy
-        </td>
-        <td></td>
-        <td>
-            Destroys the current iSlider instance, and frees memory
-        </td>
-    </tr>
-    <tr>
-        <td>
-            reset
-        </td>
-        <td></td>
-        <td>
-            Resets the current iSlider instance
-        </td>
-    </tr>
-</tbody>
-</table>
+- new iSlider(```DOM```, DATA, OPTIONS);
+- `{HTMLElement}`
+- DOM Container 
+- Though the first parameter is not required, it is highly recommended, as setting a DOM container can make it more convenient to use iSlider.
+
+#### DATA (`Optional`, `default: OPTIONS.data`)
+
+- new iSlider(DOM, ```DATA```, OPTIONS);
+- `{Array}`
+- Data list
+- Though it's not required, the second param is also recommended.
+- Allowed types: URLString, HTMLString, HTMLElement, HTMLFragment.
+- *TODO:  Currently, each of the member in the array is type of `{Object}`, which only supports content property, in the future, it will get more extensions, such as the configuration of the effect about each scene transitions, wait time, etc.*
+- Data format:
+
+```javascript
+[
+    {
+        content:'{URLString|HTMLString|HTMLElement|HTMLFragment}',
+    },
+    ...
+]
+```
+
+#### OPTIONS
+
+- new iSlider(DOM, DATA, ```OPTIONS```);
+- `{Object}`
+
+
+##### dom
+
+- `{HTMLElement}`
+- dom node which is used as Container, same as the role of the parameter [DOM] (#dom), if this has been setted, DOM will be overwritten.
+
+
+##### data
+
+- `{Array}`
+- A list of data, same as the role of the parameter [DATA] (#data), if this has been setted, DATA will be overwritten.
+
+
+##### animateType
+
+- `{String}`
+- Animation
+- Currently supports: default (scrolling), rotate (rotation), depth, flow, flip, card, fade (fade in / hidden), (outside / inside zoom) zoomout
+- Precondition: Loading library iSlider.animate(.min).js which is used for effects
+- Default: "default"
+
+
+##### animateTime
+
+- `{Number}`
+- Animation duration
+- Unit: ms
+- Default: 1000
+
+
+##### animateEasing
+
+- `{String}`
+- Animation curve
+- Options: linear, ease, ease-in, ease-out, ease-in-out, even cubic-bezier
+- Default: ease
+
+
+##### isAutoplay
+
+- `{Boolean}`
+- Turn on / off the automatic sliding mode
+- Default: false (Disabled)
+
+
+##### duration
+
+- `{Number}`
+- Suspending time of scene when it's playback automatically
+- Suspending time of each scene, it switches to the next scene when it is ended
+- Unit: ms
+- Precondition: isAutoplay === ```TRUE```
+
+
+##### isLooping
+
+- `{Boolean}`
+- Repeat Mode
+- Default: false (Disabled)
+
+
+##### isVertical
+
+- `{Boolean}`
+- Vertical sliding mode
+- Default: false (Disabled)
+
+
+##### isOverspread
+
+- `{Boolean}`
+- Background Tile
+- If the scene is picture mode (URL), use the CSS3 backgrounds ways to filling the scenes
+- Default: false (Disabled)
+
+
+##### isTouchable
+
+- `{Boolean}`
+- Touch events
+- Default: true (Enabled)
+
+
+##### isDebug
+
+- `{Boolean}`
+- On / off debug mode, it will print more information about the log
+- Default: false (Disabled)
+
+
+##### initIndex
+
+- `{Number}`
+- Index of the list which is used for the first screen 
+- Default: 0
+
+
+##### fingerRecognitionRange
+
+- `{Number}`
+- The scope of wrong touch, if it's bigger than the value of scope, the touchMove will be treat as an effective distance of slide
+- Default：10(px)
+
+
+##### fixPage
+
+- `{Boolean|Array|String}`
+- Prevent native event
+- Prevent to trigger the event in the scene shield, such as: scroll, drag, zoom, etc.
+    - "A" elements, prevented, the mobile terminal is recommended to use user-defined tap (touch-based event jointly judgment)
+    - For the form element "SELECT", "INPUT", "TEXTAREA", "BUTTON", "LABEL", in any situations it will not to be prevented
+    - *Exclude strategies：if the type of param is string（rule，querySelector selector string）or Array(mutiple regulations)，this option is in opening status(true)and exlude elements with composite regulations, treat as`iSlider.FIX_PAGE_TAGS`
+- Default: true (Enabled)
+
+
+##### fillSeam
+
+- `{Boolean}`
+- To fill the gaps between scenes
+- There is some rendering problems in the browser of some systems, resulting in a gap between scenes, this situation is particularly evident when the scene had setted the background color and use ** ** for connected.
+- Default: false (Disabled)
+
+
+##### plugins
+
+- `{Array}`
+- Enable plug-ins and configure the initialization parameters
+- Incomming a name list of plugins which would be actived: ```['dot', 'button', 'zoompic', ...]```, in addition, it's support incoming initialization parameters: ```[..., ['zoompic', {zoomFactor: 2}], ...]```
+- It will be ignored if the plug-in does not exist or is not loaded 
+
+
+### Event callbacks
+
+- `{Function}`
+- Incomming at initialization, it can also registrat event by way of living example with method "on".
+- As the initialization parameter it's needed to beginning with **on** and it would to be lowercase, Camel-Case would be used for binding.
+- Due to the different scenes,callback method should be different , there will be different between the incoming parameters.
+
+Example:
+
+```
+var S = new iSlider({..., onslidechanged: callBack, ...});
+// OR
+S.on('slideChanged', callBack);
+```
+
+#### initialize
+
+- Start initialization (After the call setting, Before rendering)
+- Parameters: None
+
+
+#### initialized
+
+- When initialization is complete (after rendering)
+- Parameters: None
+
+
+#### pluginInitialize (Not Enabled)
+
+- (Each)Be triggered at initialization
+- Parameters: None
+
+
+#### pluginInitialized
+
+- Be triggered when all plug-in initialization is complete
+- Parameters: None
+
+
+#### renderComplete
+
+- Be triggered when the outer container is rendered completely
+- Be triggered before reset, loadData 
+- Parameters
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
+
+
+#### slideStart
+
+- Be triggered when the finger touching screen
+- Parameters
+    - `{Object}` Event object
+        
+        
+#### slide
+
+- Be triggered when the finger is sliding
+- Parameters
+    - `{Object}` Event object
+
+
+#### slideEnd
+
+- Be triggered when the finger has lifted
+- Parameters
+    - `{Object}` Event object
+
+
+#### slideChange
+
+- `{Function}`
+- Be triggered when the scene changes
+- Parameters
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
+
+#### slideChanged
+
+- `{Function}`
+- Be triggered when the changing of scene is completed (the animation is completed)
+- Be triggered when executing loadData
+- Parameters
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
+
+
+#### slideRestore
+
+- `{Function}`
+- Be triggered when the scene has not changed (rebound, animation is completed)
+- Parameters
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
+
+
+#### slideRestored
+
+- `{Function}`
+- Be triggered when the scene is changing and it's not completed (Rebound animation is completed)
+- Be triggered when performing reset
+- Parameters
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
+
+
+#### loadData
+
+- `{Function}`
+- Be triggered when data is reset (execution loadData method)
+- Parameters
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
+
+
+#### reset
+
+- `{Function}`
+- Be triggered when the scene reset (phone screen rotate, resize)
+- Parameters
+    - `{Number}` current data index
+    - `{HTMLElement}` current scene elements
+
+
+#### destroy
+
+- `{Function}`
+- Be triggered when iSlider destruction
+- Parameters: None
+
+
+### Constant
+
+#### VERSION
+
+- `{String}`
+- Version
+
+
+#### EVENTS
+
+- `{Array}`
+- The list of events callback
+
+
+#### EASING
+
+- `{Array}`
+- Animation effect（easing）regulation lists
+    - 0: `{Array}` `['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out']`
+    - 1: `{Regexp}` Bézier curve expressions, writting same as the CSS3
+
+
+#### FIX_PAGE_TAGS
+
+- `{Array}`
+- The white list which is matched the fixPage form
+
+
+#### NODE_TYPE
+
+- `{Array}`
+- Scene type
+
+
+#### TRANSITION_END_EVENT
+
+- `{String}`
+- The name of Animation's ending
+
+
+#### DEVICE_EVENTS
+
+- `{Object}`
+- `{{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}`
+- According to the event which the divices matched
+
+
+### Static Methods
+
+#### extend
+
+- When the parameter's length is equal to 1, the object will inherit iSlider.prototype
+- When the parameter's length is equal to 2, the second object will inherit the first
+- Parameters:
+    - \[`{Object}` original object\] or default iSlider.prototype
+    - `{Object}` new object
+    
+#### regPlugin
+
+- Register the plug-in
+- Parameters:
+    - `{String}` plug-in name
+    - `{Function}` plug-in initialization method
+
+
+### Instance Methods
+
+
+#### slideTo
+
+- Switch to the N-th scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType
+- Parameters:
+    - `{Number}` data list index
+    - \[`{Object}` temporary configuration\]
+
+
+#### slidePrev
+
+- Switch to the next scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType
+- Parameters:
+    - \[`{Object}` temporary configuration\]
+
+
+#### slidePrev
+
+- Switch to the previous scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType
+- Parameters:
+    - \[`{Object}` temporary configuration\]
+
+
+#### delegate
+
+- Binding delegate event on the container node
+- Parameters:
+    - `{String}` event name
+    - `{String}` selector (querySelectorAll)
+    - `{Function}` incident response method
+
+
+#### bind
+
+- delegate alias
+
+
+#### unDelegate
+
+- Unbundling delegate event handler
+- Parameters:
+    - `{String}` event name
+    - `{String}` selector (querySelectorAll)
+    - `{Function}` incident response method
+
+
+#### unbind
+
+- UnDelegate alias
+
+
+#### on
+
+- To register the callback method in the event of iSlider 
+- Parameters:
+    - `{String}` event name
+    - `{Function}` back off method
+    - \[`{Boolean}`\] priority registration, callback events registered to the header of the event queue, the event callback is always be the fisrt which is registered at the initialization, Default: false
+
+
+#### has
+
+- Detecting the event callback method is already exists
+- Parameters:
+    - `{String}` event name
+    - `{Function}` back off method
+
+
+#### off
+
+- Remove the callback method from iSlider events
+- Parameters:
+    - `{String}` event
+    - `{Function}` back off method
+
+
+#### fire
+
+- Event Trigger
+
+
+#### play
+
+- Start Auto Play
+- Precondition: isAutoplay === ```TRUE```
+
+
+#### pause
+
+- Pause automatic switching
+- Precondition: isAutoplay === ```TRUE```
+
+
+#### extend
+
+- Same as static method "extend"
+
+
+#### regPlugin
+
+- Same as the static method "regPlugin"
+- ** This method will be registered the plug-in into the iSlider instance,It will add an active list of plug-in automatically when registeration and performs initialization automatically.**
+
+
+#### loadData
+
+- Loading new Datasheets
+- Parameters:
+    - `{Array}` Datasheets
+
+
+#### subjectTo
+
+- Subject to another Slider instance
+- This Slider will completely controlled by the target iSlider
+- Parameters:
+    - `{Object}` target
+    - `{Object}` controlled configuration item (Not Enabled)
+
+```javascript
+var IS_1 = new iSlider(dom, data);
+var IS_2 = new iSlider(dom, data);
+
+IS_1.subjectTo(IS_2);
+// At this time IS_1 if fully controlled by IS_2, that is to say the drag, switching, auto-play and other acts performed on IS_2 would synced to IS_1
+```
+
+
+#### hold
+
+- Prohibit the current scene gesture
+
+
+#### unhold
+
+- The current scene to open gestures, and trigger "unlocked" at the same time
+
+
+#### lock
+
+- Lock the current scene, disabled method of sliceTo, slideNext, slidePrev, while prohibiting gesture
+
+
+#### unlock
+
+- Unlock
+
+
+#### destroy
+
+- Destruction of the current iSlider instance, freeing memory
+
+
+#### reset
+
+- Reset the current iSlider instance
+
 
 ## Contact us
-Any feedback is most welcome if you have any question regarding iSlider or any bug is found:
+If you have any questions or find any bugs about iSlider, we will be appreciated for your feedback:
 [Commit a feedback](https://github.com/BE-FE/iSlider/issues/new?title=Bug%3A%20&body=)
 
 ## License (MIT)
