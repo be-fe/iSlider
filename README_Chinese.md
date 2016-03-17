@@ -675,6 +675,13 @@ S.on('slideChanged', callBack);
     - `{Array}` 数据列表
 
 
+#### pushData
+
+- 追加数据到已有的数据序列末尾
+- 参数：
+    - `{Array|Object}` 一个成员或者追加的序列（数组）
+
+
 #### subjectTo
 
 - 服从于另一个iSlider实例

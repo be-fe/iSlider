@@ -1677,7 +1677,10 @@
     };
 
     /**
-     * reload Data & render
+     * Reload Data & render
+     *
+     * @param {Array} data
+     * @param {Number} initIndex
      * @public
      */
     iSliderPrototype.loadData = function (data, initIndex) {
@@ -1691,7 +1694,7 @@
     };
 
     /**
-     * Add dynamic data
+     * Additional members to the end of the data sequence
      *
      * @param {Object|Array} sceneData
      * @description
@@ -1703,11 +1706,11 @@
     iSliderPrototype.addData = function (sceneData) {
         var len = this.data.length;
         this.data = this.data.concat(sceneData);
-        console.log('addData', len - 1 === this.slideIndex);
         if (this.isLooping && this.slideIndex === 0) {
             this._renderItem(this.els[0], this.data.length - 1);
         } else if (len - 1 === this.slideIndex) {
             this._renderItem(this.els[2], len);
+            this._autoPlay(); // restart
         }
     };
 
