@@ -673,6 +673,7 @@ S.on('slideChanged', callBack);
 - 载入新的数据列表
 - 参数：
     - `{Array}` 数据列表
+    - `{Number}` 初始场景索引
 
 
 #### pushData
