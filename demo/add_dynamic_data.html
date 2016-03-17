@@ -35,7 +35,7 @@
 <script>
 
     function addOne() {
-        this.addData({content: createData() + '<button style="position:absolute;left:20px;top:20px;font-size:2em;" onclick="addOne.call(islider);this.parentNode.removeChild(this);">Add 1 Scene</button>'});
+        this.pushData({content: createData() + '<button style="position:absolute;left:20px;top:20px;font-size:2em;" onclick="addOne.call(islider)">Add 1 Scene</button>'});
     }
 
     var st = 0;
@@ -52,10 +52,6 @@
 
     var list = [];
 
-    //    list.push({
-    //        content: '../thumbnails/iSlider-logo.png'
-    //    });
-
     list.push({content: createData()});
     list.push({content: createData()});
     list.push({content: createData()});
@@ -64,7 +60,7 @@
         data: list,
         dom: document.getElementById("iSlider-wrapper"),
         animateTime: 1000,
-        isLooping: 1,
+//        isLooping: 1,
         isDebug: 1,
         duration: 5000,
         oninitialized: addOne

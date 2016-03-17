@@ -1694,7 +1694,7 @@
     };
 
     /**
-     * Additional members to the end of the data sequence
+     * Add scenes to the end of the data datasheets
      *
      * @param {Object|Array} sceneData
      * @description
@@ -1703,7 +1703,7 @@
      *   Array:
      *     [{content:...}, {content:...}, ...]
      */
-    iSliderPrototype.addData = function (sceneData) {
+    iSliderPrototype.pushData = function (sceneData) {
         var len = this.data.length;
         this.data = this.data.concat(sceneData);
         if (this.isLooping && this.slideIndex === 0) {
