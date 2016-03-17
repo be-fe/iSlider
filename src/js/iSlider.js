@@ -1691,6 +1691,27 @@
     };
 
     /**
+     * Add dynamic data
+     *
+     * @param {Object|Array} sceneData
+     * @description
+     *   Object:
+     *     {content:...}
+     *   Array:
+     *     [{content:...}, {content:...}, ...]
+     */
+    iSliderPrototype.addData = function (sceneData) {
+        var len = this.data.length;
+        this.data = this.data.concat(sceneData);
+        console.log('addData', len - 1 === this.slideIndex);
+        if (this.isLooping && this.slideIndex === 0) {
+            this._renderItem(this.els[0], this.data.length - 1);
+        } else if (len - 1 === this.slideIndex) {
+            this._renderItem(this.els[2], len);
+        }
+    };
+
+    /**
      * auto check to play and bind events
      * @private
      */
