@@ -1,3 +1,6 @@
+### iSlider 2.1.5
+- [New]Add method "pushData", now you can append data dynamically. Here is the [DEMO](http://be-fe.github.io/iSlider/demo/add_dynamic_data.html).
+
 ### iSlider 2.1.4
 - [Optimization]Options fixPage support policy "exclusion list", it allows you to trigger default event for the specific element.
 - [Optimization]readme & demo pages
