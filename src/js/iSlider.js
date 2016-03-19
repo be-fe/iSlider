@@ -98,6 +98,12 @@
         return Array.prototype.slice.apply(a, Array.prototype.slice.call(arguments, 1));
     }
 
+    function IU(word) {
+        return word.replace(/^[a-z]/, function (t) {
+            return t.toUpperCase();
+        });
+    }
+
     /**
      * @constructor
      *
@@ -161,7 +167,7 @@
      * version
      * @type {string}
      */
-    iSlider.VERSION = '2.1.4';
+    iSlider.VERSION = '2.1.5';
 
     /**
      * Event white list
@@ -223,22 +229,27 @@
      * @returns {String}
      * @private
      */
-    iSlider.TRANSITION_END_EVENT = (function () {
-        var el = document.createElement('fakeElement');
-        var transitions = {
-            transition: 'transitionend',
-            OTransition: 'oTransitionEnd',
-            MozTransition: 'transitionend',
-            WebkitTransition: 'webkitTransitionEnd'
-        };
-        for (var t in transitions) {
-            if (transitions.hasOwnProperty(t) && el.style[t] !== undefined) {
-                return transitions[t];
-            }
-        }
+    iSlider.TRANSITION_END_EVENT = null;
 
-        return null;
+    iSlider.BROWSER_PREFIX = null;
+
+    (function () {
+        var e = document.createElement('fakeElement');
+        [
+            ['WebkitTransition', 'webkitTransitionEnd', 'webkit'],
+            ['transition', 'transitionend', null],
+            ['MozTransition', 'transitionend', 'moz'],
+            ['OTransition', 'oTransitionEnd', 'o']
+        ].some(function (t) {
+                if (e.style[t[0]] !== undefined) {
+                    iSlider.TRANSITION_END_EVENT = t[1];
+                    iSlider.BROWSER_PREFIX = t[2];
+                    return true;
+                }
+            });
     })();
+
+    console.log(iSlider.TRANSITION_END_EVENT)
 
     /**
      * Event match depending on the browser supported
@@ -301,6 +312,44 @@
     };
 
     /**
+     * @param {String} prop
+     * @param {String} value
+     * @returns {String}
+     * @public
+     */
+    iSlider.styleProp = function (prop, isDP) {
+        if (iSlider.BROWSER_PREFIX) {
+            if (!!isDP) {
+                return iSlider.BROWSER_PREFIX + IU(prop);
+            } else {
+                return '-' + iSlider.BROWSER_PREFIX + '-' + prop;
+            }
+        } else {
+            return prop;
+        }
+    };
+
+    /**
+     * @param {String} prop
+     * @param {HTMLElement} dom
+     * @param {String} value
+     * @public
+     */
+    iSlider.setStyle = function (dom, prop, value) {
+        dom.style[iSlider.styleProp(prop, 1)] = value;
+    };
+
+    /**
+     * @param {String} prop
+     * @param {HTMLElement} dom
+     * @param {String} value
+     * @public
+     */
+    iSlider.getStyle = function (dom, prop) {
+        return dom.style[iSlider.styleProp(prop, 1)];
+    };
+
+    /**
      * @type {Object}
      *
      * @param {HTMLElement} dom The wrapper <li> element
@@ -313,10 +362,10 @@
     iSlider._animateFuncs = {
         normal: (function () {
             function normal(dom, axis, scale, i, offset) {
-                dom.style.webkitTransform = 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)';
+                iSlider.setStyle(dom, 'transform', 'translateZ(0) translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)');
             }
 
-            normal.effect = 'transform';
+            normal.effect = iSlider.styleProp('transform');
             return normal;
         })()
     };
@@ -1025,9 +1074,8 @@
             this.currentEl.addEventListener(iSlider.TRANSITION_END_EVENT, cb);
             // keep handler and element
             this._transitionEndHandler = {el: this.currentEl, handler: cb};
-        } else {
-            this._LSN.transitionEnd = global.setTimeout(cb, squeezeTime);
         }
+        this._LSN.transitionEnd = global.setTimeout(cb, squeezeTime);
     };
 
     /**
@@ -1192,7 +1240,7 @@
 
             this.els.forEach(function (item, i) {
                 item.style.visibility = 'visible';
-                item.style.webkitTransition = 'none';
+                iSlider.setStyle(item, 'transition', 'none');
                 this._animateFunc(item, axis, this.scale, i, offset[axis], offset[axis]);
                 this.fillSeam && this.seamScale(item);
             }.bind(this));
@@ -1406,7 +1454,7 @@
                 this._intermediateScene = [tailEl, idx - direction];
             }
 
-            headEl.style.webkitTransition = 'none';
+            iSlider.setStyle(headEl, 'transition', 'none');
 
             // Minus squeeze time
             squeezeTime = animateTime - squeezeTime;
@@ -1429,7 +1477,7 @@
         for (var i = 0; i < 3; i++) {
             if (els[i] !== headEl) {
                 // Only applies their effects
-                els[i].style.webkitTransition = (animateFunc.effect || 'all') + ' ' + squeezeTime + 'ms ' + this.animateEasing;
+                iSlider.setStyle(els[i], 'transition', (animateFunc.effect || 'all') + ' ' + squeezeTime + 'ms ' + this.animateEasing);
             }
             animateFunc.call(this, els[i], axis, this.scale, i, 0, direction);
             this.fillSeam && this.seamScale(els[i]);
@@ -1677,7 +1725,10 @@
     };
 
     /**
-     * reload Data & render
+     * Reload Data & render
+     *
+     * @param {Array} data
+     * @param {Number} initIndex
      * @public
      */
     iSliderPrototype.loadData = function (data, initIndex) {
@@ -1688,6 +1739,27 @@
         this._renderWrapper();
         this._autoPlay();
         this.fire('loadData slideChanged', this.slideIndex, this.currentEl, this);
+    };
+
+    /**
+     * Add scenes to the end of the data datasheets
+     *
+     * @param {Object|Array} sceneData
+     * @description
+     *   Object:
+     *     {content:...}
+     *   Array:
+     *     [{content:...}, {content:...}, ...]
+     */
+    iSliderPrototype.pushData = function (sceneData) {
+        var len = this.data.length;
+        this.data = this.data.concat(sceneData);
+        if (this.isLooping && this.slideIndex === 0) {
+            this._renderItem(this.els[0], this.data.length - 1);
+        } else if (len - 1 === this.slideIndex) {
+            this._renderItem(this.els[2], len);
+            this._autoPlay(); // restart
+        }
     };
 
     /**
@@ -1763,8 +1835,9 @@
      */
     iSliderPrototype.seamScale = function (el) {
         var regex = /scale([XY]?)\(([^\)]+)\)/;
-        if (regex.test(el.style.webkitTransform)) {
-            el.style.webkitTransform = el.style.webkitTransform.replace(regex, function (res, axis, scale) {
+        var transformStyle = iSlider.getStyle(el, 'transform');
+        if (regex.test(transformStyle)) {
+            iSlider.setStyle(el, 'transform', transformStyle.replace(regex, function (res, axis, scale) {
                 var sc = {};
                 if (axis) {
                     sc[axis] = parseFloat(scale);
@@ -1780,9 +1853,9 @@
                     sc[this.axis] *= 1.001;
                     return 'scale(' + sc.X + ', ' + sc.Y + ')';
                 }
-            }.bind(this));
+            }.bind(this)));
         } else {
-            el.style.webkitTransform += 'scale' + this.axis + '(1.001)';
+            iSlider.setStyle(el, 'transform', transformStyle + ' scale' + this.axis + '(1.001)');
         }
     };
 
@@ -1792,7 +1865,7 @@
      */
     iSliderPrototype.originScale = function (el) {
         var regex = /([\x20]?scale)([XY]?)\(([^\)]+)\)/;
-        el.style.webkitTransform = el.style.webkitTransform.replace(regex, function (sc, res, axis, scale) {
+        iSlider.setStyle(el, 'transform', iSlider.getStyle(el, 'transform').replace(regex, function (sc, res, axis, scale) {
             sc = {};
             if (axis) {
                 if (scale === '1.001') {
@@ -1812,7 +1885,7 @@
                 sc[this.axis] /= 1.001;
                 return 'scale(' + sc.X + ', ' + sc.Y + ')';
             }
-        }.bind(this));
+        }.bind(this)));
     };
 
 

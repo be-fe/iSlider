@@ -1,6 +1,6 @@
 {
   "name": "islider.js",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "author": "EUX team",
   "main": "build/iSlider.min.js",
   "description": "Smooth and high-performance slide web framework. Suitable for PC, Mobile WebApp, HTML5 App, Hybrid App",
@@ -10,6 +10,7 @@
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.1",
     "gulp-cssmin": "^0.1.7",
+    "gulp-livereload": "^3.8.1",
     "gulp-load-plugins": "^1.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.5.1",
