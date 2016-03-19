@@ -673,6 +673,14 @@ S.on('slideChanged', callBack);
 - 载入新的数据列表
 - 参数：
     - `{Array}` 数据列表
+    - `{Number}` 初始场景索引
+
+
+#### pushData
+
+- 追加数据到已有的数据序列末尾
+- 参数：
+    - `{Array|Object}` 一个成员或者追加的序列（数组）
 
 
 #### subjectTo

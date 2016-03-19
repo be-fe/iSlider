@@ -665,7 +665,7 @@ S.on('slideChanged', callBack);
 #### regPlugin
 
 - Same as the static method "regPlugin"
-- ** This method will be registered the plug-in into the iSlider instance,It will add an active list of plug-in automatically when registeration and performs initialization automatically.**
+- ** This method will be registered the plug-in into the iSlider instance, It will add an active list of plug-in automatically when registeration and performs initialization automatically.**
 
 
 #### loadData
@@ -673,6 +673,14 @@ S.on('slideChanged', callBack);
 - Loading new Datasheets
 - Parameters:
     - `{Array}` Datasheets
+    - `{Number}` Index, default: 0
+
+
+#### pushData
+
+- Add scenes to the end of the data datasheets
+- Parameters:
+    - `{Array|Object}` A member or additional datasheets
 
 
 #### subjectTo
