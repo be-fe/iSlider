@@ -36,7 +36,7 @@
                     }
                 }
 
-                this.wrap.style.webkitPerspective = scale * 4;
+                iSlider.setStyle(this.wrap, 'perspective', scale * 4);
 
                 dom.style.visibility = 'visible';
                 if (direct > 0 && i === 2) {
@@ -47,13 +47,13 @@
                 }
                 dom.style.zIndex = i === 1 ? 1 : 0;
 
-                dom.style.cssText += '-webkit-backface-visibility:hidden; -webkit-transform-style:preserve-3d; position:absolute;';
+                dom.style.cssText += iSlider.styleProp('backface-visibility') + ':hidden;' + iSlider.styleProp('transform-style') + ':preserve-3d;' + 'position:absolute;';
+
                 // TODO: overflow... I dont understand why there are many differences between ios and desktop. Maybe they have different interpretations of Perspective
-                // dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 0.9153 * 90 * (offset / scale + i - 1) + 'deg) translateZ(' + ( scale / 2) + 'px) scale(0.875)';
-                dom.style.webkitTransform = 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ(' + (0.889 * scale / 2) + 'px) scale(0.889)';
+                iSlider.setStyle(dom, 'transform', 'rotate' + rotateDirect + '(' + 90 * (offset / scale + i - 1) + 'deg) translateZ(' + (0.889 * scale / 2) + 'px) scale(0.889)');
             }
 
-            rotate.effect = 'transform';
+            rotate.effect = iSlider.styleProp('transform');
             rotate.reverse = true;
             return rotate;
         })(),
@@ -63,7 +63,8 @@
                 if (this.isVertical) {
                     offset = -offset;
                 }
-                this.wrap.style.webkitPerspective = scale * 4;
+
+                iSlider.setStyle(this.wrap, 'perspective', scale * 4);
 
                 dom.style.visibility = 'visible';
                 if (direct > 0 && i === 2) {
@@ -73,11 +74,11 @@
                     dom.style.visibility = 'hidden';
                 }
 
-                dom.style.cssText += 'position:absolute; -webkit-backface-visibility:hidden;';
-                dom.style.webkitTransform = 'translateZ(' + (scale / 2) + 'px) rotate' + ((axis === 'X') ? 'Y' : 'X') + '(' + 180 * (offset / scale + i - 1) + 'deg) scale(0.875)';
+                dom.style.cssText += 'position:absolute;' + iSlider.styleProp('backface-visibility') + ':hidden';
+                iSlider.setStyle(dom, 'transform', 'translateZ(' + (scale / 2) + 'px) rotate' + ((axis === 'X') ? 'Y' : 'X') + '(' + 180 * (offset / scale + i - 1) + 'deg) scale(0.875)');
             }
 
-            flip.effect = 'transform';
+            flip.effect = iSlider.styleProp('transform');
             flip.reverse = true;
             return flip;
         })(),
@@ -85,12 +86,12 @@
 
             function depth(dom, axis, scale, i, offset, direct) {
                 var zoomScale = (4 - Math.abs(i - 1)) * 0.18;
-                this.wrap.style.webkitPerspective = scale * 4;
+                iSlider.setStyle(this.wrap, 'perspective', scale * 4);
                 dom.style.zIndex = i === 1 ? 1 : 0;
-                dom.style.webkitTransform = 'scale(' + zoomScale + ') translateZ(0) translate' + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)';
+                iSlider.setStyle(dom, 'transform', 'scale(' + zoomScale + ') translateZ(0) translate' + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)');
             }
 
-            depth.effect = 'transform';
+            depth.effect = iSlider.styleProp('transform');
             return depth;
         })(),
         flow: (function () {
@@ -100,7 +101,7 @@
                 var directAmend = (axis === 'X') ? 1 : -1;
                 var offsetRatio = Math.abs(offset / scale);
 
-                this.wrap.style.webkitPerspective = scale * 4;
+                iSlider.setStyle(this.wrap, 'perspective', scale * 4);
 
                 if (i === 1) {
                     dom.style.zIndex = scale - absoluteOffset;
@@ -109,10 +110,10 @@
                     dom.style.zIndex = (offset > 0) ? (1 - i) * absoluteOffset : (i - 1) * absoluteOffset;
                 }
 
-                dom.style.webkitTransform = 'scale(0.7, 0.7) translateZ(' + (offsetRatio * 150 - 150) * Math.abs(i - 1) + 'px)' + 'translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)' + 'rotate' + rotateDirect + '(' + directAmend * (30 - offsetRatio * 30) * (1 - i) + 'deg)';
+                iSlider.setStyle(dom, 'transform', 'scale(0.7, 0.7) translateZ(' + (offsetRatio * 150 - 150) * Math.abs(i - 1) + 'px)' + 'translate' + axis + '(' + (offset + scale * (i - 1)) + 'px)' + 'rotate' + rotateDirect + '(' + directAmend * (30 - offsetRatio * 30) * (1 - i) + 'deg)');
             }
 
-            flow.effect = 'transform';
+            flow.effect = iSlider.styleProp('transform');
             return flow;
         })(),
         card: (function () {
@@ -135,10 +136,10 @@
                     }
                 }
                 dom.style.zIndex = z;
-                dom.style.webkitTransform = 'scale(' + zoomScale + ') translateZ(0) translate' + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)';
+                iSlider.setStyle(dom, 'transform', 'scale(' + zoomScale + ') translateZ(0) translate' + axis + '(' + ((1 + Math.abs(i - 1) * 0.2) * offset + scale * (i - 1)) + 'px)');
             }
 
-            card.effect = 'transform';
+            card.effect = iSlider.styleProp('transform');
             return card;
         })(),
         fade: (function () {
@@ -168,7 +169,7 @@
                         o = oa < 1 ? oa : 1;
                         s = 2 - (0.5 * oa);
                         z = 2;
-                        var at = parseInt(window.getComputedStyle(dom).transitionDuration) * 1000;
+                        var at = parseInt(window.getComputedStyle(dom)[iSlider.styleProp('transitionDuration', 1)]) * 1000;
                         if (at > 0) {
                             lsn = window.setTimeout(function () {
                                 dom.style.zIndex = 0;
@@ -186,11 +187,9 @@
                         z = 0;
                         break;
                 }
-                dom.style.cssText += 'z-index:' + z + ';opacity:' + o + ';-webkit-transform: scale(' + s + ');';
+                dom.style.cssText += 'z-index:' + z + ';opacity:' + o + ';' + iSlider.styleProp('transform') + ':scale(' + s + ');';
             }
 
-            //what.effect = 'all';
-            //what.effect = 'transform,opacity';
             zoomout.reverse = true;
             return zoomout;
         })()

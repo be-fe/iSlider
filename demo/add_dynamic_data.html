@@ -31,22 +31,28 @@
 
 <body>
 <div id="iSlider-wrapper"></div>
+<button style="position:absolute;right:20px;bottom:20px;font-size:1em;" onclick="toggleLooping()">Toggle Looping
+</button>
 <script src="public/js/iSlider.js"></script>
 <script>
 
+    function toggleLooping() {
+        islider.isLooping = !islider.isLooping;
+    }
+
     function addOne() {
-        this.pushData({content: createData() + '<button style="position:absolute;left:20px;top:20px;font-size:2em;" onclick="addOne.call(islider)">Add 1 Scene</button>'});
+        this.pushData({content: createData() + '<button style="position:absolute;left:20px;top:20px;font-size:1em;" onclick="addOne.call(islider)">Add one Scene</button>'});
     }
 
     var st = 0;
     function createData() {
         return '' +
-                '<div style="height:100%;width:100%;font-size:2em;color:white;text-align:center;background-color:rgb(' + [
+                '<div style="display:inherit;-webkit-box-align:inherit;-webkit-box-pack:inherit;height:100%;width:100%;font-size:2em;color:white;text-align:center;background-color:rgb(' + [
                     ((Math.random() * 1000) >> 0) % 255,
                     ((Math.random() * 1000) >> 0) % 255,
                     ((Math.random() * 1000) >> 0) % 255
-                ].toString() + ')">' +
-                '<span>' + st++ + '</span>' +
+                ].toString() + ');">' +
+                '<span style="vertical-align:middle">' + st++ + '</span>' +
                 '</div>';
     }
 

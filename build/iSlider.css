@@ -28,9 +28,13 @@
     height: 100%;
     list-style: none;
     overflow: hidden;
+    display: -moz-box;
     display: -webkit-box;
+    display: box;
+    -moz-box-pack: center;
     -webkit-box-pack: center;
     box-pack: center;
+    -moz-box-align: center;
     -webkit-box-align: center;
     box-align: center;
 }
@@ -88,11 +92,17 @@
 
 .islider-btn-outer.left > .islider-btn-inner {
     -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
 
 .islider-btn-outer.right > .islider-btn-inner {
     -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
     transform: rotate(135deg);
 }
 
