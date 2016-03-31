@@ -296,6 +296,14 @@ var data = [{
 - 默认：false(关闭)
 
 
+##### dampingForce
+
+- `{Number}`
+- 阻尼力度, 非循环模式下，首尾场景的回弹效果阻尼系数
+- 值域: 0 ~ 1，数值越大滑动距离越小（越难以滑动）
+- 默认: 0
+- 前置条件: isLooping === ```FALSE```
+
 ##### isVertical
 
 - `{Boolean}`
@@ -535,6 +543,12 @@ S.on('slideChanged', callBack);
 
 - `{String}`
 - 动画效果结束事件名
+
+
+#### BROWSER_PREFIX
+
+- `{String}`
+- CSS前缀
 
 
 #### DEVICE_EVENTS

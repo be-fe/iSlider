@@ -249,8 +249,6 @@
             });
     })();
 
-    console.log(iSlider.TRANSITION_END_EVENT)
-
     /**
      * Event match depending on the browser supported
      * @type {{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}
@@ -621,6 +619,15 @@
         self.isLooping = opts.isLooping && self.data.length > 1 ? true : false;
 
         /**
+         * Damping force
+         * Effect in non-looping mode
+         * Range 0 ~ 1
+         * @type {Number}
+         * @private
+         */
+        self.dampingForce = Math.max(0, Math.min(1, parseFloat(opts.dampingForce) || 0));
+
+        /**
          * AutoPlay waitting milsecond to start
          * @type {Number}
          * @private
@@ -681,27 +688,8 @@
          * @private
          */
         self._damping = (function () {
-
-            var oneIn2 = self.scale >> 1;
-            var oneIn4 = oneIn2 >> 1;
-            var oneIn16 = oneIn4 >> 2;
-
             return function (distance) {
-
-                var dis = Math.abs(distance);
-                var result;
-
-                if (dis < oneIn2) {
-                    result = dis >> 1;
-                }
-                else if (dis < oneIn2 + oneIn4) {
-                    result = oneIn4 + ((dis - oneIn2) >> 2);
-                }
-                else {
-                    result = oneIn4 + oneIn16 + ((dis - oneIn2 - oneIn4) >> 3);
-                }
-
-                return distance > 0 ? result : -result;
+                return Math.atan(Math.abs(distance) / self.scale) * 0.62 * (1 - self.dampingForce) * self.scale * (distance > 0 ? 1 : -1);
             }
         })();
 

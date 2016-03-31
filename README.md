@@ -296,6 +296,14 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 - Default: false (Disabled)
 
 
+##### dampingForce
+
+- `{Number}`
+- Damping force, the rebound effect of overflow Scene
+- Range: 0 ~ 1, Sliding distance decreases with increasing values (more difficult to slide)
+- Default: 0
+- Precondition: isLooping === ```FALSE```
+
 ##### isVertical
 
 - `{Boolean}`
@@ -535,6 +543,12 @@ S.on('slideChanged', callBack);
 
 - `{String}`
 - The name of Animation's ending
+
+
+#### BROWSER_PREFIX
+
+- `{String}`
+- CSS prefix
 
 
 #### DEVICE_EVENTS
