@@ -1,4 +1,4 @@
-### iSlider 2.1.5
+### iSlider 2.1.6
 - [New]Add new parameter "dampingForce" for setting the damping effect.
 
 ### iSlider 2.1.5
