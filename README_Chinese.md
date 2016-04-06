@@ -304,6 +304,9 @@ var data = [{
 - 默认: 0
 - 前置条件: isLooping === ```FALSE```
 
+![https://be-fe.github.io/static/images/iSlider-notice/dampingForce-origin.png](https://be-fe.github.io/static/images/iSlider-notice/dampingForce-thumb.png)
+
+
 ##### isVertical
 
 - `{Boolean}`
