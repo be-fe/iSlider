@@ -304,6 +304,11 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 - Default: 0
 - Precondition: isLooping === ```FALSE```
 
+<a href="http://be-fe.github.io/static/images/iSlider-notice/dampingForce-origin.png">
+    <img src="http://be-fe.github.io/static/images/iSlider-notice/dampingForce-thumb.png"/>
+</a>
+
+
 ##### isVertical
 
 - `{Boolean}`
