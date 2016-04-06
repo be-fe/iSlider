@@ -1,3 +1,6 @@
+### iSlider 2.1.6
+- [New]Add new parameter "dampingForce" for setting the damping effect.
+
 ### iSlider 2.1.5
 - [New]Add method "[pushData](https://github.com/BE-FE/iSlider/blob/master/README.md#pushdata)", now you can append data dynamically. Here is the [DEMO](http://be-fe.github.io/iSlider/demo/add_dynamic_data.html).
 - [Optimization][Bug fix]Android browser (including wechat) failures of transition.
