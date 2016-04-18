@@ -169,7 +169,7 @@
      * version
      * @type {string}
      */
-    iSlider.VERSION = '2.1.6';
+    iSlider.VERSION = '2.1.7';
 
     /**
      * Event white list
