@@ -104,8 +104,6 @@
         });
     }
 
-    var global = window;
-
     /**
      * @constructor
      *
