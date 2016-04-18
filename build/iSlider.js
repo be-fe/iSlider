@@ -104,7 +104,7 @@
         });
     }
 
-    var WIN = window;
+    var global = window;
 
     /**
      * @constructor
@@ -257,14 +257,14 @@
      */
     iSlider.DEVICE_EVENTS = (function () {
         // IOS desktop has touch events, make them busting
-        var hasTouch = !!(('ontouchstart' in WIN && !/Mac OS X /.test(WIN.navigator.userAgent)) || WIN.DocumentTouch && document instanceof WIN.DocumentTouch);
+        var hasTouch = !!(('ontouchstart' in global && !/Mac OS X /.test(global.navigator.userAgent)) || global.DocumentTouch && document instanceof global.DocumentTouch);
         return {
             hasTouch: hasTouch,
             startEvt: hasTouch ? 'touchstart' : 'mousedown',
             moveEvt: hasTouch ? 'touchmove' : 'mousemove',
             endEvt: hasTouch ? 'touchend' : 'mouseup',
             cancelEvt: hasTouch ? 'touchcancel' : 'mouseout',
-            resizeEvt: 'onorientationchange' in WIN ? 'orientationchange' : 'resize'
+            resizeEvt: 'onorientationchange' in global ? 'orientationchange' : 'resize'
         };
     })();
 
@@ -680,7 +680,7 @@
          * @private
          */
         self.log = opts.isDebug ? function () {
-            WIN.console.log.apply(WIN.console, arguments);
+            global.console.log.apply(global.console, arguments);
         } : noop;
 
         /**
@@ -991,7 +991,7 @@
         }
 
         // Preload picture [ may be pic :) ]
-        WIN.setTimeout(function () {
+        global.setTimeout(function () {
             this._preloadImg(this.slideIndex);
         }.bind(this), 200);
 
@@ -1065,7 +1065,7 @@
             // keep handler and element
             this._transitionEndHandler = {el: this.currentEl, handler: cb};
         }
-        this._LSN.transitionEnd = WIN.setTimeout(cb, squeezeTime);
+        this._LSN.transitionEnd = global.setTimeout(cb, squeezeTime);
     };
 
     /**
@@ -1074,7 +1074,7 @@
      */
     iSliderPrototype._unWatchTransitionEnd = function () {
         if (this._LSN.transitionEnd) {
-            WIN.clearTimeout(this._LSN.transitionEnd);
+            global.clearTimeout(this._LSN.transitionEnd);
         }
         if (this._transitionEndHandler !== null) {
             this._transitionEndHandler.el.removeEventListener(iSlider.TRANSITION_END_EVENT, this._transitionEndHandler.handler);
@@ -1111,11 +1111,11 @@
             !device.hasTouch && outer.addEventListener('mouseout', this);
         }
 
-        WIN.addEventListener(device.resizeEvt, this);
+        global.addEventListener(device.resizeEvt, this);
 
         // Fix android device
-        WIN.addEventListener('focus', this, false);
-        WIN.addEventListener('blur', this, false);
+        global.addEventListener('focus', this, false);
+        global.addEventListener('blur', this, false);
     };
 
     /**
@@ -1268,9 +1268,9 @@
                 if (el.tagName === 'A') {
                     if (el.href) {
                         if (el.getAttribute('target') === '_blank') {
-                            WIN.open(el.href);
+                            global.open(el.href);
                         } else {
-                            WIN.location.href = el.href;
+                            global.location.href = el.href;
                         }
                         evt.preventDefault();
                         return false;
@@ -1317,13 +1317,13 @@
 
         if (this.deviceEvents.hasTouch) {
             // Fuck Android
-            _L && WIN.clearInterval(_L);
-            _L = WIN.setInterval(function () {
+            _L && global.clearInterval(_L);
+            _L = global.setInterval(function () {
                 if (this.height !== this.wrap.offsetHeight || this.width !== this.wrap.offsetWidth) {
-                    _L && WIN.clearInterval(_L);
-                    _L = WIN.setInterval(function () {
+                    _L && global.clearInterval(_L);
+                    _L = global.setInterval(function () {
                         if (_W === this.wrap.offsetWidth && _H === this.wrap.offsetHeight) {
-                            _L && WIN.clearInterval(_L);
+                            _L && global.clearInterval(_L);
                             this.reset();
                             this.log('[EVENT]: resize');
                         } else {
@@ -1332,15 +1332,15 @@
                     }.bind(this), 12);
                 } else {
                     if (+new Date - startTime >= 1000) {
-                        _L && WIN.clearInterval(_L);
+                        _L && global.clearInterval(_L);
                     }
                 }
             }.bind(this), 12);
         } else {
-            _L && WIN.clearTimeout(_L);
-            _L = WIN.setTimeout(function () {
+            _L && global.clearTimeout(_L);
+            _L = global.setTimeout(function () {
                 if (this.height !== this.wrap.offsetHeight || this.width !== this.wrap.offsetWidth) {
-                    _L && WIN.clearInterval(_L);
+                    _L && global.clearInterval(_L);
                     this.reset();
                     this.log('[EVENT]: resize');
                 }
@@ -1533,7 +1533,7 @@
     iSliderPrototype.bind = iSliderPrototype.delegate = function (evtType, selector, callback) {
 
         function delegatedEventCallbackHandle(e) {
-            var evt = WIN.event ? WIN.event : e;
+            var evt = global.event ? global.event : e;
             var target = evt.target;
             var eleArr = document.querySelectorAll(selector);
             for (var i = 0; i < eleArr.length; i++) {
@@ -1603,9 +1603,9 @@
             // Viscous drag unbind
             !device.hasTouch && outer.removeEventListener('mouseout', this);
         }
-        WIN.removeEventListener(device.resizeEvt, this);
-        WIN.removeEventListener('focus', this);
-        WIN.removeEventListener('blur', this);
+        global.removeEventListener(device.resizeEvt, this);
+        global.removeEventListener('focus', this);
+        global.removeEventListener('blur', this);
 
         var n;
 
@@ -1622,7 +1622,7 @@
 
         // Clear timer
         for (n in this._LSN) {
-            this._LSN.hasOwnProperty(n) && this._LSN[n] && WIN.clearTimeout(this._LSN[n]);
+            this._LSN.hasOwnProperty(n) && this._LSN[n] && global.clearTimeout(this._LSN[n]);
         }
 
         this._LSN = null;
@@ -1785,7 +1785,7 @@
      * @private
      */
     iSliderPrototype._autoPlay = function () {
-        this.delay > 0 ? WIN.setTimeout(this.play.bind(this), this.delay) : this.play();
+        this.delay > 0 ? global.setTimeout(this.play.bind(this), this.delay) : this.play();
     };
 
     /**
@@ -1796,7 +1796,7 @@
         this.pause();
         // If not looping, stop playing when meet the end of data
         if (this.isAutoplay && (this.isLooping || this.slideIndex < this.data.length - 1)) {
-            this._LSN.autoPlay = WIN.setTimeout(this.slideNext.bind(this), this.duration);
+            this._LSN.autoPlay = global.setTimeout(this.slideNext.bind(this), this.duration);
         }
     };
 
@@ -1805,7 +1805,7 @@
      * @public
      */
     iSliderPrototype.pause = function () {
-        this._LSN.autoPlay && WIN.clearTimeout(this._LSN.autoPlay);
+        this._LSN.autoPlay && global.clearTimeout(this._LSN.autoPlay);
     };
 
     /**
@@ -2002,4 +2002,4 @@
     else
         global['iSlider'] = global['iSlider'] || iSlider;
 
-})(this || window);
+})(window || this);
