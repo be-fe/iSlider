@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <title>iSlider more animation</title>
+    <link href="public/css/iSlider.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #333;
+            overflow: hidden;
+        }
+
+        /*ul wrapper*/
+        #iSlider-wrapper {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: absolute;
+        }
+
+        #iSlider-wrapper ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #iSlider-wrapper li {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-pack: center;
+            -webkit-box-align: center;
+            list-style: none;
+        }
+
+        #iSlider-wrapper li img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+
+</head>
+<body>
+<div id="iSlider-wrapper"></div>
+<div id="hidden-space" style="display:none">
+    <p style="font-size:3em;text-align: center;color:#04f512">A node in dom tree.</p>
+</div>
+<script type="text/javascript" src="public/js/iSlider.js"></script>
+<script type="text/javascript" src="public/js/iSlider.animate.js"></script>
+<script id="show-code">
+    var list = [
+        {content: "//be-fe.github.io/static/images/iSlider-card/1.jpg"},
+        {content: "//be-fe.github.io/static/images/iSlider-card/2.jpg"},
+        {content: "//be-fe.github.io/static/images/iSlider-card/3.jpg"},
+        {content: "//be-fe.github.io/static/images/iSlider-card/4.jpg"},
+        {content: "//be-fe.github.io/static/images/iSlider-card/5.jpg"},
+        {content: "//be-fe.github.io/static/images/iSlider-card/6.jpg"},
+        {content: "//be-fe.github.io/static/images/iSlider-card/7.jpg"},
+        {content: "//be-fe.github.io/static/images/iSlider-card/8.jpg"}
+    ];
+
+    var S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
+        isLooping: 1,
+        isOverspread: 1,
+        isAutoplay: 1,
+        animateTime: 800,
+        animateType: 'flow'
+    });
+</script>
+</body>
+</html>

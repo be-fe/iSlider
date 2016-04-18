@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <link rel="stylesheet" href="public/css/iSlider.css"/>
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #iSlider-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        .islider-outer > li {
+            background-color: #999999;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+
+<body>
+<div id="iSlider-wrapper"></div>
+<button style="position:absolute;right:20px;bottom:20px;font-size:1em;" onclick="toggleLooping()">Toggle Looping
+</button>
+<script src="public/js/iSlider.js"></script>
+<script id="show-code">
+
+    function toggleLooping() {
+        islider.isLooping = !islider.isLooping;
+    }
+
+    function addOne() {
+        this.pushData({content: createData() + '<button style="position:absolute;left:20px;top:20px;font-size:1em;" onclick="addOne.call(islider)">Add one Scene</button>'});
+    }
+
+    var st = 0;
+    function createData() {
+        return '' +
+                '<div style="display:inherit;-webkit-box-align:inherit;-webkit-box-pack:inherit;height:100%;width:100%;font-size:2em;color:white;text-align:center;background-color:rgb(' + [
+                    ((Math.random() * 1000) >> 0) % 255,
+                    ((Math.random() * 1000) >> 0) % 255,
+                    ((Math.random() * 1000) >> 0) % 255
+                ].toString() + ');">' +
+                '<span style="vertical-align:middle">' + st++ + '</span>' +
+                '</div>';
+    }
+
+    var list = [];
+
+    list.push({content: createData()});
+    list.push({content: createData()});
+    list.push({content: createData()});
+
+    var islider = new iSlider({
+        data: list,
+        dom: document.getElementById("iSlider-wrapper"),
+        animateTime: 1000,
+//        isLooping: 1,
+        isDebug: 1,
+        duration: 5000,
+        oninitialized: addOne
+    });
+</script>
+</body>
+</html>

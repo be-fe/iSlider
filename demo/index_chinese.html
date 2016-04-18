@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>iSlider by BE-FE</title>
+    <link rel="stylesheet" href="public/css/index.css">
+    <link rel="stylesheet" href="//highlightjs.org/static/demo/styles/zenburn.css">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+<aside id="js-toggle-menu">
+    <ul id="hamburger-menu">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div id="menu">
+        <div id="menu-title">
+            <h2>iSlider Demo</h2>
+        </div>
+        <div class="divider"></div>
+        <ul id="menu-list">
+            <li>
+                <a href="#">概要</a>
+                <ul class="submenu">
+                    <li>
+                        <a href="#intro-detail">介绍</a>
+                    </li>
+                    <li>
+                        <a href="#intro-good">特性</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#frame">结构说明</a>
+                <ul id="intro-tree" class="submenu"></ul>
+            </li>
+            <li>
+                <a href="#demo">Demo示例</a>
+            </li>
+            <li>
+                <a href="#code">Demo代码</a>
+            </li>
+            <li>
+                <a href="#options">初始化</a>
+                <ul class="submenu">
+                    <li><a href="#DOM">DOM</a></li>
+                    <li><a href="#DATA">DATA</a></li>
+                    <li>
+                        <a href="#OPTIONS">
+                            OPTIONS
+                        </a>
+                        <ul class="submenu" id="options-param-tree">
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="">事件</a>
+                <ul class="submenu" id="function-tree">
+                </ul>
+            </li>
+             <li>
+                <a href="#" class="">常量</a>
+                <ul class="submenu" id="constant-tree">
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="">方法</a>
+                <ul class="submenu">
+                    <li>
+                        <a href="#" class="">
+                            静态方法
+                        </a>
+                        <ul class="submenu" id="static-methods-tree"></ul>
+                    </li>
+                    <li>
+                        <a href="#" class="">
+                            实例方法
+                        </a>
+                        <ul class="submenu" id="instance-methods-tree"></ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- <ul>
+            <li>
+                <iframe src="https://ghbtns.com/github-btn.html?user=BE-FE&repo=iSlider&type=star&count=true&size=small" frameborder="0" scrolling="0" width="160px" height="20px"></iframe>
+            </li>
+            <li>
+                <iframe src="https://ghbtns.com/github-btn.html?user=BE-FE&repo=iSlider&type=watch&count=true&size=small&v=2" frameborder="0" scrolling="0" width="160px" height="20px"></iframe>
+            </li>
+            <li>
+                <iframe src="https://ghbtns.com/github-btn.html?user=BE-FE&repo=iSlider&type=fork&count=true&size=small" frameborder="0" scrolling="0" width="158px" height="20px"></iframe>
+            </li>
+            <li>
+                <iframe src="https://img.shields.io/npm/dm/islider.svg" frameborder="0" scrolling="0" width="160px" height="20px"></iframe>
+            </li>
+        </ul> -->
+    </div>
+</aside>
+<section>
+    <div id="section-content">
+        <div id="intro">
+            <h1>
+                <a id="islider" class="anchor" href="#islider" aria-hidden="true">
+                    <span class="octicon octicon-link"></span>
+                </a>
+                iSlider
+            </h1>
+
+            <p>
+                <a href="http://be-fe.github.io/iSlider/demo/index.html">iSlider English Demo page</a>
+                <br>
+                <a href="#demo">iSlider 示例</a>
+            </p>
+
+            <h2>概要</h2>
+
+            <h3 id="intro-detail">介绍</h3>
+
+            <p>iSlider是一个表现出众，无任何插件依赖的手机平台javascript滑动组件。它能够处理任何元素，例如图片或者DOM元素。</p>
+
+            <h3 id="intro-good">特性</h3>
+            <ul class="task-list">
+                <li>优秀的性能，更少的内存占用；</li>
+                <li>提供丰富的动画切换效果，自带的效果包括 default, rotate, depth, flow, flip, card, fade 等，并且可以进行无限的扩展；</li>
+                <li>提供丰富的回调触发器，并且添加回调函数极为方便，无论在初始化还是运行过程中；</li>
+                <li>支持滑动衰减效果，循环效果，自动滑动效果，水平/垂直滑动等众多参数，且功能皆可配置；</li>
+                <li>自动适配桌面鼠标动作与移动端手势，方便测试与跨平台使用；</li>
+                <li>支持图片预加载，优秀的用户体验；</li>
+                <li>[插件] 提供多种插件，如切换按钮、场景指示器、图片缩放等，提供插件注册、管理等方法方便自定义扩展；</li>
+                <li>[2.0+] 可以按需加载需要的功能（效果 或 插件）；</li>
+                <li>[2.0+] 支持更多种类的元素置入，自动匹配数据类型，识别图片并进行预加载；</li>
+                <li>[2.0+] 更完善的代理事件管理机制，优化内存占用；</li>
+                <li>[2.0+] 更加丰富的回调事件，更灵活的事件管理、触发机制；</li>
+            </ul>
+        </div>
+
+        <div id="frame">
+            <h3>iSlider 结构说明</h3>
+            <h4 id="frame-iSlider">iSlider.js</h4>
+
+            <p>
+                iSlider核心代码库,定义iSlider类，绑定touch事件，图片预加载逻辑，以及图片翻页逻辑
+            </p>
+            <h4 id="frame-iSlider-animate">iSlider.animate.js</h4>
+
+            <p>
+                islider滑动效果库，目前支持flip、depth、flow等翻页效果。
+                <a target="_blank" href="./animation.html">demo地址</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-dot">iSlider.plugin.dot.js</h4>
+
+            <p>
+                场景指示器，当前所处的位置及切换到某一场景功能。
+                <a target="_blank" href="./2.X_with-plugins-dot-button.html">demo地址</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-button">iSlider.plugin.button.js</h4>
+
+            <p>
+                场景切换按钮，用于切换到前（上）或后（下）一场景。
+                <a target="_blank" href="./2.X_with-plugins-dot-button.html">demo地址</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-zoompic">iSlider.plugin.zoompic.js</h4>
+
+            <p>
+                移动端图片缩放，在图片的非背景模式中，通过对图片双击或双指放大，达到放大预览的效果。
+                <a target="_blank" href="./2.X_with-plugin-zoom.html">demo地址</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-bizone">iSlider.plugin.BIZone.js</h4>
+
+            <p>
+                触控点边缘脱离识别区，虽然已经加入了mouseout和touchcancel的边缘处理，但是对于某些应用里，自定义的顶部（底部）菜单栏依然无能为力。识别区的意义在于可以主动的设置这些区域达到触摸脱离的效果。
+
+            </p>
+        </div>
+
+        <div id="demo">
+            <h2>iSlider 示例</h2>
+
+            <p>若是PC，请打开webkit浏览器进行测试</p>
+
+            <h3 class="animate-title">动画效果</h3>
+
+            <div class="islider-demo-wrap">
+                <div id="iphone-fade"></div>
+                <iframe src="./2.X_more-loop.html" id="frameset"></iframe>
+            </div>
+            <div id="toggle-box">
+                <button type="button" data-target="./2.X_default.html">简单开始</button>
+                <button type="button" class="active" data-target="./2.X_more-loop.html">循环播放</button>
+                <button type="button" data-target="./2.X_more-animation.html">切换特效</button>
+                <button type="button" data-target="./2.X_more-3d.html">3D切换特效</button>
+                <button type="button" data-target="./2.X_more-autoplay.html">自动播放控制</button>
+                <button type="button" data-target="./2.X_more-vertical.html">支持垂直切换</button>
+                <button type="button" data-target="./2.X_with-plugin-zoom.html">图片缩放插件</button>
+                <button type="button" data-target="./2.X_with-plugins-dot-button.html">提供各种按钮插件支持</button>
+                <button type="button" data-target="./2.X_with-plugins-others.html">自定义的插件</button>
+                <button type="button" data-target="./music_card.html">音乐卡片</button>
+                <button type="button" data-target="./add_dynamic_data.html">动态追加数据</button>
+                <button type="button" data-target="./swop.html">双实例联动</button>
+            </div>
+            <h3 class="animate-title">demo代码</h3>
+            <pre id="code">
+                <code id="demo-code" class="javascript">
+                </code>
+            </pre>
+        </div>
+
+        <div id="options">
+            <h2>初始化</h2>
+
+            <p>
+                <code>new iSlider(<a href="#DOM">DOM</a>, <a href="#DATA">DATA</a>, <a
+                        href="#OPTIONS">OPTIONS</a>)</code>
+            </p>
+
+            <div class="description">
+                <table class="params">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th class="last">Description</th>
+                    </tr>
+                    <tr>
+                        <td class="name"><code>DOM</code></td>
+                        <td class="type">
+                            <span class="param-type">dom</span>
+                        </td>
+                        <td class="description last">
+                            容器dom节点
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="name"><code>DATA</code></td>
+                        <td class="type">
+                            <span class="param-type">Array</span>
+                        </td>
+                        <td class="description last">
+                            数据列表
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="name"><code>OPTIONS</code></td>
+                        <td class="type">
+                            <span class="param-type">Object</span>
+                        </td>
+                        <td class="description last">
+                            配置项
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3 id="DOM">DOM</h4>
+            <ul>
+                <li><code>new iSlider(DOM, DATA, OPTIONS);</code></li>
+                <li><code>{HTMLElement}</code></li>
+                <li>容器dom节点</li>
+                <li>作为第一个参数并不是必须的，会被OPTIONS.dom覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。</li>
+            </ul>
+
+            <h3 id="DATA">DATA</h4>
+            <ul>
+                <li><code>new iSlider(DOM, DATA, OPTIONS);</code></li>
+                <li><code>{Array}</code></li>
+                <li>数据列表</li>
+                <li>作为第二个参数并不是必须的，会被OPTIONS.data覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。</li>
+                <li>允许的类型：URLString、HTMLString、HTMLElement、HTMLFragment。</li>
+                <li><em>TODO：目前成员为{Object}类型，只支持content属性，在将来会得到更多的扩展，比如配置每一场景的切换效果、等待时间等等</em></li>
+                <li>数据格式：</li>
+            </ul>
+                <pre class="highlight"><code>[
+    {
+        content: '{URLString|HTMLString|HTMLElement|HTMLFragment}'
+    },
+    ...
+]</code></pre>
+            </p>
+
+            <h3 id="OPTIONS">OPTIONS</h3>
+
+            <p>类型: <code>{Object}</code></p>
+
+            <p>描述: 作为第一个参数并不是必须的，会被<code>OPTIONS.dom</code> 覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。</p>
+
+            <div class="options">
+                <h4 id="dom-1">dom</h4>
+
+                <ul>
+                    <li><code>{HTMLElement}</code></li>
+                    <li>容器dom节点，作用同参数<a href="#dom">DOM</a>，若设置此项，DOM会被覆盖。</li>
+                </ul>
+
+                <h4 id="data-1">data</h4>
+
+                <ul>
+                    <li><code>{Array}</code></li>
+                    <li>数据列表，作用同参数<a href="#data">DATA</a>，若设置此项，DATA会被覆盖。</li>
+                </ul>
+
+                <h4 id="animatetype">animateType</h4>
+
+                <ul>
+                    <li><code>{String}</code></li>
+                    <li>动画效果</li>
+                    <li>目前支持：default（卷动）、rotate（旋转）、depth、flow、flip、card、fade（渐显/隐）、zoomout（向外/内缩放）</li>
+                    <li>前置条件：载入效果库 iSlider.animate(.min).js</li>
+                    <li>默认：”default”</li>
+                </ul>
+
+                <h4 id="animatetime">animateTime</h4>
+
+                <ul>
+                    <li><code>{Number}</code></li>
+                    <li>动画效果持续时间</li>
+                    <li>单位：毫秒</li>
+                    <li>默认：1000</li>
+                </ul>
+
+                <h4 id="animateeasing">animateEasing</h4>
+
+                <ul>
+                    <li><code>{String}</code></li>
+                    <li>动画效果曲线</li>
+                    <li>可选 linear、ease、ease-in、ease-out、ease-in-out，甚至cubic-bezier</li>
+                    <li>默认：ease</li>
+                </ul>
+
+                <h4 id="isautoplay">isAutoplay</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>开启/关闭自动滑动模式</li>
+                    <li>默认：false(关闭)</li>
+                </ul>
+
+                <h4 id="duration">duration</h4>
+
+                <ul>
+                    <li><code>{Number}</code></li>
+                    <li>自动播放时，场景停留时间</li>
+                    <li>每个场景停留时间，结束时会切换至下一场景</li>
+                    <li>单位：毫秒</li>
+                    <li>前置条件：isAutoplay === <code>TRUE</code></li>
+                </ul>
+
+                <h4 id="islooping">isLooping</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>循环播放模式</li>
+                    <li>默认：false(关闭)</li>
+                </ul>
+
+                <h4 id="isvertical">isVertical</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>垂直滑动模式</li>
+                    <li>默认：false(关闭)</li>
+                </ul>
+
+                <h4 id="isoverspread">isOverspread</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>背景平铺</li>
+                    <li>如果场景为图片模式（URL），使用CSS3背景的方式填充场景</li>
+                    <li>默认：false(关闭)</li>
+                </ul>
+
+                <h4 id="istouchable">isTouchable</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>触屏事件</li>
+                    <li>默认：true(开启)</li>
+                </ul>
+
+                <h4 id="isdebug">isDebug</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>开启/关闭调试模式，会打印更多日志信息</li>
+                    <li>默认：false(关闭)</li>
+                </ul>
+
+                <h4 id="initindex">initIndex</h4>
+
+                <ul>
+                    <li><code>{Number}</code></li>
+                    <li>首屏所使用的数据列表索引</li>
+                    <li>默认：0</li>
+                </ul>
+
+                <h4 id="fingerrecognitionrange">fingerRecognitionRange</h4>
+
+                <ul>
+                    <li><code>{Number}</code></li>
+                    <li>误触识别范围，大于范围值的touchMove被视为有效滑动距离</li>
+                    <li>默认：10(px)</li>
+                </ul>
+
+                <h4 id="fixpage">fixPage</h4>
+
+                <ul>
+                    <li><code>{Boolean|Array|String}</code></li>
+                    <li>原生事件阻止</li>
+                    <li>场景内屏蔽原生事件的触发，如：滚动、拖拽、缩放等
+                        <ul>
+                            <li>“A”元素，阻止，移动端建议使用自定义的tap（touch系事件联合判断）</li>
+                            <li>对表单类元素”SELECT”、”INPUT”、”TEXTAREA”、”BUTTON”、”LABEL”，任何情况下均不进行阻止</li>
+                            <li>*排除策略：若参数类型为字符串（规则，querySelector选择器字符串）或数组(多个规则)，此选项为开启状态(true)并排除复合规则的元素，与<code>iSlider.FIX_PAGE_TAGS</code>相同对待</li>
+                        </ul>
+                    </li>
+                    <li>默认：true(开启)</li>
+                </ul>
+
+                <h4 id="fillseam">fillSeam</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>填补场景间接缝</li>
+                    <li>在某些系统的浏览器中存在的渲染问题，造成场景间出现一条缝隙，这种情况在场景设置了背景色并且使用<strong>相连</strong>的切换效果时尤为明显。</li>
+                    <li>默认：false(关闭)</li>
+                </ul>
+
+                <h4 id="plugins">plugins</h4>
+
+                <ul>
+                    <li><code>{Array}</code></li>
+                    <li>启用插件并配置初始化参数</li>
+                    <li>传入欲激活的插件名称列表：<code>['dot', 'button', 'zoompic', ...]</code>，另外，支持传入初始化参数：<code>[..., ['zoompic', {zoomFactor: 2}], ...]</code></li>
+                    <li>若插件未被载入或不存在则忽略</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="functions">
+            <h2>事件</h2>
+
+            <p></p>
+
+            <p>在初始化时传入，也可通过实例方法”on”进行事件注册。</p>
+
+            <p>作为初始化参数时需要以<strong>on</strong>开头且全为小写，绑定时为驼峰命名。</p>
+
+            <p>不同的回调方法由于所处场景不同，传入的参数会存在区别。</p>
+
+            <p>示例：</p>
+            <pre class="highlight">
+                <code>var S = new iSlider({..., onslidechanged: callBack, ...});
+S.on('slideChanged', callBack);</code></pre>
+
+            <h4 id="initialize">initialize</h4>
+
+            <ul>
+                <li>初始化开始（在调用setting后，渲染之前）</li>
+                <li>参数：无</li>
+            </ul>
+
+            <h4 id="initialized">initialized</h4>
+
+            <ul>
+                <li>初始化完成时（渲染之后）触发</li>
+                <li>参数：无</li>
+            </ul>
+
+            <h4 id="plugininitialize-">pluginInitialize (未开启)</h4>
+
+            <ul>
+                <li>(每个)插件初始化时触发</li>
+                <li>参数：无</li>
+            </ul>
+
+            <h4 id="plugininitialized">pluginInitialized</h4>
+
+            <ul>
+                <li>全部插件初始化完成时触发</li>
+                <li>参数：无</li>
+            </ul>
+
+            <h4 id="rendercomplete">renderComplete</h4>
+
+            <ul>
+                <li>当外容器渲染完成时触发</li>
+                <li>reset、loadData触发之前会触发</li>
+                <li>参数
+                    <ul>
+                        <li><code>{Number}</code> 当前数据索引</li>
+                        <li><code>{HTMLElement}</code> 当前场景元素</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="slidestart">slideStart</h4>
+
+            <ul>
+                <li>当手指触屏时触发</li>
+                <li>参数
+                    <ul>
+                        <li><code>{Object}</code> 事件(Event)对象</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="slide">slide</h4>
+
+            <ul>
+                <li>当手指滑动时触发</li>
+                <li>参数
+                    <ul>
+                        <li><code>{Object}</code> 事件(Event)对象</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="slideend">slideEnd</h4>
+
+            <ul>
+                <li>当手指离开时触发</li>
+                <li>参数
+                    <ul>
+                        <li><code>{Object}</code> 事件(Event)对象</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="slidechange">slideChange</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>当场景发生改变时触发</li>
+                <li>参数
+                    <ul>
+                        <li><code>{Number}</code> 当前数据索引</li>
+                        <li><code>{HTMLElement}</code> 当前场景元素</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="slidechanged">slideChanged</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>当场景改变完成(动画完成)时触发</li>
+                <li>执行loadData时触发</li>
+                <li>参数
+                    <ul>
+                        <li><code>{Number}</code> 当前数据索引</li>
+                        <li><code>{HTMLElement}</code> 当前场景元素</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="sliderestore">slideRestore</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>当场景未发生变化(回弹，动画完成)时触发</li>
+                <li>参数
+                    <ul>
+                        <li><code>{Number}</code> 当前数据索引</li>
+                        <li><code>{HTMLElement}</code> 当前场景元素</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="sliderestored">slideRestored</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>当场景未发生变化完成(回弹动画完成)时触发</li>
+                <li>执行reset时触发</li>
+                <li>参数
+                    <ul>
+                        <li><code>{Number}</code> 当前数据索引</li>
+                        <li><code>{HTMLElement}</code> 当前场景元素</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="loaddata">loadData</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>当数据重置(执行loadData方法)时触发</li>
+                <li>参数
+                    <ul>
+                        <li><code>{Number}</code> 当前数据索引</li>
+                        <li><code>{HTMLElement}</code> 当前场景元素</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="reset">reset</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>当场景重置(手机屏幕旋转、resize)时触发</li>
+                <li>参数
+                    <ul>
+                        <li><code>{Number}</code> 当前数据索引</li>
+                        <li><code>{HTMLElement}</code> 当前场景元素</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="destroy">destroy</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>当iSlider销毁时触发</li>
+                <li>参数：无</li>
+            </ul>
+        </div>
+        <div id="constant">
+            <h2>常量</h2>
+
+            <h4 id="version">VERSION</h4>
+
+            <ul>
+                <li><code>{String}</code></li>
+                <li>版本号</li>
+            </ul>
+
+            <h4 id="events">EVENTS</h4>
+
+            <ul>
+                <li><code>{Array}</code></li>
+                <li>事件回调列表</li>
+            </ul>
+
+            <h4 id="easing">EASING</h4>
+
+            <ul>
+                <li><code>{Array}</code></li>
+                <li>动画效果（easing）规则列表
+                    <ul>
+                        <li>0: <code>{Array}</code> <code>['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out']</code></li>
+                        <li>1: <code>{Regexp}</code> 贝塞尔曲线公式，同CSS3中的写法</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="fixpagetags">FIX_PAGE_TAGS</h4>
+
+            <ul>
+                <li><code>{Array}</code></li>
+                <li>对应fixPage的表单元素白名单</li>
+            </ul>
+
+            <h4 id="nodetype">NODE_TYPE</h4>
+
+            <ul>
+                <li><code>{Array}</code></li>
+                <li>场景类型</li>
+            </ul>
+
+            <h4 id="transitionendevent">TRANSITION_END_EVENT</h4>
+
+            <ul>
+                <li><code>{String}</code></li>
+                <li>动画效果结束事件名</li>
+            </ul>
+
+            <h4 id="deviceevents">DEVICE_EVENTS</h4>
+
+            <ul>
+                <li><code>{Object}</code></li>
+                <li><code>{{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}</code></li>
+                <li>根据设备所匹配的事件</li>
+            </ul>
+        </div>
+
+        <div id="methods">
+            <h2>实例方法</h2>
+
+            <h3 id="static-methods">静态方法</h3>
+
+            <div class="static-methods">
+                <h4 id="extend">extend</h4>
+                <ul>
+                    <li>当参数长度为1时，将对象继承到<code>iSlider.prototype</code></li>
+                    <li>当参数长度为2时，将第二个对象继承到第一个</li>
+                    <li>参数：
+                        <ul>
+                            <li>[<code>{Object}</code>原对象] 或默认为 <code>iSlider.prototype</code></li>
+                            <li><code>{Object}</code>新对象</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="regplugin">regPlugin</h4>
+                <ul>
+                    <li>注册插件</li>
+                    <li>参数：
+                        <ul>
+                            <li><code>{String}</code>插件名称</li>
+                            <li><code>{Function}</code>插件初始化方法</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <h3 id="instance-methods">实例方法</h3>
+
+            <div class="instance-methods">
+                <h4 id="slideto">slideTo</h4>
+
+                <ul>
+                    <li>切换到第n个场景，可以在第二个参数设置配置信息，改变本次滑动的动画效果: animateTime animateType</li>
+                    <li>参数：
+                        <ul>
+                            <li><code>{Number}</code> 数据列表索引</li>
+                            <li>[<code>{Object}</code> 临时配置]</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="slideprev">slidePrev</h4>
+
+                <ul>
+                    <li>切换到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType</li>
+                    <li>参数：
+                        <ul>
+                            <li>[<code>{Object}</code> 临时配置]</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="slideprev-1">slidePrev</h4>
+
+                <ul>
+                    <li>切换到前一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType</li>
+                    <li>参数：
+                        <ul>
+                            <li>[<code>{Object}</code> 临时配置]</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="delegate">delegate</h4>
+
+                <ul>
+                    <li>在容器node上绑定代理事件</li>
+                    <li>参数：
+                        <ul>
+                            <li><code>{String}</code> 事件名称</li>
+                            <li><code>{String}</code> 选择器 (querySelectorAll)</li>
+                            <li><code>{Function}</code> 事件响应方法</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="bind">bind</h4>
+
+                <ul>
+                    <li>delegate 的别名</li>
+                </ul>
+
+                <h4 id="undelegate">unDelegate</h4>
+
+                <ul>
+                    <li>解绑事件句柄</li>
+                    <li>参数：
+                        <ul>
+                            <li><code>{String}</code> 事件名称</li>
+                            <li><code>{String}</code> 选择器 (querySelectorAll)</li>
+                            <li><code>{Function}</code> 事件响应方法</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="unbind">unbind</h4>
+
+                <ul>
+                    <li>unDelegate的别名</li>
+                </ul>
+
+                <h4 id="on">on</h4>
+
+                <ul>
+                    <li>在iSlider的事件中注册回掉方法</li>
+                    <li>参数：
+                        <ul>
+                            <li><code>{String}</code> 事件名</li>
+                            <li><code>{Function}</code> 回掉方法</li>
+                            <li>[<code>{Boolean}</code>] 优先注册，回调事件注册到事件队列的首部，所有在初始化时注册的事件回调均在队列最前，默认：false</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="has">has</h4>
+
+                <ul>
+                    <li>检测事件回调方法是否已存在</li>
+                    <li>参数：
+                        <ul>
+                            <li><code>{String}</code> 事件名</li>
+                            <li><code>{Function}</code> 回掉方法</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="off">off</h4>
+
+                <ul>
+                    <li>从iSlider的事件中移除回掉方法</li>
+                    <li>参数：
+                        <ul>
+                            <li><code>{String}</code> 事件</li>
+                            <li><code>{Function}</code> 回掉方法</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="fire">fire</h4>
+
+                <ul>
+                    <li>事件触发</li>
+                </ul>
+
+                <h4 id="play">play</h4>
+
+                <ul>
+                    <li>开始自动播放</li>
+                    <li>前置条件：isAutoplay === <code>TRUE</code></li>
+                </ul>
+
+                <h4 id="pause">pause</h4>
+
+                <ul>
+                    <li>暂停自动切换</li>
+                    <li>前置条件：isAutoplay === <code>TRUE</code></li>
+                </ul>
+
+                <h4 id="extend-1">extend</h4>
+
+                <ul>
+                    <li>同静态方法中的”extend”</li>
+                </ul>
+
+                <h4 id="regplugin-1">regPlugin</h4>
+
+                <ul>
+                    <li>同静态方法”regPlugin”</li>
+                    <li><strong>此方法会注册插件到iSlider实例中，在注册的同时会自动加入激活的插件列表，并自动执行初始化</strong></li>
+                </ul>
+
+                <h4 id="loaddata-1">loadData</h4>
+
+                <ul>
+                    <li>载入新的数据列表</li>
+                    <li>参数：
+                        <ul>
+                            <li><code>{Array}</code> 数据列表</li>
+                            <li><code>{Number}</code> 初始场景索引</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="pushdata">pushData</h4>
+
+                <ul>
+                    <li>追加数据到已有的数据序列末尾</li>
+                    <li>参数：
+                        <ul>
+                            <li><code>{Array|Object}</code> 一个成员或者追加的序列（数组）</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="subjectto">subjectTo</h4>
+
+                <ul>
+                    <li>服从于另一个iSlider实例</li>
+                    <li>此iSlider会完全受目标iSlider控制</li>
+                    <li>参数：
+                        <ul>
+                            <li><code>{Object}</code> 目标</li>
+                            <li><code>{Object}</code> 受控的配置项（未开启）</li>
+                        </ul>
+                    </li>
+                </ul>
+                <pre><code>var IS_1 = new iSlider(dom, data);
+var IS_2 = new iSlider(dom, data);
+IS_1.subjectTo(IS_2); // At this time IS_1 if fully controlled by IS_2, that is to say the drag, switching, auto-play and other acts performed on IS_2 would synced to IS_1</code></pre>
+
+                <h4 id="hold">hold</h4>
+
+                <ul>
+                    <li>当前场景禁止手势</li>
+                </ul>
+
+                <h4 id="unhold">unhold</h4>
+
+                <ul>
+                    <li>当前场景开启手势，同时解除锁定</li>
+                </ul>
+
+                <h4 id="lock">lock</h4>
+
+                <ul>
+                    <li>锁定当前场景，禁用sliceTo, slideNext, slidePrev方法，同时禁止手势</li>
+                </ul>
+
+                <h4 id="unlock">unlock</h4>
+
+                <ul>
+                    <li>解除锁定</li>
+                </ul>
+
+                <h4 id="destroy-1">destroy</h4>
+
+                <ul>
+                    <li>销毁当前iSlider实例，释放内存</li>
+                </ul>
+
+                <h4 id="reset-1">reset</h4>
+
+                <ul>
+                    <li>复位当前iSlider实例</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="//cdn.jsdelivr.net/highlight.js/8.9.1/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="./public/js/index.js"></script>
+</body>
+</html>

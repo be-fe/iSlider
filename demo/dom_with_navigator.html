@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+    <link href="./public/css/iSlider.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #iSlider-wrapper {
+            height: 1000px;
+            width: 100%;
+            background: #eee;
+            background-size: 100%;
+            overflow: hidden;
+            position: relative;
+            -webkit-transition: all .3s;
+            border: 2px #eee solid;
+        }
+
+        #iSlider-show {
+            position: absolute;
+            top: 30px;
+            bottom: 0;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            overflow: hidden;
+            background-color: #ffffff;
+            text-align: center;
+        }
+
+        #iSlider-nav {
+            display: -webkit-box;
+            background-color: #eee;
+        }
+
+        #iSlider-nav a {
+            -webkit-box-flex: 1;
+            -webkit-transition: all 0.5s ease;
+            display: block;
+            font-size: 12px;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            z-index: 2;
+            position: relative;
+        }
+
+        #iSlider-nav span {
+            display: block;
+            height: 30px;
+            z-index: 1;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: rgba(255, 200, 200, 0.73);
+        }
+
+        #iSlider-show .page {
+            height: 100%;
+            width: 100%;
+        }
+
+        #iSlider-show h1 {
+            margin-top: 5em;
+        }
+
+        #iSlider-show h2 {
+            margin: 2em 0 2em 0;
+        }
+
+        #iSlider-show p {
+            margin-top: 1em;
+        }
+    </style>
+
+</head>
+<body>
+<div id="iSlider-wrapper">
+    <div id="iSlider-nav">
+        <span class="bg"></span>
+        <a>Home</a>
+        <a>Page1</a>
+        <a>Page2</a>
+        <a>Page3</a>
+        <a>Page4</a>
+        <a>Page5</a>
+    </div>
+    <div id="iSlider-show"></div>
+</div>
+<script type="text/javascript" src="./public/js/iSlider.js"></script>
+<script>
+    var list = [{
+        'content': '<div class="page"><h1>Home</h1><h2>This is home page</h2><p>home is pretty awsome, home is pretty awsome, home is pretty awsome.</p><p>home is pretty awsome.home is pretty awsome, home is pretty awsome. home is pretty awsome home is pretty awsome.</p></div>'
+    },
+        {
+            'content': '<div class="page"><h1>Page1</h1><h2>This is page1</h2><p>page1 is pretty awsome,page1 is pretty awsome, page1 is pretty awsome .</p><p>page1 is pretty awsome,page1 is pretty awsome, page1 is pretty awsome .</p></div>'
+        },
+        {
+            'content': '<div class="page"><h1>Page2</h1><h2>This is Page2</h2><p>Page2 is pretty awsome</p></div>'
+        },
+        {
+            'content': '<div class="page"><h1>Page3</h1><h2>This is Page3</h2><p>Page3 is pretty awsome</p></div>'
+        },
+        {
+            'content': '<div class="page"><h1>Page4</h1><h2>This is Page4</h2><p>Page4 is pretty awsome</p></div>'
+        },
+        {
+            'content': '<div class="page"><h1>Page5</h1><h2>This is page5</h2><p>page5 is pretty awsome</p></div>'
+        }];
+
+
+    var tabs = document.getElementById('iSlider-nav').querySelectorAll('a');
+    var bg = document.getElementById('iSlider-nav').querySelector('span');
+    var scale = tabs[0].clientWidth;
+    bg.style.width = tabs[0].clientWidth + 'px';
+
+    var islider = new iSlider({
+        data: list,
+        dom: document.getElementById("iSlider-show"),
+        duration: 2000,
+        isLooping: true,
+        isDebug: true,
+        isAutoplay: false,
+        fixPage: false,
+        onslideend: function (idx) {
+            bg.style.webkitTransition = 'left .3s ease';
+            bg.style.width = tabs[idx].clientWidth + 'px';
+            bg.style.left = tabs[idx].offsetLeft + 'px';
+        },
+        onslidechange: function (idx) {
+            bg.style.webkitTransition = 'left .3s ease';
+            bg.style.width = tabs[idx].clientWidth + 'px';
+            bg.style.left = tabs[idx].offsetLeft + 'px';
+        },
+        onslide: function (offset) {
+            bg.style.webkitTransition = 'none';
+            bg.style.left = tabs[this.slideIndex].offsetLeft - (offset / this.scale * scale) + 'px';
+        }
+    });
+
+    for (i = 0; i < tabs.length; i++) {
+        tabs[i].id = i;
+        tabs[i].addEventListener('click', function (e) {
+            var idx = parseInt(e.target.id);
+            islider.slideTo(idx);
+        }, false);
+    }
+</script>
+</body>
+</html>

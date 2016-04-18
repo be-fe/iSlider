@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>iSlider by BE-FE</title>
+    <link rel="stylesheet" href="public/css/index.css">
+    <link rel="stylesheet" href="//highlightjs.org/static/demo/styles/zenburn.css">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+<aside id="js-toggle-menu">
+    <ul id="hamburger-menu">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div id="menu">
+        <div id="menu-title">
+            <h2>iSlider Demo</h2>
+        </div>
+        <div class="divider"></div>
+        <ul id="menu-list">
+            <li>
+                <a href="#">Summary</a>
+                <ul class="submenu">
+                    <li>
+                        <a href="#intro-detail">Detail</a>
+                    </li>
+                    <li>
+                        <a href="#intro-good">Feature</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#frame">Structure</a>
+                <ul id="intro-tree" class="submenu"></ul>
+            </li>
+            <li>
+                <a href="#demo">Demo</a>
+            </li>
+            <li>
+                <a href="#code">Demo Code</a>
+            </li>
+            <li>
+                <a href="#options">Initialize</a>
+                <ul class="submenu">
+                    <li><a href="#DOM">DOM</a></li>
+                    <li><a href="#DATA">DATA</a></li>
+                    <li>
+                        <a href="#OPTIONS">
+                            OPTIONS
+                        </a>
+                        <ul class="submenu" id="options-param-tree">
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="">Event Callback</a>
+                <ul class="submenu" id="function-tree">
+                </ul>
+            </li>
+             <li>
+                <a href="#" class="">Constant</a>
+                <ul class="submenu" id="constant-tree">
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="">Methos</a>
+                <ul class="submenu">
+                    <li>
+                        <a href="#" class="">
+                            Static Methods
+                        </a>
+                        <ul class="submenu" id="static-methods-tree"></ul>
+                    </li>
+                    <li>
+                        <a href="#" class="">
+                            Instance Methods
+                        </a>
+                        <ul class="submenu" id="instance-methods-tree"></ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- <ul>
+            <li>
+                <iframe src="https://ghbtns.com/github-btn.html?user=BE-FE&repo=iSlider&type=star&count=true&size=small" frameborder="0" scrolling="0" width="160px" height="20px"></iframe>
+            </li>
+            <li>
+                <iframe src="https://ghbtns.com/github-btn.html?user=BE-FE&repo=iSlider&type=watch&count=true&size=small&v=2" frameborder="0" scrolling="0" width="160px" height="20px"></iframe>
+            </li>
+            <li>
+                <iframe src="https://ghbtns.com/github-btn.html?user=BE-FE&repo=iSlider&type=fork&count=true&size=small" frameborder="0" scrolling="0" width="158px" height="20px"></iframe>
+            </li>
+            <li>
+                <iframe src="https://img.shields.io/npm/dm/islider.svg" frameborder="0" scrolling="0" width="160px" height="20px"></iframe>
+            </li>
+        </ul> -->
+    </div>
+</aside>
+<section>
+    <div id="section-content">
+        <div id="intro">
+            <h1>
+                <a id="islider" class="anchor" href="#islider" aria-hidden="true">
+                    <span class="octicon octicon-link"></span>
+                </a>
+                iSlider
+            </h1>
+
+            <p>
+                <a href="http://be-fe.github.io/iSlider/demo/index_chinese.html">iSlider 中文演示</a>
+                <br>
+                <a href="#demo">iSlider DEMO</a>
+            </p>
+
+            <h2>Summary</h2>
+
+            <h3 id="intro-detail">Detail</h3>
+
+            <p>iSlider is a lightweight, high-performant, no library dependencies cross-platform slide controller. It can help handling most sliding effects, offering dozens of transition animations, and presenting various scenarios.</p>
+
+            <h3 id="intro-good">Features</h3>
+            <ul class="task-list">
+                <li>Outstanding performance, less memory usage;</li>
+                <li>Various animation effects, including effects such as <code>default</code>, <code>rotate</code>, <code>depth</code>, <code>flow</code>, <code>flip</code>, <code>card</code>, <code>fade</code>, etc., and capability of adding custom animations;</li>
+                <li>Provide rich callback trigger. Adding a callback function is easy, regardless of initialization or during operation;</li>
+                <li>Easy to configure, e.g. Slide the dampening effect of the cycle, automatic sliding effect, horizontal / vertical sliding, etc.</li>
+                <li>Automatic matching the desktop mouse movements or gestures on mobile device. Easy to test and use cross platforms;</li>
+                <li>Supports for image pre-loaded, excellent user experience;</li>
+                <li>[Plugin] Offers a variety of plug-ins, such as a toggle button, the scene indicator, image scaling, etc. Provides plug-in registration, management and other methods to facilitate custom extension;</li>
+                <li>[2.0+] Can be loaded on demand (effect or plug-in);</li>
+                <li>[2.0+] Supports more types of elements. Automatically matches the data type. Capable of image recognition and pre-loading;</li>
+                <li>[2.0+] Better delegated event management mechanism, optimized memory usage;</li>
+                <li>[2.0+] Enriched callback events, more flexible event management and trigger mechanisms;</li>
+            </ul>
+        </div>
+
+        <div id="frame">
+            <h3>iSlider Architecture</h3>
+            <h4 id="frame-iSlider">iSlider.js</h4>
+
+            <p>
+                iSlider core, which defines class iSlider, binds touch event, implements image pre-loading and image transitions.
+            </p>
+            <h4 id="frame-iSlider-animate">iSlider.animate.js</h4>
+
+            <p>
+                sliding animiation library. At the moment, it supports flip、depth、flow etc.
+                <a target="_blank" href="./animation.html">demo</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-dot">iSlider.plugin.dot.js</h4>
+
+            <p>
+                supports page annotations over image, and tap to switch, present with "...".
+                <a target="_blank" href="./2.X_with-plugins-dot-button.html">demo</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-button">iSlider.plugin.button.js</h4>
+
+            <p>
+                supports page annotations over image, and tap to switch, present with left/right icons
+                <a target="_blank" href="./2.X_with-plugins-dot-button.html">demo</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-zoompic">iSlider.plugin.zoompic.js</h4>
+
+            <p>
+                Mobile image scaling, image in non-background mode by double-clicking on the image or two fingers to enlarge, to amplify the effect of the preview.
+                Known issues: must restore the default size by double-clicking, double that currently can not be reduced to its default state
+                <a target="_blank" href="./2.X_with-plugin-zoom.html">demo</a>
+            </p>
+            <h4 id="frame-iSlider-plugin-bizone">iSlider.plugin.BIZone.js</h4>
+
+            <p>
+                Touch points from the edge of the area to identify, although has joined edge processing mouseout and touchcancel, but for some applications, the definition from the top (bottom) menu bar remains powerless. Meaning that it can take the initiative to identify areas of these regions is set to touch on detachment.
+                <a target="_blank" href="./2.X_with-plugin-zoom.html">demo</a>
+            </p>
+        </div>
+
+        <div id="demo">
+            <h2>iSlider DEMO</h2>
+
+            <p>If PC, open the webkit browser for testing</p>
+
+            <h3 class="animate-title">Animation Effects</h3>
+
+            <div class="islider-demo-wrap">
+                <div id="iphone-fade"></div>
+                <iframe src="./2.X_more-loop.html" id="frameset"></iframe>
+            </div>
+            <div id="toggle-box">
+                <button type="button" data-target="./2.X_default.html">Simple Start</button>
+                <button type="button" class="active" data-target="./2.X_more-loop.html">Loop</button>
+                <button type="button" data-target="./2.X_more-animation.html">Effect</button>
+                <button type="button" data-target="./2.X_more-3d.html">3D Effect</button>
+                <button type="button" data-target="./2.X_more-autoplay.html">AutoPlay control</button>
+                <button type="button" data-target="./2.X_more-vertical.html">Vertical Handover</button>
+                <button type="button" data-target="./2.X_with-plugin-zoom.html">Picture scaling plug-in</button>
+                <button type="button" data-target="./2.X_with-plugins-dot-button.html">Dot Button plug-in</button>
+                <button type="button" data-target="./2.X_with-plugins-others.html">Custom plug-ins</button>
+                <button type="button" data-target="./music_card.html">Music card</button>
+                <button type="button" data-target="./add_dynamic_data.html">Add dynamic data</button>
+                <button type="button" data-target="./swop.html">swop</button>
+            </div>
+            <h3 class="animate-title">demo code</h3>
+            <pre id="code">
+                <code id="demo-code" class="javascript">
+                </code>
+            </pre>
+        </div>
+
+        <div id="options">
+            <h2>Initialize</h2>
+
+            <p>
+                <code>new iSlider(<a href="#DOM">DOM</a>, <a href="#DATA">DATA</a>, <a
+                        href="#OPTIONS">OPTIONS</a>)</code>
+            </p>
+
+            <div class="description">
+                <table class="params">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th class="last">Description</th>
+                    </tr>
+                    <tr>
+                        <td class="name"><code>DOM</code></td>
+                        <td class="type">
+                            <span class="param-type">dom</span>
+                        </td>
+                        <td class="description last">
+                            DOM
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="name"><code>DATA</code></td>
+                        <td class="type">
+                            <span class="param-type">Array</span>
+                        </td>
+                        <td class="description last">
+                            Data list
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="name"><code>OPTIONS</code></td>
+                        <td class="type">
+                            <span class="param-type">Object</span>
+                        </td>
+                        <td class="description last">
+                            options
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3 id="DOM">DOM</h4>
+            <ul>
+                <li>new iSlider(<code>DOM</code>, DATA, OPTIONS);</li>
+                <li><code>{HTMLElement}</code></li>
+                <li>DOM Container</li>
+                <li>Though the first parameter is not required, it is highly recommended, as setting a DOM container can make it more convenient to use iSlider.</li>
+            </ul>
+
+            <h3 id="DATA">DATA</h4>
+            <ul>
+                <li>new iSlider(DOM, <code>DATA</code>, OPTIONS);</li>
+                <li><code>{Array}</code></li>
+                <li>Data list</li>
+                <li>Though it’s not required, the second param is also recommended.</li>
+                <li>Allowed types: URLString, HTMLString, HTMLElement, HTMLFragment.</li>
+                <li><em>TODO:   Currently, each of the member in the array is type of <code>{Object}</code>, which only supports content property, in the future, it will get more extensions, such as the configuration of the effect about each scene transitions, wait time, etc.</em></li>
+                <li>Data format:</li>
+            </ul>
+                <pre class="highlight"><code>[
+    {
+        content: '{URLString|HTMLString|HTMLElement|HTMLFragment}'
+    },
+    ...
+]</code></pre>
+            </p>
+
+            <h3 id="OPTIONS">OPTIONS</h3>
+            <p>new iSlider(DOM, DATA, <code>OPTIONS</code>);</p>
+            <p>Type: <code>{Object}</code></p>
+
+           <!--  <p>描述: 作为第一个参数并不是必须的，会被<code>OPTIONS.dom</code> 覆盖，但是这十分必要，它可以使你更便捷的使用iSlider。</p> -->
+
+            <div class="options">
+                <h4 id="dom">dom</h4>
+
+                <ul>
+                    <li><code>{HTMLElement}</code></li>
+                    <li>dom node which is used as Container, same as the role of the parameter <a href="#dom">DOM</a>, if this has been setted, DOM will be overwritten.</li>
+                </ul>
+
+                <h4 id="data">data</h4>
+
+                <ul>
+                    <li><code>{Array}</code></li>
+                    <li>A list of data, same as the role of the parameter <a href="#data">DATA</a>, if this has been setted, DATA will be overwritten.</li>
+                </ul>
+
+                <h4 id="animatetype">animateType</h4>
+
+                <ul>
+                    <li><code>{String}</code></li>
+                    <li>Animation</li>
+                    <li>Currently supports: default (scrolling), rotate (rotation), depth, flow, flip, card, fade (fade in / hidden), (outside / inside zoom) zoomout</li>
+                    <li>Precondition: Loading library iSlider.animate(.min).js which is used for effects</li>
+                    <li>Default: “default”</li>
+                </ul>
+
+                <h4 id="animatetime">animateTime</h4>
+
+                <ul>
+                    <li><code>{Number}</code></li>
+                    <li>Animation duration</li>
+                    <li>Unit: ms</li>
+                    <li>Default: 1000</li>
+                </ul>
+
+                <h4 id="animateeasing">animateEasing</h4>
+
+                <ul>
+                    <li><code>{String}</code></li>
+                    <li>Animation curve</li>
+                    <li>Options: linear, ease, ease-in, ease-out, ease-in-out, even cubic-bezier</li>
+                    <li>Default: ease</li>
+                </ul>
+
+                <h4 id="isautoplay">isAutoplay</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>Turn on / off the automatic sliding mode</li>
+                    <li>Default: false (Disabled)</li>
+                </ul>
+
+                <h4 id="duration">duration</h4>
+
+                <ul>
+                    <li><code>{Number}</code></li>
+                    <li>Suspending time of scene when it’s playback automatically</li>
+                    <li>Suspending time of each scene, it switches to the next scene when it is ended</li>
+                    <li>Unit: ms</li>
+                    <li>Precondition: isAutoplay === <code>TRUE</code></li>
+                </ul>
+
+                <h4 id="islooping">isLooping</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>Repeat Mode</li>
+                    <li>Default: false (Disabled)</li>
+                </ul>
+
+                <h4 id="isvertical">isVertical</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>Vertical sliding mode</li>
+                    <li>Default: false (Disabled)</li>
+                </ul>
+
+                <h4 id="isoverspread">isOverspread</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>Background Tile</li>
+                    <li>If the scene is picture mode (URL), use the CSS3 backgrounds ways to filling the scenes</li>
+                    <li>Default: false (Disabled)</li>
+                </ul>
+
+                <h4 id="istouchable">isTouchable</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>Touch events</li>
+                    <li>Default: true (Enabled)</li>
+                </ul>
+
+                <h4 id="isdebug">isDebug</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>On / off debug mode, it will print more information about the log</li>
+                    <li>Default: false (Disabled)</li>
+                </ul>
+
+                <h4 id="initindex">initIndex</h4>
+
+                <ul>
+                    <li><code>{Number}</code></li>
+                    <li>Index of the list which is used for the first screen</li>
+                    <li>Default: 0</li>
+                </ul>
+
+                <h4 id="fingerrecognitionrange">fingerRecognitionRange</h4>
+
+                <ul>
+                    <li><code>{Number}</code></li>
+                    <li>The scope of wrong touch, if it’s bigger than the value of scope, the touchMove will be treat as an effective distance of slide</li>
+                    <li>Default：10(px)</li>
+                </ul>
+
+                <h4 id="fixpage">fixPage</h4>
+
+                <ul>
+                    <li><code>{Boolean|Array|String}</code></li>
+                    <li>Prevent native event</li>
+                    <li>Prevent to trigger the event in the scene shield, such as: scroll, drag, zoom, etc.
+                        <ul>
+                            <li>“A” elements, prevented, the mobile terminal is recommended to use user-defined tap (touch-based event jointly judgment)</li>
+                            <li>For the form element “SELECT”, “INPUT”, “TEXTAREA”, “BUTTON”, “LABEL”, in any situations it will not to be prevented</li>
+                            <li>*Exclude strategies：if the type of param is string（rule，querySelector selector string）or Array(mutiple regulations)，this option is in opening status(true)and exlude elements with composite regulations, treat as<code>iSlider.FIX_PAGE_TAGS</code></li>
+                        </ul>
+                    </li>
+                    <li>Default: true (Enabled)</li>
+                </ul>
+
+                <h4 id="fillseam">fillSeam</h4>
+
+                <ul>
+                    <li><code>{Boolean}</code></li>
+                    <li>To fill the gaps between scenes</li>
+                    <li>There is some rendering problems in the browser of some systems, resulting in a gap between scenes, this situation is particularly evident when the scene had setted the background color and use <strong>switching effect for connected</strong>.</li>
+                    <li>Default: false (Disabled)</li>
+                </ul>
+
+                <h4 id="plugins">plugins</h4>
+
+                <ul>
+                    <li><code>{Array}</code></li>
+                    <li>Enable plug-ins and configure the initialization parameters</li>
+                    <li>Incomming a name list of plugins which would be actived: <code>['dot', 'button', 'zoompic', ...]</code>, in addition, it’s support incoming initialization parameters: <code>[..., ['zoompic', {zoomFactor: 2}], ...]</code></li>
+                    <li>It will be ignored if the plug-in does not exist or is not loaded</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="functions">
+            <h2>Event callbacks</h2>
+
+            <p></p>
+            <p><code>{Function}</code></p>
+            <p>Incomming at initialization, it can also registrat event by way of living example with method “on”.</p>
+
+            <p>As the initialization parameter it’s needed to beginning with <strong>on</strong> and it would to be lowercase, Camel-Case would be used for binding.</p>
+
+            <p>Due to the different scenes,callback method should be different , there will be different between the incoming parameters.</p>
+
+            <p>Example:</p>
+            <pre class="highlight"><code>var S = new iSlider({..., onslidechanged: callBack, ...});
+S.on('slideChanged', callBack);</code></pre>
+            <h4 id="initialize">initialize</h4>
+
+            <ul>
+                <li>Start initialization (After the call setting, Before rendering)</li>
+                <li>Parameters: None</li>
+            </ul>
+
+            <h4 id="initialized">initialized</h4>
+
+            <ul>
+                <li>When initialization is complete (after rendering)</li>
+                <li>Parameters: None</li>
+            </ul>
+
+            <h4 id="plugininitialize-not-enabled">pluginInitialize (Not Enabled)</h4>
+
+            <ul>
+                <li>(Each)Be triggered at initialization</li>
+                <li>Parameters: None</li>
+            </ul>
+
+            <h4 id="plugininitialized">pluginInitialized</h4>
+
+            <ul>
+                <li>Be triggered when all plug-in initialization is complete</li>
+                <li>Parameters: None</li>
+            </ul>
+
+            <h4 id="rendercomplete">renderComplete</h4>
+
+            <ul>
+                <li>Be triggered when the outer container is rendered completely</li>
+                <li>Be triggered before reset, loadData</li>
+                <li>Parameters
+                    <ul>
+                        <li><code>{Number}</code> current data index</li>
+                        <li><code>{HTMLElement}</code> current scene elements</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="slidestart">slideStart</h4>
+
+            <ul>
+                <li>Be triggered when the finger touching screen</li>
+                <li>Parameters
+                    <ul>
+                        <li><code>{Object}</code> Event object</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="slide">slide</h4>
+
+            <ul>
+                <li>Be triggered when the finger is sliding</li>
+                <li>Parameters
+                    <ul>
+                        <li><code>{Object}</code> Event object</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="slideend">slideEnd</h4>
+
+            <ul>
+                <li>Be triggered when the finger has lifted</li>
+                <li>Parameters
+                    <ul>
+                        <li><code>{Object}</code> Event object</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="slidechange">slideChange</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>Be triggered when the scene changes</li>
+                <li>Parameters
+                    <ul>
+                        <li><code>{Number}</code> current data index</li>
+                        <li><code>{HTMLElement}</code> current scene elements</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="slidechanged">slideChanged</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>Be triggered when the changing of scene is completed (the animation is completed)</li>
+                <li>Be triggered when executing loadData</li>
+                <li>Parameters
+                    <ul>
+                        <li><code>{Number}</code> current data index</li>
+                        <li><code>{HTMLElement}</code> current scene elements</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="sliderestore">slideRestore</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>Be triggered when the scene has not changed (rebound, animation is completed)</li>
+                <li>Parameters
+                    <ul>
+                        <li><code>{Number}</code> current data index</li>
+                        <li><code>{HTMLElement}</code> current scene elements</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="sliderestored">slideRestored</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>Be triggered when the scene is changing and it’s not completed (Rebound animation is completed)</li>
+                <li>Be triggered when performing reset</li>
+                <li>Parameters
+                    <ul>
+                        <li><code>{Number}</code> current data index</li>
+                        <li><code>{HTMLElement}</code> current scene elements</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="loaddata">loadData</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>Be triggered when data is reset (execution loadData method)</li>
+                <li>Parameters
+                    <ul>
+                        <li><code>{Number}</code> current data index</li>
+                        <li><code>{HTMLElement}</code> current scene elements</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="reset">reset</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>Be triggered when the scene reset (phone screen rotate, resize)</li>
+                <li>Parameters
+                    <ul>
+                        <li><code>{Number}</code> current data index</li>
+                        <li><code>{HTMLElement}</code> current scene elements</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="destroy">destroy</h4>
+
+            <ul>
+                <li><code>{Function}</code></li>
+                <li>Be triggered when iSlider destruction</li>
+                <li>Parameters: None</li>
+            </ul>
+        </div>
+
+        <div id="constant">
+            <h2>Constant</h2>
+            <h4 id="version">VERSION</h4>
+            <ul>
+                <li><code>{String}</code></li>
+                <li>Version</li>
+            </ul>
+
+            <h4 id="events">EVENTS</h4>
+
+            <ul>
+                <li><code>{Array}</code></li>
+                <li>The list of events callback</li>
+            </ul>
+
+            <h4 id="easing">EASING</h4>
+
+            <ul>
+                <li><code>{Array}</code></li>
+                <li>Animation effect（easing）regulation lists
+                    <ul>
+                        <li>0: <code>{Array}</code> <code>['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out']</code></li>
+                        <li>1: <code>{Regexp}</code> Bézier curve expressions, writting same as the CSS3</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 id="fixpagetags">FIX_PAGE_TAGS</h4>
+
+            <ul>
+                <li><code>{Array}</code></li>
+                <li>The white list which is matched the fixPage form</li>
+            </ul>
+
+            <h4 id="nodetype">NODE_TYPE</h4>
+
+            <ul>
+                <li><code>{Array}</code></li>
+                <li>Scene type</li>
+            </ul>
+
+            <h4 id="transitionendevent">TRANSITION_END_EVENT</h4>
+
+            <ul>
+                <li><code>{String}</code></li>
+                <li>The name of Animation’s ending</li>
+            </ul>
+
+            <h4 id="deviceevents">DEVICE_EVENTS</h4>
+
+            <ul>
+                <li><code>{Object}</code></li>
+                <li><code>{{hasTouch, startEvt, moveEvt, endEvt, cancelEvt, resizeEvt}}</code></li>
+                <li>According to the event which the divices matched</li>
+            </ul>
+        </div>
+
+        <div id="methods">
+            <h2>Static Method</h2>
+
+            <h3 id="static-methods">Static Methods</h3>
+
+            <div class="static-methods">
+                <h4 id="extend">extend</h4>
+                <ul>
+                    <li>When the parameter’s length is equal to 1, the object will inherit iSlider.prototype</li>
+                    <li>When the parameter’s length is equal to 2, the second object will inherit the first</li>
+                    <li>Parameters:
+                        <ul>
+                            <li>[<code>{Object}</code> original object] or default iSlider.prototype</li>
+                            <li><code>{Object}</code> new object</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="regplugin">regPlugin</h4>
+                <ul>
+                    <li>Register the plug-in</li>
+                    <li>Parameters:
+                        <ul>
+                            <li><code>{String}</code> plug-in name</li>
+                            <li><code>{Function}</code> plug-in initialization method</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <h3 id="instance-methods">Instance Methods</h3>
+
+            <div class="instance-methods">
+                <h4 id="slideto">slideTo</h4>
+                <ul>
+                    <li>Switch to the N-th scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType</li>
+                    <li>Parameters:
+                        <ul>
+                            <li><code>{Number}</code> data list index</li>
+                            <li>[<code>{Object}</code> temporary configuration]</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="slideprev">slidePrev</h4>
+
+                <ul>
+                    <li>Switch to the next scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType</li>
+                    <li>Parameters:
+                        <ul>
+                            <li>[<code>{Object}</code> temporary configuration]</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="slideprev-1">slidePrev</h4>
+
+                <ul>
+                    <li>Switch to the previous scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType</li>
+                    <li>Parameters:
+                        <ul>
+                            <li>[<code>{Object}</code> temporary configuration]</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="delegate">delegate</h4>
+
+                <ul>
+                    <li>Binding delegate event on the container node</li>
+                    <li>Parameters:
+                        <ul>
+                            <li><code>{String}</code> event name</li>
+                            <li><code>{String}</code> selector (querySelectorAll)</li>
+                            <li><code>{Function}</code> incident response method</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="bind">bind</h4>
+
+                <ul>
+                    <li>delegate alias</li>
+                </ul>
+
+                <h4 id="undelegate">unDelegate</h4>
+
+                <ul>
+                    <li>Unbundling delegate event handler</li>
+                    <li>Parameters:
+                        <ul>
+                            <li><code>{String}</code> event name</li>
+                            <li><code>{String}</code> selector (querySelectorAll)</li>
+                            <li><code>{Function}</code> incident response method</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="unbind">unbind</h4>
+
+                <ul>
+                    <li>UnDelegate alias</li>
+                </ul>
+
+                <h4 id="on">on</h4>
+
+                <ul>
+                    <li>To register the callback method in the event of iSlider</li>
+                    <li>Parameters:
+                        <ul>
+                            <li><code>{String}</code> event name</li>
+                            <li><code>{Function}</code> back off method</li>
+                            <li>[<code>{Boolean}</code>] priority registration, callback events registered to the header of the event queue, the event callback is always be the fisrt which is registered at the initialization, Default: false</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="has">has</h4>
+
+                <ul>
+                    <li>Detecting the event callback method is already exists</li>
+                    <li>Parameters:
+                        <ul>
+                            <li><code>{String}</code> event name</li>
+                            <li><code>{Function}</code> back off method</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="off">off</h4>
+
+                <ul>
+                    <li>Remove the callback method from iSlider events</li>
+                    <li>Parameters:
+                        <ul>
+                            <li><code>{String}</code> event</li>
+                            <li><code>{Function}</code> back off method</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="fire">fire</h4>
+
+                <ul>
+                    <li>Event Trigger</li>
+                </ul>
+
+                <h4 id="play">play</h4>
+
+                <ul>
+                    <li>Start Auto Play</li>
+                    <li>Precondition: isAutoplay === <code>TRUE</code></li>
+                </ul>
+
+                <h4 id="pause">pause</h4>
+
+                <ul>
+                    <li>Pause automatic switching</li>
+                    <li>Precondition: isAutoplay === <code>TRUE</code></li>
+                </ul>
+
+                <h4 id="extend-1">extend</h4>
+
+                <ul>
+                    <li>Same as static method “extend”</li>
+                </ul>
+
+                <h4 id="regplugin-1">regPlugin</h4>
+
+                <ul>
+                    <li>Same as the static method “regPlugin”</li>
+                    <li>** This method will be registered the plug-in into the iSlider instance,It will add an active list of plug-in automatically when registeration and performs initialization automatically.**</li>
+                </ul>
+
+                <h4 id="loaddata-1">loadData</h4>
+
+                <ul>
+                    <li>Loading new Datasheets</li>
+                    <li>Parameters:
+                        <ul>
+                            <li><code>{Array}</code> Datasheets</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="pushdata">pushData</h4>
+
+                <ul>
+                    <li>Add scenes to the end of the data datasheets</li>
+                    <li>Parameters：
+                        <ul>
+                            <li><code>{Array|Object}</code> A member or additional datasheets</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 id="subjectto">subjectTo</h4>
+
+                <ul>
+                    <li>Subject to another Slider instance</li>
+                    <li>This Slider will completely controlled by the target iSlider</li>
+                    <li>Parameters:
+                        <ul>
+                            <li><code>{Object}</code> target</li>
+                            <li><code>{Object}</code> controlled configuration item (Not Enabled)</li>
+                        </ul>
+                    </li>
+                </ul>
+                <pre><code>var IS_1 = new iSlider(dom, data);
+var IS_2 = new iSlider(dom, data);
+IS_1.subjectTo(IS_2); // At this time IS_1 if fully controlled by IS_2, that is to say the drag, switching, auto-play and other acts performed on IS_2 would synced to IS_1</code></pre>
+                <h4 id="hold">hold</h4>
+
+                <ul>
+                    <li>Prohibit the current scene gesture</li>
+                </ul>
+
+                <h4 id="unhold">unhold</h4>
+
+                <ul>
+                    <li>The current scene to open gestures, and trigger “unlocked” at the same time</li>
+                </ul>
+
+                <h4 id="lock">lock</h4>
+
+                <ul>
+                    <li>Lock the current scene, disabled method of sliceTo, slideNext, slidePrev, while prohibiting gesture</li>
+                </ul>
+
+                <h4 id="unlock">unlock</h4>
+
+                <ul>
+                    <li>Unlock</li>
+                </ul>
+
+                <h4 id="destroy-1">destroy</h4>
+
+                <ul>
+                    <li>Destruction of the current iSlider instance, freeing memory</li>
+                </ul>
+
+                <h4 id="reset-1">reset</h4>
+
+                <ul>
+                    <li>Reset the current iSlider instance</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="//cdn.jsdelivr.net/highlight.js/8.9.1/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="./public/js/index.js"></script>
+</body>
+</html>

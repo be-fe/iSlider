@@ -1,8 +1,55 @@
 {
-  "name": "iSlider",
-  "version": "1.0.0",
-  "author": "qbatyqi",
+  "name": "islider.js",
+  "version": "2.1.6",
+  "author": "EUX team",
+  "main": "build/iSlider.min.js",
+  "description": "Smooth and high-performance slide web framework. Suitable for PC, Mobile WebApp, HTML5 App, Hybrid App",
   "devDependencies": {
-    "gulp": "~3.8.9"
-  }
+    "eslint": "^1.10.3",
+    "fs": "0.0.2",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.1",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-livereload": "^3.8.1",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.1",
+    "json-config-reader": "^2.0.1",
+    "karma": "^0.13.21",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-coverage": "^0.5.3",
+    "karma-mocha": "^0.2.2",
+    "mocha": "^2.4.5",
+    "require-dir": "^0.3.0",
+    "through-gulp": "^0.5.0"
+  },
+  "scripts": {
+    "test": "karma start",
+    "build": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:BE-FE/iSlider.git"
+  },
+  "keywords": [
+    "smooth",
+    "hybrid",
+    "mobile",
+    "performance",
+    "slide",
+    "slider",
+    "animate",
+    "effect",
+    "mobile",
+    "iSlider.js",
+    "javascript",
+    "lightweight",
+    "plug-in",
+    "easy to expand"
+  ],
+  "bugs": {
+    "url": "https://github.com/BE-FE/iSlider/issues",
+    "email": "shine.wangrs@gmail.com"
+  },
+  "license": "MIT"
 }
