@@ -167,7 +167,7 @@
      * version
      * @type {string}
      */
-    iSlider.VERSION = '2.1.6';
+    iSlider.VERSION = '2.1.7';
 
     /**
      * Event white list
@@ -1751,6 +1751,34 @@
     };
 
     /**
+     * Add scenes to the head of the data datasheets
+     *
+     * @param {Object|Array} sceneData
+     * @description
+     *   Object:
+     *     {content:...}
+     *   Array:
+     *     [{content:...}, {content:...}, ...]
+     */
+    iSliderPrototype.unshiftData = function (sceneData) {
+        if (!sceneData) {
+            return;
+        }
+
+        if (!isArray(sceneData)) {
+            sceneData = [sceneData];
+        }
+
+        var n = sceneData.length;
+        this.data = sceneData.concat(this.data);
+
+        if (this.slideIndex === 0) {
+            this._renderItem(this.els[0], n - 1);
+        }
+        this.slideIndex += n;
+    };
+
+    /**
      * auto check to play and bind events
      * @private
      */
@@ -1972,4 +2000,4 @@
     else
         global['iSlider'] = global['iSlider'] || iSlider;
 
-})(this || window);
+})(window || this);
