@@ -1043,9 +1043,6 @@
      * @private
      */
     iSliderPrototype._watchTransitionEnd = function (squeezeTime, eventType) {
-
-        this._unWatchTransitionEnd();
-
         var cb = function () {
             this._unWatchTransitionEnd();
             if (eventType === 'slideChanged') {
