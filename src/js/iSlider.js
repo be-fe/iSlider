@@ -241,12 +241,12 @@
             ['MozTransition', 'transitionend', 'moz'],
             ['OTransition', 'oTransitionEnd', 'o']
         ].some(function (t) {
-                if (e.style[t[0]] !== undefined) {
-                    iSlider.TRANSITION_END_EVENT = t[1];
-                    iSlider.BROWSER_PREFIX = t[2];
-                    return true;
-                }
-            });
+            if (e.style[t[0]] !== undefined) {
+                iSlider.TRANSITION_END_EVENT = t[1];
+                iSlider.BROWSER_PREFIX = t[2];
+                return true;
+            }
+        });
     })();
 
     /**
@@ -1737,6 +1737,9 @@
      *     [{content:...}, {content:...}, ...]
      */
     iSliderPrototype.pushData = function (sceneData) {
+        if (sceneData == null) {
+            return;
+        }
         var len = this.data.length;
         this.data = this.data.concat(sceneData);
         if (this.isLooping && this.slideIndex === 0) {
@@ -1758,7 +1761,7 @@
      *     [{content:...}, {content:...}, ...]
      */
     iSliderPrototype.unshiftData = function (sceneData) {
-        if (!sceneData) {
+        if (sceneData == null) {
             return;
         }
 
