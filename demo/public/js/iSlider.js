@@ -167,7 +167,7 @@
      * version
      * @type {string}
      */
-    iSlider.VERSION = '2.1.6';
+    iSlider.VERSION = '2.1.7';
 
     /**
      * Event white list
@@ -241,12 +241,12 @@
             ['MozTransition', 'transitionend', 'moz'],
             ['OTransition', 'oTransitionEnd', 'o']
         ].some(function (t) {
-                if (e.style[t[0]] !== undefined) {
-                    iSlider.TRANSITION_END_EVENT = t[1];
-                    iSlider.BROWSER_PREFIX = t[2];
-                    return true;
-                }
-            });
+            if (e.style[t[0]] !== undefined) {
+                iSlider.TRANSITION_END_EVENT = t[1];
+                iSlider.BROWSER_PREFIX = t[2];
+                return true;
+            }
+        });
     })();
 
     /**
@@ -1043,9 +1043,6 @@
      * @private
      */
     iSliderPrototype._watchTransitionEnd = function (squeezeTime, eventType) {
-
-        this._unWatchTransitionEnd();
-
         var cb = function () {
             this._unWatchTransitionEnd();
             if (eventType === 'slideChanged') {
@@ -1740,6 +1737,9 @@
      *     [{content:...}, {content:...}, ...]
      */
     iSliderPrototype.pushData = function (sceneData) {
+        if (sceneData == null) {
+            return;
+        }
         var len = this.data.length;
         this.data = this.data.concat(sceneData);
         if (this.isLooping && this.slideIndex === 0) {
@@ -1748,6 +1748,34 @@
             this._renderItem(this.els[2], len);
             this._autoPlay(); // restart
         }
+    };
+
+    /**
+     * Add scenes to the head of the data datasheets
+     *
+     * @param {Object|Array} sceneData
+     * @description
+     *   Object:
+     *     {content:...}
+     *   Array:
+     *     [{content:...}, {content:...}, ...]
+     */
+    iSliderPrototype.unshiftData = function (sceneData) {
+        if (sceneData == null) {
+            return;
+        }
+
+        if (!isArray(sceneData)) {
+            sceneData = [sceneData];
+        }
+
+        var n = sceneData.length;
+        this.data = sceneData.concat(this.data);
+
+        if (this.slideIndex === 0) {
+            this._renderItem(this.els[0], n - 1);
+        }
+        this.slideIndex += n;
     };
 
     /**
@@ -1972,4 +2000,4 @@
     else
         global['iSlider'] = global['iSlider'] || iSlider;
 
-})(this || window);
+})(window || this);
