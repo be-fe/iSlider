@@ -702,6 +702,13 @@ S.on('slideChanged', callBack);
     - `{Array|Object}` A member or additional datasheets
 
 
+#### unshiftData
+
+- Add scenes to the head of the data datasheets
+- Parameters:
+    - `{Array|Object}` A member or additional datasheets
+
+
 #### subjectTo
 
 - Subject to another Slider instance

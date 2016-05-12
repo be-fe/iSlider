@@ -1,3 +1,7 @@
+### iSlider 2.1.7
+- [New]Add method "[unshiftData](https://github.com/BE-FE/iSlider/blob/master/README.md#unshiftdata)", now you can append data dynamically into head.
+- [Optimization]remove extra _unWatchTransitionEnd
+
 ### iSlider 2.1.6
 - [New]Add new parameter "dampingForce" for setting the damping effect.
 

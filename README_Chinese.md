@@ -702,6 +702,13 @@ S.on('slideChanged', callBack);
     - `{Array|Object}` 一个成员或者追加的序列（数组）
 
 
+#### unshiftData
+
+- 添加数据到已有的数据序列头部
+- Parameters:
+    - `{Array|Object}` 一个成员或者追加的序列（数组）
+
+
 #### subjectTo
 
 - 服从于另一个iSlider实例
