@@ -107,7 +107,7 @@
     /**
      * @constructor
      *
-     * iSlicer([[{HTMLElement} container,] {Array} datalist,] {Object} options)
+     * iSlider([[{HTMLElement} container,] {Array} datalist,] {Object} options)
      *
      * @param {HTMLElement} container
      * @param {Array} datalist
@@ -1629,6 +1629,7 @@
      * Register event callback
      * @param {String} eventName
      * @param {Function} func
+     * @returns {Object} return this instance of iSlider
      * @public
      */
     iSliderPrototype.on = function (eventName, func, force) {
@@ -1640,6 +1641,7 @@
                 this.events[eventName].unshift(func);
             }
         }
+        return this;
     };
 
     /**
