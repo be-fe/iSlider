@@ -107,7 +107,7 @@
     /**
      * @constructor
      *
-     * iSlicer([[{HTMLElement} container,] {Array} datalist,] {Object} options)
+     * iSlider([[{HTMLElement} container,] {Array} datalist,] {Object} options)
      *
      * @param {HTMLElement} container
      * @param {Array} datalist
@@ -737,7 +737,10 @@
         // --------------------------------
 
         iSlider.EVENTS.forEach(function (eventName) {
-            var fn = opts['on' + eventName.toLowerCase()];
+            // TODO callback name of All-Lower-Case will be discarded
+            var fn = opts['on' + eventName.replace(/^\w{1}/, function (m) {
+                    return m.toUpperCase();
+                })] || opts['on' + eventName.toLowerCase()];
             typeof fn === 'function' && self.on(eventName, fn, 1);
         });
 
@@ -1629,6 +1632,7 @@
      * Register event callback
      * @param {String} eventName
      * @param {Function} func
+     * @returns {Object} return this instance of iSlider
      * @public
      */
     iSliderPrototype.on = function (eventName, func, force) {
@@ -1640,6 +1644,7 @@
                 this.events[eventName].unshift(func);
             }
         }
+        return this;
     };
 
     /**

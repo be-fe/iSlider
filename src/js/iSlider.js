@@ -737,7 +737,10 @@
         // --------------------------------
 
         iSlider.EVENTS.forEach(function (eventName) {
-            var fn = opts['on' + eventName.toLowerCase()];
+            // TODO callback name of All-Lower-Case will be discarded
+            var fn = opts['on' + eventName.replace(/^\w{1}/, function (m) {
+                    return m.toUpperCase();
+                })] || opts['on' + eventName.toLowerCase()];
             typeof fn === 'function' && self.on(eventName, fn, 1);
         });
 
