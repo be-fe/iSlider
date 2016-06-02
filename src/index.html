@@ -168,7 +168,11 @@
 //                onslidechange: function () {
 //                    console.debug(arguments, 'Change~ juse one time');
 //                    this.off('slideChange', arguments.callee);
-//                }
+//                },
+                onSlideChange: function () {
+                    console.debug(arguments, 'Came-case');
+                    this.off('slideChange', arguments.callee);
+                },
                 _: null
             });
 

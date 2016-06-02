@@ -22,6 +22,7 @@ module.exports = function (gulp, PLUGIN, CONF) {
             .pipe(rename({
                 suffix: '.min'
             }))
+            .pipe(gulp.dest(CONF.demo + '/js'))
             .pipe(gulp.dest(CONF.build));
     });
 };
