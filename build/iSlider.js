@@ -1438,8 +1438,15 @@
                 this._renderIntermediateScene();
                 this._renderItem(headEl, idx + n);
             } else if (Math.abs(n) > 1) {
-                this._renderItem(headEl, idx + direction);
-                this._intermediateScene = [tailEl, idx - direction];
+                if ((this.isVertical && (inArray(animateType, this._animateReverse)))) {
+                    this._renderItem(tailEl, idx + direction);
+                    this._renderItem(els[1], idx);
+                    this._intermediateScene = [headEl, idx - direction];
+                }
+                else {
+                    this._renderItem(headEl, idx + direction);
+                    this._intermediateScene = [tailEl, idx - direction];
+                }
             }
 
             iSlider.setStyle(headEl, 'transition', 'none');
