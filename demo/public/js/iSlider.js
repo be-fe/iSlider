@@ -952,6 +952,7 @@
             outer = document.createElement('ul');
         }
         outer.className = 'islider-outer';
+
         //outer.style.overflow = 'hidden';
         // no need...
         // outer.style.cssText += 'width:' + this.width + 'px;height:' + this.height + 'px';
@@ -966,6 +967,7 @@
 
         for (var i = 0; i < 3; i++) {
             var li = document.createElement('li');
+            outer.appendChild(li);
             this.els.push(li);
 
             // prepare style animation
@@ -979,8 +981,6 @@
             this.isVertical && (this.animateType === 'rotate' || this.animateType === 'flip')
                 ? this._renderItem(li, 1 - i + this.slideIndex)
                 : this._renderItem(li, i - 1 + this.slideIndex);
-
-            outer.appendChild(li);
         }
 
         this._changedStyles();
