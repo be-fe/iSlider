@@ -107,7 +107,7 @@
     /**
      * @constructor
      *
-     * iSlicer([[{HTMLElement} container,] {Array} datalist,] {Object} options)
+     * iSlider([[{HTMLElement} container,] {Array} datalist,] {Object} options)
      *
      * @param {HTMLElement} container
      * @param {Array} datalist
@@ -167,7 +167,7 @@
      * version
      * @type {string}
      */
-    iSlider.VERSION = '2.1.7';
+    iSlider.VERSION = '2.1.8';
 
     /**
      * Event white list
@@ -737,7 +737,10 @@
         // --------------------------------
 
         iSlider.EVENTS.forEach(function (eventName) {
-            var fn = opts['on' + eventName.toLowerCase()];
+            // TODO callback name of All-Lower-Case will be discarded
+            var fn = opts['on' + eventName.replace(/^\w{1}/, function (m) {
+                    return m.toUpperCase();
+                })] || opts['on' + eventName.toLowerCase()];
             typeof fn === 'function' && self.on(eventName, fn, 1);
         });
 
@@ -949,6 +952,7 @@
             outer = document.createElement('ul');
         }
         outer.className = 'islider-outer';
+
         //outer.style.overflow = 'hidden';
         // no need...
         // outer.style.cssText += 'width:' + this.width + 'px;height:' + this.height + 'px';
@@ -963,6 +967,7 @@
 
         for (var i = 0; i < 3; i++) {
             var li = document.createElement('li');
+            outer.appendChild(li);
             this.els.push(li);
 
             // prepare style animation
@@ -976,8 +981,6 @@
             this.isVertical && (this.animateType === 'rotate' || this.animateType === 'flip')
                 ? this._renderItem(li, 1 - i + this.slideIndex)
                 : this._renderItem(li, i - 1 + this.slideIndex);
-
-            outer.appendChild(li);
         }
 
         this._changedStyles();
@@ -1435,8 +1438,15 @@
                 this._renderIntermediateScene();
                 this._renderItem(headEl, idx + n);
             } else if (Math.abs(n) > 1) {
-                this._renderItem(headEl, idx + direction);
-                this._intermediateScene = [tailEl, idx - direction];
+                if ((this.isVertical && (inArray(animateType, this._animateReverse)))) {
+                    this._renderItem(tailEl, idx + direction);
+                    this._renderItem(els[1], idx);
+                    this._intermediateScene = [headEl, idx - direction];
+                }
+                else {
+                    this._renderItem(headEl, idx + direction);
+                    this._intermediateScene = [tailEl, idx - direction];
+                }
             }
 
             iSlider.setStyle(headEl, 'transition', 'none');
@@ -1629,6 +1639,7 @@
      * Register event callback
      * @param {String} eventName
      * @param {Function} func
+     * @returns {Object} return this instance of iSlider
      * @public
      */
     iSliderPrototype.on = function (eventName, func, force) {
@@ -1640,6 +1651,7 @@
                 this.events[eventName].unshift(func);
             }
         }
+        return this;
     };
 
     /**

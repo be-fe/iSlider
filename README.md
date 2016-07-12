@@ -382,14 +382,22 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 ### Event callbacks
 
 - `{Function}`
-- Incomming at initialization, it can also registrat event by way of living example with method "on".
-- As the initialization parameter it's needed to beginning with **on** and it would to be lowercase, Camel-Case would be used for binding.
-- Due to the different scenes,callback method should be different , there will be different between the incoming parameters.
+- Incomming at initialization, it's needed to beginning with **on** and it would to be Camel-Case
+    - OR all **lowercase** **!! Will be discarded, If the Camel-Case or All-Lower-Case coexist, the Camel-Case will be used.**
+- Binding with method "on" at living example, please use the Camel-Case, refer to the following list.
+- *Due to the different scenes,callback method should be different , there will be different between the incoming parameters.
 
 Example:
 
-```
-var S = new iSlider({..., onslidechanged: callBack, ...});
+```javascript
+var S = new iSlider({
+	...,
+	onSlideChange: callback
+	onSlideChanged: callback
+	onslidechanged: callBack, // !!All lower case will be abandoned, and now, it will be covered camelCasing
+	...
+});
+
 // OR
 S.on('slideChanged', callBack);
 ```
@@ -698,6 +706,13 @@ S.on('slideChanged', callBack);
 #### pushData
 
 - Add scenes to the end of the data datasheets
+- Parameters:
+    - `{Array|Object}` A member or additional datasheets
+
+
+#### unshiftData
+
+- Add scenes to the head of the data datasheets
 - Parameters:
     - `{Array|Object}` A member or additional datasheets
 

@@ -36,7 +36,8 @@
                     }
                 }
 
-                iSlider.setStyle(this.wrap, 'perspective', scale * 4);
+                var outer = dom.parentElement;
+                iSlider.setStyle(outer, 'perspective', scale * 4);
 
                 dom.style.visibility = 'visible';
                 if (direct > 0 && i === 2) {
@@ -64,7 +65,8 @@
                     offset = -offset;
                 }
 
-                iSlider.setStyle(this.wrap, 'perspective', scale * 4);
+                var outer = dom.parentElement;
+                iSlider.setStyle(outer, 'perspective', scale * 4);
 
                 dom.style.visibility = 'visible';
                 if (direct > 0 && i === 2) {
@@ -86,7 +88,8 @@
 
             function depth(dom, axis, scale, i, offset, direct) {
                 var zoomScale = (4 - Math.abs(i - 1)) * 0.18;
-                iSlider.setStyle(this.wrap, 'perspective', scale * 4);
+                var outer = dom.parentElement;
+                iSlider.setStyle(outer, 'perspective', scale * 4);
                 dom.style.zIndex = i === 1 ? 1 : 0;
                 iSlider.setStyle(dom, 'transform', 'scale(' + zoomScale + ') translateZ(0) translate' + axis + '(' + (offset + 1.3 * scale * (i - 1)) + 'px)');
             }
@@ -100,8 +103,9 @@
                 var rotateDirect = (axis === 'X') ? 'Y' : 'X';
                 var directAmend = (axis === 'X') ? 1 : -1;
                 var offsetRatio = Math.abs(offset / scale);
+                var outer = dom.parentElement;
 
-                iSlider.setStyle(this.wrap, 'perspective', scale * 4);
+                iSlider.setStyle(outer, 'perspective', scale * 4);
 
                 if (i === 1) {
                     dom.style.zIndex = scale - absoluteOffset;

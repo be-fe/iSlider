@@ -359,7 +359,7 @@ var data = [{
 - 场景内屏蔽原生事件的触发，如：滚动、拖拽、缩放等
     - "A"元素，阻止，移动端建议使用自定义的tap（touch系事件联合判断）
     - 对表单类元素"SELECT"、"INPUT"、"TEXTAREA"、"BUTTON"、"LABEL"，任何情况下均不进行阻止
-    - *排除策略：若参数类型为字符串（规则，querySelector选择器字符串）或数组(多个规则)，此选项为开启状态(true)并排除复合规则的元素，与`iSlider.FIX_PAGE_TAGS`相同对待
+    - *排除策略：若参数类型为字符串（规则，querySelector选择器字符串）或数组(多个规则)，此选项为开启状态(true)并排除符合规则的元素，与`iSlider.FIX_PAGE_TAGS`相同对待
 - 默认：true(开启)
 
 
@@ -382,14 +382,22 @@ var data = [{
 ### 事件回调
 
 - `{Function}`
-- 在初始化时传入，也可通过实例方法"on"进行事件注册。
-- 作为初始化参数时需要以**on**开头且全为小写，绑定时为驼峰命名。
-- 不同的回调方法由于所处场景不同，传入的参数会存在区别。
+- 在初始化时作为参数传入，需要以**on**开头，回调方法名改为**首字母大写（驼峰命名）**
+	- 或者全为**小写** **！！即将废弃，如果同时设置了驼峰及全小写，则采纳驼峰**
+- 通过实例方法"on"进行事件注册，驼峰命名，与下列列表中的名称一致即可。
+- *不同的回调方法由于所处场景不同，传入的参数会存在区别。
 
 示例：
 
-```
-var S = new iSlider({..., onslidechanged: callBack, ...});
+```javascript
+var S = new iSlider({
+	...,
+	onSlideChange: callback
+	onSlideChanged: callback
+	onslidechanged: callBack, // !!全小写即将废弃，优先级低于驼峰命名
+	...
+});
+
 // 或者
 S.on('slideChanged', callBack);
 ```
@@ -699,6 +707,13 @@ S.on('slideChanged', callBack);
 
 - 追加数据到已有的数据序列末尾
 - 参数：
+    - `{Array|Object}` 一个成员或者追加的序列（数组）
+
+
+#### unshiftData
+
+- 添加数据到已有的数据序列头部
+- Parameters:
     - `{Array|Object}` 一个成员或者追加的序列（数组）
 
 

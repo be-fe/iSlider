@@ -1,3 +1,6 @@
+### iSlider 2.1.8
+- [Optimization]Compatible the callback parameter camelCasing on initialization. All-Lower-Case nomenclature will be discarded. Currently coexistence, Camel-Case priority.
+
 ### iSlider 2.1.7
 - [New]Add method "[unshiftData](https://github.com/BE-FE/iSlider/blob/master/README.md#unshiftdata)", now you can append data dynamically into head.
 - [Optimization]remove extra _unWatchTransitionEnd
