@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["iSlider"] = factory();
+	else
+		root["iSlider"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 
@@ -45,12 +55,15 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(5);
+	// require("exports?iSlider!./export-iSlider");
+	var iSlider = __webpack_require__(5);
 	__webpack_require__(8);
 	__webpack_require__(9);
 	__webpack_require__(10);
 	__webpack_require__(11);
 	__webpack_require__(12);
+
+	module.exports = iSlider;
 
 /***/ },
 /* 1 */
@@ -573,7 +586,7 @@
 	     * version
 	     * @type {string}
 	     */
-	    iSlider.VERSION = '2.1.8';
+	    iSlider.VERSION = '2.2.0';
 
 	    /**
 	     * Event white list
@@ -3424,4 +3437,6 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)(module)))
 
 /***/ }
-/******/ ]);
+/******/ ])
+});
+;
