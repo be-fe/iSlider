@@ -2,10 +2,12 @@
   "name": "islider.js",
   "version": "2.1.8",
   "author": "EUX team",
-  "main": "build/iSlider.min.js",
+  "main": "build/index.bundle.js",
   "description": "Smooth and high-performance slide web framework. Suitable for PC, Mobile WebApp, HTML5 App, Hybrid App",
   "devDependencies": {
+    "css-loader": "^0.24.0",
     "eslint": "^1.10.3",
+    "extract-text-webpack-plugin": "^1.0.1",
     "fs": "0.0.2",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.1",
@@ -21,7 +23,9 @@
     "karma-mocha": "^0.2.2",
     "mocha": "^2.4.5",
     "require-dir": "^0.3.0",
-    "through-gulp": "^0.5.0"
+    "style-loader": "^0.13.1",
+    "through-gulp": "^0.5.0",
+    "webpack": "^1.13.2"
   },
   "scripts": {
     "test": "karma start",

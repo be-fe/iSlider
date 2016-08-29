@@ -1720,18 +1720,6 @@
         this._autoPlay();
         this.fire('reset slideRestored', this.slideIndex, this.currentEl, this);
     };
-    
-    /**
-     *  reset the animateType
-     *  
-     *  @param {string} animateType
-     *  @public
-     */
-    iSliderPrototype.resetAnimateType = function( animateType ) {
-        var self = this;
-        self._opts.animateType = self.animateType = animateType in self._animateFuncs ? animateType : 'normal';
-        self._animateFunc = self._animateFuncs[self.animateType];
-    };
 
     /**
      * Reload Data & render
