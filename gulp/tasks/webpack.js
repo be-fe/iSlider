@@ -22,8 +22,24 @@ module.exports = function (gulp, PLUGIN, CONF) {
     };
 
     gulp.task('webpack', ['build'], function () {
-        return webpack(options).run(function(err, state) {
-            console.log(err);
+        return webpack(options).run(function(err, stats) {
+            if (!err) {
+                process.stdout.write(stats.toString({
+                    context: '/Users/xieyu/Desktop/frontEnd/MobileWeb/MSlider',
+                    colors: { level: 2, hasBasic: true, has256: true, has16m: false },
+                    cached: false,
+                    cachedAssets: false,
+                    modules: true,
+                    chunks: false,
+                    reasons: false,
+                    errorDetails: false,
+                    chunkOrigins: false,
+                    exclude: [ 'node_modules', 'bower_components', 'jam', 'components' ]
+                }) + "\n");
+            }
+            else {
+                console.log(err);
+            }
         });
     });
 };
