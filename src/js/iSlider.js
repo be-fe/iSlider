@@ -137,6 +137,10 @@
             throw new Error('Container can not be empty!');
         }
 
+        if ('string' === typeof opts.dom) {
+            opts.dom = document.querySelector(opts.dom);
+        }
+
         if (!opts.data || !opts.data.length) {
             throw new Error('Data must be an array and must have more than one element!');
         }
