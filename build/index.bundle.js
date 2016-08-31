@@ -506,6 +506,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
+	     * Check is dom object
+	     * @param {object} dom
+	     * @returns {Boolean}
+	     */
+	    function isDom(obj) {
+	        try {
+	            return obj instanceof HTMLElement;
+	        }
+	        catch(e){
+	            return (typeof obj==="object") &&
+	              (obj.nodeType===1) && (typeof obj.style === "object") &&
+	              (typeof obj.ownerDocument ==="object");
+	        }
+	    }
+
+	    /**
 	     * Parse arguments to array
 	     *
 	     * @param {Arguments} a
@@ -554,6 +570,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        if (!opts.dom) {
 	            throw new Error('Container can not be empty!');
+	        }
+	        else if (!isDom(opts.dom)){
+	            throw new Error('Container must be a HTMLElement instance!');
 	        }
 
 	        if (!opts.data || !opts.data.length) {
