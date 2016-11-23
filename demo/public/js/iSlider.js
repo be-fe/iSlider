@@ -889,7 +889,7 @@
 
         this.log('[RENDER]:', type, dataIndex, item);
 
-        el.className = 'islider-' + type;
+        addClass(el, 'islider-' + type);
 
         switch (type) {
             case _NT.pic:
