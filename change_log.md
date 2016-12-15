@@ -1,4 +1,4 @@
-### iSlider 2.2.1
+### iSlider 2.2.2
 - [New]Add configuration wakeupAutoplayDazetime, this configuration will attempt to restart autoplay after N milliseconds.
 
 ### iSlider 2.1.8
