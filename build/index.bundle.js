@@ -100,7 +100,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/**\r\n * @file iSlider.css\r\n */\r\n\r\n/**\r\n * ===========================\r\n * iSlider\r\n * ===========================\r\n */\r\n.islider-outer {\r\n    display: block;\r\n    position: relative;\r\n    list-style: none;\r\n    margin: 0;\r\n    padding: 0;\r\n    height: 100%;\r\n    width: 100%;\r\n    overflow: hidden;\r\n}\r\n\r\n.islider-outer > li {\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    margin: 0;\r\n    padding: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    list-style: none;\r\n    overflow: hidden;\r\n    display: -moz-box;\r\n    display: -webkit-box;\r\n    display: box;\r\n    -moz-box-pack: center;\r\n    -webkit-box-pack: center;\r\n    box-pack: center;\r\n    -moz-box-align: center;\r\n    -webkit-box-align: center;\r\n    box-align: center;\r\n}\r\n\r\n.islider-img > img {\r\n    max-width: 100%;\r\n    max-height: 100%;\r\n}\r\n\r\n.islider-sliding {\r\n    z-index: 0;\r\n}\r\n\r\n.islider-sliding-focus {\r\n    z-index: 1;\r\n}\r\n\r\n/**\r\n * ===========================\r\n * iSlider.plugin.button\r\n * ===========================\r\n */\r\n.islider-btn-outer {\r\n    position: absolute;\r\n    width: 3em;\r\n    height: 3em;\r\n    cursor: pointer;\r\n    top: 0;\r\n    bottom: 0;\r\n    margin: auto 0;\r\n    display: block;\r\n    background-color: #777777;\r\n}\r\n\r\n.islider-btn-outer.left {\r\n    left: 5%;\r\n}\r\n\r\n.islider-btn-outer.right {\r\n    right: 5%;\r\n}\r\n\r\n.islider-btn-inner {\r\n    position: absolute;\r\n    width: 50%;\r\n    height: 50%;\r\n    border-top: 2px solid #ffffff;\r\n    border-left: 2px solid #ffffff;\r\n    margin: auto;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n}\r\n\r\n.islider-btn-outer.left > .islider-btn-inner {\r\n    -webkit-transform: rotate(-45deg);\r\n    -moz-transform: rotate(-45deg);\r\n    -ms-transform: rotate(-45deg);\r\n    -o-transform: rotate(-45deg);\r\n    transform: rotate(-45deg);\r\n}\r\n\r\n.islider-btn-outer.right > .islider-btn-inner {\r\n    -webkit-transform: rotate(135deg);\r\n    -moz-transform: rotate(135deg);\r\n    -ms-transform: rotate(135deg);\r\n    -o-transform: rotate(135deg);\r\n    transform: rotate(135deg);\r\n}\r\n\r\n/**\r\n * ===========================\r\n * iSlider.plugin.dot\r\n * ===========================\r\n */\r\n.islider-dot-wrap {\r\n    width: 80%;\r\n    height: 10%;\r\n    margin: 0 auto;\r\n    position: absolute;\r\n    padding: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n    z-index: 10000;\r\n    text-align: center;\r\n}\r\n\r\n.islider-dot {\r\n    position: relative;\r\n    display: inline-block;\r\n    width: 0.8em;\r\n    height: 0.8em;\r\n    border-radius: 50%;\r\n    border: 1px solid #ffffff;\r\n    list-style: none;\r\n    margin: 5px;\r\n}\r\n\r\n.islider-dot.active {\r\n    background-color: #ffffff;\r\n}", ""]);
+	exports.push([module.id, "/**\n * @file iSlider.css\n */\n\n/**\n * ===========================\n * iSlider\n * ===========================\n */\n.islider-outer {\n    display: block;\n    position: relative;\n    list-style: none;\n    margin: 0;\n    padding: 0;\n    height: 100%;\n    width: 100%;\n    overflow: hidden;\n}\n\n.islider-outer > li {\n    position: absolute;\n    top: 0;\n    left: 0;\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    height: 100%;\n    list-style: none;\n    overflow: hidden;\n    display: -moz-box;\n    display: -webkit-box;\n    display: box;\n    -moz-box-pack: center;\n    -webkit-box-pack: center;\n    box-pack: center;\n    -moz-box-align: center;\n    -webkit-box-align: center;\n    box-align: center;\n}\n\n.islider-img > img {\n    max-width: 100%;\n    max-height: 100%;\n}\n\n.islider-sliding {\n    z-index: 0;\n}\n\n.islider-sliding-focus {\n    z-index: 1;\n}\n\n/**\n * ===========================\n * iSlider.plugin.button\n * ===========================\n */\n.islider-btn-outer {\n    position: absolute;\n    width: 3em;\n    height: 3em;\n    cursor: pointer;\n    top: 0;\n    bottom: 0;\n    margin: auto 0;\n    display: block;\n    background-color: #777777;\n}\n\n.islider-btn-outer.left {\n    left: 5%;\n}\n\n.islider-btn-outer.right {\n    right: 5%;\n}\n\n.islider-btn-inner {\n    position: absolute;\n    width: 50%;\n    height: 50%;\n    border-top: 2px solid #ffffff;\n    border-left: 2px solid #ffffff;\n    margin: auto;\n    top: 0;\n    bottom: 0;\n    left: 0;\n    right: 0;\n}\n\n.islider-btn-outer.left > .islider-btn-inner {\n    -webkit-transform: rotate(-45deg);\n    -moz-transform: rotate(-45deg);\n    -ms-transform: rotate(-45deg);\n    -o-transform: rotate(-45deg);\n    transform: rotate(-45deg);\n}\n\n.islider-btn-outer.right > .islider-btn-inner {\n    -webkit-transform: rotate(135deg);\n    -moz-transform: rotate(135deg);\n    -ms-transform: rotate(135deg);\n    -o-transform: rotate(135deg);\n    transform: rotate(135deg);\n}\n\n/**\n * ===========================\n * iSlider.plugin.dot\n * ===========================\n */\n.islider-dot-wrap {\n    width: 80%;\n    height: 10%;\n    margin: 0 auto;\n    position: absolute;\n    padding: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    z-index: 10000;\n    text-align: center;\n}\n\n.islider-dot {\n    position: relative;\n    display: inline-block;\n    width: 0.8em;\n    height: 0.8em;\n    border-radius: 50%;\n    border: 1px solid #ffffff;\n    list-style: none;\n    margin: 5px;\n}\n\n.islider-dot.active {\n    background-color: #ffffff;\n}", ""]);
 
 	// exports
 
@@ -514,10 +514,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        try {
 	            return obj instanceof HTMLElement;
 	        }
-	        catch(e){
-	            return (typeof obj==="object") &&
-	              (obj.nodeType===1) && (typeof obj.style === "object") &&
-	              (typeof obj.ownerDocument ==="object");
+	        catch (e) {
+	            return (typeof obj === "object") &&
+	                (obj.nodeType === 1) && (typeof obj.style === "object") &&
+	                (typeof obj.ownerDocument === "object");
 	        }
 	    }
 
@@ -571,7 +571,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!opts.dom) {
 	            throw new Error('Container can not be empty!');
 	        }
-	        else if (!isDom(opts.dom)){
+	        else if (!isDom(opts.dom)) {
 	            throw new Error('Container must be a HTMLElement instance!');
 	        }
 
@@ -605,7 +605,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * version
 	     * @type {string}
 	     */
-	    iSlider.VERSION = '2.2.0';
+	    iSlider.VERSION = '2.2.1';
 
 	    /**
 	     * Event white list
@@ -1078,6 +1078,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @private
 	         */
 	        self.isAutoplay = opts.isAutoplay && self.data.length > 1 ? true : false;
+
+	        /**
+	         * When autoplay is enabled.
+	         * User click/tap behavior(eg: active a link), or if the page loses focus will stop autoplay.
+	         * This configuration will attempt to restart autoplay after N milliseconds.
+	         * ! AutoPlay will be forced to wake up, even when the user fill in a form item
+	         * ! It will be blocked by "lock()"
+	         * @type {number}
+	         */
+	        self.wakeupAutoplayDazetime = opts.wakeupAutoplayDazetime > -1 ? parseInt(opts.wakeupAutoplayDazetime) : -1;
 
 	        /**
 	         * Animate type
@@ -1584,6 +1594,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                break;
 	            case 'blur':
 	                this.pause();
+	                this._tryToWakeupAutoplay();
 	                break;
 	        }
 	    };
@@ -1741,6 +1752,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        this.offset.X = this.offset.Y = 0;
+
+	        this._tryToWakeupAutoplay();
 	    };
 
 	    /**
@@ -2234,6 +2247,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    iSliderPrototype._autoPlay = function () {
 	        this.delay > 0 ? global.setTimeout(this.play.bind(this), this.delay) : this.play();
+	    };
+
+	    /**
+	     * try to restart autoplay
+	     * @private
+	     */
+	    iSliderPrototype._tryToWakeupAutoplay = function () {
+	        if (~this.wakeupAutoplayDazetime) {
+	            this.wakeupAutoplayDazetime > 0 ? global.setTimeout(this.play.bind(this), this.wakeupAutoplayDazetime) : this.play();
+	        }
 	    };
 
 	    /**

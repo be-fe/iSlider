@@ -1,3 +1,6 @@
+### iSlider 2.2.1
+- [New]Add configuration wakeupAutoplayDazetime, this configuration will attempt to restart autoplay after N milliseconds.
+
 ### iSlider 2.1.8
 - [Optimization]Compatible the callback parameter camelCasing on initialization. All-Lower-Case nomenclature will be discarded. Currently coexistence, Camel-Case priority.
 

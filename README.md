@@ -289,6 +289,17 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 - Precondition: isAutoplay === ```TRUE```
 
 
+##### wakeupAutoplayDazetime
+
+- `{Number}`
+- User click/tap behavior(eg: active a link), or if the page loses focus will stop autoplay.
+- This configuration will attempt to restart autoplay after N milliseconds.
+- **AutoPlay will be forced to wake up, even when the user fill in a form items !**
+- **It will be blocked by "lock()"**
+- Unit: ms
+- Precondition: isAutoplay === ```TRUE```
+
+
 ##### isLooping
 
 - `{Boolean}`

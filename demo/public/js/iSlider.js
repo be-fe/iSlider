@@ -95,10 +95,10 @@
         try {
             return obj instanceof HTMLElement;
         }
-        catch(e){
-            return (typeof obj==="object") &&
-              (obj.nodeType===1) && (typeof obj.style === "object") &&
-              (typeof obj.ownerDocument ==="object");
+        catch (e) {
+            return (typeof obj === "object") &&
+                (obj.nodeType === 1) && (typeof obj.style === "object") &&
+                (typeof obj.ownerDocument === "object");
         }
     }
 
@@ -152,7 +152,7 @@
         if (!opts.dom) {
             throw new Error('Container can not be empty!');
         }
-        else if (!isDom(opts.dom)){
+        else if (!isDom(opts.dom)) {
             throw new Error('Container must be a HTMLElement instance!');
         }
 
@@ -186,7 +186,7 @@
      * version
      * @type {string}
      */
-    iSlider.VERSION = '2.2.0';
+    iSlider.VERSION = '2.2.1';
 
     /**
      * Event white list
@@ -659,6 +659,16 @@
          * @private
          */
         self.isAutoplay = opts.isAutoplay && self.data.length > 1 ? true : false;
+
+        /**
+         * When autoplay is enabled.
+         * User click/tap behavior(eg: active a link), or if the page loses focus will stop autoplay.
+         * This configuration will attempt to restart autoplay after N milliseconds.
+         * ! AutoPlay will be forced to wake up, even when the user fill in a form item
+         * ! It will be blocked by "lock()"
+         * @type {number}
+         */
+        self.wakeupAutoplayDazetime = opts.wakeupAutoplayDazetime > -1 ? parseInt(opts.wakeupAutoplayDazetime) : -1;
 
         /**
          * Animate type
@@ -1165,6 +1175,7 @@
                 break;
             case 'blur':
                 this.pause();
+                this._tryToWakeupAutoplay();
                 break;
         }
     };
@@ -1322,6 +1333,8 @@
         }
 
         this.offset.X = this.offset.Y = 0;
+
+        this._tryToWakeupAutoplay();
     };
 
     /**
@@ -1815,6 +1828,16 @@
      */
     iSliderPrototype._autoPlay = function () {
         this.delay > 0 ? global.setTimeout(this.play.bind(this), this.delay) : this.play();
+    };
+
+    /**
+     * try to restart autoplay
+     * @private
+     */
+    iSliderPrototype._tryToWakeupAutoplay = function () {
+        if (~this.wakeupAutoplayDazetime) {
+            this.wakeupAutoplayDazetime > 0 ? global.setTimeout(this.play.bind(this), this.wakeupAutoplayDazetime) : this.play();
+        }
     };
 
     /**

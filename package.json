@@ -1,6 +1,6 @@
 {
   "name": "islider.js",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "author": "EUX team",
   "main": "build/index.bundle.js",
   "description": "Smooth and high-performance slide web framework. Suitable for PC, Mobile WebApp, HTML5 App, Hybrid App",

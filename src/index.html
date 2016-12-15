@@ -145,7 +145,7 @@
 //                data: list,
                 dom: document.getElementById("iSlider-wrapper"),
 //                isVertical: 1,
-//                isLooping: 1,
+                isLooping: 1,
 //                isOverspread: 1,
 //                animateType: 'rotate',
 //                delay: 3000,
@@ -154,8 +154,9 @@
                 fillSeam: 1,
                 fixPage: ['[x="ooxx"]', 'div'],
                 isDebug: 1,
-//                isAutoplay: true,
-                duration: 5000,
+                isAutoplay: true,
+                wakeupAutoplayDazetime: 1000,
+                duration: 1000,
 //                plugins: [
 //                    ['dot', {locate: 'relative'}],
 //                    'button',
@@ -180,9 +181,10 @@
     //            console.log(iSlider.TRANSITION_END_EVENT, iSlider.BROWSER_PREFIX);
     //        });
     //
-    //    islider.on('slideChanged', function () {
-    //        console.debug('Change(d) event from method "on"', this, arguments);
-    //    });
+    //        islider.on('slideChanged', function () {
+    //            //this.lock();
+    //            console.debug('Change(d) event from method "on"', this, arguments);
+    //        });
     //
     //    islider.on('slideRestore', function () {
     //        console.debug('Restore event from method "on"', this, arguments);
