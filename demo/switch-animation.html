@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <link rel="stylesheet" href="public/css/iSlider.css"/>
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #iSlider-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        .islider-outer > li {
+            background-color: #999999;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .islider-btn-outer {
+            z-index: 1000;
+        }
+
+        .ro {
+            height: 100%;
+            width: 100%;
+            color: #ffffff;
+            font-size: 64px;
+        }
+
+        .ro:before {
+            content: '';
+            position: absolute;
+            left: 100px;
+            top: 100px;
+            background: cornflowerblue;
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            border-radius: 100px;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="iSlider-wrapper"></div>
+<div style="display: none">
+    <p id="pages">大家好！<br>
+        由于项目需要，使用了 iSlider 2.X, 每页的数据长度不定可能需要滚动，所以按照文档 设置了fixPage:false，<br>
+        但是在左右滑动切换的时候 同时又产生了上下滑动，就会出现下图一样的效果，画面停止不会回弹，导致无法正常使用，<br>
+        请开发组的同志们帮忙看看有什么解决办法吗？谢谢！！（小米手机自带浏览器居然能正常运行没有这个问题）！！！<br>
+        由于项目需要，使用了 iSlider 2.X, 每页的数据长度不定可能需要滚动，所以按照文档 设置了fixPage:false，<br>
+        但是在左右滑动切换的时候 同时又产生了上下滑动，就会出现下图一样的效果，画面停止不会回弹，导致无法正常使用，<br>
+        请开发组的同志们帮忙看看有什么解决办法吗？谢谢！！（小米手机自带浏览器居然能正常运行没有这个问题）！！！<br>
+        由于项目需要，使用了 iSlider 2.X, 每页的数据长度不定可能需要滚动，所以按照文档 设置了fixPage:false，<br>
+        但是在左右滑动切换的时候 同时又产生了上下滑动，就会出现下图一样的效果，画面停止不会回弹，导致无法正常使用，<br>
+        请开发组的同志们帮忙看看有什么解决办法吗？谢谢！！（小米手机自带浏览器居然能正常运行没有这个问题）！！！<br>
+        由于项目需要，使用了 iSlider 2.X, 每页的数据长度不定可能需要滚动，所以按照文档 设置了fixPage:false，<br>
+        但是在左右滑动切换的时候 同时又产生了上下滑动，就会出现下图一样的效果，画面停止不会回弹，导致无法正常使用，<br>
+        请开发组的同志们帮忙看看有什么解决办法吗？谢谢！！（小米手机自带浏览器居然能正常运行没有这个问题）！！！<br>
+        <a href="https://cloud.githubusercontent.com/assets/8253888/10995507/592ce796-84b8-11e5-842b-938c55a4cb3a.jpg"
+           target="_blank"><img
+                src="https://cloud.githubusercontent.com/assets/8253888/10995507/592ce796-84b8-11e5-842b-938c55a4cb3a.jpg"
+                alt="qq 20151106184244" style="max-width:100%;"></a></p>
+</div>
+<script src="./public/js/iSlider.js"></script>
+<script src="./public/js/iSlider.animate.js"></script>
+<script>
+
+
+
+    var list = [];
+
+    //    list.push({
+    //        content: '../thumbnails/iSlider-logo.png'
+    //    });
+
+    list.push({
+        content: '' +
+        '<div style="font-size:2em;color:white;text-align: center">' +
+        '<span x="ooxx">HTML(<em>For test</em>)</span>' +
+        '<a href="http://baidu.com">Link</a>' +
+        '</div>'
+    });
+
+    list.push({
+        content: (function () {
+            var dom = document.createElement('div');
+            dom.innerHTML = 'Element';
+            dom.style.cssText = 'font-size:2em;color:rgb(230, 230, 63);';
+            return dom;
+        })()
+    });
+
+    list.push({
+        content: (function () {
+            var frag = document.createDocumentFragment();
+            var dom = document.createElement('div');
+            dom.innerHTML = 'Fragment';
+            dom.style.cssText = 'font-size:2em;color:rgb(230, 63, 230);';
+            frag.appendChild(dom);
+            return frag;
+        })()
+    });
+
+    list.push({
+        content: document.getElementById('pages')
+    });
+
+    for (var i = 0; i < 3; i++)
+        list.push({
+            content: '<div data-active="true" class="ro">' + i + '</div>'
+        });
+
+    list.push({
+        content: '<input type="text" />'
+    });
+
+    list.push({
+        content: '<select><option>1</option><option>2</option></select>'
+    });
+    //
+    //    list.push({
+    //        content: '<input type="text" />'
+    //    });
+    //
+    //    list.push({
+    //        content: '<input type="text" />'
+    //    });
+
+    var islider = new iSlider(
+            document.getElementById("(Ō̥̥̥̥̥̥̥ ԑ Ō̥̥̥̥̥̥̥ )"), list, {
+//                data: list,
+                dom: document.getElementById("iSlider-wrapper"),
+//                isVertical: 1,
+                // isLooping: 1,
+//                isOverspread: 1,
+               animateType: 'rotate',
+//                delay: 3000,
+//                animateTime: 5000,
+                dampingForce: 1,
+                fillSeam: 1,
+                fixPage: ['[x="ooxx"]', 'div'],
+                // isDebug: 1,
+                // isAutoplay: true,
+                wakeupAutoplayDazetime: 1000,
+                duration: 1000,
+//                plugins: [
+//                    ['dot', {locate: 'relative'}],
+//                    'button',
+//                    ['zoompic', {zoomFactor: 2}],
+//                    ['BIZone', {'size': 20}]
+//                ],
+//                onslide: function () {
+//                    console.debug(arguments)
+//                },
+//                onslidechange: function () {
+//                    console.debug(arguments, 'Change~ juse one time');
+//                    this.off('slideChange', arguments.callee);
+//                },
+                onSlideChange: function () {
+                    // console.debug(arguments, 'Came-case');
+                    // this.off('slideChange', arguments.callee);
+
+                    // var animateType = animTypes[islider.slideIndex % animTypes.length];
+                    // console.log(islider.slideIndex, animateType)
+                    // islider._animateFunc = islider._animateFuncs[animateType];
+
+                },
+                _: null
+            });
+
+    //        islider.on('slideChange', function () {
+    //            console.log(iSlider.TRANSITION_END_EVENT, iSlider.BROWSER_PREFIX);
+    //        });
+    //
+
+            // ['rotate', 'flip', 'depth', 'flow', 'fade', 'zoomout'];   // 'depth', 'flow' 这两个手机上不能用
+
+            var animIndex = 0;
+            var animTypes = ['flip', 'fade', 'normal', 'zoomout', 'rotate'];
+
+            islider.on('slideChanged', function () {
+                // var animateType = animTypes[islider.slideIndex % animTypes.length];
+                // console.log(islider.slideIndex, animateType)
+                // islider._animateFunc = islider._animateFuncs[animateType];
+                animIndex++;
+            });
+
+            // islider.slideNext({
+            //     animateType: animTypes[animIndex]
+            // })
+
+
+            function go(){
+                islider.slideNext({
+                    animateType: animTypes[animIndex]
+                });
+            }
+
+            document.body.onclick = go
+
+    //
+    //    islider.on('slideRestore', function () {
+    //        console.debug('Restore event from method "on"', this, arguments);
+    //    });
+    //
+    //    islider.on('slideRestored', function () {
+    //        console.debug('Restore(d) event from method "on"', this, arguments);
+    //    });
+</script>
+</body>
+</html>

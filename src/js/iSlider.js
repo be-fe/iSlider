@@ -1041,6 +1041,21 @@
     };
 
     /**
+     * resetAnimation, slideTo每次切换使用不同的动画时调用
+     * @private
+     */
+    iSliderPrototype._resetAnimation = function () {
+        var els = this.els;
+        for (var i = 0; i < 3; i++) {
+            els[i].style.cssText = '';
+            this._animateFunc(els[i], this.axis, this.scale, i, 0);
+            this.isVertical && (this.animateType === 'rotate' || this.animateType === 'flip')
+                ? this._renderItem(els[i], 1 - i + this.slideIndex)
+                : this._renderItem(els[i], i - 1 + this.slideIndex);
+        }
+    }
+
+    /**
      * Preload img when slideChange
      * From current index +2, -2 scene
      * @param {Number} dataIndex means which image will be load
@@ -1412,6 +1427,9 @@
             if (typeof opts.animateType === 'string' && opts.animateType in this._animateFuncs) {
                 animateType = opts.animateType;
                 animateFunc = this._animateFuncs[animateType];
+                this._animateFunc = animateFunc;
+                this.animateType = animateType;
+                this._resetAnimation();
             }
         }
 
