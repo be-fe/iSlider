@@ -605,7 +605,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * version
 	     * @type {string}
 	     */
-	    iSlider.VERSION = '2.2.2';
+	    iSlider.VERSION = '2.2.3';
 
 	    /**
 	     * Event white list
@@ -1325,6 +1325,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (item.load === 2) {
 	                    insertImg();
 	                }
+	                if (item.load === -1) {
+
+	                }
 	                else {
 	                    var currentImg = new Image();
 	                    currentImg.src = item.content;
@@ -1334,6 +1337,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        insertImg();
 	                        item.load = 2;
 	                    };
+	                    currentImg.onerror = function () {
+	                        item.load = -1;
+	                    }
 	                }
 	                break;
 	            case _NT.dom:
@@ -1485,7 +1491,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var data = this.data;
 	            var len = data.length;
 	            var self = this;
-	            var loadImg = function preloadImgLoadingProcess(index) {
+	            var loadImg = function (index) {
 	                var item = data[index];
 	                if (self._itemType(item) === 'pic' && !item.load) {
 	                    var preloadImg = new Image();
@@ -1495,6 +1501,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        item.height = preloadImg.height;
 	                        item.load = 2;
 	                    };
+	                    preloadImg.onerror = function () {
+	                        item.load = -1;
+	                    }
 	                    item.load = 1;
 	                }
 	            };
