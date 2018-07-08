@@ -7,10 +7,10 @@
 (function (global, factory) {
     /* CommonJS */
     if (typeof require === 'function' && typeof module === 'object' && module && typeof exports === 'object' && exports)
-        factory(global, require('./iSlider'));
+        factory(global, require('islider.js'));
     /* AMD */
     else if (typeof define === 'function' && define['amd'])
-        define(['./iSlider'], function (iSlider) {
+        define(['islider.js'], function (iSlider) {
             factory(global, iSlider);
         });
     /* Global */
