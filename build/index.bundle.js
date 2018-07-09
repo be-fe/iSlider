@@ -605,7 +605,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * version
 	     * @type {string}
 	     */
-	    iSlider.VERSION = '2.2.3';
+	    iSlider.VERSION = '2.2.4';
 
 	    /**
 	     * Event white list
