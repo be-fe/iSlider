@@ -82,7 +82,7 @@ var data = [
 var islider = new iSlider(document.getElementById('iSlider-wrapper'), data);
 ```
 
-Or, 
+Or,
 
 ``` javascript
 var islider = new iSlider({
@@ -150,6 +150,14 @@ var islider = new iSlider({
 
 That's it!
 
+【Notice】: if you use npm to install iSlider, it will not contain plugin default, you can involve plugin like this:
+
+```js
+var iSlider = require('islider.js');
+require('../node_modules/islider.js/build/iSlider.plugin.button'); //引入button插件
+
+```
+
 #### Official Plugins
 
 ##### Button
@@ -208,7 +216,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 
 - new iSlider(```DOM```, DATA, OPTIONS);
 - `{HTMLElement}`
-- DOM Container 
+- DOM Container
 - Though the first parameter is not required, it is highly recommended, as setting a DOM container can make it more convenient to use iSlider.
 
 #### DATA (`Optional`, `default: OPTIONS.data`)
@@ -352,7 +360,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 ##### initIndex
 
 - `{Number}`
-- Index of the list which is used for the first screen 
+- Index of the list which is used for the first screen
 - Default: 0
 
 
@@ -387,7 +395,7 @@ To learn more advanced features, please refer to [WIKI](https://github.com/BE-FE
 - `{Array}`
 - Enable plug-ins and configure the initialization parameters
 - Incomming a name list of plugins which would be actived: ```['dot', 'button', 'zoompic', ...]```, in addition, it's support incoming initialization parameters: ```[..., ['zoompic', {zoomFactor: 2}], ...]```
-- It will be ignored if the plug-in does not exist or is not loaded 
+- It will be ignored if the plug-in does not exist or is not loaded
 
 
 ### Event callbacks
@@ -440,7 +448,7 @@ S.on('slideChanged', callBack);
 #### renderComplete
 
 - Be triggered when the outer container is rendered completely
-- Be triggered before reset, loadData 
+- Be triggered before reset, loadData
 - Parameters
     - `{Number}` current data index
     - `{HTMLElement}` current scene elements
@@ -451,8 +459,8 @@ S.on('slideChanged', callBack);
 - Be triggered when the finger touching screen
 - Parameters
     - `{Object}` Event object
-        
-        
+
+
 #### slide
 
 - Be triggered when the finger is sliding
@@ -591,7 +599,7 @@ S.on('slideChanged', callBack);
 - Parameters:
     - \[`{Object}` original object\] or default iSlider.prototype
     - `{Object}` new object
-    
+
 #### regPlugin
 
 - Register the plug-in
@@ -655,7 +663,7 @@ S.on('slideChanged', callBack);
 
 #### on
 
-- To register the callback method in the event of iSlider 
+- To register the callback method in the event of iSlider
 - Parameters:
     - `{String}` event name
     - `{Function}` back off method

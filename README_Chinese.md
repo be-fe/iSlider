@@ -55,7 +55,7 @@ npm install islider.js
 使用iSlider最简单的办法是查阅我们提供的简易例子，请浏览[DEMO](https://github.com/be-fe/iSlider/tree/master/demo)文件夹中的内容。
 
 #### 创建一個容器
-    
+
 ```html
 <div id="iSlider-wrapper"></div>
 ```
@@ -149,6 +149,14 @@ var islider = new iSlider({
 ```
 
 That's it!
+
+【注意】: 通过 npm 安装的iSlider默认不包含插件，在npm下使用插件：
+
+```js
+var iSlider = require('islider.js');
+require('../node_modules/islider.js/build/iSlider.plugin.button'); //引入button插件
+
+```
 
 #### 官方提供的插件
 
@@ -451,8 +459,8 @@ S.on('slideChanged', callBack);
 - 当手指触屏时触发
 - 参数
     - `{Object}` 事件(Event)对象
-        
-        
+
+
 #### slide
 
 - 当手指滑动时触发
@@ -591,7 +599,7 @@ S.on('slideChanged', callBack);
 - 参数：
     - \[`{Object}` 原对象\] 或默认为 iSlider.prototype
     - `{Object}` 新对象
-    
+
 #### regPlugin
 
 - 注册插件
