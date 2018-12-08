@@ -482,6 +482,12 @@ S.on('slideChanged', callBack);
 - Parameters
     - `{Number}` current data index
     - `{HTMLElement}` current scene elements
+- Demo
+```
+$.on("slideChange", index => {
+   console.log(index)
+})
+```
 
 #### slideChanged
 
