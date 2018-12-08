@@ -482,6 +482,12 @@ S.on('slideChanged', callBack);
 - 参数
     - `{Number}` 当前数据索引
     - `{HTMLElement}` 当前场景元素
+- 示例
+```
+$.on("slideChange", index => {
+   console.log(index)
+})
+```
 
 #### slideChanged
 
