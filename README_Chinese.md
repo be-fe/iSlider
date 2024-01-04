@@ -619,7 +619,7 @@ S.on('slideChanged', callBack);
     - \[`{Object}` 临时配置\]
 
 
-#### slidePrev
+#### slideNext
 
 - 切换到后一场景，可以设置配置信息，改变本次滑动的动画效果: animateTime animateType
 - 参数：

@@ -619,7 +619,7 @@ S.on('slideChanged', callBack);
     - \[`{Object}` temporary configuration\]
 
 
-#### slidePrev
+#### slideNext
 
 - Switch to the next scene, you can set the configuration information in second parameter to change slide animation this time: animateTime animateType
 - Parameters:
